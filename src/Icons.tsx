@@ -99,42 +99,42 @@ export const LeafIcon: React.FC<{ size?: number; color?: string }> = ({ size = 2
     </svg>
 );
 
-// People / 24/7 Operations icon
-export const PeopleIcon: React.FC<{ size?: number; color?: string }> = ({ size = 26, color = '#00d2ff' }) => (
+// People / 24/7 Operations icon (3 people with crisp contours)
+export const PeopleIcon: React.FC<{ size?: number; color?: string }> = ({ size = 26, color = '#00e5ff' }) => (
     <svg width={size} height={size} viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-        {/* Center main user */}
-        <circle cx="12" cy="7" r="3.2" stroke={color} strokeWidth="1.7" />
-        <path d="M6 19c0-3.3 2.7-6 6-6s6 2.7 6 6" stroke={color} strokeWidth="1.7" strokeLinecap="round" />
-        {/* Left user */}
-        <circle cx="5" cy="9" r="2.2" stroke={color} strokeWidth="1.4" opacity="0.8" />
-        <path d="M1 18.5c0-2.2 1.8-4 4-4" stroke={color} strokeWidth="1.4" strokeLinecap="round" opacity="0.8" />
-        {/* Right user */}
-        <circle cx="19" cy="9" r="2.2" stroke={color} strokeWidth="1.4" opacity="0.8" />
-        <path d="M19 14.5c2.2 0 4 1.8 4 4" stroke={color} strokeWidth="1.4" strokeLinecap="round" opacity="0.8" />
+        {/* Center head & body */}
+        <circle cx="12" cy="7" r="3" stroke={color} strokeWidth="1.8" />
+        <path d="M7 20c0-2.8 2.2-5 5-5s5 2.2 5 5" stroke={color} strokeWidth="1.8" strokeLinecap="round" />
+        {/* Left head & body */}
+        <circle cx="5" cy="9.5" r="2.2" stroke={color} strokeWidth="1.5" />
+        <path d="M1 20c0-2.2 1.8-4 4-4 .9 0 1.7.3 2.3.8" stroke={color} strokeWidth="1.5" strokeLinecap="round" />
+        {/* Right head & body */}
+        <circle cx="19" cy="9.5" r="2.2" stroke={color} strokeWidth="1.5" />
+        <path d="M23 20c0-2.2-1.8-4-4-4-.9 0-1.7.3-2.3.8" stroke={color} strokeWidth="1.5" strokeLinecap="round" />
     </svg>
 );
 
-// Shield Security icon
-export const ShieldSecureIcon: React.FC<{ size?: number; color?: string }> = ({ size = 26, color = '#00d2ff' }) => (
+// Shield Security icon (Shield with crosshair/emblem)
+export const ShieldSecureIcon: React.FC<{ size?: number; color?: string }> = ({ size = 26, color = '#00e5ff' }) => (
     <svg width={size} height={size} viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
         <path
-            d="M12 2L4 5.5v6.5c0 5.2 3.4 10 8 11 4.6-1 8-5.8 8-11V5.5L12 2z"
+            d="M12 2L4 5.5v5.5c0 5.2 3.4 10 8 11 4.6-1 8-5.8 8-11V5.5L12 2z"
             stroke={color}
             strokeWidth="1.8"
             strokeLinejoin="round"
         />
-        {/* Center lock emblem */}
-        <rect x="9.5" y="11.5" width="5" height="4.5" rx="1" stroke={color} strokeWidth="1.4" />
-        <path d="M10.5 11.5V9.8a1.5 1.5 0 0 1 3 0v1.7" stroke={color} strokeWidth="1.4" />
+        <line x1="12" y1="7" x2="12" y2="16.5" stroke={color} strokeWidth="1.5" strokeLinecap="round" />
+        <line x1="8.5" y1="11" x2="15.5" y2="11" stroke={color} strokeWidth="1.5" strokeLinecap="round" />
+        <circle cx="12" cy="11" r="2" stroke={color} strokeWidth="1.4" />
     </svg>
 );
 
-// Trend bars icon for "BUILT FOR WHAT'S NEXT"
-export const TrendBarsIcon: React.FC<{ size?: number; color?: string }> = ({ size = 26, color = '#00d2ff' }) => (
+// Trend bars icon for "BUILT FOR WHAT'S NEXT" (3 ascending outline pill bars)
+export const TrendBarsIcon: React.FC<{ size?: number; color?: string }> = ({ size = 26, color = '#00e5ff' }) => (
     <svg width={size} height={size} viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <rect x="3" y="12" width="4" height="9" rx="1.5" stroke={color} strokeWidth="1.7" />
-        <rect x="10" y="7" width="4" height="14" rx="1.5" stroke={color} strokeWidth="1.7" />
-        <rect x="17" y="2.5" width="4" height="18.5" rx="1.5" stroke={color} strokeWidth="1.7" />
+        <rect x="3.5" y="13.5" width="4" height="7.5" rx="1.8" stroke={color} strokeWidth="1.8" />
+        <rect x="10" y="8.5" width="4" height="12.5" rx="1.8" stroke={color} strokeWidth="1.8" />
+        <rect x="16.5" y="3.5" width="4" height="17.5" rx="1.8" stroke={color} strokeWidth="1.8" />
     </svg>
 );
 

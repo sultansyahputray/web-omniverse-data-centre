@@ -74,6 +74,8 @@ export const PortfolioTotalDashboard: React.FC<PortfolioTotalDashboardProps> = (
                     <div className="feature-bot-label">RENEWABLE READY</div>
                 </div>
 
+                <div className="feature-v-divider"></div>
+
                 {/* Col 2: 24/7 GLOBAL OPERATIONS */}
                 <div className="feature-col">
                     <div className="feature-icon-wrap">
@@ -83,6 +85,8 @@ export const PortfolioTotalDashboard: React.FC<PortfolioTotalDashboardProps> = (
                     <div className="feature-bot-label">GLOBAL OPERATIONS</div>
                 </div>
 
+                <div className="feature-v-divider"></div>
+
                 {/* Col 3: SECURE BY DESIGN */}
                 <div className="feature-col">
                     <div className="feature-icon-wrap">
@@ -91,6 +95,8 @@ export const PortfolioTotalDashboard: React.FC<PortfolioTotalDashboardProps> = (
                     <div className="feature-top-val">SECURE</div>
                     <div className="feature-bot-label">BY DESIGN</div>
                 </div>
+
+                <div className="feature-v-divider"></div>
 
                 {/* Col 4: BUILT FOR WHAT'S NEXT */}
                 <div className="feature-col">
