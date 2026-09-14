@@ -60,6 +60,8 @@ export const App: React.FC = () => {
     const [screenPositions, setScreenPositions] = useState<Record<string, ScreenPosition>>({});
 
     const activePortRef = useRef<number>(8089);
+    const lastUserTimeRef = useRef<number>(0);
+    const lastUserNavRef = useRef<number>(0);
 
     // Calculate totals dynamically as requested:
     // "jumlah site itu adalah total dari seluruh data centre yang ada,
@@ -87,6 +89,7 @@ export const App: React.FC = () => {
 
     // Transition from Level 1 -> Level 2 on region card or 3D point click
     const handleSelectRegion = async (key: RegionKey) => {
+        lastUserNavRef.current = Date.now();
         setCurrentLevel('region');
         setActiveRegion(key);
 
@@ -103,6 +106,7 @@ export const App: React.FC = () => {
 
     // Transition back from Level 2 -> Level 1 (Global Earth)
     const handleBackToGlobal = async () => {
+        lastUserNavRef.current = Date.now();
         setCurrentLevel('earth');
 
         try {
@@ -118,6 +122,7 @@ export const App: React.FC = () => {
 
     // Change Level 2 Time-of-Day (Pagi / Sore / Malam)
     const handleSelectTimeOfDay = async (time: TimeOfDay) => {
+        lastUserTimeRef.current = Date.now();
         setTimeOfDay(time);
 
         try {
@@ -150,23 +155,51 @@ export const App: React.FC = () => {
                         const data: BackendStatus = await res.json();
 
                         // 1. Sync level navigation if changed from 3D viewport clicks
-                        if (data.current_level && data.current_level !== currentLevel) {
+                        if (
+                            Date.now() - lastUserNavRef.current > 2000 &&
+                            data.current_level &&
+                            data.current_level !== currentLevel
+                        ) {
                             setCurrentLevel(data.current_level);
                         }
 
                         // 2. Sync active region
-                        if (data.active_region && data.active_region !== activeRegion) {
+                        if (
+                            Date.now() - lastUserNavRef.current > 2000 &&
+                            data.active_region &&
+                            data.active_region !== activeRegion
+                        ) {
                             setActiveRegion(data.active_region as RegionKey);
                         }
 
-                        // 3. Sync time of day
-                        if (data.time_of_day && data.time_of_day !== timeOfDay) {
+                        // 3. Sync time of day (protected with user-action timestamp to prevent reverts)
+                        if (
+                            Date.now() - lastUserTimeRef.current > 2500 &&
+                            data.time_of_day &&
+                            data.time_of_day !== timeOfDay
+                        ) {
                             setTimeOfDay(data.time_of_day);
                         }
 
-                        // 4. Sync real-time 3D projected screen positions for floating cards in Level 1
-                        if (data.screen_positions) {
-                            setScreenPositions(data.screen_positions);
+                        // 4. Sync real-time 3D projected screen positions for floating cards in Level 1 only
+                        if (currentLevel === 'earth' && data.screen_positions) {
+                            setScreenPositions((prev) => {
+                                let hasChanged = false;
+                                for (const key of Object.keys(data.screen_positions)) {
+                                    const prevPos = prev[key];
+                                    const newPos = data.screen_positions[key];
+                                    if (
+                                        !prevPos ||
+                                        prevPos.visible !== newPos.visible ||
+                                        Math.abs(prevPos.x - newPos.x) > 0.05 ||
+                                        Math.abs(prevPos.y - newPos.y) > 0.05
+                                    ) {
+                                        hasChanged = true;
+                                        break;
+                                    }
+                                }
+                                return hasChanged ? data.screen_positions : prev;
+                            });
                         }
 
                         return;
@@ -177,8 +210,9 @@ export const App: React.FC = () => {
             }
         };
 
-        // 50ms polling (~20 FPS) combined with CSS transition ensures 60 FPS smooth motion
-        const intervalId = setInterval(pollStatus, 50);
+        // Optimized polling: 100ms for Level 1 (smooth tracking), 800ms for Level 2 (low overhead, no lag)
+        const pollInterval = currentLevel === 'earth' ? 100 : 800;
+        const intervalId = setInterval(pollStatus, pollInterval);
 
         return () => {
             isMounted = false;
