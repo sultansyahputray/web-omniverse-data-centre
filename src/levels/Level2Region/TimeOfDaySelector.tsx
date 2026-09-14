@@ -17,20 +17,20 @@ interface TimeOption {
 const TIME_OPTIONS: TimeOption[] = [
     {
         key: 'pagi',
-        label: 'Pagi',
-        sublabel: 'Daylight / Clear Sky',
+        label: 'Morning',
+        sublabel: '',
         icon: <SunIcon size={18} color="#ffc83b" />
     },
     {
         key: 'sore',
-        label: 'Sore',
-        sublabel: 'Sunset / Golden Hour',
+        label: 'Afternoon',
+        sublabel: '',
         icon: <SunsetIcon size={18} color="#ff7b42" />
     },
     {
         key: 'malam',
-        label: 'Malam',
-        sublabel: 'Night / Starry Sky',
+        label: 'Night',
+        sublabel: '',
         icon: <MoonIcon size={18} color="#62d0ff" />
     }
 ];
@@ -59,7 +59,7 @@ export const TimeOfDaySelector: React.FC<TimeOfDaySelectorProps> = ({ currentTim
 
     return (
         <div className="time-of-day-container" ref={dropdownRef}>
-            <div className="time-selector-label">ENVIRONMENT LIGHTING</div>
+            {/* <div className="time-selector-label">ENVIRONMENT LIGHTING</div> */}
 
             {/* Dropdown Trigger Button */}
             <button
@@ -93,7 +93,6 @@ export const TimeOfDaySelector: React.FC<TimeOfDaySelectorProps> = ({ currentTim
                                 <span className="menu-item-icon">{option.icon}</span>
                                 <div className="menu-item-text">
                                     <span className="menu-item-label">{option.label}</span>
-                                    <span className="menu-item-sublabel">{option.sublabel}</span>
                                 </div>
                                 {isSelected && <div className="menu-item-active-dot" />}
                             </div>

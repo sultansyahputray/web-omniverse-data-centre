@@ -31,14 +31,14 @@ export const Level2RegionView: React.FC<Level2RegionViewProps> = ({
             </div>
 
             {/* Bottom-Left: Ground Status Badge */}
-            <div className="level2-bottom-left-info">
+            {/* <div className="level2-bottom-left-info">
                 <div className="ground-status-indicator">
                     <span className="ground-status-pulse" />
                     <span className="ground-status-text">
                         {activeRegion} TERRAIN // ACTIVE RUNTIME
                     </span>
                 </div>
-            </div>
+            </div> */}
 
             {/* Bottom-Right: Time-of-Day (Pagi / Sore / Malam) Dropdown */}
             <div className="level2-bottom-right-controls">
