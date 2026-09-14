@@ -144,3 +144,40 @@ export const ChevronRightIcon: React.FC<{ size?: number; color?: string }> = ({ 
         <path d="M9 18l6-6-6-6" stroke={color} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
     </svg>
 );
+
+// Chevron Down Arrow for Dropdowns
+export const ChevronDownIcon: React.FC<{ size?: number; color?: string }> = ({ size = 16, color = '#5e829d' }) => (
+    <svg width={size} height={size} viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M6 9l6 6 6-6" stroke={color} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+    </svg>
+);
+
+// Arrow Left for Back to Global
+export const ArrowLeftIcon: React.FC<{ size?: number; color?: string }> = ({ size = 18, color = '#00d2ff' }) => (
+    <svg width={size} height={size} viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M19 12H5M12 19l-7-7 7-7" stroke={color} strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" />
+    </svg>
+);
+
+// Sun Icon for Pagi (Morning)
+export const SunIcon: React.FC<{ size?: number; color?: string }> = ({ size = 20, color = '#ffbe3d' }) => (
+    <svg width={size} height={size} viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="12" cy="12" r="4.5" stroke={color} strokeWidth="2" />
+        <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41" stroke={color} strokeWidth="2" strokeLinecap="round" />
+    </svg>
+);
+
+// Sunset Icon for Sore (Afternoon / Sunset)
+export const SunsetIcon: React.FC<{ size?: number; color?: string }> = ({ size = 20, color = '#ff7b42' }) => (
+    <svg width={size} height={size} viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M17 16a5 5 0 00-10 0" stroke={color} strokeWidth="2" />
+        <path d="M12 4v4M4 16h16M2 20h20M5.64 8.64l1.41 1.41M18.36 8.64l-1.41 1.41" stroke={color} strokeWidth="2" strokeLinecap="round" />
+    </svg>
+);
+
+// Moon Icon for Malam (Night)
+export const MoonIcon: React.FC<{ size?: number; color?: string }> = ({ size = 20, color = '#62d0ff' }) => (
+    <svg width={size} height={size} viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z" stroke={color} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+    </svg>
+);

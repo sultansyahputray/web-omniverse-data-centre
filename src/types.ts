@@ -1,3 +1,7 @@
+export type AppLevel = 'earth' | 'region';
+export type TimeOfDay = 'pagi' | 'sore' | 'malam';
+export type RegionKey = 'SG' | 'AUS' | 'JPN';
+
 export interface ScreenPosition {
     x: number;
     y: number;
@@ -5,7 +9,7 @@ export interface ScreenPosition {
 }
 
 export interface SiteMetric {
-    key: 'SG' | 'AUS' | 'JPN';
+    key: RegionKey;
     title: string;
     subtitle?: string;
     sites: number;
@@ -26,6 +30,9 @@ export interface PortfolioTotals {
 }
 
 export interface BackendStatus {
+    current_level?: AppLevel;
+    active_region?: RegionKey | null;
+    time_of_day?: TimeOfDay;
     layer?: string;
     active_point?: string | null;
     selected_prim?: string | null;

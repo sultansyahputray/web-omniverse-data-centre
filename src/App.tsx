@@ -1,8 +1,16 @@
-import React, { useState, useEffect, useMemo } from 'react';
-import { SiteMetric, PortfolioTotals, BackendStatus, ScreenPosition } from './types';
-import { CoordinateCard } from './CoordinateCard';
-import { PortfolioTotalDashboard } from './PortfolioTotalDashboard';
+import React, { useState, useEffect, useMemo, useRef } from 'react';
+import {
+    SiteMetric,
+    PortfolioTotals,
+    BackendStatus,
+    ScreenPosition,
+    AppLevel,
+    TimeOfDay,
+    RegionKey
+} from './types';
 import { WebRTCViewerContainer } from './WebRTCViewerContainer';
+import { Level1EarthView } from './levels/Level1Earth/Level1EarthView';
+import { Level2RegionView } from './levels/Level2Region/Level2RegionView';
 import './GlobalDashboard.css';
 
 const INITIAL_METRICS: SiteMetric[] = [
@@ -46,8 +54,12 @@ const INITIAL_METRICS: SiteMetric[] = [
 
 export const App: React.FC = () => {
     const [metrics] = useState<SiteMetric[]>(INITIAL_METRICS);
-    const [activePoint, setActivePoint] = useState<'SG' | 'AUS' | 'JPN' | null>(null);
+    const [currentLevel, setCurrentLevel] = useState<AppLevel>('earth');
+    const [activeRegion, setActiveRegion] = useState<RegionKey>('SG');
+    const [timeOfDay, setTimeOfDay] = useState<TimeOfDay>('pagi');
     const [screenPositions, setScreenPositions] = useState<Record<string, ScreenPosition>>({});
+
+    const activePortRef = useRef<number>(8089);
 
     // Calculate totals dynamically as requested:
     // "jumlah site itu adalah total dari seluruh data centre yang ada,
@@ -68,56 +80,95 @@ export const App: React.FC = () => {
         };
     }, [metrics]);
 
-    // Handle point card click (User: "ketika di click yaudah sementara di click aja nggak ada event lain dan hal lain yang terjadi")
-    const handleCardClick = async (key: 'SG' | 'AUS' | 'JPN') => {
-        const nextActive = activePoint === key ? null : key;
-        setActivePoint(nextActive);
+    // Active region metric object for Level 2
+    const currentRegionMetric = useMemo(() => {
+        return metrics.find((m) => m.key === activeRegion) || metrics[0];
+    }, [metrics, activeRegion]);
+
+    // Transition from Level 1 -> Level 2 on region card or 3D point click
+    const handleSelectRegion = async (key: RegionKey) => {
+        setCurrentLevel('region');
+        setActiveRegion(key);
 
         try {
-            if (nextActive) {
-                // Inform Omniverse Kit backend to select the point without framing/zooming camera
-                await fetch('http://localhost:8089/api/select-point', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ point: nextActive, frame_camera: false })
-                });
-            } else {
-                await fetch('http://localhost:8089/api/clear-selection', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' }
-                });
-            }
+            await fetch(`http://localhost:${activePortRef.current}/api/navigate`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ level: 'region', region: key })
+            });
         } catch (e) {
-            // Kit API may not be active yet, graceful fallback
-            console.log('[Dashboard] Note on API select-point:', e);
+            console.log('[Dashboard] API navigate error (fallback to local state):', e);
         }
     };
 
-    // Poll backend status to dynamically track 3D coordinates & sync click selection
+    // Transition back from Level 2 -> Level 1 (Global Earth)
+    const handleBackToGlobal = async () => {
+        setCurrentLevel('earth');
+
+        try {
+            await fetch(`http://localhost:${activePortRef.current}/api/navigate`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ level: 'earth' })
+            });
+        } catch (e) {
+            console.log('[Dashboard] API navigate back error (fallback to local state):', e);
+        }
+    };
+
+    // Change Level 2 Time-of-Day (Pagi / Sore / Malam)
+    const handleSelectTimeOfDay = async (time: TimeOfDay) => {
+        setTimeOfDay(time);
+
+        try {
+            await fetch(`http://localhost:${activePortRef.current}/api/set-time-of-day`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ time })
+            });
+        } catch (e) {
+            console.log('[Dashboard] API set-time-of-day error (fallback to local state):', e);
+        }
+    };
+
+    // Poll backend status to dynamically track 3D coordinates & sync level/selection
     useEffect(() => {
         let isMounted = true;
-        let activePort = 8089;
         const candidatePorts = [8089, 8088, 8090];
 
         const pollStatus = async () => {
-            for (const port of [activePort, ...candidatePorts.filter(p => p !== activePort)]) {
+            const portsToTry = [
+                activePortRef.current,
+                ...candidatePorts.filter((p) => p !== activePortRef.current)
+            ];
+
+            for (const port of portsToTry) {
                 try {
                     const res = await fetch(`http://localhost:${port}/api/status`);
                     if (res.ok && isMounted) {
-                        activePort = port;
+                        activePortRef.current = port;
                         const data: BackendStatus = await res.json();
 
-                        // 1. Sync real-time 3D projected screen positions for floating cards
+                        // 1. Sync level navigation if changed from 3D viewport clicks
+                        if (data.current_level && data.current_level !== currentLevel) {
+                            setCurrentLevel(data.current_level);
+                        }
+
+                        // 2. Sync active region
+                        if (data.active_region && data.active_region !== activeRegion) {
+                            setActiveRegion(data.active_region as RegionKey);
+                        }
+
+                        // 3. Sync time of day
+                        if (data.time_of_day && data.time_of_day !== timeOfDay) {
+                            setTimeOfDay(data.time_of_day);
+                        }
+
+                        // 4. Sync real-time 3D projected screen positions for floating cards in Level 1
                         if (data.screen_positions) {
                             setScreenPositions(data.screen_positions);
                         }
 
-                        // 2. Sync active selection state
-                        if (data.active_point && ['SG', 'AUS', 'JPN'].includes(data.active_point)) {
-                            setActivePoint(data.active_point as 'SG' | 'AUS' | 'JPN');
-                        } else if (!data.active_point) {
-                            setActivePoint(null);
-                        }
                         return;
                     }
                 } catch {
@@ -133,7 +184,7 @@ export const App: React.FC = () => {
             isMounted = false;
             clearInterval(intervalId);
         };
-    }, []);
+    }, [currentLevel, activeRegion, timeOfDay]);
 
     return (
         <div className="dashboard-viewport">
@@ -143,38 +194,25 @@ export const App: React.FC = () => {
             {/* 2. Vignette Depth Overlay */}
             <div className="vignette-overlay" />
 
-            {/* 3. Interactive UI Overlay Layer */}
+            {/* 3. Level View Layer */}
             <div className="ui-overlay-container">
-                {/* Top-Left Header matching Image 2 */}
-                <header className="global-header">
-                    <h1 className="header-main-title">
-                        <span className="header-title-white">GLOBAL</span>
-                        <span className="header-title-cyan">DATA CENTRE PORTFOLIO</span>
-                    </h1>
-                    <div className="header-subtitle">
-                        PEOPLE &nbsp;|&nbsp; INFRASTRUCTURE &nbsp;|&nbsp; A MORE CONNECTED TOMORROW
-                    </div>
-                </header>
-
-                {/* Coordinate Cards dynamically floating & tracking 3D coordinates (SG, AUS, JPN) */}
-                {metrics.map((metric) => (
-                    <CoordinateCard
-                        key={metric.key}
-                        metric={metric}
-                        isActive={activePoint === metric.key}
-                        screenPosition={screenPositions[metric.key]}
-                        onClick={handleCardClick}
+                {currentLevel === 'earth' ? (
+                    <Level1EarthView
+                        metrics={metrics}
+                        totals={totals}
+                        activePoint={currentLevel === 'region' ? activeRegion : null}
+                        screenPositions={screenPositions}
+                        onSelectRegion={handleSelectRegion}
                     />
-                ))}
-
-                {/* Bottom-Left Portfolio Total Dashboard (matching Image 4) */}
-                <PortfolioTotalDashboard totals={totals} />
-
-                {/* Bottom-Right Branding Footer (matching Image 2) */}
-                <footer className="bottom-right-branding">
-                    <div className="branding-line" />
-                    <div className="branding-text">A MORE RESILIENT DIGITAL WORLD</div>
-                </footer>
+                ) : (
+                    <Level2RegionView
+                        activeRegion={activeRegion}
+                        regionMetric={currentRegionMetric}
+                        timeOfDay={timeOfDay}
+                        onBackToGlobal={handleBackToGlobal}
+                        onSelectTimeOfDay={handleSelectTimeOfDay}
+                    />
+                )}
             </div>
         </div>
     );
