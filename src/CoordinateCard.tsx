@@ -1,25 +1,78 @@
 import React from 'react';
-import { SiteMetric } from './types';
+import { SiteMetric, ScreenPosition } from './types';
 import { ServerRackIcon, DatabaseIcon, DonutGaugeIcon, ChevronRightIcon } from './Icons';
 
 interface CoordinateCardProps {
     metric: SiteMetric;
     isActive: boolean;
+    screenPosition?: ScreenPosition;
     onClick: (key: 'SG' | 'AUS' | 'JPN') => void;
 }
 
-export const CoordinateCard: React.FC<CoordinateCardProps> = ({ metric, isActive, onClick }) => {
+export const CoordinateCard: React.FC<CoordinateCardProps> = ({
+    metric,
+    isActive,
+    screenPosition,
+    onClick
+}) => {
+    const isDynamic = screenPosition !== undefined;
+    const isVisible = isDynamic ? screenPosition.visible : true;
+
+    // Anchor orientation:
+    let isLeftOfDot = isDynamic
+        ? screenPosition.x < 55
+        : (metric.position.left !== undefined);
+
+    if (isDynamic) {
+        if (screenPosition.x < 24) {
+            // Too close to left screen edge -> place card to the right of the dot
+            isLeftOfDot = false;
+        } else if (screenPosition.x > 76) {
+            // Too close to right screen edge -> place card to the left of the dot
+            isLeftOfDot = true;
+        } else if (screenPosition.x < 44 && screenPosition.y > 62) {
+            // Avoid overlapping the bottom-left Portfolio Total card
+            isLeftOfDot = false;
+        }
+    }
+
+    // Clamp Y position so cards never clip out of viewport
+    const targetY = isDynamic ? Math.max(10, Math.min(88, screenPosition.y)) : 50;
+
+    const positionStyle: React.CSSProperties = isDynamic
+        ? {
+            position: 'absolute',
+            left: isLeftOfDot
+                ? `calc(${screenPosition.x}% - 28px)`
+                : `calc(${screenPosition.x}% + 28px)`,
+            top: `${targetY}%`,
+            bottom: 'auto',
+            right: 'auto',
+            transform: isLeftOfDot ? 'translate(-100%, -50%)' : 'translate(0%, -50%)',
+            opacity: isVisible ? 1 : 0,
+            pointerEvents: isVisible ? 'auto' : 'none',
+            visibility: isVisible ? 'visible' : 'hidden'
+        }
+        : {
+            top: metric.position.top,
+            bottom: metric.position.bottom,
+            left: metric.position.left,
+            right: metric.position.right
+        };
+
     return (
         <div
-            className={`coordinate-card ${isActive ? 'active' : ''}`}
-            style={{
-                top: metric.position.top,
-                bottom: metric.position.bottom,
-                left: metric.position.left,
-                right: metric.position.right,
-            }}
+            className={`coordinate-card ${isActive ? 'active' : ''} ${isLeftOfDot ? 'anchor-right' : 'anchor-left'}`}
+            style={positionStyle}
             onClick={() => onClick(metric.key)}
         >
+            {/* 3D Target Connector Line pointing from card towards red dot */}
+            {isDynamic && isVisible && (
+                <div className={`card-connector-arm ${isLeftOfDot ? 'arm-right' : 'arm-left'}`}>
+                    <div className="arm-pulse-dot"></div>
+                </div>
+            )}
+
             {/* Top row: Title and Chevron */}
             <div className="card-header-row">
                 <div className="card-title-group">

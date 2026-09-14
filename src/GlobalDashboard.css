@@ -161,19 +161,60 @@ html, body, #root {
     pointer-events: auto;
     cursor: pointer;
     box-shadow: 0 8px 24px rgba(0, 0, 0, 0.6), 0 0 15px rgba(0, 195, 255, 0.12);
-    transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+    transition: left 0.08s linear, top 0.08s linear, opacity 0.25s ease, border-color 0.2s, box-shadow 0.2s;
+    will-change: left, top, opacity;
 }
 
 .coordinate-card:hover {
     border-color: rgba(0, 230, 255, 0.7);
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.7), 0 0 20px rgba(0, 210, 255, 0.28);
-    transform: translateY(-2px);
 }
 
 .coordinate-card.active {
     background: var(--dark-glass-active);
     border-color: var(--cyan-bright);
     box-shadow: 0 12px 36px rgba(0, 0, 0, 0.8), 0 0 25px rgba(0, 240, 255, 0.45);
+}
+
+/* Card Connector Arm pointing from card towards red dot */
+.card-connector-arm {
+    position: absolute;
+    top: 50%;
+    width: 28px;
+    height: 1.5px;
+    pointer-events: none;
+    z-index: 10;
+}
+
+.card-connector-arm.arm-right {
+    left: 100%;
+    transform: translateY(-50%);
+    background: linear-gradient(90deg, rgba(0, 210, 255, 0.4), #00f0ff);
+}
+
+.card-connector-arm.arm-left {
+    right: 100%;
+    transform: translateY(-50%);
+    background: linear-gradient(270deg, rgba(0, 210, 255, 0.4), #00f0ff);
+}
+
+.arm-pulse-dot {
+    position: absolute;
+    top: 50%;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: #00f0ff;
+    box-shadow: 0 0 10px #00f0ff, 0 0 4px #ffffff;
+    transform: translateY(-50%);
+}
+
+.arm-right .arm-pulse-dot {
+    right: -3px;
+}
+
+.arm-left .arm-pulse-dot {
+    left: -3px;
 }
 
 /* Card Header Row */

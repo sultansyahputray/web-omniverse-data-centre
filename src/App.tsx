@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useMemo } from 'react';
-import { SiteMetric, PortfolioTotals, BackendStatus } from './types';
+import { SiteMetric, PortfolioTotals, BackendStatus, ScreenPosition } from './types';
 import { CoordinateCard } from './CoordinateCard';
 import { PortfolioTotalDashboard } from './PortfolioTotalDashboard';
 import { WebRTCViewerContainer } from './WebRTCViewerContainer';
@@ -8,14 +8,14 @@ import './GlobalDashboard.css';
 const INITIAL_METRICS: SiteMetric[] = [
     {
         key: 'SG',
-        title: 'SOUTHEAST ASIA',
+        title: 'SINGAPORE',
         subtitle: 'Singapore Hub',
         sites: 2, // 1-2 sites as requested
         capacityMW: 360,
         availabilityPct: 99.8,
         position: {
-            top: '46%',
-            right: '12%'
+            top: '58%',
+            left: '20%'
         }
     },
     {
@@ -26,7 +26,7 @@ const INITIAL_METRICS: SiteMetric[] = [
         capacityMW: 250,
         availabilityPct: 99.9,
         position: {
-            bottom: '18%',
+            bottom: '12%',
             right: '10%'
         }
     },
@@ -38,8 +38,8 @@ const INITIAL_METRICS: SiteMetric[] = [
         capacityMW: 180,
         availabilityPct: 99.9,
         position: {
-            top: '16%',
-            right: '24%'
+            top: '36%',
+            right: '10%'
         }
     }
 ];
@@ -47,6 +47,7 @@ const INITIAL_METRICS: SiteMetric[] = [
 export const App: React.FC = () => {
     const [metrics] = useState<SiteMetric[]>(INITIAL_METRICS);
     const [activePoint, setActivePoint] = useState<'SG' | 'AUS' | 'JPN' | null>(null);
+    const [screenPositions, setScreenPositions] = useState<Record<string, ScreenPosition>>({});
 
     // Calculate totals dynamically as requested:
     // "jumlah site itu adalah total dari seluruh data centre yang ada,
@@ -92,25 +93,46 @@ export const App: React.FC = () => {
         }
     };
 
-    // Poll backend status to sync if user clicked in the 3D viewport
+    // Poll backend status to dynamically track 3D coordinates & sync click selection
     useEffect(() => {
-        const intervalId = setInterval(async () => {
-            try {
-                const res = await fetch('http://localhost:8089/api/status');
-                if (res.ok) {
-                    const data: BackendStatus = await res.json();
-                    if (data.active_point && ['SG', 'AUS', 'JPN'].includes(data.active_point)) {
-                        setActivePoint(data.active_point as 'SG' | 'AUS' | 'JPN');
-                    } else if (!data.active_point) {
-                        setActivePoint(null);
-                    }
-                }
-            } catch {
-                // Polling fails silently if backend offline
-            }
-        }, 800);
+        let isMounted = true;
+        let activePort = 8089;
+        const candidatePorts = [8089, 8088, 8090];
 
-        return () => clearInterval(intervalId);
+        const pollStatus = async () => {
+            for (const port of [activePort, ...candidatePorts.filter(p => p !== activePort)]) {
+                try {
+                    const res = await fetch(`http://localhost:${port}/api/status`);
+                    if (res.ok && isMounted) {
+                        activePort = port;
+                        const data: BackendStatus = await res.json();
+
+                        // 1. Sync real-time 3D projected screen positions for floating cards
+                        if (data.screen_positions) {
+                            setScreenPositions(data.screen_positions);
+                        }
+
+                        // 2. Sync active selection state
+                        if (data.active_point && ['SG', 'AUS', 'JPN'].includes(data.active_point)) {
+                            setActivePoint(data.active_point as 'SG' | 'AUS' | 'JPN');
+                        } else if (!data.active_point) {
+                            setActivePoint(null);
+                        }
+                        return;
+                    }
+                } catch {
+                    // Try next candidate port
+                }
+            }
+        };
+
+        // 50ms polling (~20 FPS) combined with CSS transition ensures 60 FPS smooth motion
+        const intervalId = setInterval(pollStatus, 50);
+
+        return () => {
+            isMounted = false;
+            clearInterval(intervalId);
+        };
     }, []);
 
     return (
@@ -134,12 +156,13 @@ export const App: React.FC = () => {
                     </div>
                 </header>
 
-                {/* Coordinate Cards floating near regions (SG, AUS, JPN) */}
+                {/* Coordinate Cards dynamically floating & tracking 3D coordinates (SG, AUS, JPN) */}
                 {metrics.map((metric) => (
                     <CoordinateCard
                         key={metric.key}
                         metric={metric}
                         isActive={activePoint === metric.key}
+                        screenPosition={screenPositions[metric.key]}
                         onClick={handleCardClick}
                     />
                 ))}

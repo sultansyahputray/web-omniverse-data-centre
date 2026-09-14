@@ -1,3 +1,9 @@
+export interface ScreenPosition {
+    x: number;
+    y: number;
+    visible: boolean;
+}
+
 export interface SiteMetric {
     key: 'SG' | 'AUS' | 'JPN';
     title: string;
@@ -24,5 +30,6 @@ export interface BackendStatus {
     active_point?: string | null;
     selected_prim?: string | null;
     clickable_points?: string[];
+    screen_positions?: Record<string, ScreenPosition>;
     status?: string;
 }
