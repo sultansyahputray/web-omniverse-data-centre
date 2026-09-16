@@ -242,12 +242,16 @@
     color: #a4cbe3;
 }
 
-/* --- BOTTOM-RIGHT TIME-OF-DAY DROPDOWN --- */
+/* --- BOTTOM-RIGHT CONTROLS (VIEWCUBE + TIME-OF-DAY) --- */
 .level2-bottom-right-controls {
     position: absolute;
-    bottom: 38px;
-    right: 48px;
+    bottom: 32px;
+    right: 44px;
     pointer-events: auto;
+    display: flex;
+    align-items: flex-end;
+    gap: 16px;
+    z-index: 90;
 }
 
 .time-of-day-container {
@@ -416,4 +420,194 @@
     border-radius: 50%;
     background: var(--cyan-primary);
     box-shadow: 0 0 8px var(--cyan-primary);
+}
+
+/* =========================================================================
+   ADAPTIVE 3D VIEWCUBE (DICE FEATURE FOR REGION BUILDING)
+   ========================================================================= */
+.viewcube-container {
+    display: flex;
+    flex-direction: column;
+    pointer-events: auto;
+}
+
+.viewcube-card {
+    background: var(--dark-glass-bg);
+    border: 1px solid var(--cyan-border);
+    border-radius: 8px;
+    padding: 10px 12px;
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.6), 0 0 15px rgba(0, 195, 255, 0.12);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    width: 156px;
+    transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.viewcube-card:hover {
+    border-color: var(--cyan-bright);
+    box-shadow: 0 8px 28px rgba(0, 0, 0, 0.7), 0 0 20px rgba(0, 210, 255, 0.25);
+}
+
+.viewcube-header {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.viewcube-focus-badge {
+    display: flex;
+    flex-direction: column;
+    max-width: 95px;
+}
+
+.focus-label-tag {
+    font-size: 8px;
+    font-weight: 800;
+    color: var(--cyan-primary);
+    letter-spacing: 0.8px;
+}
+
+.focus-name-tag {
+    font-size: 11px;
+    font-weight: 700;
+    color: #f8fafc;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.viewcube-home-btn {
+    padding: 3px 7px;
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(0, 210, 255, 0.25);
+    border-radius: 4px;
+    color: #e2e8f0;
+    font-size: 9px;
+    font-weight: 700;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 3px;
+    transition: all 0.2s ease;
+}
+
+.viewcube-home-btn:hover,
+.viewcube-home-btn.active {
+    background: rgba(0, 210, 255, 0.3);
+    border-color: var(--cyan-bright);
+    color: #ffffff;
+    box-shadow: 0 0 8px rgba(0, 210, 255, 0.4);
+}
+
+/* 3D Cube Canvas */
+.viewcube-viewport {
+    width: 68px;
+    height: 68px;
+    perspective: 260px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.viewcube-cube {
+    width: 44px;
+    height: 44px;
+    position: relative;
+    transform-style: preserve-3d;
+    transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.cube-face {
+    position: absolute;
+    width: 44px;
+    height: 44px;
+    background: rgba(10, 25, 47, 0.85);
+    border: 1.5px solid rgba(0, 210, 255, 0.35);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 9px;
+    font-weight: 800;
+    color: #cbd5e1;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    user-select: none;
+    box-shadow: inset 0 0 6px rgba(0, 210, 255, 0.1);
+}
+
+.cube-face:hover {
+    background: rgba(0, 210, 255, 0.4);
+    color: #ffffff;
+    border-color: var(--cyan-bright);
+    box-shadow: inset 0 0 10px rgba(0, 210, 255, 0.5);
+}
+
+.cube-face.active {
+    background: rgba(0, 210, 255, 0.7);
+    border-color: #ffffff;
+    color: #ffffff;
+    box-shadow: inset 0 0 12px rgba(255, 255, 255, 0.7), 0 0 10px rgba(0, 210, 255, 0.6);
+}
+
+.cube-face.front {
+    transform: rotateY(0deg) translateZ(22px);
+}
+
+.cube-face.back {
+    transform: rotateY(180deg) translateZ(22px);
+}
+
+.cube-face.right {
+    transform: rotateY(90deg) translateZ(22px);
+}
+
+.cube-face.left {
+    transform: rotateY(-90deg) translateZ(22px);
+}
+
+.cube-face.top {
+    transform: rotateX(90deg) translateZ(22px);
+}
+
+.cube-face.bottom {
+    transform: rotateX(-90deg) translateZ(22px);
+}
+
+/* Preset Snap Buttons */
+.viewcube-presets {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 4px;
+    width: 100%;
+}
+
+.preset-btn {
+    padding: 4px 2px;
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(0, 210, 255, 0.2);
+    border-radius: 4px;
+    color: #94a3b8;
+    font-size: 8.5px;
+    font-weight: 700;
+    cursor: pointer;
+    text-align: center;
+    transition: all 0.15s ease;
+}
+
+.preset-btn:hover {
+    background: rgba(0, 210, 255, 0.25);
+    border-color: var(--cyan-primary);
+    color: #ffffff;
+}
+
+.preset-btn.active {
+    background: rgba(0, 210, 255, 0.35);
+    border-color: var(--cyan-bright);
+    color: #ffffff;
+    box-shadow: 0 0 8px rgba(0, 210, 255, 0.3);
 }

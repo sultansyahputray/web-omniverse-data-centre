@@ -1,6 +1,7 @@
 export type AppLevel = 'earth' | 'region';
 export type TimeOfDay = 'pagi' | 'sore' | 'malam';
 export type RegionKey = 'SG' | 'AUS' | 'JPN';
+export type CameraView = 'iso' | 'front' | 'back' | 'right' | 'left' | 'top';
 
 export interface ScreenPosition {
     x: number;
@@ -33,6 +34,7 @@ export interface BackendStatus {
     current_level?: AppLevel;
     active_region?: RegionKey | null;
     time_of_day?: TimeOfDay;
+    camera_view?: CameraView;
     layer?: string;
     active_point?: string | null;
     selected_prim?: string | null;
