@@ -45,7 +45,7 @@ export const AdaptiveViewCube: React.FC<AdaptiveViewCubeProps> = ({
                 {/* Header: Focus Label & Reset ISO button */}
                 <div className="viewcube-header">
                     <div className="viewcube-focus-badge">
-                        <span className="focus-label-tag">CAMERA FOCUS:</span>
+                        <span className="focus-label-tag">VIEW</span>
                         <span className="focus-name-tag" title={focusLabel}>
                             {focusLabel}
                         </span>
@@ -56,18 +56,7 @@ export const AdaptiveViewCube: React.FC<AdaptiveViewCubeProps> = ({
                         onClick={() => handleSelectView('iso')}
                         title="Reset to Isometric Angle"
                     >
-                        <svg
-                            width="11"
-                            height="11"
-                            viewBox="0 0 24 24"
-                            fill="none"
-                            stroke="currentColor"
-                            strokeWidth="2.5"
-                        >
-                            <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
-                            <polyline points="9 22 9 12 15 12 15 22"></polyline>
-                        </svg>
-                        ISO
+                        INIT
                     </button>
                 </div>
 

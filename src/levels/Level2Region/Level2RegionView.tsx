@@ -25,7 +25,7 @@ export const Level2RegionView: React.FC<Level2RegionViewProps> = ({
     onSelectTimeOfDay,
     onSelectCameraView
 }) => {
-    const focusTitle = regionMetric?.title ? `${regionMetric.title} DC` : `${activeRegion} DATA CENTRE`;
+    const focusTitle = regionMetric?.title ? `${regionMetric.title}` : `${activeRegion} DATA CENTRE`;
 
     return (
         <div className="level2-region-overlay">
@@ -37,14 +37,14 @@ export const Level2RegionView: React.FC<Level2RegionViewProps> = ({
                 <RegionStatsOverlay regionMetric={regionMetric} />
             </div>
 
-            {/* Bottom-Right Controls: 3D Dice ViewCube + Time-of-Day Dropdown */}
+            {/* Bottom-Right Controls: Time-of-Day Dropdown (Top) + 3D Dice ViewCube (Bottom) */}
             <div className="level2-bottom-right-controls">
+                <TimeOfDaySelector currentTime={timeOfDay} onSelectTime={onSelectTimeOfDay} />
                 <AdaptiveViewCube
                     focusLabel={focusTitle}
                     currentView={cameraView}
-                    onSelectView={onSelectCameraView || (() => {})}
+                    onSelectView={onSelectCameraView || (() => { })}
                 />
-                <TimeOfDaySelector currentTime={timeOfDay} onSelectTime={onSelectTimeOfDay} />
             </div>
         </div>
     );
