@@ -90,69 +90,58 @@ export const App: React.FC = () => {
         return metrics.find((m) => m.key === activeRegion) || metrics[0];
     }, [metrics, activeRegion]);
 
+    // Resilient backend POST dispatcher with automatic port fallback (8089 -> 8088 -> 8090)
+    const postBackend = async (endpoint: string, body: Record<string, unknown>) => {
+        const ports = [activePortRef.current, 8089, 8088, 8090].filter(
+            (p, idx, arr) => arr.indexOf(p) === idx
+        );
+        for (const port of ports) {
+            try {
+                const res = await fetch(`http://localhost:${port}/api/${endpoint}`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(body)
+                });
+                if (res.ok) {
+                    activePortRef.current = port;
+                    console.log(`[Dashboard] POST /api/${endpoint} succeeded on port ${port}`, body);
+                    return true;
+                }
+            } catch {
+                // try next port
+            }
+        }
+        console.warn(`[Dashboard] POST /api/${endpoint} failed on candidate ports:`, ports);
+        return false;
+    };
+
     // Transition from Level 1 -> Level 2 on region card or 3D point click
     const handleSelectRegion = async (key: RegionKey) => {
         lastUserNavRef.current = Date.now();
         setCurrentLevel('region');
         setActiveRegion(key);
-
-        try {
-            await fetch(`http://localhost:${activePortRef.current}/api/navigate`, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ level: 'region', region: key })
-            });
-        } catch (e) {
-            console.log('[Dashboard] API navigate error (fallback to local state):', e);
-        }
+        await postBackend('navigate', { level: 'region', region: key });
     };
 
     // Transition back from Level 2 -> Level 1 (Global Earth)
     const handleBackToGlobal = async () => {
         lastUserNavRef.current = Date.now();
         setCurrentLevel('earth');
-
-        try {
-            await fetch(`http://localhost:${activePortRef.current}/api/navigate`, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ level: 'earth' })
-            });
-        } catch (e) {
-            console.log('[Dashboard] API navigate back error (fallback to local state):', e);
-        }
+        await postBackend('navigate', { level: 'earth' });
     };
 
     // Change Level 2 Time-of-Day (Pagi / Sore / Malam)
     const handleSelectTimeOfDay = async (time: TimeOfDay) => {
         lastUserTimeRef.current = Date.now();
         setTimeOfDay(time);
-
-        try {
-            await fetch(`http://localhost:${activePortRef.current}/api/set-time-of-day`, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ time })
-            });
-        } catch (e) {
-            console.log('[Dashboard] API set-time-of-day error (fallback to local state):', e);
-        }
+        await postBackend('set-time-of-day', { time });
     };
 
     // Change Level 2 3D ViewCube camera angle (front, back, right, left, top, iso)
     const handleSelectCameraView = async (view: CameraView) => {
         lastUserCamRef.current = Date.now();
         setCameraView(view);
-
-        try {
-            await fetch(`http://localhost:${activePortRef.current}/api/set-camera-view`, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ view })
-            });
-        } catch (e) {
-            console.log('[Dashboard] API set-camera-view error (fallback to local state):', e);
-        }
+        await postBackend('set-camera-view', { view });
     };
 
     // Poll backend status to dynamically track 3D coordinates & sync level/selection
