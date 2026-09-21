@@ -120,85 +120,66 @@
 }
 
 .level3-telemetry-card {
-    background: rgba(10, 25, 47, 0.75);
-    border: 1px solid rgba(0, 229, 255, 0.3);
+    background: rgba(10, 28, 52, 0.85);
+    border: 1.5px solid #00c0e8;
     border-radius: 12px;
-    padding: 14px 16px;
-    width: 140px;
+    padding: 18px 14px;
+    width: 172px;
     backdrop-filter: blur(14px);
     -webkit-backdrop-filter: blur(14px);
-    box-shadow: 0 12px 36px rgba(0, 0, 0, 0.6), 0 0 20px rgba(0, 229, 255, 0.12);
+    box-shadow: 0 12px 36px rgba(0, 0, 0, 0.6), 0 0 18px rgba(0, 192, 232, 0.25);
     display: flex;
     flex-direction: column;
-    gap: 12px;
+    gap: 15px;
 }
 
-.level3-telemetry-item {
+.level3-telemetry-section {
     display: flex;
     flex-direction: column;
     align-items: center;
     gap: 6px;
-}
-
-.telemetry-item-label {
-    font-family: 'Inter', system-ui, sans-serif;
-    font-size: 10px;
-    font-weight: 700;
-    color: #cbd5e1;
-    letter-spacing: 0.5px;
-    text-align: center;
-}
-
-.telemetry-gauge-wrapper {
-    position: relative;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.telemetry-gauge-text {
-    position: absolute;
-    font-size: 11px;
-    font-weight: 800;
-    color: #ffffff;
-    letter-spacing: 0.2px;
-}
-
-.telemetry-divider {
-    height: 1px;
-    background: rgba(255, 255, 255, 0.08);
     width: 100%;
 }
 
-.level3-stats-block {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 2px;
+.telemetry-metric-title {
+    font-family: 'Inter', system-ui, sans-serif;
+    font-size: 13.5px;
+    font-weight: 500;
+    color: #ffffff;
+    letter-spacing: 0.2px;
+    text-align: center;
 }
 
-.stat-label {
-    font-size: 9px;
-    font-weight: 700;
-    color: #94a3b8;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-}
-
-.stat-value {
+.telemetry-pill-green {
+    width: 100%;
+    box-sizing: border-box;
+    background: #23974e;
+    border: 1px solid #2ecc71;
+    border-radius: 8px;
+    padding: 7px 10px;
+    color: #ffffff;
+    font-family: 'Inter', system-ui, sans-serif;
     font-size: 15px;
-    font-weight: 900;
-    letter-spacing: 0.5px;
+    font-weight: 700;
+    text-align: center;
+    letter-spacing: 0.3px;
+    box-shadow: 0 2px 8px rgba(35, 151, 78, 0.35);
 }
 
-.highlight-cyan {
-    color: #00E5FF;
-    text-shadow: 0 0 8px rgba(0, 229, 255, 0.4);
-}
-
-.highlight-green {
-    color: #00FFA3;
-    text-shadow: 0 0 8px rgba(0, 255, 163, 0.4);
+.telemetry-pill-blue {
+    width: 100%;
+    box-sizing: border-box;
+    background: rgba(18, 48, 74, 0.88);
+    border: 1.5px solid #2389a8;
+    border-radius: 8px;
+    padding: 7px 10px;
+    color: #ffffff;
+    font-family: 'Inter', system-ui, sans-serif;
+    font-size: 15.5px;
+    font-weight: 700;
+    text-align: center;
+    letter-spacing: 0.3px;
+    box-shadow: 0 2px 8px rgba(0, 192, 232, 0.2);
 }
 
 /* --- FLOOR LEVEL INDICATORS (Left edge of building) --- */

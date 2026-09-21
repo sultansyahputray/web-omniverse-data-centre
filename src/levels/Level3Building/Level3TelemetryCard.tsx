@@ -1,92 +1,51 @@
 import React from 'react';
 
-interface CircularProgressProps {
-    percentage: number;
-    size?: number;
-    strokeWidth?: number;
-    color?: string;
-    bgColor?: string;
+interface Level3TelemetryCardProps {
+    facilityDemand?: string;
+    itCapacity?: string;
+    pue?: string;
+    computeRacks?: string | number;
+    activeGpu?: string | number;
 }
 
-const CircularProgress: React.FC<CircularProgressProps> = ({
-    percentage,
-    size = 46,
-    strokeWidth = 4,
-    color = '#00E5FF',
-    bgColor = 'rgba(255, 255, 255, 0.08)'
+export const Level3TelemetryCard: React.FC<Level3TelemetryCardProps> = ({
+    facilityDemand = '42.287 MW',
+    itCapacity = '41.328 MW',
+    pue = '1.12',
+    computeRacks = '64',
+    activeGpu = '9,216'
 }) => {
-    const radius = (size - strokeWidth) / 2;
-    const circumference = radius * 2 * Math.PI;
-    const strokeDashoffset = circumference - (percentage / 100) * circumference;
-
-    return (
-        <div className="telemetry-gauge-wrapper" style={{ width: size, height: size }}>
-            <svg width={size} height={size} viewBox={`0 0 ${size} ${size}`}>
-                <circle
-                    stroke={bgColor}
-                    fill="transparent"
-                    strokeWidth={strokeWidth}
-                    r={radius}
-                    cx={size / 2}
-                    cy={size / 2}
-                />
-                <circle
-                    stroke={color}
-                    fill="transparent"
-                    strokeWidth={strokeWidth}
-                    strokeDasharray={`${circumference} ${circumference}`}
-                    style={{ strokeDashoffset, transition: 'stroke-dashoffset 0.8s ease' }}
-                    strokeLinecap="round"
-                    r={radius}
-                    cx={size / 2}
-                    cy={size / 2}
-                    transform={`rotate(-90 ${size / 2} ${size / 2})`}
-                />
-            </svg>
-            <span className="telemetry-gauge-text">{percentage}%</span>
-        </div>
-    );
-};
-
-export const Level3TelemetryCard: React.FC = () => {
     return (
         <aside className="level3-telemetry-sidebar" aria-label="Building Telemetry">
             <div className="level3-telemetry-card">
-                {/* 1. Hall Compute Utilization */}
-                <div className="level3-telemetry-item">
-                    <div className="telemetry-item-label">Compute Load</div>
-                    <CircularProgress percentage={78} color="#00E5FF" />
+                {/* 1. Facility Demand */}
+                <div className="level3-telemetry-section">
+                    <span className="telemetry-metric-title">Facility Demand</span>
+                    <div className="telemetry-pill-green">{facilityDemand}</div>
                 </div>
 
-                <div className="telemetry-divider" />
-
-                {/* 2. Liquid Cooling Flow */}
-                <div className="level3-telemetry-item">
-                    <div className="telemetry-item-label">Liquid Cooling</div>
-                    <CircularProgress percentage={92} color="#00D2FF" />
+                {/* 2. IT Capacity */}
+                <div className="level3-telemetry-section">
+                    <span className="telemetry-metric-title">IT Capacity</span>
+                    <div className="telemetry-pill-green">{itCapacity}</div>
                 </div>
 
-                <div className="telemetry-divider" />
-
-                {/* 3. Power Distribution */}
-                <div className="level3-telemetry-item">
-                    <div className="telemetry-item-label">Power Delivery</div>
-                    <CircularProgress percentage={65} color="#00FFA3" />
+                {/* 3. PUE */}
+                <div className="level3-telemetry-section">
+                    <span className="telemetry-metric-title">PUE</span>
+                    <div className="telemetry-pill-green">{pue}</div>
                 </div>
 
-                <div className="telemetry-divider" />
-
-                {/* 4. Telemetry Stats */}
-                <div className="level3-stats-block">
-                    <div className="stat-label">Active Power</div>
-                    <div className="stat-value highlight-cyan">4.2 MW</div>
+                {/* 4. Compute Racks */}
+                <div className="level3-telemetry-section">
+                    <span className="telemetry-metric-title">Compute Racks</span>
+                    <div className="telemetry-pill-blue">{computeRacks}</div>
                 </div>
 
-                <div className="telemetry-divider" />
-
-                <div className="level3-stats-block">
-                    <div className="stat-label">Building PUE</div>
-                    <div className="stat-value highlight-green">1.18</div>
+                {/* 5. Active GPU */}
+                <div className="level3-telemetry-section">
+                    <span className="telemetry-metric-title">Active GPU</span>
+                    <div className="telemetry-pill-blue">{activeGpu}</div>
                 </div>
             </div>
         </aside>
