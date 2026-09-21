@@ -12,7 +12,7 @@ interface Level1EarthViewProps {
     activePoint: RegionKey | null;
     screenPositions: Record<string, ScreenPosition>;
     onSelectRegion: (key: RegionKey) => void;
-    onRotateEarth?: (direction: 'left' | 'right') => void;
+    onRotateEarth?: (direction: 'left' | 'right', stepDeg?: number) => void;
     onZoomEarth?: (action: 'in' | 'out') => void;
     onResetEarth?: () => void;
 }
@@ -41,10 +41,10 @@ export const Level1EarthView: React.FC<Level1EarthViewProps> = ({
     const handlePointerMove = (e: React.PointerEvent<HTMLDivElement>) => {
         if (!isDraggingRef.current || !onRotateEarth) return;
         const dx = e.clientX - lastTriggerXRef.current;
-        // Each 20px of horizontal drag invokes smooth rotation step
-        if (Math.abs(dx) >= 20) {
+        // Each 16px of horizontal drag smoothly shifts the globe by 3.0 degrees
+        if (Math.abs(dx) >= 16) {
             lastTriggerXRef.current = e.clientX;
-            onRotateEarth(dx < 0 ? 'left' : 'right');
+            onRotateEarth(dx < 0 ? 'left' : 'right', 3.0);
         }
     };
 

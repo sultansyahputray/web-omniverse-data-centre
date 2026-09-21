@@ -275,7 +275,7 @@ export const App: React.FC = () => {
                         activePoint={null}
                         screenPositions={screenPositions}
                         onSelectRegion={handleSelectRegion}
-                        onRotateEarth={(dir) => postBackend('earth-rotate', { direction: dir, step_deg: 18.0 })}
+                        onRotateEarth={(dir, step) => postBackend('earth-rotate', { direction: dir, step_deg: step || 18.0 })}
                         onZoomEarth={(act) => postBackend('earth-zoom', { action: act, step_factor: 0.15 })}
                         onResetEarth={() => postBackend('navigate', { level: 'earth' })}
                     />
