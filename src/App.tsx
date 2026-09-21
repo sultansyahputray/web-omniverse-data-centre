@@ -17,11 +17,11 @@ import './GlobalDashboard.css';
 const INITIAL_METRICS: SiteMetric[] = [
     {
         key: 'SG',
-        title: 'SINGAPORE',
-        subtitle: 'Singapore Hub',
-        sites: 2, // 1-2 sites as requested
+        title: 'Southeast Asia',
+        subtitle: 'Batam Hub',
+        sites: 2,
         capacityMW: 360,
-        availabilityPct: 99.8,
+        availabilityPct: 54,
         position: {
             top: '58%',
             left: '20%'
@@ -29,11 +29,11 @@ const INITIAL_METRICS: SiteMetric[] = [
     },
     {
         key: 'AUS',
-        title: 'AUSTRALIA',
+        title: 'Australia',
         subtitle: 'Sydney Hub',
-        sites: 2, // 1-2 sites as requested
+        sites: 2,
         capacityMW: 250,
-        availabilityPct: 99.9,
+        availabilityPct: 54,
         position: {
             bottom: '12%',
             right: '10%'
@@ -41,11 +41,11 @@ const INITIAL_METRICS: SiteMetric[] = [
     },
     {
         key: 'JPN',
-        title: 'JAPAN',
+        title: 'Japan',
         subtitle: 'Tokyo Hub',
-        sites: 1, // 1-2 sites as requested
+        sites: 1,
         capacityMW: 180,
-        availabilityPct: 99.9,
+        availabilityPct: 54,
         position: {
             top: '36%',
             right: '10%'
@@ -76,7 +76,7 @@ export const App: React.FC = () => {
         const avgAvailabilityPct =
             metrics.length > 0
                 ? metrics.reduce((acc, m) => acc + m.availabilityPct, 0) / metrics.length
-                : 99.9;
+                : 54;
 
         return {
             totalSites,
@@ -198,13 +198,14 @@ export const App: React.FC = () => {
                             setCameraView(data.camera_view);
                         }
 
-                        // 5. Sync real-time 3D projected screen positions for floating cards in Level 1 only
-                        if (currentLevel === 'earth' && data.screen_positions) {
+                        // 5. Sync real-time 3D projected screen positions for floating elements (Level 1 & Level 2)
+                        const incomingPositions = data.screen_positions;
+                        if (incomingPositions) {
                             setScreenPositions((prev) => {
                                 let hasChanged = false;
-                                for (const key of Object.keys(data.screen_positions)) {
+                                for (const key of Object.keys(incomingPositions)) {
                                     const prevPos = prev[key];
-                                    const newPos = data.screen_positions[key];
+                                    const newPos = incomingPositions[key];
                                     if (
                                         !prevPos ||
                                         prevPos.visible !== newPos.visible ||
@@ -215,7 +216,7 @@ export const App: React.FC = () => {
                                         break;
                                     }
                                 }
-                                return hasChanged ? data.screen_positions : prev;
+                                return hasChanged ? incomingPositions : prev;
                             });
                         }
 
@@ -227,8 +228,8 @@ export const App: React.FC = () => {
             }
         };
 
-        // Optimized polling: 100ms for Level 1 (smooth tracking), 800ms for Level 2 (low overhead, no lag)
-        const pollInterval = currentLevel === 'earth' ? 100 : 800;
+        // Smooth tracking polling: 100ms for Level 1, 150ms for Level 2
+        const pollInterval = currentLevel === 'earth' ? 100 : 150;
         const intervalId = setInterval(pollStatus, pollInterval);
 
         return () => {
@@ -251,7 +252,7 @@ export const App: React.FC = () => {
                     <Level1EarthView
                         metrics={metrics}
                         totals={totals}
-                        activePoint={currentLevel === 'region' ? activeRegion : null}
+                        activePoint={null}
                         screenPositions={screenPositions}
                         onSelectRegion={handleSelectRegion}
                     />
@@ -261,9 +262,16 @@ export const App: React.FC = () => {
                         regionMetric={currentRegionMetric}
                         timeOfDay={timeOfDay}
                         cameraView={cameraView}
+                        screenPositions={screenPositions}
                         onBackToGlobal={handleBackToGlobal}
                         onSelectTimeOfDay={handleSelectTimeOfDay}
                         onSelectCameraView={handleSelectCameraView}
+                        onSelectZone={(zoneName) => {
+                            console.log(`[Level2] Zone clicked: ${zoneName}`);
+                            postBackend('select_prim', {
+                                prim_path: '/World/region/example_building'
+                            });
+                        }}
                     />
                 )}
             </div>

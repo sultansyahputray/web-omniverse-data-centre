@@ -29,7 +29,7 @@ export const DatabaseIcon: React.FC<{ size?: number; color?: string }> = ({ size
 
 // Circular gauge donut ring
 export const DonutGaugeIcon: React.FC<{ percentage?: number; size?: number; color?: string }> = ({
-    percentage = 99.9,
+    percentage = 54,
     size = 32,
     color = '#00e5ff'
 }) => {
@@ -181,3 +181,61 @@ export const MoonIcon: React.FC<{ size?: number; color?: string }> = ({ size = 2
         <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z" stroke={color} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
     </svg>
 );
+
+// Regional card circular availability gauge — matches CircularGauge.tsx from reference exactly
+export const RegionalAvailabilityGauge: React.FC<{
+    percentage?: number;
+    size?: number;
+    strokeWidth?: number;
+    color?: string;
+    bgColor?: string;
+}> = ({
+    percentage = 54,
+    size = 72,
+    strokeWidth = 8,
+    color = '#ffcc00',          // same yellow as Dashboard reference
+    bgColor = 'rgba(255, 255, 255, 0.1)', // same bgColor as CircularGauge.tsx default
+}) => {
+        const radius = (size - strokeWidth) / 2;
+        const circumference = 2 * Math.PI * radius;
+        const clampedVal = Math.max(0, Math.min(100, percentage));
+        const offset = circumference - (clampedVal / 100) * circumference;
+        const displayText = percentage % 1 === 0
+            ? `${percentage}%`
+            : `${percentage.toFixed(1)}%`;
+
+        return (
+            // circle-gauge-container — same className as reference for CSS consistency
+            <div className="circle-gauge-container" style={{ width: size, height: size }}>
+                <svg width={size} height={size}>
+                    {/* Background Ring — matches reference: no fill, rgba track */}
+                    <circle
+                        stroke={bgColor}
+                        strokeWidth={strokeWidth}
+                        fill="transparent"
+                        r={radius}
+                        cx={size / 2}
+                        cy={size / 2}
+                    />
+                    {/* Progress Ring — yellow, rounded linecap */}
+                    <circle
+                        stroke={color}
+                        strokeWidth={strokeWidth}
+                        strokeDasharray={`${circumference} ${circumference}`}
+                        strokeDashoffset={offset}
+                        strokeLinecap="round"
+                        fill="transparent"
+                        r={radius}
+                        cx={size / 2}
+                        cy={size / 2}
+                        style={{ transition: 'stroke-dashoffset 0.3s ease-in-out, stroke 0.3s ease-in-out' }}
+                    />
+                </svg>
+                {/* Value text — font size proportional to size * 0.22, same as reference */}
+                <span className="circle-gauge-value" style={{ fontSize: size * 0.22 }}>
+                    {displayText}
+                </span>
+            </div>
+        );
+    };
+

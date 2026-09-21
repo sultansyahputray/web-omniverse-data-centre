@@ -26,7 +26,9 @@
     padding: 0;
 }
 
-html, body, #root {
+html,
+body,
+#root {
     width: 100%;
     height: 100%;
     overflow: hidden;
@@ -82,7 +84,8 @@ html, body, #root {
     width: 100%;
     height: 100%;
     z-index: 10;
-    pointer-events: none; /* Let 3D viewport receive clicks except on cards */
+    pointer-events: none;
+    /* Let 3D viewport receive clicks except on cards */
 }
 
 /* --- TOP HEADER (Image 2) --- */
@@ -148,35 +151,20 @@ html, body, #root {
     text-transform: uppercase;
 }
 
-/* --- COORDINATE CARDS (Image 3) --- */
+/* --- REGIONAL COORDINATE CARDS --- */
 .coordinate-card {
     position: absolute;
-    width: 310px;
-    background: var(--dark-glass-bg);
-    backdrop-filter: blur(14px);
-    -webkit-backdrop-filter: blur(14px);
-    border: 1px solid var(--cyan-border);
-    border-radius: 8px;
-    padding: 12px 16px;
+    width: 270px;
     pointer-events: auto;
-    cursor: pointer;
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.6), 0 0 15px rgba(0, 195, 255, 0.12);
-    transition: left 0.08s linear, top 0.08s linear, opacity 0.25s ease, border-color 0.2s, box-shadow 0.2s;
+    transition: left 0.08s linear, top 0.08s linear, opacity 0.25s ease;
     will-change: left, top, opacity;
+    z-index: 20;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
 }
 
-.coordinate-card:hover {
-    border-color: rgba(0, 230, 255, 0.7);
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.7), 0 0 20px rgba(0, 210, 255, 0.28);
-}
-
-.coordinate-card.active {
-    background: var(--dark-glass-active);
-    border-color: var(--cyan-bright);
-    box-shadow: 0 12px 36px rgba(0, 0, 0, 0.8), 0 0 25px rgba(0, 240, 255, 0.45);
-}
-
-/* Card Connector Arm pointing from card towards red dot */
+/* Card Connector Arm */
 .card-connector-arm {
     position: absolute;
     top: 50%;
@@ -189,13 +177,13 @@ html, body, #root {
 .card-connector-arm.arm-right {
     left: 100%;
     transform: translateY(-50%);
-    background: linear-gradient(90deg, rgba(0, 210, 255, 0.4), #00f0ff);
+    background: linear-gradient(90deg, rgba(0, 192, 232, 0.3), #00C0E8);
 }
 
 .card-connector-arm.arm-left {
     right: 100%;
     transform: translateY(-50%);
-    background: linear-gradient(270deg, rgba(0, 210, 255, 0.4), #00f0ff);
+    background: linear-gradient(270deg, rgba(0, 192, 232, 0.3), #00C0E8);
 }
 
 .arm-pulse-dot {
@@ -204,8 +192,8 @@ html, body, #root {
     width: 6px;
     height: 6px;
     border-radius: 50%;
-    background: #00f0ff;
-    box-shadow: 0 0 10px #00f0ff, 0 0 4px #ffffff;
+    background: #00C0E8;
+    box-shadow: 0 0 8px #00C0E8;
     transform: translateY(-50%);
 }
 
@@ -217,116 +205,195 @@ html, body, #root {
     left: -3px;
 }
 
-/* Card Header Row */
-.card-header-row {
+/* ==============================================================
+   HEADER TAB — Solid teal, fully separated (gap below)
+   ============================================================== */
+.region-card-tab {
     display: flex;
     align-items: center;
     justify-content: space-between;
+    padding: 5px 5px;
+    background: linear-gradient(180deg, #318FA2 0%, #2A626E 90%);
+    border: 2px solid #00C3D0;
+    border-radius: 8px;
+    /* Visible gap between tab and body — terlihat benar-benar terpisah */
     margin-bottom: 8px;
+    cursor: pointer;
+    user-select: none;
+    transition: background 0.18s ease, box-shadow 0.18s ease;
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.5), 0 0 8px rgba(0, 192, 232, 0.25);
 }
 
-.card-title-group {
-    display: flex;
-    align-items: center;
-    gap: 8px;
+.region-card-tab:hover {
+    background: #00B0C8;
+    box-shadow: 0 0 16px rgba(0, 192, 232, 0.55);
 }
 
-.card-cyan-accent {
-    display: inline-block;
-    width: 3.5px;
-    height: 15px;
-    background: var(--cyan-primary);
-    border-radius: 2px;
-    box-shadow: 0 0 8px var(--cyan-primary);
+.region-card-tab:active {
+    background: #007B8A;
 }
 
-.card-title-text {
-    font-family: var(--font-heading);
+.region-tab-title {
+    font-family: 'Inter', system-ui, sans-serif;
     font-size: 14px;
     font-weight: 700;
-    letter-spacing: 1px;
-    color: var(--text-ice);
-    text-transform: uppercase;
+    color: #ffffff;
+    letter-spacing: 0.1px;
 }
 
-.card-chevron {
+.region-tab-chevron {
     display: flex;
     align-items: center;
-    opacity: 0.8;
-    transition: transform 0.2s ease;
+    transition: transform 0.18s ease;
 }
 
-.coordinate-card:hover .card-chevron {
-    transform: translateX(3px);
-    opacity: 1;
+.region-card-tab:hover .region-tab-chevron {
+    transform: translateX(4px);
 }
 
-/* Card Divider */
-.card-divider {
-    width: 100%;
-    height: 1px;
-    background: rgba(0, 195, 255, 0.2);
-    margin-bottom: 11px;
-}
-
-/* Card Metrics Grid (3 Columns) */
-.card-metrics-grid {
+/* ==============================================================
+   CARD BODY — Gradient + solid cyan border (Dashboard.css ref)
+   ============================================================== */
+.region-card-body {
     display: flex;
     align-items: center;
     justify-content: space-between;
+    padding: 5px 14px;
+    background:
+        linear-gradient(180deg, #244178 0%, #0E1935 90%) padding-box,
+        linear-gradient(180deg, #0091B0 0%, #0038436B 100%) border-box;
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 2px solid transparent;
+    border-radius: 8px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.6), 0 0 15px rgba(0, 192, 232, 0.15);
+    transition: background 0.2s, box-shadow 0.2s;
+}
+
+.coordinate-card.active .region-card-body {
+    background:
+        linear-gradient(180deg, #244178 0%, #0E1935 90%) padding-box,
+        linear-gradient(180deg, #00f0ff 0%, rgba(0, 240, 255, 0.4) 100%) border-box;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.7), 0 0 22px rgba(0, 240, 255, 0.4);
+}
+
+/* LEFT COLUMN */
+.region-body-left {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    flex: 1;
+    min-width: 0;
+}
+
+.dc-header-row {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    margin-top: -6px;
+}
+
+.dc-header-text {
+    font-family: 'Inter', system-ui, sans-serif;
+    font-size: 12.5px;
+    font-weight: 700;
+    color: #71F6FF;
+}
+
+.dc-metrics-row {
+    display: flex;
+    align-items: flex-start;
     gap: 8px;
 }
 
-.metric-col {
+.dc-metric-group {
     display: flex;
+    flex-direction: column;
     align-items: center;
-    gap: 8px;
+    gap: 4px;
     flex: 1;
 }
 
-.metric-icon-wrap {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-shrink: 0;
+.dc-metric-label {
+    font-family: 'Inter', system-ui, sans-serif;
+    font-size: 10px;
+    font-weight: 400;
+    color: #ffffff;
+    white-space: nowrap;
+    text-align: center;
 }
 
-.metric-text-group {
-    display: flex;
-    flex-direction: column;
-}
-
-.metric-value-num {
-    font-family: var(--font-heading);
-    font-size: 15px;
+.dc-metric-box {
+    background: rgba(255, 255, 255, 0.15);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 4px;
+    padding: 5px 4px;
+    width: 100%;
+    box-sizing: border-box;
+    text-align: center;
+    font-family: 'Inter', system-ui, sans-serif;
+    font-size: 13px;
     font-weight: 700;
     color: #ffffff;
-    line-height: 1.1;
+    line-height: 1.2;
     white-space: nowrap;
 }
 
-.metric-unit {
-    font-size: 11px;
-    font-weight: 500;
-    color: var(--text-ice);
-    margin-left: 1px;
+.dc-capacity-box {
+    /* Sama lebar dengan Total Site */
 }
 
-.metric-label {
-    font-size: 9px;
-    font-weight: 600;
-    letter-spacing: 1px;
-    color: var(--text-muted);
-    text-transform: uppercase;
-    margin-top: 2px;
+/* VERTICAL DIVIDER */
+.region-v-divider {
+    width: 1px;
+    height: 76px;
+    background: linear-gradient(180deg, #244178 0%, #71F6FF 45%, #244178 100%);
+    margin: 0 12px;
+    flex-shrink: 0;
 }
 
-.availability-col .metric-gauge-wrap {
+/* RIGHT COLUMN */
+.region-body-right {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    flex-shrink: 0;
+}
+
+.availability-title {
+    font-family: 'Inter', system-ui, sans-serif;
+    font-size: 10px;
+    font-weight: 400;
+    color: #ffffff;
+    text-align: center;
+}
+
+.availability-gauge-container {
     display: flex;
     align-items: center;
     justify-content: center;
-    flex-shrink: 0;
 }
+
+/* Circular gauge shared classes — from Dashboard.css reference */
+.circle-gauge-container {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.circle-gauge-container svg {
+    transform: rotate(-90deg);
+}
+
+.circle-gauge-value {
+    position: absolute;
+    font-weight: 700;
+    color: #ffffff;
+    font-family: 'Inter', system-ui, sans-serif;
+}
+
 
 /* --- BOTTOM LEFT PORTFOLIO TOTAL DASHBOARD (Image 4) --- */
 .portfolio-total-dashboard {
@@ -502,9 +569,11 @@ html, body, #root {
         width: 420px;
         padding: 12px 16px;
     }
+
     .summary-main-val {
         font-size: 22px;
     }
+
     .coordinate-card {
         width: 280px;
     }
