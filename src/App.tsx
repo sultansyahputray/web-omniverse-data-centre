@@ -288,7 +288,7 @@ export const App: React.FC = () => {
                             if (zone.id === 'example_building') {
                                 handleSelectBuilding();
                             } else {
-                                postBackend('select_prim', {
+                                postBackend('select-prim', {
                                     prim_path: zone.primPath
                                 });
                             }
@@ -307,14 +307,14 @@ export const App: React.FC = () => {
                         onSelectCameraView={handleSelectCameraView}
                         onSelectZone={(zone) => {
                             console.log(`[Level3] Zone clicked: ${zone.label} (${zone.primPath})`);
-                            postBackend('select_prim', {
+                            postBackend('select-prim', {
                                 prim_path: zone.primPath
                             });
                         }}
                         onSelectHall={(hall) => {
                             console.log(`[Level3] Hall clicked: ${hall.title} (${hall.primPath || hall.id})`);
                             const primPath = hall.primPath || `/World/region/example_building/${hall.id}`;
-                            postBackend('select_prim', {
+                            postBackend('select-prim', {
                                 prim_path: primPath
                             });
                         }}
