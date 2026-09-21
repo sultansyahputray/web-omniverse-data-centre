@@ -695,26 +695,54 @@
 .floating-zone-tag {
     display: inline-flex;
     align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    user-select: none;
+    outline: none;
+    transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+    white-space: nowrap;
+}
+
+/* Primary / Main Building Button */
+.floating-zone-tag.tag-main {
     gap: 6px;
     padding: 5px 13px;
     background: linear-gradient(180deg, #318FA2 0%, #2A626E 90%);
     border: 2px solid #00C3D0;
     border-radius: 16px;
-    cursor: pointer;
-    user-select: none;
-    outline: none;
     box-shadow: 0 4px 14px rgba(0, 0, 0, 0.5), 0 0 10px rgba(0, 195, 208, 0.35);
-    transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
-    white-space: nowrap;
 }
 
-.floating-zone-tag:hover {
+.floating-zone-tag.tag-main:hover {
     background: linear-gradient(180deg, #00B0C8 0%, #1A7080 90%);
+    border-color: #00E5FF;
     box-shadow: 0 6px 20px rgba(0, 0, 0, 0.6), 0 0 18px rgba(0, 229, 255, 0.6);
     transform: translateY(-2px) scale(1.04);
 }
 
-.floating-zone-tag:active {
+.floating-zone-tag.tag-main:active {
+    transform: translateY(0) scale(0.98);
+}
+
+/* Utility / Secondary Zone Buttons (NOC style from Level 3 & Reference image) */
+.floating-zone-tag.tag-utility {
+    padding: 6px 18px;
+    background: linear-gradient(180deg, #244075 0%, #1D2844 100%);
+    border: 2px solid #00C0E8;
+    border-radius: 9999px;
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.5), 0 0 12px rgba(0, 192, 232, 0.3);
+}
+
+.floating-zone-tag.tag-utility:hover {
+    background: linear-gradient(180deg, #2D5191 0%, #24355A 100%);
+    border-color: #38BDF8;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.6), 0 0 18px rgba(0, 210, 255, 0.55);
+    transform: translateY(-2px) scale(1.04);
+}
+
+.floating-zone-tag.tag-utility:active {
     transform: translateY(0) scale(0.98);
 }
 
@@ -724,7 +752,7 @@
     font-weight: 700;
     color: #ffffff;
     white-space: nowrap;
-    letter-spacing: 0.3px;
+    letter-spacing: 0.4px;
 }
 
 .floating-zone-arrow {
@@ -733,6 +761,6 @@
     transition: transform 0.18s ease;
 }
 
-.floating-zone-tag:hover .floating-zone-arrow {
+.floating-zone-tag.tag-main:hover .floating-zone-arrow {
     transform: translateX(3px);
 }

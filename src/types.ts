@@ -48,4 +48,5 @@ export interface RegionZoneItem {
     label: string;
     primPath: string;
     defaultPos: { x: number; y: number };
+    isMain?: boolean;
 }

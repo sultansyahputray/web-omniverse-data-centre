@@ -12,7 +12,8 @@ export const REGION_ZONES: RegionZoneItem[] = [
         id: 'example_building',
         label: 'Main Building',
         primPath: '/World/region/example_building',
-        defaultPos: { x: 54, y: 38 }
+        defaultPos: { x: 54, y: 38 },
+        isMain: true
     },
     {
         id: 'power_station',
@@ -113,6 +114,7 @@ export const Level2RegionView: React.FC<Level2RegionViewProps> = ({
                         screenPosition={screenPos}
                         defaultPosition={zone.defaultPos}
                         isVisible={isVisible}
+                        isMain={Boolean(zone.isMain || zone.id === 'example_building')}
                         onClick={() => (onSelectZone ? onSelectZone(zone) : undefined)}
                     />
                 );

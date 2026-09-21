@@ -7,6 +7,7 @@ interface FloatingZoneTagProps {
     screenPosition?: ScreenPosition;
     defaultPosition?: { x: number; y: number };
     isVisible?: boolean;
+    isMain?: boolean;
     onClick?: () => void;
 }
 
@@ -15,6 +16,7 @@ export const FloatingZoneTag: React.FC<FloatingZoneTagProps> = ({
     screenPosition,
     defaultPosition = { x: 54, y: 38 },
     isVisible: isVisibleProp,
+    isMain = false,
     onClick
 }) => {
     // If screenPosition is supplied by Omniverse Kit, use it; otherwise use defaultPosition
@@ -26,7 +28,7 @@ export const FloatingZoneTag: React.FC<FloatingZoneTagProps> = ({
 
     return (
         <div
-            className="floating-zone-container"
+            className={`floating-zone-container ${isMain ? 'zone-type-main' : 'zone-type-utility'}`}
             style={{
                 left: `${posX}%`,
                 top: `${posY}%`,
@@ -36,17 +38,20 @@ export const FloatingZoneTag: React.FC<FloatingZoneTagProps> = ({
             }}
         >
             <button
-                className="floating-zone-tag"
+                className={`floating-zone-tag ${isMain ? 'tag-main' : 'tag-utility'}`}
                 onClick={onClick}
                 title={`Select ${label}`}
                 role="button"
                 tabIndex={0}
             >
                 <span className="floating-zone-label">{label}</span>
-                <span className="floating-zone-arrow">
-                    <ChevronRightIcon size={14} color="#ffffff" />
-                </span>
+                {isMain && (
+                    <span className="floating-zone-arrow">
+                        <ChevronRightIcon size={14} color="#ffffff" />
+                    </span>
+                )}
             </button>
         </div>
     );
 };
+

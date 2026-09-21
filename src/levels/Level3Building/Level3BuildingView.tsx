@@ -1,10 +1,12 @@
 import React from 'react';
-import { CameraView, RegionKey, ScreenPosition, SiteMetric, TimeOfDay } from '../../types';
+import { CameraView, RegionKey, RegionZoneItem, ScreenPosition, SiteMetric, TimeOfDay } from '../../types';
 import { Level3Header } from './Level3Header';
 import { Level3TelemetryCard } from './Level3TelemetryCard';
-import { Level3HallsOverlay } from './Level3HallsOverlay';
+import { HallItem, Level3HallsOverlay } from './Level3HallsOverlay';
 import { TimeOfDaySelector } from '../Level2Region/TimeOfDaySelector';
 import { AdaptiveViewCube } from '../Level2Region/AdaptiveViewCube';
+import { REGION_ZONES } from '../Level2Region/Level2RegionView';
+import { FloatingZoneTag } from '../Level2Region/FloatingZoneTag';
 import './Level3Building.css';
 
 interface Level3BuildingViewProps {
@@ -16,6 +18,8 @@ interface Level3BuildingViewProps {
     onBackToRegion: () => void;
     onSelectTimeOfDay: (time: TimeOfDay) => void;
     onSelectCameraView?: (view: CameraView) => void;
+    onSelectZone?: (zone: RegionZoneItem) => void;
+    onSelectHall?: (hall: HallItem) => void;
 }
 
 export const Level3BuildingView: React.FC<Level3BuildingViewProps> = ({
@@ -25,8 +29,12 @@ export const Level3BuildingView: React.FC<Level3BuildingViewProps> = ({
     screenPositions,
     onBackToRegion,
     onSelectTimeOfDay,
-    onSelectCameraView
+    onSelectCameraView,
+    onSelectZone,
+    onSelectHall
 }) => {
+    const hasLiveTracking = Boolean(screenPositions && Object.keys(screenPositions).length > 0);
+
     return (
         <div className="level3-building-overlay">
             {/* Top-Left: Header with Back to Region button */}
@@ -38,10 +46,26 @@ export const Level3BuildingView: React.FC<Level3BuildingViewProps> = ({
             {/* 3D Floating Hall Tags & Floor Levels */}
             <Level3HallsOverlay
                 screenPositions={screenPositions}
-                onSelectHall={(hall) => {
-                    console.log(`[Level3] Hall clicked: ${hall.title}`);
-                }}
+                onSelectHall={onSelectHall}
             />
+
+            {/* 3D Floating Utility / Exterior Zone Tags (remains visible in Level 3) */}
+            {REGION_ZONES.filter(z => !z.isMain).map((zone) => {
+                const screenPos = screenPositions ? screenPositions[zone.id] : undefined;
+                const isVisible = hasLiveTracking ? Boolean(screenPos && screenPos.visible) : true;
+
+                return (
+                    <FloatingZoneTag
+                        key={zone.id}
+                        label={zone.label}
+                        screenPosition={screenPos}
+                        defaultPosition={zone.defaultPos}
+                        isVisible={isVisible}
+                        isMain={false}
+                        onClick={() => (onSelectZone ? onSelectZone(zone) : undefined)}
+                    />
+                );
+            })}
 
             {/* Bottom-Right: Time of Day + ViewCube */}
             <div className="level3-bottom-right-controls">
@@ -55,3 +79,4 @@ export const Level3BuildingView: React.FC<Level3BuildingViewProps> = ({
         </div>
     );
 };
+

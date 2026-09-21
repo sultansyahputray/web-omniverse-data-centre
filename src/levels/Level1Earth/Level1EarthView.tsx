@@ -37,7 +37,7 @@ export const Level1EarthView: React.FC<Level1EarthViewProps> = ({
             ))}
 
             {/* Bottom-Left Overall Portfolio Total Dashboard */}
-            <PortfolioTotalDashboard totals={totals} />
+            {/* <PortfolioTotalDashboard totals={totals} /> */}
 
             {/* Bottom-Right Subtitle / Branding */}
             <Level1Footer />

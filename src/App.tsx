@@ -305,6 +305,19 @@ export const App: React.FC = () => {
                         onBackToRegion={handleBackToRegion}
                         onSelectTimeOfDay={handleSelectTimeOfDay}
                         onSelectCameraView={handleSelectCameraView}
+                        onSelectZone={(zone) => {
+                            console.log(`[Level3] Zone clicked: ${zone.label} (${zone.primPath})`);
+                            postBackend('select_prim', {
+                                prim_path: zone.primPath
+                            });
+                        }}
+                        onSelectHall={(hall) => {
+                            console.log(`[Level3] Hall clicked: ${hall.title} (${hall.primPath || hall.id})`);
+                            const primPath = hall.primPath || `/World/region/example_building/${hall.id}`;
+                            postBackend('select_prim', {
+                                prim_path: primPath
+                            });
+                        }}
                     />
                 )}
             </div>

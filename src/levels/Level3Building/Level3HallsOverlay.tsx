@@ -2,68 +2,56 @@ import React from 'react';
 import { ScreenPosition } from '../../types';
 import { ChevronRightIcon } from '../../Icons';
 
-interface HallItem {
+export interface HallItem {
     id: string;
     title: string;
     subtitle?: string;
     defaultPos: { x: number; y: number };
     type?: 'hall' | 'noc' | 'utility';
+    primPath?: string;
 }
 
-const LEVEL3_HALLS: HallItem[] = [
+export const LEVEL3_HALLS: HallItem[] = [
     {
         id: 'hall_l1_a',
         title: 'Hall L1-A',
         subtitle: '',
         defaultPos: { x: 38, y: 38 },
-        type: 'hall'
+        type: 'hall',
+        primPath: '/World/region/example_building/hall_l1_a'
     },
     {
         id: 'hall_l1_b',
         title: 'Hall L1-B',
         subtitle: '',
         defaultPos: { x: 62, y: 38 },
-        type: 'hall'
+        type: 'hall',
+        primPath: '/World/region/example_building/hall_l1_b'
     },
     {
         id: 'hall_g_a',
         title: 'Hall G-A',
         subtitle: '',
         defaultPos: { x: 38, y: 55 },
-        type: 'hall'
+        type: 'hall',
+        primPath: '/World/region/example_building/hall_g_a'
     },
     {
         id: 'hall_g_b',
         title: 'Hall G-B',
         subtitle: '',
         defaultPos: { x: 62, y: 55 },
-        type: 'hall'
+        type: 'hall',
+        primPath: '/World/region/example_building/hall_g_b'
     },
     {
         id: 'noc',
         title: 'NOC',
         subtitle: '',
         defaultPos: { x: 82, y: 55 },
-        type: 'noc'
-    },
-    // {
-    //     id: 'power_blocks',
-    //     title: '4 Power Blocks',
-    //     defaultPos: { x: 34, y: 78 },
-    //     type: 'utility'
-    // },
-    // {
-    //     id: 'liquid_cooling',
-    //     title: '4 Liquid Cooling Blocks',
-    //     defaultPos: { x: 62, y: 78 },
-    //     type: 'utility'
-    // },
-    // {
-    //     id: 'heat_rejection',
-    //     title: 'Heat Rejection',
-    //     defaultPos: { x: 84, y: 78 },
-    //     type: 'utility'
-    // }
+        type: 'noc',
+        primPath: '/World/region/example_building/noc'
+    }
 ];
 
 interface Level3HallsOverlayProps {
@@ -84,6 +72,7 @@ export const Level3HallsOverlay: React.FC<Level3HallsOverlayProps> = ({
                 const posX = screenPos ? screenPos.x : hall.defaultPos.x;
                 const posY = screenPos ? screenPos.y : hall.defaultPos.y;
                 const isVisible = screenPos !== undefined ? screenPos.visible : true;
+                const isNoc = hall.type === 'noc';
 
                 return (
                     <div
@@ -105,9 +94,11 @@ export const Level3HallsOverlay: React.FC<Level3HallsOverlayProps> = ({
                             <div className="floating-hall-content">
                                 <div className="floating-hall-title-row">
                                     <span className="floating-hall-title">{hall.title}</span>
-                                    <span className="floating-hall-arrow">
-                                        <ChevronRightIcon size={13} color="#ffffff" />
-                                    </span>
+                                    {!isNoc && (
+                                        <span className="floating-hall-arrow">
+                                            <ChevronRightIcon size={13} color="#ffffff" />
+                                        </span>
+                                    )}
                                 </div>
                                 {hall.subtitle && (
                                     <span className="floating-hall-subtitle">{hall.subtitle}</span>
