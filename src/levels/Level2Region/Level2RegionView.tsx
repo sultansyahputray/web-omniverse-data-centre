@@ -1,11 +1,62 @@
 import React from 'react';
-import { CameraView, RegionKey, ScreenPosition, SiteMetric, TimeOfDay } from '../../types';
+import { CameraView, RegionKey, RegionZoneItem, ScreenPosition, SiteMetric, TimeOfDay } from '../../types';
 import { RegionHeader } from './RegionHeader';
 import { TimeOfDaySelector } from './TimeOfDaySelector';
 import { AdaptiveViewCube } from './AdaptiveViewCube';
 import { RegionFacilityCard } from './RegionFacilityCard';
 import { FloatingZoneTag } from './FloatingZoneTag';
 import './Level2Region.css';
+
+export const REGION_ZONES: RegionZoneItem[] = [
+    {
+        id: 'example_building',
+        label: 'Main Building',
+        primPath: '/World/region/example_building',
+        defaultPos: { x: 54, y: 38 }
+    },
+    {
+        id: 'power_station',
+        label: 'Power Service Zone',
+        primPath: '/World/region/power_station',
+        defaultPos: { x: 30, y: 56 }
+    },
+    {
+        id: 'generator_yard',
+        label: 'Generator Yard',
+        primPath: '/World/region/generator_yard',
+        defaultPos: { x: 42, y: 64 }
+    },
+    {
+        id: 'fuel_compound',
+        label: 'Fuel Compound',
+        primPath: '/World/region/fuel_compound',
+        defaultPos: { x: 50, y: 70 }
+    },
+    {
+        id: 'chiller_yard',
+        label: 'Chiller Yard',
+        primPath: '/World/region/chiller_yard',
+        defaultPos: { x: 64, y: 62 }
+    },
+    {
+        id: 'cooling_station',
+        label: 'Cooling Service Zone',
+        primPath: '/World/region/cooling_station',
+        defaultPos: { x: 75, y: 55 }
+    },
+    {
+        id: 'fire_water_unit',
+        label: 'Fire Brigade',
+        primPath: '/World/region/fire_water_unit',
+        defaultPos: { x: 82, y: 65 }
+    },
+    {
+        id: 'operation_office',
+        label: 'Operation Office',
+        primPath: '/World/region/operation_office',
+        defaultPos: { x: 66, y: 74 }
+    }
+];
 
 interface Level2RegionViewProps {
     activeRegion: RegionKey;
@@ -16,7 +67,7 @@ interface Level2RegionViewProps {
     onBackToGlobal: () => void;
     onSelectTimeOfDay: (time: TimeOfDay) => void;
     onSelectCameraView?: (view: CameraView) => void;
-    onSelectZone?: (zoneName: string) => void;
+    onSelectZone?: (zone: RegionZoneItem) => void;
 }
 
 export const Level2RegionView: React.FC<Level2RegionViewProps> = ({
@@ -31,9 +82,6 @@ export const Level2RegionView: React.FC<Level2RegionViewProps> = ({
     onSelectZone
 }) => {
     const focusTitle = regionMetric?.title ? `${regionMetric.title}` : `${activeRegion} DATA CENTRE`;
-    const buildingScreenPos = screenPositions
-        ? (screenPositions['example_building'] || screenPositions['main_building'])
-        : undefined;
 
     return (
         <div className="level2-region-overlay">
@@ -49,13 +97,19 @@ export const Level2RegionView: React.FC<Level2RegionViewProps> = ({
                 pue="1.30"
             />
 
-            {/* Floating 3D Zone Tag above example_building */}
-            <FloatingZoneTag
-                label="Main Building"
-                screenPosition={buildingScreenPos}
-                defaultPosition={{ x: 54, y: 38 }}
-                onClick={() => (onSelectZone ? onSelectZone('Main Building') : undefined)}
-            />
+            {/* 8 Floating 3D Zone Tags across Region */}
+            {REGION_ZONES.map((zone) => {
+                const screenPos = screenPositions ? screenPositions[zone.id] : undefined;
+                return (
+                    <FloatingZoneTag
+                        key={zone.id}
+                        label={zone.label}
+                        screenPosition={screenPos}
+                        defaultPosition={zone.defaultPos}
+                        onClick={() => (onSelectZone ? onSelectZone(zone) : undefined)}
+                    />
+                );
+            })}
 
             {/* Bottom-Right Controls: Time-of-Day Dropdown (Top) + 3D Dice ViewCube (Bottom) */}
             <div className="level2-bottom-right-controls">

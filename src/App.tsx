@@ -266,10 +266,10 @@ export const App: React.FC = () => {
                         onBackToGlobal={handleBackToGlobal}
                         onSelectTimeOfDay={handleSelectTimeOfDay}
                         onSelectCameraView={handleSelectCameraView}
-                        onSelectZone={(zoneName) => {
-                            console.log(`[Level2] Zone clicked: ${zoneName}`);
+                        onSelectZone={(zone) => {
+                            console.log(`[Level2] Zone clicked: ${zone.label} (${zone.primPath})`);
                             postBackend('select_prim', {
-                                prim_path: '/World/region/example_building'
+                                prim_path: zone.primPath
                             });
                         }}
                     />

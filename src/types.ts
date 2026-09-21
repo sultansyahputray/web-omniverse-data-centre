@@ -42,3 +42,10 @@ export interface BackendStatus {
     screen_positions?: Record<string, ScreenPosition>;
     status?: string;
 }
+
+export interface RegionZoneItem {
+    id: string;
+    label: string;
+    primPath: string;
+    defaultPos: { x: number; y: number };
+}
