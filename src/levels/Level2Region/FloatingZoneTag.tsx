@@ -6,6 +6,7 @@ interface FloatingZoneTagProps {
     label?: string;
     screenPosition?: ScreenPosition;
     defaultPosition?: { x: number; y: number };
+    isVisible?: boolean;
     onClick?: () => void;
 }
 
@@ -13,12 +14,15 @@ export const FloatingZoneTag: React.FC<FloatingZoneTagProps> = ({
     label = 'Main Building',
     screenPosition,
     defaultPosition = { x: 54, y: 38 },
+    isVisible: isVisibleProp,
     onClick
 }) => {
     // If screenPosition is supplied by Omniverse Kit, use it; otherwise use defaultPosition
     const posX = screenPosition ? screenPosition.x : defaultPosition.x;
     const posY = screenPosition ? screenPosition.y : defaultPosition.y;
-    const isVisible = screenPosition ? screenPosition.visible : true;
+    const isVisible = isVisibleProp !== undefined
+        ? isVisibleProp
+        : (screenPosition ? screenPosition.visible : true);
 
     return (
         <div
