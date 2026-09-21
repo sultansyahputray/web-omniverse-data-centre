@@ -14,56 +14,56 @@ const LEVEL3_HALLS: HallItem[] = [
     {
         id: 'hall_l1_a',
         title: 'Hall L1-A',
-        subtitle: '54 COMPUTE + 6 SUPPORT',
+        subtitle: '',
         defaultPos: { x: 38, y: 38 },
         type: 'hall'
     },
     {
         id: 'hall_l1_b',
         title: 'Hall L1-B',
-        subtitle: '54 COMPUTE + 6 SUPPORT',
+        subtitle: '',
         defaultPos: { x: 62, y: 38 },
         type: 'hall'
     },
     {
         id: 'hall_g_a',
         title: 'Hall G-A',
-        subtitle: '54 COMPUTE + 6 SUPPORT',
+        subtitle: '',
         defaultPos: { x: 38, y: 55 },
         type: 'hall'
     },
     {
         id: 'hall_g_b',
         title: 'Hall G-B',
-        subtitle: '54 COMPUTE + 6 SUPPORT',
+        subtitle: '',
         defaultPos: { x: 62, y: 55 },
         type: 'hall'
     },
     {
         id: 'noc',
         title: 'NOC',
-        subtitle: 'COMMAND CENTER',
+        subtitle: '',
         defaultPos: { x: 82, y: 55 },
         type: 'noc'
     },
-    {
-        id: 'power_blocks',
-        title: '4 Power Blocks',
-        defaultPos: { x: 34, y: 78 },
-        type: 'utility'
-    },
-    {
-        id: 'liquid_cooling',
-        title: '4 Liquid Cooling Blocks',
-        defaultPos: { x: 62, y: 78 },
-        type: 'utility'
-    },
-    {
-        id: 'heat_rejection',
-        title: 'Heat Rejection',
-        defaultPos: { x: 84, y: 78 },
-        type: 'utility'
-    }
+    // {
+    //     id: 'power_blocks',
+    //     title: '4 Power Blocks',
+    //     defaultPos: { x: 34, y: 78 },
+    //     type: 'utility'
+    // },
+    // {
+    //     id: 'liquid_cooling',
+    //     title: '4 Liquid Cooling Blocks',
+    //     defaultPos: { x: 62, y: 78 },
+    //     type: 'utility'
+    // },
+    // {
+    //     id: 'heat_rejection',
+    //     title: 'Heat Rejection',
+    //     defaultPos: { x: 84, y: 78 },
+    //     type: 'utility'
+    // }
 ];
 
 interface Level3HallsOverlayProps {
@@ -77,17 +77,6 @@ export const Level3HallsOverlay: React.FC<Level3HallsOverlayProps> = ({
 }) => {
     return (
         <div className="level3-halls-overlay">
-            {/* Left Edge Floor Badges (Level 1, Ground Level) matching reference */}
-            <div className="level3-floor-indicators">
-                <div className="floor-badge level-upper">
-                    <span className="floor-badge-title">LEVEL 1</span>
-                    <span className="floor-badge-sub">HIGH DENSITY</span>
-                </div>
-                <div className="floor-badge ground-level">
-                    <span className="floor-badge-title">GROUND LEVEL</span>
-                    <span className="floor-badge-sub">CORE INFRA</span>
-                </div>
-            </div>
 
             {/* 3D Floating Hall Tags */}
             {LEVEL3_HALLS.map((hall) => {

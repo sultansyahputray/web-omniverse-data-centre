@@ -632,7 +632,7 @@
         linear-gradient(180deg, #0091B0 0%, #0038436B 100%) border-box;
     backdrop-filter: blur(16px);
     -webkit-backdrop-filter: blur(16px);
-    border: 2px solid transparent;
+    border: 1.5px solid #00c0e8;
     border-radius: 12px;
     box-shadow: 0 8px 32px rgba(0, 0, 0, 0.6), 0 0 15px rgba(0, 192, 232, 0.15);
     pointer-events: auto;

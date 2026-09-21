@@ -17,6 +17,7 @@
         opacity: 0;
         transform: scale(0.99);
     }
+
     to {
         opacity: 1;
         transform: scale(1);
@@ -113,18 +114,20 @@
 /* --- LEFT TELEMETRY SIDEBAR --- */
 .level3-telemetry-sidebar {
     position: absolute;
-    top: 140px;
+    top: 160px;
     left: 44px;
     pointer-events: auto;
     z-index: 25;
 }
 
 .level3-telemetry-card {
-    background: rgba(10, 28, 52, 0.85);
+    background:
+        linear-gradient(180deg, #244178 0%, #0E1935 90%) padding-box,
+        linear-gradient(180deg, #0091B0 0%, #0038436B 100%) border-box;
     border: 1.5px solid #00c0e8;
     border-radius: 12px;
     padding: 18px 14px;
-    width: 172px;
+    width: 152px;
     backdrop-filter: blur(14px);
     -webkit-backdrop-filter: blur(14px);
     box-shadow: 0 12px 36px rgba(0, 0, 0, 0.6), 0 0 18px rgba(0, 192, 232, 0.25);
@@ -169,8 +172,8 @@
 .telemetry-pill-blue {
     width: 100%;
     box-sizing: border-box;
-    background: rgba(18, 48, 74, 0.88);
-    border: 1.5px solid #2389a8;
+    background: rgba(46, 99, 122, 0.5);
+    border: 1.5px solid rgba(76, 133, 144, 1);
     border-radius: 8px;
     padding: 7px 10px;
     color: #ffffff;
@@ -179,7 +182,6 @@
     font-weight: 700;
     text-align: center;
     letter-spacing: 0.3px;
-    box-shadow: 0 2px 8px rgba(0, 192, 232, 0.2);
 }
 
 /* --- FLOOR LEVEL INDICATORS (Left edge of building) --- */
