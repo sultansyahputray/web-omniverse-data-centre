@@ -83,7 +83,11 @@ export const Level2RegionView: React.FC<Level2RegionViewProps> = ({
     onSelectZone
 }) => {
     const focusTitle = regionMetric?.title ? `${regionMetric.title}` : `${activeRegion} DATA CENTRE`;
-    const hasLiveTracking = Boolean(screenPositions && Object.keys(screenPositions).length > 0);
+    // Only consider live tracking active if screenPositions actually contains Region zone keys.
+    // If it only contains Level 1 Earth keys (SG, AUS, JPN), fallback to showing default positions.
+    const hasRegionTracking = Boolean(
+        screenPositions && REGION_ZONES.some((zone) => zone.id in screenPositions)
+    );
 
     return (
         <div className="level2-region-overlay">
@@ -102,10 +106,10 @@ export const Level2RegionView: React.FC<Level2RegionViewProps> = ({
             {/* 8 Floating 3D Zone Tags across Region with occlusion awareness */}
             {REGION_ZONES.map((zone) => {
                 const screenPos = screenPositions ? screenPositions[zone.id] : undefined;
-                // If live 3D tracking data is arriving from Omniverse Kit:
+                // If live 3D tracking data is arriving for this region from Omniverse Kit:
                 // Strictly respect screenPos.visible (occluded by building / behind camera = hidden).
-                // If backend is not connected yet, show default position for development preview.
-                const isVisible = hasLiveTracking ? Boolean(screenPos && screenPos.visible) : true;
+                // If region coordinates have not arrived yet, keep buttons visible at default positions.
+                const isVisible = hasRegionTracking ? Boolean(screenPos && screenPos.visible) : true;
 
                 return (
                     <FloatingZoneTag

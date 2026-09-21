@@ -119,6 +119,7 @@ export const App: React.FC = () => {
     // Transition from Level 1 -> Level 2 on region card or 3D point click
     const handleSelectRegion = async (key: RegionKey) => {
         lastUserNavRef.current = Date.now();
+        setScreenPositions({});
         setCurrentLevel('region');
         setActiveRegion(key);
         await postBackend('navigate', { level: 'region', region: key });
@@ -127,6 +128,7 @@ export const App: React.FC = () => {
     // Transition back from Level 2 -> Level 1 (Global Earth)
     const handleBackToGlobal = async () => {
         lastUserNavRef.current = Date.now();
+        setScreenPositions({});
         setCurrentLevel('earth');
         await postBackend('navigate', { level: 'earth' });
     };
@@ -148,6 +150,7 @@ export const App: React.FC = () => {
     // Transition from Level 2 -> Level 3 (Building Interior)
     const handleSelectBuilding = async () => {
         lastUserNavRef.current = Date.now();
+        setScreenPositions({});
         setCurrentLevel('building');
         await postBackend('navigate', { level: 'building', region: activeRegion });
     };
@@ -155,6 +158,7 @@ export const App: React.FC = () => {
     // Transition back from Level 3 -> Level 2 (Region Detail)
     const handleBackToRegion = async () => {
         lastUserNavRef.current = Date.now();
+        setScreenPositions({});
         setCurrentLevel('region');
         await postBackend('navigate', { level: 'region', region: activeRegion });
     };
@@ -218,8 +222,14 @@ export const App: React.FC = () => {
                         const incomingPositions = data.screen_positions;
                         if (incomingPositions) {
                             setScreenPositions((prev) => {
+                                const prevKeys = Object.keys(prev);
+                                const incomingKeys = Object.keys(incomingPositions);
+                                // If key sets have different lengths (e.g. Earth vs Region), update immediately
+                                if (prevKeys.length !== incomingKeys.length) {
+                                    return incomingPositions;
+                                }
                                 let hasChanged = false;
-                                for (const key of Object.keys(incomingPositions)) {
+                                for (const key of incomingKeys) {
                                     const prevPos = prev[key];
                                     const newPos = incomingPositions[key];
                                     if (

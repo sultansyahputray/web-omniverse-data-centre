@@ -33,7 +33,10 @@ export const Level3BuildingView: React.FC<Level3BuildingViewProps> = ({
     onSelectZone,
     onSelectHall
 }) => {
-    const hasLiveTracking = Boolean(screenPositions && Object.keys(screenPositions).length > 0);
+    // Only consider live tracking active if screenPositions contains Region/Building zone keys
+    const hasBuildingTracking = Boolean(
+        screenPositions && REGION_ZONES.some((zone) => zone.id in screenPositions)
+    );
 
     return (
         <div className="level3-building-overlay">
@@ -52,7 +55,7 @@ export const Level3BuildingView: React.FC<Level3BuildingViewProps> = ({
             {/* 3D Floating Utility / Exterior Zone Tags (remains visible in Level 3) */}
             {REGION_ZONES.filter(z => !z.isMain).map((zone) => {
                 const screenPos = screenPositions ? screenPositions[zone.id] : undefined;
-                const isVisible = hasLiveTracking ? Boolean(screenPos && screenPos.visible) : true;
+                const isVisible = hasBuildingTracking ? Boolean(screenPos && screenPos.visible) : true;
 
                 return (
                     <FloatingZoneTag
