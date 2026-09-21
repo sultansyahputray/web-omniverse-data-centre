@@ -157,7 +157,8 @@ export const App: React.FC = () => {
 
             for (const port of portsToTry) {
                 try {
-                    const res = await fetch(`http://localhost:${port}/api/status`);
+                    const aspect = (window.innerWidth / Math.max(window.innerHeight, 1)).toFixed(4);
+                    const res = await fetch(`http://localhost:${port}/api/status?aspect=${aspect}`);
                     if (res.ok && isMounted) {
                         activePortRef.current = port;
                         const data: BackendStatus = await res.json();
