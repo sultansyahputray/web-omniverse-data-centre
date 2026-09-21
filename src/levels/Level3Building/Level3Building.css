@@ -1,0 +1,343 @@
+/* =========================================================================
+   LEVEL 3 BUILDING INTERIOR STYLES
+   Cyberpunk / Industrial Sci-Fi Data Centre Interior Aesthetics
+   ========================================================================= */
+
+.level3-building-overlay {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    z-index: 20;
+    display: block;
+    animation: level3FadeIn 0.35s ease forwards;
+}
+
+@keyframes level3FadeIn {
+    from {
+        opacity: 0;
+        transform: scale(0.99);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+/* --- TOP-LEFT HEADER --- */
+.level3-header-container {
+    position: absolute;
+    top: 36px;
+    left: 44px;
+    pointer-events: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.back-to-region-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(10, 25, 47, 0.7);
+    border: 1px solid rgba(0, 229, 255, 0.35);
+    border-radius: 6px;
+    padding: 7px 14px;
+    color: #00E5FF;
+    font-family: 'Inter', system-ui, sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    cursor: pointer;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+    width: fit-content;
+    outline: none;
+}
+
+.back-to-region-btn:hover {
+    background: rgba(0, 229, 255, 0.18);
+    border-color: #00E5FF;
+    color: #ffffff;
+    box-shadow: 0 0 16px rgba(0, 229, 255, 0.4);
+    transform: translateX(-3px);
+}
+
+.level3-title-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.level3-accent-bar {
+    width: 4px;
+    height: 24px;
+    background: linear-gradient(180deg, #00E5FF 0%, #007799 100%);
+    border-radius: 2px;
+    box-shadow: 0 0 10px rgba(0, 229, 255, 0.8);
+}
+
+.level3-main-title {
+    font-family: 'Inter', system-ui, sans-serif;
+    font-size: 26px;
+    font-weight: 900;
+    color: #ffffff;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    text-shadow: 0 0 20px rgba(0, 229, 255, 0.4);
+    margin: 0;
+}
+
+.level3-badge {
+    background: rgba(0, 229, 255, 0.15);
+    border: 1px solid #00E5FF;
+    border-radius: 4px;
+    padding: 3px 8px;
+    font-size: 10px;
+    font-weight: 800;
+    color: #00E5FF;
+    letter-spacing: 1px;
+    box-shadow: 0 0 10px rgba(0, 229, 255, 0.25);
+}
+
+.level3-subtitle {
+    font-family: 'Inter', system-ui, sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    color: #7dd3fc;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    margin-left: 16px;
+}
+
+/* --- LEFT TELEMETRY SIDEBAR --- */
+.level3-telemetry-sidebar {
+    position: absolute;
+    top: 140px;
+    left: 44px;
+    pointer-events: auto;
+    z-index: 25;
+}
+
+.level3-telemetry-card {
+    background: rgba(10, 25, 47, 0.75);
+    border: 1px solid rgba(0, 229, 255, 0.3);
+    border-radius: 12px;
+    padding: 14px 16px;
+    width: 140px;
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    box-shadow: 0 12px 36px rgba(0, 0, 0, 0.6), 0 0 20px rgba(0, 229, 255, 0.12);
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.level3-telemetry-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+}
+
+.telemetry-item-label {
+    font-family: 'Inter', system-ui, sans-serif;
+    font-size: 10px;
+    font-weight: 700;
+    color: #cbd5e1;
+    letter-spacing: 0.5px;
+    text-align: center;
+}
+
+.telemetry-gauge-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.telemetry-gauge-text {
+    position: absolute;
+    font-size: 11px;
+    font-weight: 800;
+    color: #ffffff;
+    letter-spacing: 0.2px;
+}
+
+.telemetry-divider {
+    height: 1px;
+    background: rgba(255, 255, 255, 0.08);
+    width: 100%;
+}
+
+.level3-stats-block {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2px;
+}
+
+.stat-label {
+    font-size: 9px;
+    font-weight: 700;
+    color: #94a3b8;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.stat-value {
+    font-size: 15px;
+    font-weight: 900;
+    letter-spacing: 0.5px;
+}
+
+.highlight-cyan {
+    color: #00E5FF;
+    text-shadow: 0 0 8px rgba(0, 229, 255, 0.4);
+}
+
+.highlight-green {
+    color: #00FFA3;
+    text-shadow: 0 0 8px rgba(0, 255, 163, 0.4);
+}
+
+/* --- FLOOR LEVEL INDICATORS (Left edge of building) --- */
+.level3-floor-indicators {
+    position: absolute;
+    left: 20%;
+    top: 36%;
+    display: flex;
+    flex-direction: column;
+    gap: 68px;
+    pointer-events: none;
+    z-index: 22;
+}
+
+.floor-badge {
+    background: rgba(10, 25, 47, 0.85);
+    border: 1.5px solid rgba(0, 229, 255, 0.4);
+    border-radius: 6px;
+    padding: 6px 12px;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.6), 0 0 12px rgba(0, 229, 255, 0.2);
+    backdrop-filter: blur(8px);
+}
+
+.floor-badge-title {
+    font-size: 12px;
+    font-weight: 900;
+    color: #ffffff;
+    letter-spacing: 1px;
+}
+
+.floor-badge-sub {
+    font-size: 8px;
+    font-weight: 800;
+    color: #00E5FF;
+    letter-spacing: 0.8px;
+}
+
+/* --- 3D FLOATING HALL TAGS --- */
+.floating-hall-container {
+    position: absolute;
+    transform: translate(-50%, -50%);
+    pointer-events: auto;
+    z-index: 30;
+    transition: left 0.08s linear, top 0.08s linear, opacity 0.25s ease;
+    will-change: left, top;
+}
+
+.floating-hall-button {
+    background: linear-gradient(180deg, #1C7C96 0%, #155567 100%);
+    border: 2px solid #00E5FF;
+    border-radius: 14px;
+    padding: 5px 14px;
+    cursor: pointer;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.6), 0 0 14px rgba(0, 229, 255, 0.45);
+    transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+    outline: none;
+    user-select: none;
+}
+
+.floating-hall-button:hover {
+    background: linear-gradient(180deg, #00C8E5 0%, #177085 100%);
+    border-color: #ffffff;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.7), 0 0 22px rgba(0, 229, 255, 0.75);
+    transform: scale(1.05);
+}
+
+.floating-hall-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1px;
+}
+
+.floating-hall-title-row {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.floating-hall-title {
+    font-family: 'Inter', system-ui, sans-serif;
+    font-size: 12px;
+    font-weight: 800;
+    color: #ffffff;
+    white-space: nowrap;
+    letter-spacing: 0.5px;
+}
+
+.floating-hall-arrow {
+    display: flex;
+    align-items: center;
+    transition: transform 0.15s ease;
+}
+
+.floating-hall-button:hover .floating-hall-arrow {
+    transform: translateX(3px);
+}
+
+.floating-hall-subtitle {
+    font-family: 'Inter', system-ui, sans-serif;
+    font-size: 8px;
+    font-weight: 700;
+    color: #bbf7d0;
+    white-space: nowrap;
+    letter-spacing: 0.6px;
+}
+
+/* Hall variants */
+.hall-type-noc .floating-hall-button {
+    background: linear-gradient(180deg, #184F78 0%, #0E3452 100%);
+    border-color: #38BDF8;
+    border-radius: 10px;
+    padding: 8px 16px;
+}
+
+.hall-type-utility .floating-hall-button {
+    background: linear-gradient(180deg, #0F3752 0%, #092234 100%);
+    border-color: #0284C7;
+    border-radius: 8px;
+    padding: 4px 10px;
+}
+
+.hall-type-utility .floating-hall-title {
+    font-size: 10.5px;
+    font-weight: 700;
+    color: #e0f2fe;
+}
+
+/* --- BOTTOM RIGHT CONTROLS --- */
+.level3-bottom-right-controls {
+    position: absolute;
+    bottom: 30px;
+    right: 44px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 14px;
+    z-index: 25;
+    pointer-events: auto;
+}

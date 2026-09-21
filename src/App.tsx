@@ -12,6 +12,7 @@ import {
 import { WebRTCViewerContainer } from './WebRTCViewerContainer';
 import { Level1EarthView } from './levels/Level1Earth/Level1EarthView';
 import { Level2RegionView } from './levels/Level2Region/Level2RegionView';
+import { Level3BuildingView } from './levels/Level3Building/Level3BuildingView';
 import './GlobalDashboard.css';
 
 const INITIAL_METRICS: SiteMetric[] = [
@@ -137,11 +138,25 @@ export const App: React.FC = () => {
         await postBackend('set-time-of-day', { time });
     };
 
-    // Change Level 2 3D ViewCube camera angle (front, back, right, left, top, iso)
+    // Change Level 2 / 3 3D ViewCube camera angle (front, back, right, left, top, iso)
     const handleSelectCameraView = async (view: CameraView) => {
         lastUserCamRef.current = Date.now();
         setCameraView(view);
         await postBackend('set-camera-view', { view });
+    };
+
+    // Transition from Level 2 -> Level 3 (Building Interior)
+    const handleSelectBuilding = async () => {
+        lastUserNavRef.current = Date.now();
+        setCurrentLevel('building');
+        await postBackend('navigate', { level: 'building', region: activeRegion });
+    };
+
+    // Transition back from Level 3 -> Level 2 (Region Detail)
+    const handleBackToRegion = async () => {
+        lastUserNavRef.current = Date.now();
+        setCurrentLevel('region');
+        await postBackend('navigate', { level: 'region', region: activeRegion });
     };
 
     // Poll backend status to dynamically track 3D coordinates & sync level/selection
@@ -249,7 +264,7 @@ export const App: React.FC = () => {
 
             {/* 3. Level View Layer */}
             <div className="ui-overlay-container">
-                {currentLevel === 'earth' ? (
+                {currentLevel === 'earth' && (
                     <Level1EarthView
                         metrics={metrics}
                         totals={totals}
@@ -257,7 +272,8 @@ export const App: React.FC = () => {
                         screenPositions={screenPositions}
                         onSelectRegion={handleSelectRegion}
                     />
-                ) : (
+                )}
+                {currentLevel === 'region' && (
                     <Level2RegionView
                         activeRegion={activeRegion}
                         regionMetric={currentRegionMetric}
@@ -269,10 +285,26 @@ export const App: React.FC = () => {
                         onSelectCameraView={handleSelectCameraView}
                         onSelectZone={(zone) => {
                             console.log(`[Level2] Zone clicked: ${zone.label} (${zone.primPath})`);
-                            postBackend('select_prim', {
-                                prim_path: zone.primPath
-                            });
+                            if (zone.id === 'example_building') {
+                                handleSelectBuilding();
+                            } else {
+                                postBackend('select_prim', {
+                                    prim_path: zone.primPath
+                                });
+                            }
                         }}
+                    />
+                )}
+                {currentLevel === 'building' && (
+                    <Level3BuildingView
+                        activeRegion={activeRegion}
+                        regionMetric={currentRegionMetric}
+                        timeOfDay={timeOfDay}
+                        cameraView={cameraView}
+                        screenPositions={screenPositions}
+                        onBackToRegion={handleBackToRegion}
+                        onSelectTimeOfDay={handleSelectTimeOfDay}
+                        onSelectCameraView={handleSelectCameraView}
                     />
                 )}
             </div>

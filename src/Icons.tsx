@@ -145,6 +145,13 @@ export const ChevronRightIcon: React.FC<{ size?: number; color?: string }> = ({ 
     </svg>
 );
 
+// Chevron Left Arrow
+export const ChevronLeftIcon: React.FC<{ size?: number; color?: string }> = ({ size = 16, color = '#5e829d' }) => (
+    <svg width={size} height={size} viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M15 18l-6-6 6-6" stroke={color} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+    </svg>
+);
+
 // Chevron Down Arrow for Dropdowns
 export const ChevronDownIcon: React.FC<{ size?: number; color?: string }> = ({ size = 16, color = '#5e829d' }) => (
     <svg width={size} height={size} viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">

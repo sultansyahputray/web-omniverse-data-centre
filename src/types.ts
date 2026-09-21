@@ -1,4 +1,4 @@
-export type AppLevel = 'earth' | 'region';
+export type AppLevel = 'earth' | 'region' | 'building';
 export type TimeOfDay = 'pagi' | 'sore' | 'malam';
 export type RegionKey = 'SG' | 'AUS' | 'JPN';
 export type CameraView = 'iso' | 'front' | 'back' | 'right' | 'left' | 'top';
