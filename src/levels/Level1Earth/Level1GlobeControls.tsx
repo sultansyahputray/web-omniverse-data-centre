@@ -71,12 +71,12 @@ export const Level1GlobeControls: React.FC<Level1GlobeControlsProps> = ({
                 <div className="globe-dock-header">
                     <span className="dock-status-dot" />
                     <span className="dock-title">EARTH ORBIT</span>
-                    <span className="dock-badge">23.44° AXIAL LOCK</span>
+                    {/* <span className="dock-badge">23.44° AXIAL LOCK</span> */}
                 </div>
 
                 <div className="globe-dock-buttons">
                     {/* Rotate Left in Dock */}
-                    <button
+                    {/* <button
                         type="button"
                         className="globe-dock-btn"
                         onClick={() => onRotate('left')}
@@ -88,10 +88,10 @@ export const Level1GlobeControls: React.FC<Level1GlobeControlsProps> = ({
                             <path d="M3 3v5h5" />
                         </svg>
                         <span>WEST</span>
-                    </button>
+                    </button> */}
 
                     {/* Rotate Right in Dock */}
-                    <button
+                    {/* <button
                         type="button"
                         className="globe-dock-btn"
                         onClick={() => onRotate('right')}
@@ -103,7 +103,7 @@ export const Level1GlobeControls: React.FC<Level1GlobeControlsProps> = ({
                             <path d="M21 3v5h-5" />
                         </svg>
                         <span>EAST</span>
-                    </button>
+                    </button> */}
 
                     {/* Zoom In */}
                     <button
@@ -117,7 +117,7 @@ export const Level1GlobeControls: React.FC<Level1GlobeControlsProps> = ({
                             <line x1="12" y1="5" x2="12" y2="19" />
                             <line x1="5" y1="12" x2="19" y2="12" />
                         </svg>
-                        <span>ZOOM +</span>
+                        <span>ZOOM IN</span>
                     </button>
 
                     {/* Zoom Out */}
@@ -131,7 +131,7 @@ export const Level1GlobeControls: React.FC<Level1GlobeControlsProps> = ({
                         <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round">
                             <line x1="5" y1="12" x2="19" y2="12" />
                         </svg>
-                        <span>ZOOM −</span>
+                        <span>ZOOM OUT</span>
                     </button>
 
                     {/* Reset Camera to Singapore */}
@@ -143,14 +143,6 @@ export const Level1GlobeControls: React.FC<Level1GlobeControlsProps> = ({
                             title="Reset View to Singapore / SEA Hub"
                             aria-label="Reset View"
                         >
-                            <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                                <circle cx="12" cy="12" r="9" />
-                                <line x1="12" y1="3" x2="12" y2="6" />
-                                <line x1="12" y1="18" x2="12" y2="21" />
-                                <line x1="3" y1="12" x2="6" y2="12" />
-                                <line x1="18" y1="12" x2="21" y2="12" />
-                                <circle cx="12" cy="12" r="2" fill="currentColor" />
-                            </svg>
                             <span>RESET</span>
                         </button>
                     )}
