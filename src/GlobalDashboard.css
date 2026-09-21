@@ -88,6 +88,20 @@ body,
     /* Let 3D viewport receive clicks except on cards */
 }
 
+.level1-earth-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: auto;
+    cursor: grab;
+}
+
+.level1-earth-overlay:active {
+    cursor: grabbing;
+}
+
 /* --- TOP HEADER (Image 2) --- */
 .global-header {
     position: absolute;

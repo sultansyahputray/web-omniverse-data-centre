@@ -257,7 +257,11 @@ export const App: React.FC = () => {
     return (
         <div className="dashboard-viewport">
             {/* 1. Fullscreen Omniverse WebRTC Stream Background */}
-            <WebRTCViewerContainer server="127.0.0.1" signalingPort={49100} />
+            <WebRTCViewerContainer
+                server="127.0.0.1"
+                signalingPort={49100}
+                isInteractive={currentLevel !== 'earth'}
+            />
 
             {/* 2. Vignette Depth Overlay */}
             <div className="vignette-overlay" />
@@ -271,6 +275,9 @@ export const App: React.FC = () => {
                         activePoint={null}
                         screenPositions={screenPositions}
                         onSelectRegion={handleSelectRegion}
+                        onRotateEarth={(dir) => postBackend('earth-rotate', { direction: dir, step_deg: 18.0 })}
+                        onZoomEarth={(act) => postBackend('earth-zoom', { action: act, step_factor: 0.15 })}
+                        onResetEarth={() => postBackend('navigate', { level: 'earth' })}
                     />
                 )}
                 {currentLevel === 'region' && (

@@ -4,16 +4,21 @@ import AppStream from './AppStream';
 interface WebRTCViewerContainerProps {
     server?: string;
     signalingPort?: number;
+    isInteractive?: boolean;
     onStreamStarted?: () => void;
 }
 
 export const WebRTCViewerContainer: React.FC<WebRTCViewerContainerProps> = ({
     server = '127.0.0.1',
     signalingPort = 49100,
+    isInteractive = true,
     onStreamStarted
 }) => {
     return (
-        <div className="stream-background-container">
+        <div
+            className="stream-background-container"
+            style={{ pointerEvents: isInteractive ? 'auto' : 'none' }}
+        >
             <AppStream
                 sessionId=""
                 backendUrl=""

@@ -1,0 +1,212 @@
+/* =========================================================================
+   LEVEL 1 GLOBE CONTROLS - LUXURY CYBER-GLASS STYLES
+   ========================================================================= */
+
+.globe-controls-layer {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 25;
+}
+
+/* --- FLOATING SPIN ARROW BUTTONS (LEFT & RIGHT) --- */
+.globe-spin-arrow {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    pointer-events: auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 48px;
+    height: 48px;
+    background: rgba(6, 17, 30, 0.85);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid rgba(0, 195, 255, 0.4);
+    border-radius: 50%;
+    color: #00f0ff;
+    cursor: pointer;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.6), 0 0 16px rgba(0, 210, 255, 0.18);
+    transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+    outline: none;
+    user-select: none;
+}
+
+.globe-spin-arrow-left {
+    left: 36px;
+}
+
+.globe-spin-arrow-right {
+    right: 36px;
+}
+
+.globe-spin-arrow:hover {
+    background: rgba(8, 26, 48, 0.95);
+    border-color: #00f0ff;
+    color: #ffffff;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.8), 0 0 24px rgba(0, 240, 255, 0.5);
+    transform: translateY(-50%) scale(1.1);
+}
+
+.globe-spin-arrow-left:hover {
+    transform: translateY(-50%) scale(1.1) translateX(-2px);
+}
+
+.globe-spin-arrow-right:hover {
+    transform: translateY(-50%) scale(1.1) translateX(2px);
+}
+
+.globe-spin-arrow:active {
+    transform: translateY(-50%) scale(0.96);
+}
+
+.spin-arrow-label {
+    font-family: var(--font-heading, 'Outfit', sans-serif);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: #e4f2fc;
+}
+
+.globe-spin-arrow:hover .spin-arrow-label {
+    color: #00f0ff;
+    text-shadow: 0 0 8px rgba(0, 240, 255, 0.6);
+}
+
+/* --- GLASSMORHIC EARTH ORBIT DOCK (BOTTOM-RIGHT) --- */
+.globe-dock-panel {
+    position: absolute;
+    bottom: 52px;
+    right: 44px;
+    pointer-events: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    background: rgba(6, 17, 30, 0.82);
+    backdrop-filter: blur(18px);
+    -webkit-backdrop-filter: blur(18px);
+    border: 1px solid rgba(0, 195, 255, 0.35);
+    border-radius: 14px;
+    padding: 12px 16px;
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.65), 0 0 20px rgba(0, 210, 255, 0.12);
+    animation: dockFadeIn 0.4s ease-out;
+}
+
+@keyframes dockFadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.globe-dock-header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid rgba(0, 195, 255, 0.2);
+}
+
+.dock-status-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background-color: #00f0ff;
+    box-shadow: 0 0 8px #00f0ff;
+    animation: pulseDot 2s infinite;
+}
+
+@keyframes pulseDot {
+    0%, 100% {
+        opacity: 1;
+        transform: scale(1);
+    }
+    50% {
+        opacity: 0.5;
+        transform: scale(0.85);
+    }
+}
+
+.dock-title {
+    font-family: var(--font-heading, 'Outfit', sans-serif);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 1.2px;
+    color: #ffffff;
+}
+
+.dock-badge {
+    margin-left: auto;
+    font-family: var(--font-body, 'Inter', sans-serif);
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 0.8px;
+    padding: 3px 7px;
+    background: rgba(0, 210, 255, 0.15);
+    border: 1px solid rgba(0, 210, 255, 0.4);
+    border-radius: 6px;
+    color: #00f0ff;
+    white-space: nowrap;
+}
+
+.globe-dock-buttons {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.globe-dock-btn {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 14px;
+    background: rgba(14, 30, 52, 0.65);
+    border: 1px solid rgba(0, 195, 255, 0.3);
+    border-radius: 8px;
+    color: #e4f2fc;
+    font-family: var(--font-heading, 'Outfit', sans-serif);
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 1px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    outline: none;
+    user-select: none;
+}
+
+.globe-dock-btn:hover {
+    background: rgba(0, 210, 255, 0.22);
+    border-color: #00f0ff;
+    color: #ffffff;
+    box-shadow: 0 0 12px rgba(0, 240, 255, 0.4);
+    transform: translateY(-1px);
+}
+
+.globe-dock-btn:active {
+    transform: translateY(1px);
+}
+
+.globe-dock-btn-reset {
+    color: #00f0ff;
+    border-color: rgba(0, 210, 255, 0.45);
+}
+
+.globe-dock-btn-reset:hover {
+    background: rgba(0, 210, 255, 0.3);
+    color: #ffffff;
+}
+
+/* Bottom branding offset adjustment when dock is active */
+.level1-earth-overlay .bottom-right-branding {
+    bottom: 20px;
+    right: 44px;
+}
