@@ -1,51 +1,61 @@
 import React from 'react';
 
 interface Level3TelemetryCardProps {
-    facilityDemand?: string;
-    itCapacity?: string;
+    gpuUtilisation?: string | number;
+    facilityLoad?: string;
+    itLoad?: string;
     pue?: string;
-    computeRacks?: string | number;
-    activeGpu?: string | number;
+    coolingLoad?: string;
+    activeAlarm?: string | number;
 }
 
 export const Level3TelemetryCard: React.FC<Level3TelemetryCardProps> = ({
-    facilityDemand = '42.287 MW',
-    itCapacity = '41.328 MW',
-    pue = '1.12',
-    computeRacks = '64',
-    activeGpu = '9,216'
+    gpuUtilisation = '80%',
+    facilityLoad = '46.29 MW',
+    itLoad = '41.33 MW',
+    pue = '1.120',
+    coolingLoad = '41.230 MW',
+    activeAlarm = '10'
 }) => {
     return (
         <aside className="level3-telemetry-sidebar" aria-label="Building Telemetry">
             <div className="level3-telemetry-card">
-                {/* 1. Facility Demand */}
+                {/* 1. GPU Computing Utilisation */}
                 <div className="level3-telemetry-section">
-                    <span className="telemetry-metric-title">Facility Demand</span>
-                    <div className="telemetry-pill-green">{facilityDemand}</div>
+                    <span className="telemetry-metric-title">
+                        GPU Computing<br />Utilisation
+                    </span>
+                    <div className="telemetry-pill-green">{gpuUtilisation}</div>
                 </div>
 
-                {/* 2. IT Capacity */}
+                {/* 2. Facility Load */}
                 <div className="level3-telemetry-section">
-                    <span className="telemetry-metric-title">IT Capacity</span>
-                    <div className="telemetry-pill-green">{itCapacity}</div>
+                    <span className="telemetry-metric-title">Facility Load</span>
+                    <div className="telemetry-pill-green">{facilityLoad}</div>
                 </div>
 
-                {/* 3. PUE */}
+                {/* 3. IT Load */}
+                <div className="level3-telemetry-section">
+                    <span className="telemetry-metric-title">IT Load</span>
+                    <div className="telemetry-pill-green">{itLoad}</div>
+                </div>
+
+                {/* 4. PUE */}
                 <div className="level3-telemetry-section">
                     <span className="telemetry-metric-title">PUE</span>
                     <div className="telemetry-pill-green">{pue}</div>
                 </div>
 
-                {/* 4. Compute Racks */}
+                {/* 5. Cooling Load */}
                 <div className="level3-telemetry-section">
-                    <span className="telemetry-metric-title">Compute Racks</span>
-                    <div className="telemetry-pill-blue">{computeRacks}</div>
+                    <span className="telemetry-metric-title">Cooling Load</span>
+                    <div className="telemetry-pill-green">{coolingLoad}</div>
                 </div>
 
-                {/* 5. Active GPU */}
+                {/* 6. Active Alarm */}
                 <div className="level3-telemetry-section">
-                    <span className="telemetry-metric-title">Active GPU</span>
-                    <div className="telemetry-pill-blue">{activeGpu}</div>
+                    <span className="telemetry-metric-title">Active Alarm</span>
+                    <div className="telemetry-pill-red">{activeAlarm}</div>
                 </div>
             </div>
         </aside>

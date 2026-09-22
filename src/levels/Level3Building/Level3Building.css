@@ -125,31 +125,32 @@
         linear-gradient(180deg, #0091B0 0%, #0038436B 100%) border-box;
     border: 1.5px solid #00c0e8;
     border-radius: 12px;
-    padding: 18px 14px;
-    width: 152px;
+    padding: 14px 12px 16px 12px;
+    width: 146px;
     backdrop-filter: blur(14px);
     -webkit-backdrop-filter: blur(14px);
     box-shadow: 0 12px 36px rgba(0, 0, 0, 0.6), 0 0 18px rgba(0, 192, 232, 0.25);
     display: flex;
     flex-direction: column;
-    gap: 15px;
+    gap: 10px;
 }
 
 .level3-telemetry-section {
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 6px;
+    gap: 4px;
     width: 100%;
 }
 
 .telemetry-metric-title {
     font-family: 'Inter', system-ui, sans-serif;
-    font-size: 13.5px;
-    font-weight: 500;
+    font-size: 12.5px;
+    font-weight: 600;
     color: #ffffff;
-    letter-spacing: 0.2px;
+    letter-spacing: 0.1px;
     text-align: center;
+    line-height: 1.25;
 }
 
 .telemetry-pill-green {
@@ -157,15 +158,31 @@
     box-sizing: border-box;
     background: #23974e;
     border: 1px solid #2ecc71;
-    border-radius: 8px;
-    padding: 7px 10px;
+    border-radius: 6px;
+    padding: 6px 10px;
     color: #ffffff;
     font-family: 'Inter', system-ui, sans-serif;
-    font-size: 15px;
+    font-size: 14.5px;
     font-weight: 700;
     text-align: center;
     letter-spacing: 0.3px;
     box-shadow: 0 2px 8px rgba(35, 151, 78, 0.35);
+}
+
+.telemetry-pill-red {
+    width: 100%;
+    box-sizing: border-box;
+    background: #c22f38;
+    border: 1px solid #ef4444;
+    border-radius: 6px;
+    padding: 6px 10px;
+    color: #ffffff;
+    font-family: 'Inter', system-ui, sans-serif;
+    font-size: 14.5px;
+    font-weight: 700;
+    text-align: center;
+    letter-spacing: 0.3px;
+    box-shadow: 0 2px 8px rgba(194, 47, 56, 0.35);
 }
 
 .telemetry-pill-blue {
@@ -173,11 +190,11 @@
     box-sizing: border-box;
     background: rgba(46, 99, 122, 0.5);
     border: 1.5px solid rgba(76, 133, 144, 1);
-    border-radius: 8px;
-    padding: 7px 10px;
+    border-radius: 6px;
+    padding: 6px 10px;
     color: #ffffff;
     font-family: 'Inter', system-ui, sans-serif;
-    font-size: 15.5px;
+    font-size: 14.5px;
     font-weight: 700;
     text-align: center;
     letter-spacing: 0.3px;
