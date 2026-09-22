@@ -5,6 +5,9 @@ import { Breadcrumb, BreadcrumbItem } from '../../reusable/Breadcrumb';
 import { ChevronLeftIcon } from '../../Icons';
 import { AdaptiveViewCube } from '../Level2Region/AdaptiveViewCube';
 import { HALL_OPTIONS } from '../Level4Hall/Level4Header';
+import { Level5VerticalComputingCard } from './Level5VerticalComputingCard';
+import { Level5PowerCard } from './Level5PowerCard';
+import { Level5CoolingCard } from './Level5CoolingCard';
 import './Level5Row.css';
 
 interface Level5RowViewProps {
@@ -82,13 +85,20 @@ export const Level5RowView: React.FC<Level5RowViewProps> = ({
                 <Breadcrumb items={breadcrumbItems} onItemClick={handleBreadcrumbClick} />
             </div>
 
-            {/* Bottom-Right ViewCube: Dice Rotation */}
-            <div className="level5-bottom-right-viewcube">
-                <AdaptiveViewCube
-                    focusLabel={activeRow.label.toUpperCase()}
-                    currentView={cameraView}
-                    onSelectView={onSelectCameraView || (() => { })}
-                />
+            {/* Component 1: Vertical Computing Utilization Card (Under Header on Left side - Image 2) */}
+            <Level5VerticalComputingCard />
+
+            {/* Bottom-Right Row: Power Card + Cooling Card + AdaptiveViewCube in 1 line (Image 3 + Dice) */}
+            <div className="level5-bottom-row-controls">
+                <Level5PowerCard />
+                <Level5CoolingCard />
+                <div className="level5-viewcube-anchor">
+                    <AdaptiveViewCube
+                        focusLabel={activeRow.label.toUpperCase()}
+                        currentView={cameraView}
+                        onSelectView={onSelectCameraView || (() => { })}
+                    />
+                </div>
             </div>
         </div>
     );
