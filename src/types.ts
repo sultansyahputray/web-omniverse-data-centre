@@ -1,4 +1,5 @@
 export type AppLevel = 'earth' | 'region' | 'building';
+export type BuildingSubView = 'cutaway' | 'power_details' | 'cooling_details';
 export type TimeOfDay = 'pagi' | 'sore' | 'malam';
 export type RegionKey = 'SG' | 'AUS' | 'JPN';
 export type CameraView = 'iso' | 'front' | 'back' | 'right' | 'left' | 'top';

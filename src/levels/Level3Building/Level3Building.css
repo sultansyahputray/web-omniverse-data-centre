@@ -183,6 +183,171 @@
     letter-spacing: 0.3px;
 }
 
+/* --- ELECTRICAL POWER PATH TELEMETRY CARD (Level 3 Detail Mode) --- */
+.power-path-sidebar {
+    position: absolute;
+    top: 155px;
+    left: 44px;
+    pointer-events: auto;
+    z-index: 25;
+    animation: powerPathCardSlideIn 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes powerPathCardSlideIn {
+    from {
+        opacity: 0;
+        transform: translateX(-16px) scale(0.97);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateX(0) scale(1);
+    }
+}
+
+.power-path-card {
+    background:
+        linear-gradient(180deg, #244178 0%, #0E1935E5 95%) padding-box;
+    border: 2px solid #00c0e8;
+    border-radius: 14px;
+    padding: 14px 12px 16px 12px;
+    width: 156px;
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    box-shadow: 0 12px 36px rgba(0, 0, 0, 0.65), 0 0 20px rgba(0, 192, 232, 0.28);
+    display: flex;
+    flex-direction: column;
+    gap: 9px;
+    max-height: calc(100vh - 160px);
+    overflow-y: auto;
+    scrollbar-width: none;
+    /* Hide default scrollbar */
+}
+
+.power-path-card::-webkit-scrollbar {
+    display: none;
+}
+
+.power-path-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    width: 100%;
+}
+
+.power-metric-title {
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    font-size: 13.5px;
+    font-weight: 500;
+    color: #ffffff;
+    letter-spacing: 0.2px;
+    text-align: center;
+    white-space: nowrap;
+}
+
+/* 1. Active Power Gold Pill */
+.power-pill-gold {
+    width: 100%;
+    box-sizing: border-box;
+    background: #FFCC0066;
+    border: 2px solid #FFCC00;
+    border-radius: 8px;
+    padding: 5px 8px;
+    color: #ffffff;
+    font-family: 'Inter', system-ui, sans-serif;
+    font-size: 15px;
+    font-weight: 800;
+    text-align: center;
+    letter-spacing: 0.4px;
+}
+
+/* 2. Active Rack Navy Pill */
+.power-pill-navy {
+    width: 100%;
+    box-sizing: border-box;
+    background: #234d6b;
+    border: 1.5px solid #3c7a9e;
+    border-radius: 8px;
+    padding: 5px 8px;
+    color: #ffffff;
+    font-family: 'Inter', system-ui, sans-serif;
+    font-size: 15px;
+    font-weight: 800;
+    text-align: center;
+    letter-spacing: 0.4px;
+    box-shadow: 0 2px 8px rgba(35, 77, 107, 0.35);
+}
+
+/* 3. Green Telemetry Pills (Voltage, PF, Imbalance, Headroom, Alarm) */
+.power-pill-green {
+    width: 100%;
+    box-sizing: border-box;
+    background: #1b8a43;
+    border: 1.5px solid #2ecc71;
+    border-radius: 8px;
+    padding: 5px 8px;
+    color: #ffffff;
+    font-family: 'Inter', system-ui, sans-serif;
+    font-size: 15px;
+    font-weight: 800;
+    text-align: center;
+    letter-spacing: 0.4px;
+    box-shadow: 0 2px 8px rgba(27, 138, 67, 0.35);
+}
+
+/* 4. Donut Gauge for Avg. PDU Load */
+.power-gauge-section {
+    margin-top: 2px;
+}
+
+.power-gauge-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    padding-top: 2px;
+}
+
+.power-gauge-svg {
+    display: block;
+    overflow: visible;
+}
+
+.power-gauge-track {
+    stroke: #283e58;
+    opacity: 0.95;
+}
+
+.power-gauge-progress {
+    stroke: #eab308;
+    transition: stroke-dashoffset 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+    filter: drop-shadow(0 0 6px rgba(234, 179, 8, 0.5));
+}
+
+.power-gauge-text {
+    fill: #ffffff;
+    font-family: 'Inter', system-ui, sans-serif;
+    font-size: 17px;
+    font-weight: 900;
+    letter-spacing: -0.2px;
+}
+
+/* Cooling Gauge Emerald Progress */
+.cooling-gauge-progress {
+    stroke: #22c55e;
+    transition: stroke-dashoffset 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+    filter: drop-shadow(0 0 8px rgba(34, 197, 94, 0.6));
+}
+
+.cooling-metric-title {
+    font-size: 12.5px;
+    line-height: 1.2;
+    white-space: normal;
+}
+
+
+
 /* --- FLOOR LEVEL INDICATORS (Left edge of building) --- */
 .level3-floor-indicators {
     position: absolute;
@@ -337,4 +502,68 @@
     gap: 14px;
     z-index: 25;
     pointer-events: auto;
+}
+
+/* --- STATIC TOP-RIGHT ACTION BUTTONS (POWER & COOLING DETAILS) --- */
+.level3-top-actions {
+    position: absolute;
+    top: 80px;
+    right: 44px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    pointer-events: auto;
+    z-index: 25;
+}
+
+.level3-detail-pill-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: linear-gradient(180deg, #1C7C96 0%, #155567 100%);
+    border: 2px solid #00E5FF;
+    border-radius: 9999px;
+    padding: 7px 18px;
+    cursor: pointer;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.6), 0 0 14px rgba(0, 229, 255, 0.45);
+    transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+    outline: none;
+    user-select: none;
+}
+
+.level3-detail-pill-btn:hover {
+    background: linear-gradient(180deg, #00C8E5 0%, #177085 100%);
+    border-color: #ffffff;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.7), 0 0 22px rgba(0, 229, 255, 0.75);
+    transform: translateY(-1px) scale(1.04);
+}
+
+.level3-detail-pill-btn:active {
+    transform: translateY(0) scale(0.98);
+}
+
+.level3-detail-pill-btn.active {
+    background: linear-gradient(180deg, #00d2ff 0%, #008ba3 100%);
+    border-color: #ffffff;
+    box-shadow: 0 0 24px rgba(0, 229, 255, 0.9), 0 6px 20px rgba(0, 0, 0, 0.7);
+}
+
+
+.detail-pill-text {
+    font-family: 'Inter', system-ui, sans-serif;
+    font-size: 13.5px;
+    font-weight: 800;
+    color: #ffffff;
+    letter-spacing: 0.4px;
+    white-space: nowrap;
+}
+
+.detail-pill-arrow {
+    display: flex;
+    align-items: center;
+    transition: transform 0.15s ease;
+}
+
+.level3-detail-pill-btn:hover .detail-pill-arrow {
+    transform: translateX(3px);
 }

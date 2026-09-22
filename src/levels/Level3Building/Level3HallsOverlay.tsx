@@ -57,17 +57,23 @@ export const LEVEL3_HALLS: HallItem[] = [
 interface Level3HallsOverlayProps {
     screenPositions?: Record<string, ScreenPosition>;
     onSelectHall?: (hall: HallItem) => void;
+    hideNoc?: boolean;
 }
 
 export const Level3HallsOverlay: React.FC<Level3HallsOverlayProps> = ({
     screenPositions,
-    onSelectHall
+    onSelectHall,
+    hideNoc = false
 }) => {
+    const hallsToRender = hideNoc
+        ? LEVEL3_HALLS.filter((h) => h.type !== 'noc')
+        : LEVEL3_HALLS;
+
     return (
         <div className="level3-halls-overlay">
 
             {/* 3D Floating Hall Tags */}
-            {LEVEL3_HALLS.map((hall) => {
+            {hallsToRender.map((hall) => {
                 const screenPos = screenPositions ? screenPositions[hall.id] : undefined;
                 const posX = screenPos ? screenPos.x : hall.defaultPos.x;
                 const posY = screenPos ? screenPos.y : hall.defaultPos.y;

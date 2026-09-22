@@ -335,6 +335,12 @@ export const App: React.FC = () => {
                                 prim_path: primPath
                             });
                         }}
+                        onPowerDetails={() => {
+                            console.log('[Level3] Electrical Power Path toggled');
+                        }}
+                        onCoolingDetails={() => {
+                            console.log('[Level3] Cooling Details clicked');
+                        }}
                     />
                 )}
             </div>
