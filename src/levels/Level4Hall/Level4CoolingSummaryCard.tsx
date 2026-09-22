@@ -26,6 +26,9 @@ export const Level4CoolingSummaryCard: React.FC<Level4CoolingSummaryCardProps> =
                 <span className="level4-card-title">Cooling Summary</span>
             </div>
 
+            {/* HORIZONTAL DIVIDER */}
+            <div className="title-h-divider"></div>
+
             <div className="level4-summary-content">
                 {/* Left Column: Metric rows with pills */}
                 <div className="level4-summary-metrics-col">

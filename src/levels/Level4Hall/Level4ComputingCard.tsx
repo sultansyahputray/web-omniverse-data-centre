@@ -28,6 +28,9 @@ export const Level4ComputingCard: React.FC<Level4ComputingCardProps> = ({
                 <span className="level4-card-title">Computing Summary</span>
             </div>
 
+            {/* HORIZONTAL DIVIDER */}
+            <div className="title-h-divider"></div>
+
             <div className="level4-computing-gauges-row">
                 {/* 1. Average CPU Utilization */}
                 <div className="computing-gauge-item">
