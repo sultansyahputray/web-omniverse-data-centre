@@ -1,0 +1,143 @@
+/* =========================================================================
+   LEVEL 5 ROW LEVEL STYLES
+   Cyberpunk / Industrial Sci-Fi Data Centre Corridor Aesthetics
+   ========================================================================= */
+
+.level5-row-overlay {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    z-index: 20;
+    display: block;
+    animation: level5FadeIn 0.35s ease forwards;
+}
+
+@keyframes level5FadeIn {
+    from {
+        opacity: 0;
+        transform: scale(0.99);
+    }
+
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+/* --- TOP-LEFT HEADER --- */
+.level5-header-container {
+    position: absolute;
+    top: 36px;
+    left: 44px;
+    pointer-events: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.back-to-hall-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    background: rgba(6, 18, 36, 0.85);
+    border: 1px solid rgba(0, 210, 255, 0.4);
+    border-radius: 6px;
+    padding: 8px 16px;
+    color: #ffffff;
+    font-family: var(--font-heading);
+    font-size: 11.5px;
+    font-weight: 700;
+    letter-spacing: 1.6px;
+    cursor: pointer;
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.5), 0 0 10px rgba(0, 210, 255, 0.15);
+    transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+    width: fit-content;
+}
+
+.back-to-hall-btn:hover {
+    background: rgba(0, 210, 255, 0.15);
+    border-color: #00e5ff;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.6), 0 0 18px rgba(0, 229, 255, 0.4);
+    transform: translateX(-2px);
+}
+
+.level5-title-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.level5-accent-bar {
+    width: 4px;
+    height: 24px;
+    background: linear-gradient(180deg, #00E5FF 0%, #007799 100%);
+    border-radius: 2px;
+    box-shadow: 0 0 10px rgba(0, 229, 255, 0.8);
+}
+
+.level5-main-title {
+    font-family: 'Inter', system-ui, sans-serif;
+    font-size: 26px;
+    font-weight: 900;
+    color: #ffffff;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    text-shadow: 0 0 20px rgba(0, 229, 255, 0.4);
+    margin: 0;
+}
+
+.level5-badge {
+    background: rgba(0, 229, 255, 0.15);
+    border: 1px solid #00E5FF;
+    border-radius: 4px;
+    padding: 3px 8px;
+    font-size: 10px;
+    font-weight: 800;
+    color: #00E5FF;
+    letter-spacing: 1px;
+    box-shadow: 0 0 10px rgba(0, 229, 255, 0.25);
+}
+
+.level5-row-badge {
+    background: rgba(0, 229, 255, 0.2);
+    border: 1px solid #00E5FF;
+    border-radius: 4px;
+    padding: 3px 10px;
+    font-size: 10px;
+    font-weight: 800;
+    color: #ffffff;
+    letter-spacing: 1.2px;
+    box-shadow: 0 0 12px rgba(0, 229, 255, 0.35);
+}
+
+.level5-subtitle {
+    font-family: 'Inter', system-ui, sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    color: #88A2B8;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+}
+
+/* --- TOP-RIGHT BREADCRUMB --- */
+.level5-top-right-breadcrumb {
+    position: absolute;
+    top: 36px;
+    right: 44px;
+    pointer-events: auto;
+    z-index: 30;
+}
+
+/* --- BOTTOM-RIGHT VIEWCUBE ANCHOR --- */
+.level5-bottom-right-viewcube {
+    position: absolute;
+    bottom: 36px;
+    right: 44px;
+    pointer-events: auto;
+    z-index: 30;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}

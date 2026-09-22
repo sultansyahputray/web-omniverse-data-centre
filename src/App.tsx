@@ -14,6 +14,8 @@ import { Level1EarthView } from './levels/Level1Earth/Level1EarthView';
 import { Level2RegionView } from './levels/Level2Region/Level2RegionView';
 import { Level3BuildingView } from './levels/Level3Building/Level3BuildingView';
 import { Level4HallView } from './levels/Level4Hall/Level4HallView';
+import { Level5RowView } from './levels/Level5Row/Level5RowView';
+import { HALL_ROW_ITEMS, HallRowItem } from './levels/Level4Hall/Level4FloatingRows';
 import './GlobalDashboard.css';
 
 const INITIAL_METRICS: SiteMetric[] = [
@@ -60,6 +62,7 @@ export const App: React.FC = () => {
     const [currentLevel, setCurrentLevel] = useState<AppLevel>('earth');
     const [activeRegion, setActiveRegion] = useState<RegionKey>('SG');
     const [activeHall, setActiveHall] = useState<string>('hall_l1_a');
+    const [activeRow, setActiveRow] = useState<HallRowItem>(HALL_ROW_ITEMS[0]);
     const [timeOfDay, setTimeOfDay] = useState<TimeOfDay>('pagi');
     const [cameraView, setCameraView] = useState<CameraView>('iso');
     const [screenPositions, setScreenPositions] = useState<Record<string, ScreenPosition>>({});
@@ -182,6 +185,29 @@ export const App: React.FC = () => {
         await postBackend('navigate', { level: 'building', region: activeRegion });
     };
 
+    // Transition from Level 4 -> Level 5 (Row Level)
+    const handleSelectRow = async (row: HallRowItem) => {
+        lastUserNavRef.current = Date.now();
+        setScreenPositions({});
+        setActiveRow(row);
+        setCurrentLevel('row');
+        await postBackend('navigate', {
+            level: 'row',
+            row_id: row.id,
+            row_num: row.rowNum,
+            hall_id: activeHall,
+            region: activeRegion
+        });
+    };
+
+    // Transition back from Level 5 -> Level 4 (Data Hall)
+    const handleBackToHall = async () => {
+        lastUserNavRef.current = Date.now();
+        setScreenPositions({});
+        setCurrentLevel('hall');
+        await postBackend('navigate', { level: 'hall', hall_id: activeHall, region: activeRegion });
+    };
+
     // Poll backend status to dynamically track 3D coordinates & sync level/selection
     useEffect(() => {
         let isMounted = true;
@@ -226,6 +252,17 @@ export const App: React.FC = () => {
                             data.active_hall !== activeHall
                         ) {
                             setActiveHall(data.active_hall);
+                        }
+
+                        // 2c. Sync active row
+                        if (
+                            Date.now() - lastUserNavRef.current > 2000 &&
+                            data.active_row
+                        ) {
+                            const matchedRow = HALL_ROW_ITEMS.find((r) => r.id === data.active_row);
+                            if (matchedRow && matchedRow.id !== activeRow.id) {
+                                setActiveRow(matchedRow);
+                            }
                         }
 
                         // 3. Sync time of day (protected with user-action timestamp to prevent reverts)
@@ -384,6 +421,18 @@ export const App: React.FC = () => {
                         screenPositions={screenPositions}
                         onBackToBuilding={handleBackToBuilding}
                         onSelectHall={handleEnterHall}
+                        onSelectRow={handleSelectRow}
+                        onSelectCameraView={handleSelectCameraView}
+                    />
+                )}
+                {currentLevel === 'row' && activeRow && (
+                    <Level5RowView
+                        activeRegion={activeRegion}
+                        activeHallId={activeHall}
+                        activeRow={activeRow}
+                        regionMetric={currentRegionMetric}
+                        cameraView={cameraView}
+                        onBackToHall={handleBackToHall}
                         onSelectCameraView={handleSelectCameraView}
                     />
                 )}
