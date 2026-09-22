@@ -1,0 +1,201 @@
+/* --- Breadcrumb --- */
+
+.breadcrumb-container {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    background: linear-gradient(0deg, #013B61 0%, #2A626E 100%);
+    border: 1px solid #00C3D0;
+    border-radius: 3px;
+    padding: 8px 12px;
+    width: fit-content;
+    gap: 0px 4px;
+}
+
+.breadcrumb-previous-level {
+    background-color: transparent;
+    border-width: 0px;
+    color: #FFFFFF;
+    font-weight: 400;
+}
+
+.breadcrumb-current-level {
+    background-color: transparent;
+    border-width: 0px;
+    color: #FFFFFF;
+    font-weight: 700;
+}
+
+.breadcrumb-previous-level:hover,
+.breadcrumb-current-level:hover {
+    /* TBA */
+}
+
+/* --- Button Bar - With Status --- */
+
+.button-bar-with-status-container {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    border: 1px solid #00C3D0;
+    border-radius: 15px;
+    width: fit-content;
+    padding: 8px 12px;
+}
+
+.button-bar-item {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    background-color: transparent;
+    border-width: 0px;
+    color: #FFFFFF;
+    font-weight: 400;
+    border-radius: 15px;
+    padding: 8px 20px;
+    gap: 0px 8px;
+}
+
+.button-bar-item.active {
+    background-color: #00C3D0;
+    border-width: 0px;
+    color: #FFFFFF;
+    font-weight: 700;
+}
+
+.button-bar-status-container {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    width: fit-content;
+    gap: 0px 4px;
+}
+
+.button-bar-status-item {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 2px solid #FFFFFF;
+    border-radius: 16px;
+    padding: 4px 6px;
+    color: #FFFFFF;
+    font-weight: 400;
+    font-size: 12px;
+}
+
+/* --- Dropdown --- */
+.dropdown-container {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    width: fit-content;
+    gap: 0px 8px;
+}
+
+/* --- Button - Navigation --- */
+.navigation-button-container {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    width: fit-content;
+    gap: 0px 8px;
+    background: linear-gradient(180deg, #318FA2 0%, #2A626E 115.38%);
+    border: 1px solid #00C3D0;
+    color: #FFFFFF;
+    padding: 4px 8px;
+    border-radius: 16px;
+}
+
+/* --- Label - Donut Gauge --- */
+.donut-gauge-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100px;
+    gap: 16px 0px;
+}
+
+.donut-gauge-label {
+    font-size: 14px;;
+    text-align: center;
+}
+
+/* --- Label - Pure --- */
+.pure-label-container {
+    font-size: 14px;;
+    text-align: center;
+    width: 100px;
+    padding: 8px;
+    background: linear-gradient(180deg, #244178 0%, rgba(14, 25, 53, 0.9) 100%);
+    border: 1px solid #00C0E8;
+    border-radius: 10px;
+}
+
+/* --- Label - Horizontal & Vertical Value --- */
+.vertical-label-with-value-container {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    align-items: center;
+    width: 125px;
+}
+
+.horizontal-label-with-value-container {
+    display: flex;
+    flex-direction: row;
+    gap: 125px;
+    align-items: center;
+    width: fit-content;
+}
+
+.value-with-unit-container {
+    display: flex;
+    flex-direction: row;
+    gap: 8px;
+    align-items: center;
+}
+
+/* --- Pagination --- */
+.pagination-container {
+    display: flex;
+    flex-direction: row;
+    gap: 0px 8px;
+}
+
+.pagination-container button {
+    background-color: #00C0E8;
+    border-width: 0px;
+    padding: 4px;
+    border-radius: 4px;
+}
+
+/* --- Sort & Filter --- */
+.sort-container {
+    
+}
+
+.search-filter-container {
+    display: flex;
+    flex-direction: row;
+    gap: 0px 8px;
+    padding: 8px;
+    border: 1px solid #00C3D0;
+    border-radius: 8px;
+    width: fit-content;
+}
+
+.search-filter-container input {
+    background-color: transparent;
+    border-width: 0px;
+}
+
+.search-filter-container button {
+    background-color: transparent;
+    border-width: 0px;
+}
+
+/* --- Date Picker --- */
+
