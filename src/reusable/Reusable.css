@@ -4,26 +4,42 @@
     display: flex;
     flex-direction: row;
     align-items: center;
-    background: linear-gradient(0deg, #013B61 0%, #2A626E 100%);
-    border: 1px solid #00C3D0;
-    border-radius: 3px;
-    padding: 8px 12px;
+    background: linear-gradient(180deg, #18466e 0%, #0c253e 100%);
+    border: 2px solid #00C3D0;
+    border-radius: 8px;
+    padding: 6px 14px;
     width: fit-content;
-    gap: 0px 4px;
+    gap: 0px 8px;
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.5), 0 0 14px rgba(0, 195, 208, 0.25);
 }
 
 .breadcrumb-previous-level {
     background-color: transparent;
     border-width: 0px;
-    color: #FFFFFF;
-    font-weight: 400;
+    color: #cbd5e1;
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    font-size: 15px;
+    font-weight: 500;
+    cursor: pointer;
+    padding: 0;
+    transition: color 0.15s ease;
+}
+
+.breadcrumb-previous-level:hover {
+    color: #00E5FF;
 }
 
 .breadcrumb-current-level {
     background-color: transparent;
     border-width: 0px;
     color: #FFFFFF;
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    font-size: 15px;
     font-weight: 700;
+    cursor: pointer;
+    padding: 0;
 }
 
 .breadcrumb-previous-level:hover,

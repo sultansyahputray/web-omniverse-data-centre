@@ -1,6 +1,7 @@
 import React from 'react';
 import { SiteMetric } from '../../types';
 import { ChevronLeftIcon } from '../../Icons';
+import { Breadcrumb, BreadcrumbItem } from '../../reusable/Breadcrumb';
 
 export interface HallOption {
     id: string;
@@ -18,6 +19,8 @@ export const HALL_OPTIONS: HallOption[] = [
 interface Level4HeaderProps {
     regionMetric?: SiteMetric;
     activeHallId: string;
+    breadcrumbItems?: BreadcrumbItem[];
+    onBreadcrumbClick?: (item: BreadcrumbItem, index: number) => void;
     onBack: () => void;
     onSelectHall: (hallId: string) => void;
 }
@@ -25,6 +28,8 @@ interface Level4HeaderProps {
 export const Level4Header: React.FC<Level4HeaderProps> = ({
     regionMetric,
     activeHallId,
+    breadcrumbItems,
+    onBreadcrumbClick,
     onBack,
     onSelectHall
 }) => {
@@ -58,24 +63,12 @@ export const Level4Header: React.FC<Level4HeaderProps> = ({
                 </div>
             </div>
 
-            {/* Top-Right Quick Hall Switcher */}
-            {/* <div className="level4-hall-selector-tabs" role="tablist" aria-label="Hall Switcher">
-                {HALL_OPTIONS.map((hall) => {
-                    const isActive = hall.id === activeHallId;
-                    return (
-                        <button
-                            key={hall.id}
-                            role="tab"
-                            aria-selected={isActive}
-                            className={`level4-hall-tab ${isActive ? 'active' : ''}`}
-                            onClick={() => onSelectHall(hall.id)}
-                            title={`Switch to ${hall.title}`}
-                        >
-                            {hall.title}
-                        </button>
-                    );
-                })}
-            </div> */}
+            {/* Top-Right Breadcrumb */}
+            {breadcrumbItems && breadcrumbItems.length > 0 && (
+                <div className="level4-top-right-breadcrumb">
+                    <Breadcrumb items={breadcrumbItems} onItemClick={onBreadcrumbClick} />
+                </div>
+            )}
         </>
     );
 };

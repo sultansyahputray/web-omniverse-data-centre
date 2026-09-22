@@ -589,13 +589,12 @@
 .cooling-mode-toggle-bar {
     display: inline-flex;
     align-items: center;
-    background: linear-gradient(180deg, #0f2c4f 0%, #071b33 100%);
-    border: 2px solid #00D2FF;
+    background: linear-gradient(180deg, #244178 0%, #0E1935E5 100%);
+    border: 2px solid #00C0E8;
     border-radius: 9999px;
-    padding: 3px;
+    padding: 0px;
     backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(12px);
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.6), 0 0 16px rgba(0, 210, 255, 0.35);
     user-select: none;
     position: relative;
 }
@@ -617,9 +616,8 @@
 }
 
 .cooling-toggle-btn.active {
-    background: linear-gradient(180deg, #00BAD6 0%, #0096B4 100%);
+    background: #00C3D0;
     color: #ffffff;
-    box-shadow: 0 2px 10px rgba(0, 186, 214, 0.55);
 }
 
 .cooling-toggle-btn:not(.active):hover {

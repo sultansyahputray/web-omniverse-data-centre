@@ -18,12 +18,15 @@ export interface BreadcrumbItem {
 }
 
 interface BreadcrumbProps {
-    items: BreadcrumbItem[]
+    items: BreadcrumbItem[];
+    onItemClick?: (item: BreadcrumbItem, index: number) => void;
 }
 
-export const Breadcrumb = ({ items } : BreadcrumbProps) => {
-    const handleClick = (e) => {
-        console.log(e);
+export const Breadcrumb = ({ items, onItemClick } : BreadcrumbProps) => {
+    const handleClick = (item: BreadcrumbItem, index: number) => {
+        if (onItemClick) {
+            onItemClick(item, index);
+        }
     };
 
     return (
@@ -33,7 +36,7 @@ export const Breadcrumb = ({ items } : BreadcrumbProps) => {
                     <button 
                         key={item.id}
                         className={idx == items.length - 1 ? "breadcrumb-current-level" : "breadcrumb-previous-level"} 
-                        onClick={handleClick}
+                        onClick={() => handleClick(item, idx)}
                     >{item.label}</button>
                     {idx < items.length - 1 && <FontAwesomeIcon icon="fa-solid fa-angle-right" style={{color: "#eeeeee"}} />}
                 </Fragment>
