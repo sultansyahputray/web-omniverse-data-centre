@@ -9,10 +9,10 @@ export interface HallOption {
 }
 
 export const HALL_OPTIONS: HallOption[] = [
-    { id: 'hall_l1_a', title: 'Hall L1-A', subtitle: 'HIGH-DENSITY COMPUTE CLUSTER' },
-    { id: 'hall_l1_b', title: 'Hall L1-B', subtitle: 'AI ACCELERATION PODS' },
-    { id: 'hall_g_a', title: 'Hall G-A', subtitle: 'GENERAL COMPUTE & STORAGE' },
-    { id: 'hall_g_b', title: 'Hall G-B', subtitle: 'TELECOM & NETWORK CORE' }
+    { id: 'hall_l1_a', title: 'Hall L1-A', subtitle: '' },
+    { id: 'hall_l1_b', title: 'Hall L1-B', subtitle: '' },
+    { id: 'hall_g_a', title: 'Hall G-A', subtitle: '' },
+    { id: 'hall_g_b', title: 'Hall G-B', subtitle: '' }
 ];
 
 interface Level4HeaderProps {
@@ -54,7 +54,7 @@ export const Level4Header: React.FC<Level4HeaderProps> = ({
                 </div>
 
                 <div className="level4-subtitle">
-                    {hubSubtitle} &bull; {currentHall.title.toUpperCase()} &bull; {currentHall.subtitle}
+                    {hubSubtitle} &bull; {currentHall.title.toUpperCase()}
                 </div>
             </div>
 
