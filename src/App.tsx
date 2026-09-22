@@ -381,6 +381,7 @@ export const App: React.FC = () => {
                         activeHallId={activeHall}
                         regionMetric={currentRegionMetric}
                         cameraView={cameraView}
+                        screenPositions={screenPositions}
                         onBackToBuilding={handleBackToBuilding}
                         onSelectHall={handleEnterHall}
                         onSelectCameraView={handleSelectCameraView}
