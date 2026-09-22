@@ -1,5 +1,9 @@
 import React from 'react';
 import { RegionalAvailabilityGauge } from '../../Icons';
+import { CoolingMode } from './CoolingModeToggleBar';
+
+export { CoolingModeToggleBar } from './CoolingModeToggleBar';
+export type { CoolingMode } from './CoolingModeToggleBar';
 
 export interface CoolingTelemetryData {
     avgInletTemp?: string;
@@ -12,10 +16,12 @@ export interface CoolingTelemetryData {
 
 interface CoolingDetailsTelemetryCardProps {
     data?: CoolingTelemetryData;
+    coolingMode?: CoolingMode;
 }
 
 export const CoolingDetailsTelemetryCard: React.FC<CoolingDetailsTelemetryCardProps> = ({
-    data
+    data,
+    coolingMode = 'liquid'
 }) => {
     const avgInletTemp = data?.avgInletTemp ?? '21.7°C';
     const avgOutletTemp = data?.avgOutletTemp ?? '27.9°C';
@@ -36,7 +42,7 @@ export const CoolingDetailsTelemetryCard: React.FC<CoolingDetailsTelemetryCardPr
                 {/* 1. Avg Coolant Inlet Temperature */}
                 <div className="power-path-section">
                     <span className="power-metric-title cooling-metric-title">
-                        Avg Coolant Inlet<br />Temperature
+                        Avg. Coolant Inlet<br />Temperature
                     </span>
                     <div className="power-pill-green">{avgInletTemp}</div>
                 </div>
@@ -44,7 +50,7 @@ export const CoolingDetailsTelemetryCard: React.FC<CoolingDetailsTelemetryCardPr
                 {/* 2. Avg Coolant Outlet Temperature */}
                 <div className="power-path-section">
                     <span className="power-metric-title cooling-metric-title">
-                        Avg Coolant Outlet<br />Temperature
+                        Avg. Coolant &Delta;T
                     </span>
                     <div className="power-pill-green">{avgOutletTemp}</div>
                 </div>
@@ -52,7 +58,7 @@ export const CoolingDetailsTelemetryCard: React.FC<CoolingDetailsTelemetryCardPr
                 {/* 3. Avg Coolant ΔT (Inlet-Outlet) */}
                 <div className="power-path-section">
                     <span className="power-metric-title cooling-metric-title">
-                        Avg Coolant &Delta;T<br />(Inlet-Outlet)
+                        Coolant Flow<br />vs Required
                     </span>
                     <div className="power-pill-green">{avgDeltaT}</div>
                 </div>
@@ -60,7 +66,7 @@ export const CoolingDetailsTelemetryCard: React.FC<CoolingDetailsTelemetryCardPr
                 {/* 4. Avg. Heat Removal/Rack */}
                 <div className="power-path-section">
                     <span className="power-metric-title cooling-metric-title">
-                        Avg. Heat<br />Removal/Rack
+                        &Delta;P vs Design
                     </span>
                     <div className="power-pill-green">{avgHeatRemoval}</div>
                 </div>
@@ -74,7 +80,7 @@ export const CoolingDetailsTelemetryCard: React.FC<CoolingDetailsTelemetryCardPr
                 {/* 6. Coolant Cooling Efficiency (Donut Gauge) */}
                 <div className="power-path-section power-gauge-section">
                     <span className="power-metric-title cooling-metric-title">
-                        Coolant Cooling<br />Efficiency
+                        {coolingMode === 'air' ? 'Air Cooling' : 'Liquid Cooling'}<br />Capacity Utilization
                     </span>
                     <div className="power-gauge-wrapper">
                         <RegionalAvailabilityGauge

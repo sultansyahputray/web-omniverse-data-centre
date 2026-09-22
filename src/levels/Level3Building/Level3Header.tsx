@@ -1,9 +1,12 @@
 import { BuildingSubView, SiteMetric } from '../../types';
 import { ChevronLeftIcon, ChevronRightIcon } from '../../Icons';
+import { CoolingModeToggleBar, CoolingMode } from './CoolingModeToggleBar';
 
 interface Level3HeaderProps {
     regionMetric?: SiteMetric;
     subView?: BuildingSubView;
+    coolingMode?: CoolingMode;
+    onCoolingModeChange?: (mode: CoolingMode) => void;
     onBack?: () => void;
     onBackToCutaway?: () => void;
     onPowerDetails?: () => void;
@@ -13,6 +16,8 @@ interface Level3HeaderProps {
 export const Level3Header: React.FC<Level3HeaderProps> = ({
     regionMetric,
     subView = 'cutaway',
+    coolingMode = 'liquid',
+    onCoolingModeChange,
     onBack,
     onBackToCutaway,
     onPowerDetails,
@@ -34,14 +39,16 @@ export const Level3Header: React.FC<Level3HeaderProps> = ({
 
     const getBadgeText = () => {
         if (isPowerPath) return 'ELECTRICAL POWER PATH';
-        if (isCoolingPath) return 'LIQUID COOLING PATH';
+        if (isCoolingPath) {
+            return coolingMode === 'air' ? 'AIR COOLING PATH' : 'LIQUID COOLING PATH';
+        }
         return 'LEVEL 03';
     };
 
     const getSubtitleText = () => {
-        if (isPowerPath) return `${subtitle} \u2022 ELECTRICAL POWER PATHWAY & HALL DISTRIBUTION`;
-        if (isCoolingPath) return `${subtitle} \u2022 COOLING DISTRIBUTION & THERMAL TELEMETRY`;
-        return `${subtitle} \u2022 MAIN BUILDING INTERIOR & HALLS`;
+        if (isPowerPath) return `${subtitle} • ELECTRICAL POWER PATHWAY & HALL DISTRIBUTION`;
+        if (isCoolingPath) return `${subtitle} • COOLING DISTRIBUTION & THERMAL TELEMETRY`;
+        return `${subtitle} • MAIN BUILDING INTERIOR & HALLS`;
     };
 
     return (
@@ -96,6 +103,16 @@ export const Level3Header: React.FC<Level3HeaderProps> = ({
                             <ChevronRightIcon size={15} color="#ffffff" />
                         </span>
                     </button>
+                </div>
+            )}
+
+            {/* In Cooling Details mode: Top-Right Liquid Cooling vs Air Cooling toggle bar */}
+            {isCoolingPath && (
+                <div className="level3-top-actions">
+                    <CoolingModeToggleBar
+                        mode={coolingMode}
+                        onChange={onCoolingModeChange}
+                    />
                 </div>
             )}
         </>
