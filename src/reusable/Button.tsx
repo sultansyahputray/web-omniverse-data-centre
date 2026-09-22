@@ -23,7 +23,7 @@ interface StatusItem {
 }
 
 interface StatusProps {
-    items: StatusItem[]
+    items: StatusItem[],
 }
 
 export interface ButtonBarWithStatusItem {
@@ -47,6 +47,7 @@ const Status = ({ items }: StatusProps) => {
 
 export const NavigationButton = ({ label, navigation }: NavigationButtonProps) => {
     const handleClick = (e) => {
+        e.stopPropagation();
         console.log(e);
     };
 
@@ -78,7 +79,8 @@ export const ButtonBarWithStatus = ({ items }: ButtonBarWithStatusProps) => {
                         value={idx}
                         onClick={handleClick}
                     >
-                        <label>{item.label}</label>
+                        {item.label}
+                        {/* <label>{item.label} + {selectedItemIdx}</label> */}
                         {item.status.length > 0 && <Status items={item.status}></Status>}
                     </button>
                 </Fragment>

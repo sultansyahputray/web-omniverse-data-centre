@@ -109,6 +109,10 @@
     gap: 0px 8px;
 }
 
+.dropdown-container select {
+    border-radius: 4px;
+}
+
 /* --- Button - Navigation --- */
 .navigation-button-container {
     display: flex;
@@ -190,7 +194,19 @@
 
 /* --- Sort & Filter --- */
 .sort-container {
-    
+    display: flex;
+    flex-direction: row;
+    gap: 0px 8px;
+}
+
+.sort-container select {
+    appearance: none;
+    width: 100px
+}
+
+.sort-container button {
+    background-color: transparent;
+    border-width: 0px;
 }
 
 .search-filter-container {
@@ -214,4 +230,12 @@
 }
 
 /* --- Date Picker --- */
+.date-picker-container {
+    border-radius: 8px;
+}
 
+/* --- Tree Hierarchy --- */
+.parent-node-container {
+    padding-left: 20px;
+    list-style-type: none;
+}
