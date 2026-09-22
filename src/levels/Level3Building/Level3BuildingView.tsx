@@ -4,6 +4,7 @@ import { Level3Header } from './Level3Header';
 import { Level3TelemetryCard } from './Level3TelemetryCard';
 import { PowerPathTelemetryCard } from './PowerPathTelemetryCard';
 import { CoolingDetailsTelemetryCard } from './CoolingDetailsTelemetryCard';
+import { CoolingMode } from './CoolingModeToggleBar';
 import { HallItem, Level3HallsOverlay } from './Level3HallsOverlay';
 import { TimeOfDaySelector } from '../Level2Region/TimeOfDaySelector';
 import { AdaptiveViewCube } from '../Level2Region/AdaptiveViewCube';
@@ -45,6 +46,7 @@ export const Level3BuildingView: React.FC<Level3BuildingViewProps> = ({
 }) => {
     // Manage internal subView state, synchronized with prop if controlled
     const [currentSubView, setCurrentSubView] = useState<BuildingSubView>(subView);
+    const [coolingMode, setCoolingMode] = useState<CoolingMode>('liquid');
 
     useEffect(() => {
         setCurrentSubView(subView);
@@ -88,7 +90,7 @@ export const Level3BuildingView: React.FC<Level3BuildingViewProps> = ({
 
     const getViewCubeFocusLabel = () => {
         if (currentSubView === 'power_details') return 'POWER PATH';
-        if (currentSubView === 'cooling_details') return 'COOLING';
+        if (currentSubView === 'cooling_details') return coolingMode === 'air' ? 'AIR COOLING' : 'LIQUID COOLING';
         return 'MAIN BUILDING';
     };
 
@@ -98,6 +100,8 @@ export const Level3BuildingView: React.FC<Level3BuildingViewProps> = ({
             <Level3Header
                 regionMetric={regionMetric}
                 subView={currentSubView}
+                coolingMode={coolingMode}
+                onCoolingModeChange={setCoolingMode}
                 onBack={onBackToRegion}
                 onBackToCutaway={handleBackToCutaway}
                 onPowerDetails={handlePowerDetailsClick}
@@ -106,7 +110,7 @@ export const Level3BuildingView: React.FC<Level3BuildingViewProps> = ({
 
             {/* Left Sidebar: Normal Cutaway Telemetry OR Power Path OR Cooling Telemetry */}
             {currentSubView === 'power_details' && <PowerPathTelemetryCard />}
-            {currentSubView === 'cooling_details' && <CoolingDetailsTelemetryCard />}
+            {currentSubView === 'cooling_details' && <CoolingDetailsTelemetryCard coolingMode={coolingMode} />}
             {currentSubView === 'cutaway' && <Level3TelemetryCard />}
 
             {/* 3D Floating Hall Tags: In detail modes (power/cooling), NOC is hidden, only halls are shown */}

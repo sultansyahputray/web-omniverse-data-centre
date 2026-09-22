@@ -45,7 +45,7 @@ export const PowerPathTelemetryCard: React.FC<PowerPathTelemetryCardProps> = ({
 
                 {/* 2. Active Rack */}
                 <div className="power-path-section">
-                    <span className="power-metric-title">Active Rack</span>
+                    <span className="power-metric-title">GPU Compute Utilization</span>
                     <div className="power-pill-navy">{activeRack}</div>
                 </div>
 
@@ -69,7 +69,7 @@ export const PowerPathTelemetryCard: React.FC<PowerPathTelemetryCardProps> = ({
 
                 {/* 6. Power Headroom */}
                 <div className="power-path-section">
-                    <span className="power-metric-title">Power Headroom</span>
+                    <span className="power-metric-title">N-1 Path Loading</span>
                     <div className="power-pill-green">{powerHeadroom}</div>
                 </div>
 
@@ -81,7 +81,7 @@ export const PowerPathTelemetryCard: React.FC<PowerPathTelemetryCardProps> = ({
 
                 {/* 8. Avg. PDU Load (Donut Gauge) */}
                 <div className="power-path-section power-gauge-section">
-                    <span className="power-metric-title">Avg. PDU Load</span>
+                    <span className="power-metric-title">Facility Load</span>
                     <div className="power-gauge-wrapper">
                         <RegionalAvailabilityGauge
                             percentage={avgPduLoad}

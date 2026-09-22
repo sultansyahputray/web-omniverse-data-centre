@@ -26,6 +26,9 @@ export const Level4PowerSummaryCard: React.FC<Level4PowerSummaryCardProps> = ({
                 <span className="level4-card-title">Power Summary</span>
             </div>
 
+            {/* HORIZONTAL DIVIDER */}
+            <div className="title-h-divider"></div>
+
             <div className="level4-summary-content">
                 {/* Left Column: Metric rows with pills */}
                 <div className="level4-summary-metrics-col">

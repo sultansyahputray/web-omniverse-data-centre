@@ -60,7 +60,7 @@ export const HALL_ROW_ITEMS: HallRowItem[] = [
     },
     {
         id: 'row_06',
-        label: 'Row E',
+        label: 'Row F',
         rowNum: 6,
         rack1Key: 'rack_06_01',
         rack10Key: 'rack_06_10',

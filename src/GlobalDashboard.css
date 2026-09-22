@@ -357,6 +357,15 @@ body,
     /* Sama lebar dengan Total Site */
 }
 
+/* HORIZONTAL DIVIDER */
+.title-h-divider {
+    width: 100%;
+    height: 1px;
+    background: linear-gradient(90deg, #244178 0%, #71F6FF 50%, #244178 100%);
+    margin: 8px 0 14px 0;
+    flex-shrink: 0;
+}
+
 /* VERTICAL DIVIDER */
 .region-v-divider {
     width: 1px;
