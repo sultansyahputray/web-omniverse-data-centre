@@ -1,0 +1,442 @@
+/* =========================================================================
+   LEVEL 4 DATA HALL STYLES
+   Cyberpunk / Industrial Sci-Fi Server Room & Data Hall Aesthetics
+   ========================================================================= */
+
+.level4-hall-overlay {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    z-index: 20;
+    display: block;
+    animation: level4FadeIn 0.35s ease forwards;
+}
+
+@keyframes level4FadeIn {
+    from {
+        opacity: 0;
+        transform: scale(0.99);
+    }
+
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+/* --- TOP-LEFT HEADER --- */
+.level4-header-container {
+    position: absolute;
+    top: 36px;
+    left: 44px;
+    pointer-events: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.back-to-building-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    background: rgba(6, 18, 36, 0.85);
+    border: 1px solid rgba(0, 210, 255, 0.4);
+    border-radius: 6px;
+    padding: 8px 16px;
+    color: #ffffff;
+    font-family: var(--font-heading);
+    font-size: 11.5px;
+    font-weight: 700;
+    letter-spacing: 1.6px;
+    cursor: pointer;
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.5), 0 0 10px rgba(0, 210, 255, 0.15);
+    transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+    width: fit-content;
+}
+
+.back-to-building-btn:hover {
+    background: rgba(0, 210, 255, 0.15);
+    border-color: #00e5ff;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.6), 0 0 18px rgba(0, 229, 255, 0.4);
+    transform: translateX(-2px);
+}
+
+.level4-title-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.level4-accent-bar {
+    width: 4px;
+    height: 24px;
+    background: linear-gradient(180deg, #00E5FF 0%, #007799 100%);
+    border-radius: 2px;
+    box-shadow: 0 0 10px rgba(0, 229, 255, 0.8);
+}
+
+.level4-main-title {
+    font-family: 'Inter', system-ui, sans-serif;
+    font-size: 26px;
+    font-weight: 900;
+    color: #ffffff;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    text-shadow: 0 0 20px rgba(0, 229, 255, 0.4);
+    margin: 0;
+}
+
+.level4-badge {
+    background: rgba(0, 229, 255, 0.15);
+    border: 1px solid #00E5FF;
+    border-radius: 4px;
+    padding: 3px 8px;
+    font-size: 10px;
+    font-weight: 800;
+    color: #00E5FF;
+    letter-spacing: 1px;
+    box-shadow: 0 0 10px rgba(0, 229, 255, 0.25);
+}
+
+.level4-hall-badge {
+    background: rgba(255, 204, 0, 0.15);
+    border: 1px solid #ffcc00;
+    border-radius: 4px;
+    padding: 3px 8px;
+    font-size: 10px;
+    font-weight: 800;
+    color: #ffcc00;
+    letter-spacing: 1px;
+    box-shadow: 0 0 10px rgba(255, 204, 0, 0.25);
+}
+
+.level4-subtitle {
+    font-family: 'Inter', system-ui, sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    color: #7dd3fc;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    margin-left: 16px;
+}
+
+/* --- TOP-RIGHT QUICK HALL SWITCHER TABS --- */
+.level4-hall-selector-tabs {
+    position: absolute;
+    top: 40px;
+    right: 44px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    pointer-events: auto;
+    z-index: 25;
+    background: rgba(6, 18, 36, 0.75);
+    padding: 6px 8px;
+    border-radius: 9999px;
+    border: 1px solid rgba(0, 210, 255, 0.3);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+}
+
+.level4-hall-tab {
+    background: transparent;
+    border: 1.5px solid transparent;
+    border-radius: 9999px;
+    padding: 6px 14px;
+    color: #94a3b8;
+    font-family: 'Inter', system-ui, sans-serif;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    cursor: pointer;
+    transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+    outline: none;
+    user-select: none;
+    white-space: nowrap;
+}
+
+.level4-hall-tab:hover {
+    color: #ffffff;
+    background: rgba(0, 229, 255, 0.12);
+    border-color: rgba(0, 229, 255, 0.4);
+}
+
+.level4-hall-tab.active {
+    color: #ffffff;
+    background: linear-gradient(180deg, #1C7C96 0%, #155567 100%);
+    border-color: #00E5FF;
+    box-shadow: 0 0 14px rgba(0, 229, 255, 0.5);
+}
+
+/* =========================================================================
+   1. COMPONENT 1: COMPUTING SUMMARY CARD (Top-Left below header)
+   ========================================================================= */
+.level4-computing-card {
+    position: absolute;
+    top: 155px;
+    left: 44px;
+    background:
+        linear-gradient(180deg, #1d3a67E6 0%, #0d1e3aF2 100%) padding-box,
+        linear-gradient(180deg, #00b4d8 0%, #004d66 100%) border-box;
+    border: 2px solid #00c0e8;
+    border-radius: 12px;
+    padding: 14px 18px 16px 18px;
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    box-shadow: 0 10px 32px rgba(0, 0, 0, 0.65), 0 0 18px rgba(0, 192, 232, 0.25);
+    pointer-events: auto;
+    z-index: 25;
+    animation: level4CardSlideIn 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes level4CardSlideIn {
+    from {
+        opacity: 0;
+        transform: translateY(-12px) scale(0.98);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+.level4-card-header {
+    margin-bottom: 12px;
+}
+
+.level4-card-title {
+    font-family: 'Inter', system-ui, sans-serif;
+    font-size: 15px;
+    font-weight: 700;
+    color: #ffffff;
+    letter-spacing: 0.3px;
+}
+
+.level4-computing-gauges-row {
+    display: flex;
+    align-items: flex-start;
+    gap: 18px;
+}
+
+.computing-gauge-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    min-width: 82px;
+}
+
+.computing-gauge-label {
+    font-family: 'Inter', system-ui, sans-serif;
+    font-size: 11px;
+    font-weight: 600;
+    color: #e2e8f0;
+    text-align: center;
+    line-height: 1.25;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* =========================================================================
+   2. BOTTOM ROW CONTROLS: POWER SUMMARY + COOLING SUMMARY + VIEWCUBE
+   ========================================================================= */
+.level4-bottom-row-controls {
+    position: absolute;
+    bottom: 32px;
+    right: 44px;
+    display: flex;
+    align-items: flex-end;
+    gap: 16px;
+    pointer-events: auto;
+    z-index: 25;
+}
+
+.level4-summary-card {
+    background:
+        linear-gradient(180deg, #1d3a67E6 0%, #0d1e3aF2 100%) padding-box,
+        linear-gradient(180deg, #00b4d8 0%, #004d66 100%) border-box;
+    border: 2px solid #00c0e8;
+    border-radius: 12px;
+    padding: 12px 16px 14px 16px;
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    box-shadow: 0 10px 32px rgba(0, 0, 0, 0.65), 0 0 18px rgba(0, 192, 232, 0.25);
+    min-width: 320px;
+    animation: level4BottomSlideIn 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes level4BottomSlideIn {
+    from {
+        opacity: 0;
+        transform: translateY(16px) scale(0.98);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+.level4-summary-content {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+    margin-top: 8px;
+}
+
+.level4-summary-metrics-col {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    flex: 1;
+}
+
+.summary-metric-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+}
+
+.summary-metric-label {
+    font-family: 'Inter', system-ui, sans-serif;
+    font-size: 12px;
+    font-weight: 600;
+    color: #e2e8f0;
+    white-space: nowrap;
+}
+
+/* Summary Pills */
+.summary-pill-green {
+    box-sizing: border-box;
+    background: #1b8a43;
+    border: 1.5px solid #2ecc71;
+    border-radius: 6px;
+    padding: 3px 10px;
+    color: #ffffff;
+    font-family: 'Inter', system-ui, sans-serif;
+    font-size: 13.5px;
+    font-weight: 800;
+    min-width: 76px;
+    text-align: center;
+    box-shadow: 0 2px 8px rgba(27, 138, 67, 0.35);
+}
+
+.summary-pill-gold {
+    box-sizing: border-box;
+    background: #FFCC0066;
+    border: 1.5px solid #FFCC00;
+    border-radius: 6px;
+    padding: 3px 10px;
+    color: #ffffff;
+    font-family: 'Inter', system-ui, sans-serif;
+    font-size: 13.5px;
+    font-weight: 800;
+    min-width: 76px;
+    text-align: center;
+}
+
+.summary-pill-navy {
+    box-sizing: border-box;
+    background: #234d6b;
+    border: 1.5px solid #3c7a9e;
+    border-radius: 6px;
+    padding: 3px 10px;
+    color: #ffffff;
+    font-family: 'Inter', system-ui, sans-serif;
+    font-size: 13.5px;
+    font-weight: 800;
+    min-width: 76px;
+    text-align: center;
+    box-shadow: 0 2px 8px rgba(35, 77, 107, 0.35);
+}
+
+.level4-summary-gauge-col {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    min-width: 86px;
+}
+
+.summary-gauge-label {
+    font-family: 'Inter', system-ui, sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    color: #94a3b8;
+    text-align: center;
+    white-space: nowrap;
+}
+
+.level4-viewcube-anchor {
+    display: flex;
+    align-items: flex-end;
+}
+
+/* =========================================================================
+   3. COMPONENT 4: FLOATING ROW BUTTONS (Row A - Row E above racks)
+   ========================================================================= */
+.level4-floating-rows-layer {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    z-index: 22;
+}
+
+.floating-row-btn-container {
+    position: absolute;
+    transform: translate(-50%, -50%);
+    pointer-events: auto;
+    transition: left 0.12s linear, top 0.12s linear, opacity 0.25s ease;
+    will-change: left, top;
+}
+
+.floating-row-pill-btn {
+    background: linear-gradient(180deg, #318FA2 0%, #2A626E 100%);
+    border: 2px solid #00C3D0;
+    border-radius: 9999px;
+    padding: 5px 14px;
+    cursor: pointer;
+    transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+    outline: none;
+    user-select: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.floating-row-pill-btn:hover {
+    background: linear-gradient(180deg, #00C8E5 0%, #177085 100%);
+    border-color: #ffffff;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.7), 0 0 22px rgba(0, 229, 255, 0.75);
+    transform: scale(1.08);
+}
+
+.floating-row-pill-btn:active {
+    transform: scale(0.97);
+}
+
+.floating-row-text {
+    font-family: 'Inter', system-ui, sans-serif;
+    font-size: 13px;
+    font-weight: 800;
+    color: #ffffff;
+    letter-spacing: 0.5px;
+    white-space: nowrap;
+}
+
+.floating-row-arrow {
+    display: flex;
+    align-items: center;
+    transition: transform 0.15s ease;
+}
+
+.floating-row-pill-btn:hover .floating-row-arrow {
+    transform: translateX(3px);
+}

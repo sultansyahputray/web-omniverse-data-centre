@@ -13,6 +13,7 @@ import { WebRTCViewerContainer } from './WebRTCViewerContainer';
 import { Level1EarthView } from './levels/Level1Earth/Level1EarthView';
 import { Level2RegionView } from './levels/Level2Region/Level2RegionView';
 import { Level3BuildingView } from './levels/Level3Building/Level3BuildingView';
+import { Level4HallView } from './levels/Level4Hall/Level4HallView';
 import './GlobalDashboard.css';
 
 const INITIAL_METRICS: SiteMetric[] = [
@@ -58,6 +59,7 @@ export const App: React.FC = () => {
     const [metrics] = useState<SiteMetric[]>(INITIAL_METRICS);
     const [currentLevel, setCurrentLevel] = useState<AppLevel>('earth');
     const [activeRegion, setActiveRegion] = useState<RegionKey>('SG');
+    const [activeHall, setActiveHall] = useState<string>('hall_l1_a');
     const [timeOfDay, setTimeOfDay] = useState<TimeOfDay>('pagi');
     const [cameraView, setCameraView] = useState<CameraView>('iso');
     const [screenPositions, setScreenPositions] = useState<Record<string, ScreenPosition>>({});
@@ -163,6 +165,23 @@ export const App: React.FC = () => {
         await postBackend('navigate', { level: 'region', region: activeRegion });
     };
 
+    // Transition from Level 3 -> Level 4 (Data Hall)
+    const handleEnterHall = async (hallId: string) => {
+        lastUserNavRef.current = Date.now();
+        setScreenPositions({});
+        setActiveHall(hallId);
+        setCurrentLevel('hall');
+        await postBackend('navigate', { level: 'hall', hall_id: hallId, region: activeRegion });
+    };
+
+    // Transition back from Level 4 -> Level 3 (Building Cutaway)
+    const handleBackToBuilding = async () => {
+        lastUserNavRef.current = Date.now();
+        setScreenPositions({});
+        setCurrentLevel('building');
+        await postBackend('navigate', { level: 'building', region: activeRegion });
+    };
+
     // Poll backend status to dynamically track 3D coordinates & sync level/selection
     useEffect(() => {
         let isMounted = true;
@@ -198,6 +217,15 @@ export const App: React.FC = () => {
                             data.active_region !== activeRegion
                         ) {
                             setActiveRegion(data.active_region as RegionKey);
+                        }
+
+                        // 2b. Sync active hall
+                        if (
+                            Date.now() - lastUserNavRef.current > 2000 &&
+                            data.active_hall &&
+                            data.active_hall !== activeHall
+                        ) {
+                            setActiveHall(data.active_hall);
                         }
 
                         // 3. Sync time of day (protected with user-action timestamp to prevent reverts)
@@ -329,11 +357,15 @@ export const App: React.FC = () => {
                             });
                         }}
                         onSelectHall={(hall) => {
-                            console.log(`[Level3] Hall clicked: ${hall.title} (${hall.primPath || hall.id})`);
-                            const primPath = hall.primPath || `/World/region/example_building/${hall.id}`;
-                            postBackend('select-prim', {
-                                prim_path: primPath
-                            });
+                            console.log(`[Level3] Hall clicked: ${hall.title} (${hall.id})`);
+                            if (hall.type === 'hall') {
+                                handleEnterHall(hall.id);
+                            } else {
+                                const primPath = hall.primPath || `/World/region/example_building/${hall.id}`;
+                                postBackend('select-prim', {
+                                    prim_path: primPath
+                                });
+                            }
                         }}
                         onPowerDetails={() => {
                             console.log('[Level3] Electrical Power Path toggled');
@@ -341,6 +373,17 @@ export const App: React.FC = () => {
                         onCoolingDetails={() => {
                             console.log('[Level3] Cooling Details clicked');
                         }}
+                    />
+                )}
+                {currentLevel === 'hall' && (
+                    <Level4HallView
+                        activeRegion={activeRegion}
+                        activeHallId={activeHall}
+                        regionMetric={currentRegionMetric}
+                        cameraView={cameraView}
+                        onBackToBuilding={handleBackToBuilding}
+                        onSelectHall={handleEnterHall}
+                        onSelectCameraView={handleSelectCameraView}
                     />
                 )}
             </div>
