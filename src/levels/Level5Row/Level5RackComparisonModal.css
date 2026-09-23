@@ -1,0 +1,269 @@
+/* =========================================================================
+   LEVEL 5 RACK COMPARISON MODAL STYLES
+   Cyberpunk / Industrial Sci-Fi Data Centre Corridor Aesthetics
+   ========================================================================= */
+
+.rack-comparison-backdrop {
+    position: absolute;
+    inset: 0;
+    background: transparent;
+    pointer-events: none;
+    z-index: 30;
+}
+
+.rack-comparison-card {
+    position: absolute;
+    top: 135px;
+    right: 44px;
+    width: 780px;
+    max-width: calc(100vw - 120px);
+    max-height: calc(100vh - 310px);
+    overflow-y: auto;
+    background: linear-gradient(180deg, #244178 0%, #0E1935E5 100%);
+    border: 2px solid #00C0E8;
+    border-radius: 18px;
+    padding: 20px 24px;
+    box-shadow:
+        0 20px 50px rgba(0, 0, 0, 0.75),
+        0 0 25px rgba(0, 192, 232, 0.2),
+        inset 0 1px 0 rgba(255, 255, 255, 0.12);
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    pointer-events: auto;
+    z-index: 30;
+    animation: rackCardSlideInRight 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes rackCardSlideInRight {
+    from {
+        opacity: 0;
+        transform: translateX(20px) scale(0.98);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0) scale(1);
+    }
+}
+
+/* Custom scrollbar for card */
+.rack-comparison-card::-webkit-scrollbar {
+    width: 6px;
+}
+
+.rack-comparison-card::-webkit-scrollbar-thumb {
+    background: rgba(0, 192, 232, 0.3);
+    border-radius: 4px;
+}
+
+.rack-comparison-card::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+/* --- Header --- */
+.rack-modal-header {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.rack-modal-header-left {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 12px;
+}
+
+.rack-modal-icon-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #00E5FF;
+    filter: drop-shadow(0 0 8px rgba(0, 229, 255, 0.4));
+}
+
+.rack-modal-title {
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    font-size: 19px;
+    font-weight: 800;
+    color: #ffffff;
+    letter-spacing: 0.5px;
+    margin: 0;
+    text-shadow: 0 0 16px rgba(0, 229, 255, 0.3);
+}
+
+.rack-modal-header-right {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 14px;
+}
+
+.rack-modal-close-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    background: transparent;
+    border: none;
+    border-radius: 50%;
+    color: #cbd5e1;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.rack-modal-close-btn:hover {
+    color: #ffffff;
+    background: rgba(255, 255, 255, 0.1);
+    transform: rotate(90deg);
+}
+
+/* --- Controls Row (Tabs + Sort) --- */
+.rack-modal-controls {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    flex-wrap: wrap;
+}
+
+/* --- Table Container --- */
+.rack-modal-table-container {
+    width: 100%;
+    overflow-x: auto;
+    border-radius: 8px;
+}
+
+.rack-modal-table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0 4px;
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+}
+
+.rack-modal-table th {
+    color: #ffffff;
+    font-size: 13px;
+    font-weight: 600;
+    text-align: center;
+    padding: 10px 12px;
+    white-space: nowrap;
+    border: none;
+    background: transparent;
+}
+
+.rack-modal-table th:first-child {
+    text-align: left;
+    padding-left: 16px;
+}
+
+.rack-modal-table th:last-child {
+    text-align: center;
+    padding-right: 16px;
+}
+
+.rack-modal-table th.sortable-th {
+    cursor: pointer;
+    transition: color 0.15s ease;
+}
+
+.rack-modal-table th.sortable-th:hover {
+    color: #00E5FF;
+}
+
+/* Row Zebra Striping:
+   - Header (baris 1 secara total) transparan tanpa garis
+   - Baris Rack 1 (ganjil di tbody / genap jika hitung header) ada warna pill rounded
+   - Baris Rack 2 transparan
+   - Baris Rack 3 ada warna pill rounded, dst. */
+.rack-table-row {
+    transition: background 0.15s ease;
+}
+
+.rack-modal-table tbody tr:nth-child(odd) {
+    background: rgba(0, 195, 208, 0.1);
+}
+
+.rack-modal-table tbody tr:nth-child(odd) td:first-child {
+    border-top-left-radius: 10px;
+    border-bottom-left-radius: 10px;
+}
+
+.rack-modal-table tbody tr:nth-child(odd) td:last-child {
+    border-top-right-radius: 10px;
+    border-bottom-right-radius: 10px;
+}
+
+.rack-modal-table tbody tr:nth-child(even) {
+    background: transparent;
+}
+
+.rack-modal-table tbody tr:hover td:first-child {
+    border-top-left-radius: 10px;
+    border-bottom-left-radius: 10px;
+}
+
+.rack-modal-table tbody tr:hover td:last-child {
+    border-top-right-radius: 10px;
+    border-bottom-right-radius: 10px;
+}
+
+.rack-modal-table td {
+    padding: 10px 12px;
+    font-size: 13.5px;
+    font-weight: 500;
+    color: #e2e8f0;
+    text-align: center;
+    white-space: nowrap;
+}
+
+.rack-table-cell-name {
+    text-align: left !important;
+    padding-left: 16px !important;
+    color: #ffffff !important;
+    font-weight: 600 !important;
+}
+
+.rack-table-cell-center {
+    text-align: center;
+}
+
+/* --- Utilization Badges --- */
+.utilization-badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 72px;
+    padding: 3px 10px;
+    border-radius: 6px;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.3px;
+    border-width: 2px;
+    border-style: solid;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+/* Green (< 60%) */
+.utilization-badge.badge-green {
+    background: #34C75999;
+    border-color: #34C759;
+    color: #ffffff;
+}
+
+/* Yellow (60% - 80%) */
+.utilization-badge.badge-yellow {
+    background: #FFCC0066;
+    border-color: #FFCC00;
+    color: #ffffff;
+}
+
+/* Orange (> 80%) */
+.utilization-badge.badge-orange {
+    background: #FF8D2899;
+    border-color: #FF8D28;
+    color: #ffffff;
+}

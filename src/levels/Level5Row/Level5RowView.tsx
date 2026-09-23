@@ -1,13 +1,15 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { CameraView, RegionKey, SiteMetric } from '../../types';
 import { HallRowItem } from '../Level4Hall/Level4FloatingRows';
 import { Breadcrumb, BreadcrumbItem } from '../../reusable/Breadcrumb';
+import { NavigationButton } from '../../reusable/Button';
 import { ChevronLeftIcon } from '../../Icons';
 import { AdaptiveViewCube } from '../Level2Region/AdaptiveViewCube';
 import { HALL_OPTIONS } from '../Level4Hall/Level4Header';
 import { Level5VerticalComputingCard } from './Level5VerticalComputingCard';
 import { Level5PowerCard } from './Level5PowerCard';
 import { Level5CoolingCard } from './Level5CoolingCard';
+import { Level5RackComparisonModal } from './Level5RackComparisonModal';
 import './Level5Row.css';
 
 interface Level5RowViewProps {
@@ -48,6 +50,8 @@ export const Level5RowView: React.FC<Level5RowViewProps> = ({
         }
     ];
 
+    const [isRackComparisonOpen, setIsRackComparisonOpen] = useState(false);
+
     const handleBreadcrumbClick = (item: BreadcrumbItem, index: number) => {
         if (item.id === 'hall' || item.navigation === 'hall' || index === 0) {
             onBackToHall();
@@ -80,8 +84,12 @@ export const Level5RowView: React.FC<Level5RowViewProps> = ({
                 </div>
             </div>
 
-            {/* Top-Right Breadcrumb: Quick Return to Hall */}
-            <div className="level5-top-right-breadcrumb">
+            {/* Top-Right Actions: Rack Comparison Navigation Button + Breadcrumb */}
+            <div className="level5-top-right-actions">
+                <NavigationButton
+                    label="Rack Comparison"
+                    onClick={() => setIsRackComparisonOpen((prev) => !prev)}
+                />
                 <Breadcrumb items={breadcrumbItems} onItemClick={handleBreadcrumbClick} />
             </div>
 
@@ -100,6 +108,13 @@ export const Level5RowView: React.FC<Level5RowViewProps> = ({
                     />
                 </div>
             </div>
+
+            {/* Rack Comparison Popup Modal */}
+            <Level5RackComparisonModal
+                isOpen={isRackComparisonOpen}
+                rowLabel={activeRow.label}
+                onClose={() => setIsRackComparisonOpen(false)}
+            />
         </div>
     );
 };

@@ -59,7 +59,16 @@ const INITIAL_METRICS: SiteMetric[] = [
 
 export const App: React.FC = () => {
     const [metrics] = useState<SiteMetric[]>(INITIAL_METRICS);
-    const [currentLevel, setCurrentLevel] = useState<AppLevel>('earth');
+    const [currentLevel, setCurrentLevel] = useState<AppLevel>(() => {
+        if (typeof window !== 'undefined') {
+            const params = new URLSearchParams(window.location.search);
+            const lvl = params.get('level') as AppLevel;
+            if (lvl && ['earth', 'region', 'building', 'hall', 'row'].includes(lvl)) {
+                return lvl;
+            }
+        }
+        return 'earth';
+    });
     const [activeRegion, setActiveRegion] = useState<RegionKey>('SG');
     const [activeHall, setActiveHall] = useState<string>('hall_l1_a');
     const [activeRow, setActiveRow] = useState<HallRowItem>(HALL_ROW_ITEMS[0]);

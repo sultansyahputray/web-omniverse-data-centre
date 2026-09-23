@@ -11,37 +11,81 @@ library.add(fas, far, fab)
 import '../GlobalDashboard.css';
 import './Reusable.css';
 
-interface PaginationProps {
-    max_page: number
+export interface PaginationProps {
+    max_page: number;
+    currentPage?: number;
+    onPageChange?: (page: number) => void;
+    className?: string;
 }
 
-export const Pagination = ({ max_page }: PaginationProps) => {
-    const [currentPage, setCurrentPage] = useState(1);
+export const Pagination = ({ max_page, currentPage: controlledPage, onPageChange, className }: PaginationProps) => {
+    const [internalPage, setInternalPage] = useState(1);
+    const activePage = controlledPage !== undefined ? controlledPage : internalPage;
+
+    const setPage = (page: number) => {
+        setInternalPage(page);
+        if (onPageChange) {
+            onPageChange(page);
+        }
+    };
 
     const handleFirst = () => {
-        (currentPage != 1) && setCurrentPage(1);
-    }
+        if (activePage !== 1) setPage(1);
+    };
     
     const handlePrev = () => {
-        (currentPage - 1 >= 1) && setCurrentPage(currentPage - 1);
-    }
+        if (activePage - 1 >= 1) setPage(activePage - 1);
+    };
 
     const handleNext = () => {
-        (currentPage + 1 <= max_page) && setCurrentPage(currentPage + 1);
-    }
+        if (activePage + 1 <= max_page) setPage(activePage + 1);
+    };
 
     const handleLast = () => {
-        (currentPage != max_page) && setCurrentPage(max_page);
-    }
+        if (activePage !== max_page) setPage(max_page);
+    };
+
+    const formatPageNum = (num: number) => String(num).padStart(2, '0');
 
     return (
-        <div className="pagination-container">
-            <button onClick={handleFirst}><FontAwesomeIcon icon="fa-solid fa-angle-double-left" style={{color: "#000000",}} /></button>
-            <button onClick={handlePrev}><FontAwesomeIcon icon="fa-solid fa-angle-left" style={{color: "#000000",}} /></button>
-            <label>{currentPage}</label>
-            <label> / {max_page}</label>
-            <button onClick={handleNext}><FontAwesomeIcon icon="fa-solid fa-angle-right" style={{color: "#000000",}} /></button>
-            <button onClick={handleLast}><FontAwesomeIcon icon="fa-solid fa-angle-double-right" style={{color: "#000000",}} /></button>
+        <div className={`pagination-container ${className || ''}`.trim()}>
+            <button 
+                type="button" 
+                onClick={handleFirst} 
+                disabled={activePage <= 1}
+                aria-label="First page"
+            >
+                <FontAwesomeIcon icon="fa-solid fa-angle-double-left" />
+            </button>
+            <button 
+                type="button" 
+                onClick={handlePrev} 
+                disabled={activePage <= 1}
+                aria-label="Previous page"
+            >
+                <FontAwesomeIcon icon="fa-solid fa-angle-left" />
+            </button>
+            <div className="pagination-label-pill">
+                <span className="pagination-current-page">{formatPageNum(activePage)}</span>
+                <span className="pagination-separator">/</span>
+                <span className="pagination-max-page">{formatPageNum(max_page)}</span>
+            </div>
+            <button 
+                type="button" 
+                onClick={handleNext} 
+                disabled={activePage >= max_page}
+                aria-label="Next page"
+            >
+                <FontAwesomeIcon icon="fa-solid fa-angle-right" />
+            </button>
+            <button 
+                type="button" 
+                onClick={handleLast} 
+                disabled={activePage >= max_page}
+                aria-label="Last page"
+            >
+                <FontAwesomeIcon icon="fa-solid fa-angle-double-right" />
+            </button>
         </div>
     );   
-}
+};

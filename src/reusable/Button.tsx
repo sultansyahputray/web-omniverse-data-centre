@@ -11,79 +11,94 @@ library.add(fas, far, fab)
 import '../GlobalDashboard.css';
 import './Reusable.css';
 
-interface NavigationButtonProps {
-    label: string,
-    navigation: string | null
+export interface NavigationButtonProps {
+    label: string;
+    navigation?: string | null;
+    onClick?: (e: React.MouseEvent<HTMLButtonElement>) => void;
+    className?: string;
+    style?: React.CSSProperties;
 }
 
-interface StatusItem {
-    label: string,
-    color: string,
-    count: number
+export interface StatusItem {
+    label: string;
+    color: string;
+    count: number;
 }
 
-interface StatusProps {
-    items: StatusItem[],
+export interface StatusProps {
+    items: StatusItem[];
 }
 
 export interface ButtonBarWithStatusItem {
     label: string;
-    status: StatusItem[];
+    status?: StatusItem[];
 }
 
-interface ButtonBarWithStatusProps {
-    items: ButtonBarWithStatusItem[]
+export interface ButtonBarWithStatusProps {
+    items: ButtonBarWithStatusItem[];
+    selectedIndex?: number;
+    onSelect?: (index: number, label: string) => void;
+    className?: string;
 }
 
 const Status = ({ items }: StatusProps) => {
     return (
         <div className="button-bar-status-container">
             {items.map((item, idx) => (
-                <label className="button-bar-status-item" style={{backgroundColor: item.color}}>{item.count}</label>
+                <label key={idx} className="button-bar-status-item" style={{ backgroundColor: item.color }}>
+                    {item.count}
+                </label>
             ))}
         </div>
     );
-}
+};
 
-export const NavigationButton = ({ label, navigation }: NavigationButtonProps) => {
-    const handleClick = (e) => {
+export const NavigationButton = ({ label, navigation, onClick, className, style }: NavigationButtonProps) => {
+    const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
         e.stopPropagation();
-        console.log(e);
+        if (onClick) {
+            onClick(e);
+        } else {
+            console.log('Navigation clicked:', label, navigation);
+        }
     };
 
     return (
         <button 
-            className="navigation-button-container"
+            className={`navigation-button-container ${className || ''}`.trim()}
             onClick={handleClick}
+            style={style}
+            type="button"
         >
-            {label}
-            <FontAwesomeIcon icon="fa-solid fa-angle-right" style={{color: "#eeeeee"}} />
+            <span>{label}</span>
+            <FontAwesomeIcon icon="fa-solid fa-angle-right" style={{ color: "#eeeeee" }} />
         </button>
     );
-}
+};
 
-export const ButtonBarWithStatus = ({ items }: ButtonBarWithStatusProps) => {
-    const [selectedItemIdx, setSelectedItemIdx] = useState(0);
+export const ButtonBarWithStatus = ({ items, selectedIndex, onSelect, className }: ButtonBarWithStatusProps) => {
+    const [internalIdx, setInternalIdx] = useState(0);
+    const activeIdx = selectedIndex !== undefined ? selectedIndex : internalIdx;
 
-    const handleClick = (e) => {
-        setSelectedItemIdx(e.target.value);
+    const handleClick = (idx: number, label: string) => {
+        setInternalIdx(idx);
+        if (onSelect) {
+            onSelect(idx, label);
+        }
     };    
 
     return (
-        <div className="button-bar-with-status-container">
+        <div className={`button-bar-with-status-container ${className || ''}`.trim()}>
             {items.map((item, idx) => (
-                <Fragment key={item.label}>
-                    <button 
-                        key={item.label} 
-                        className={idx == selectedItemIdx ? "button-bar-item active" : "button-bar-item"}
-                        value={idx}
-                        onClick={handleClick}
-                    >
-                        {item.label}
-                        {/* <label>{item.label} + {selectedItemIdx}</label> */}
-                        {item.status.length > 0 && <Status items={item.status}></Status>}
-                    </button>
-                </Fragment>
+                <button 
+                    key={item.label} 
+                    type="button"
+                    className={idx === activeIdx ? "button-bar-item active" : "button-bar-item"}
+                    onClick={() => handleClick(idx, item.label)}
+                >
+                    <span>{item.label}</span>
+                    {item.status && item.status.length > 0 && <Status items={item.status} />}
+                </button>
             ))}
         </div>
     );
