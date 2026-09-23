@@ -53,7 +53,6 @@ export const Level6RackDetailCard: React.FC<Level6RackDetailCardProps> = ({
 
     const CARD_WIDTH = 570;
     const CARD_ESTIMATED_HEIGHT = 640;
-    const CARD_ANCHOR_Y_OFFSET = 266; // Vertical entry point where callout attaches to card border
 
     const rackPxX = isDynamic ? (screenPosition.x / 100) * windowSize.w : 0;
     const rackPxY = isDynamic ? (screenPosition.y / 100) * windowSize.h : 0;
@@ -66,12 +65,12 @@ export const Level6RackDetailCard: React.FC<Level6RackDetailCardProps> = ({
 
     if (isDynamic) {
         if (isLeftOfRack) {
-            targetLeft = rackPxX - CARD_WIDTH - 84;
+            targetLeft = rackPxX - CARD_WIDTH - 80;
         } else {
-            targetLeft = rackPxX + 84;
+            targetLeft = rackPxX + 80;
         }
-        // Nominal top offset so callout connector connects near middle of card
-        targetTop = rackPxY - CARD_ANCHOR_Y_OFFSET - 46;
+        // Center the card vertically relative to the rack object center
+        targetTop = rackPxY - (CARD_ESTIMATED_HEIGHT / 2);
 
         // Viewport boundaries safety clamping
         const minLeft = 24;
@@ -84,23 +83,18 @@ export const Level6RackDetailCard: React.FC<Level6RackDetailCardProps> = ({
     }
 
     // Relative coordinates of the rack center dot in the card's local space
-    const localDotX = isDynamic ? rackPxX - targetLeft : -84;
-    const localDotY = isDynamic ? rackPxY - targetTop : (CARD_ANCHOR_Y_OFFSET + 46);
-    const localAnchorY = CARD_ANCHOR_Y_OFFSET;
+    const localDotX = isDynamic ? rackPxX - targetLeft : -80;
+    const localDotY = isDynamic ? rackPxY - targetTop : (CARD_ESTIMATED_HEIGHT / 2);
 
-    // Dogleg connector line SVG path
+    // Single straight horizontal line connecting the rack center directly to the card (no bends)
     let pathD = '';
     if (isDynamic) {
         if (!isLeftOfRack) {
-            // Card is on the right of the rack -> dot is to the left (localDotX < 0), card edge is at x=0
-            const dogleg1X = localDotX + Math.min(30, Math.max(8, -localDotX * 0.4));
-            const dogleg2X = -Math.min(25, Math.max(8, -localDotX * 0.3));
-            pathD = `M ${localDotX} ${localDotY} L ${dogleg1X} ${localDotY} L ${dogleg2X} ${localAnchorY} L 0 ${localAnchorY}`;
+            // Card is on right -> line runs straight horizontally from dot to card's left edge (x = 0)
+            pathD = `M ${localDotX} ${localDotY} L 0 ${localDotY}`;
         } else {
-            // Card is on the left of the rack -> dot is to the right (localDotX > CARD_WIDTH), card edge is at x=CARD_WIDTH
-            const dogleg1X = localDotX - Math.min(30, Math.max(8, (localDotX - CARD_WIDTH) * 0.4));
-            const dogleg2X = CARD_WIDTH + Math.min(25, Math.max(8, (localDotX - CARD_WIDTH) * 0.3));
-            pathD = `M ${localDotX} ${localDotY} L ${dogleg1X} ${localDotY} L ${dogleg2X} ${localAnchorY} L ${CARD_WIDTH} ${localAnchorY}`;
+            // Card is on left -> line runs straight horizontally from dot to card's right edge (x = CARD_WIDTH)
+            pathD = `M ${localDotX} ${localDotY} L ${CARD_WIDTH} ${localDotY}`;
         }
     }
 
@@ -221,7 +215,7 @@ export const Level6RackDetailCard: React.FC<Level6RackDetailCardProps> = ({
                             stroke="#00C3D0"
                             strokeWidth="2"
                             strokeLinecap="round"
-                            strokeLinejoin="round"
+                            fill="none"
                         />
                         <circle
                             cx={localDotX}
@@ -241,16 +235,16 @@ export const Level6RackDetailCard: React.FC<Level6RackDetailCardProps> = ({
                 </div>
             ) : (
                 <div className="rack-card-connector-wrap" aria-hidden="true">
-                    <svg className="rack-card-connector-svg" width="90" height="70" viewBox="0 0 90 70" fill="none">
+                    <svg className="rack-card-connector-svg" width="90" height="24" viewBox="0 0 90 24" fill="none">
                         <path
-                            d="M 6 62 L 35 62 L 65 16 L 90 16"
+                            d="M 6 12 L 90 12"
                             stroke="#00C3D0"
                             strokeWidth="2"
                             strokeLinecap="round"
-                            strokeLinejoin="round"
+                            fill="none"
                         />
-                        <circle cx="6" cy="62" r="5" fill="#0A1E3C" stroke="#00C3D0" strokeWidth="2" />
-                        <circle cx="6" cy="62" r="2.5" fill="#00E5FF" />
+                        <circle cx="6" cy="12" r="5" fill="#0A1E3C" stroke="#00C3D0" strokeWidth="2" />
+                        <circle cx="6" cy="12" r="2.5" fill="#00E5FF" />
                     </svg>
                 </div>
             )}
