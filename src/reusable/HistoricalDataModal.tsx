@@ -1,5 +1,6 @@
 import React, { useState, useMemo, useEffect, useRef } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { CloseButton } from './Button';
 import './Reusable.css';
 
 // SVG Icon for Server Chassis in Header (3 rack chassis with LEDs and handles)
@@ -563,15 +564,11 @@ export const HistoricalDataModal: React.FC<HistoricalDataModalProps> = ({
                         <ServerHeaderIcon size={26} color="#00E5FF" />
                         <h2 className="hd-title">{title}</h2>
                     </div>
-                    <button
-                        type="button"
-                        className="hd-close-btn"
+                    <CloseButton
                         onClick={onClose}
                         title="Close historical view"
-                        aria-label="Close"
-                    >
-                        ✕
-                    </button>
+                        ariaLabel="Close"
+                    />
                 </div>
 
                 {/* HORIZONTAL DIVIDER */}

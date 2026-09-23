@@ -45,9 +45,13 @@ const Status = ({ items }: StatusProps) => {
     return (
         <div className="button-bar-status-container">
             {items.map((item, idx) => (
-                <label key={idx} className="button-bar-status-item" style={{ backgroundColor: item.color }}>
+                <span
+                    key={idx}
+                    className={`button-bar-status-item ${item.label ? `status-${item.label}` : ''}`}
+                    style={item.color ? { backgroundColor: item.color } : undefined}
+                >
                     {item.count}
-                </label>
+                </span>
             ))}
         </div>
     );
@@ -103,3 +107,45 @@ export const ButtonBarWithStatus = ({ items, selectedIndex, onSelect, className 
         </div>
     );
 };
+
+export interface CloseButtonProps {
+    onClick?: (e: React.MouseEvent<HTMLButtonElement>) => void;
+    title?: string;
+    ariaLabel?: string;
+    className?: string;
+    style?: React.CSSProperties;
+    iconSize?: number;
+}
+
+export const CloseButton: React.FC<CloseButtonProps> = ({
+    onClick,
+    title = 'Close',
+    ariaLabel,
+    className = '',
+    style,
+    iconSize = 18
+}) => {
+    return (
+        <button
+            type="button"
+            className={`close-button-container ${className}`.trim()}
+            onClick={onClick}
+            title={title}
+            aria-label={ariaLabel || title}
+            style={style}
+        >
+            <svg
+                width={iconSize}
+                height={iconSize}
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2.5"
+                strokeLinecap="round"
+            >
+                <line x1="18" y1="6" x2="6" y2="18" />
+                <line x1="6" y1="6" x2="18" y2="18" />
+            </svg>
+        </button>
+    );
+};

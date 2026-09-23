@@ -196,12 +196,14 @@ export const RegionalAvailabilityGauge: React.FC<{
     strokeWidth?: number;
     color?: string;
     bgColor?: string;
+    customDisplay?: React.ReactNode;
 }> = ({
     percentage = 54,
     size = 72,
     strokeWidth = 8,
     color = '#ffcc00',          // same yellow as Dashboard reference
     bgColor = 'rgba(255, 255, 255, 0.1)', // same bgColor as CircularGauge.tsx default
+    customDisplay,
 }) => {
         const radius = (size - strokeWidth) / 2;
         const circumference = 2 * Math.PI * radius;
@@ -240,7 +242,7 @@ export const RegionalAvailabilityGauge: React.FC<{
                 </svg>
                 {/* Value text — font size proportional to size * 0.22, same as reference */}
                 <span className="circle-gauge-value" style={{ fontSize: size * 0.22 }}>
-                    {displayText}
+                    {customDisplay ? customDisplay : displayText}
                 </span>
             </div>
         );

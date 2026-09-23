@@ -73,8 +73,15 @@ export const App: React.FC = () => {
     const [activeRegion, setActiveRegion] = useState<RegionKey>('SG');
     const [activeHall, setActiveHall] = useState<string>('hall_l1_a');
     const [activeRow, setActiveRow] = useState<HallRowItem>(HALL_ROW_ITEMS[0]);
-    const [activeRack, setActiveRack] = useState<string>('rack_01_01');
-    const [activeRackNum, setActiveRackNum] = useState<number>(1);
+    const [activeRack, setActiveRack] = useState<string>(() => {
+        const params = new URLSearchParams(window.location.search);
+        return params.get('rack_id') || 'rack_01_01';
+    });
+    const [activeRackNum, setActiveRackNum] = useState<number>(() => {
+        const params = new URLSearchParams(window.location.search);
+        const rNum = params.get('rack_num');
+        return rNum ? parseInt(rNum, 10) : 1;
+    });
     const [timeOfDay, setTimeOfDay] = useState<TimeOfDay>('pagi');
     const [cameraView, setCameraView] = useState<CameraView>('iso');
     const [screenPositions, setScreenPositions] = useState<Record<string, ScreenPosition>>({});
@@ -515,6 +522,7 @@ export const App: React.FC = () => {
                         activeRackNum={activeRackNum}
                         regionMetric={currentRegionMetric}
                         cameraView={cameraView}
+                        screenPositions={screenPositions}
                         onBackToRow={handleBackToRowFromRack}
                         onBackToHall={handleBackToHallFromRack}
                         onSelectCameraView={handleSelectCameraView}

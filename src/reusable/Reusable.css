@@ -51,34 +51,29 @@
 
 .button-bar-with-status-container {
     display: inline-flex;
-    flex-direction: row;
     align-items: center;
     border: 2px solid #00C3D0;
-    border-radius: 24px;
-    width: fit-content;
-    padding: 0px;
+    border-radius: 20px;
+    overflow: hidden;
     background: transparent;
-    backdrop-filter: blur(8px);
-    -webkit-backdrop-filter: blur(8px);
-    gap: 2px;
+    padding: 0;
+    width: fit-content;
 }
 
 .button-bar-item {
-    display: inline-flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: center;
-    background-color: transparent;
-    border: none;
+    background: transparent;
     color: #ffffff;
-    font-family: 'Inter', system-ui, -apple-system, sans-serif;
-    font-size: 13px;
-    font-weight: 600;
+    border: none;
     border-radius: 20px;
-    padding: 6px 18px;
-    gap: 8px;
+    padding: 5px 16px;
+    font-size: 12.5px;
+    font-weight: 600;
     cursor: pointer;
-    transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+    transition: all 0.15s ease;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-family: 'Inter', system-ui, sans-serif;
 }
 
 .button-bar-item:hover {
@@ -86,30 +81,39 @@
 }
 
 .button-bar-item.active {
-    background-color: #00C3D0;
-    border: 2px #00C3D0;
-    color: #FFFFFF;
+    background: #00C3D0;
+    color: #ffffff;
     font-weight: 700;
 }
 
 .button-bar-status-container {
-    display: flex;
-    flex-direction: row;
+    display: inline-flex;
     align-items: center;
-    width: fit-content;
-    gap: 0px 4px;
+    gap: 4px;
 }
 
 .button-bar-status-item {
-    display: flex;
+    display: inline-flex;
     justify-content: center;
     align-items: center;
-    border: 2px solid #FFFFFF;
-    border-radius: 16px;
-    padding: 4px 6px;
-    color: #FFFFFF;
-    font-weight: 400;
-    font-size: 12px;
+    width: 17px;
+    height: 17px;
+    min-width: 17px;
+    border-radius: 50%;
+    font-size: 11px;
+    font-weight: 700;
+    color: #ffffff;
+    line-height: 1;
+    border: none;
+    pointer-events: none;
+}
+
+.button-bar-status-item.status-warning {
+    background: #f97316;
+}
+
+.button-bar-status-item.status-alert {
+    background: #ef4444;
 }
 
 /* --- Dropdown --- */
@@ -470,22 +474,28 @@
     font-family: 'Inter', system-ui, sans-serif;
 }
 
+/* --- Button - Close --- */
+.close-button-container,
 .hd-close-btn {
-    background: transparent;
-    border: none;
-    color: #ffffff;
-    font-size: 24px;
-    cursor: pointer;
-    line-height: 1;
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 2px 6px;
-    transition: opacity 0.15s ease;
+    width: 32px;
+    height: 32px;
+    background: transparent;
+    border: none;
+    border-radius: 50%;
+    color: #cbd5e1;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    padding: 0;
 }
 
+.close-button-container:hover,
 .hd-close-btn:hover {
-    opacity: 0.8;
+    color: #ffffff;
+    background: rgba(255, 255, 255, 0.1);
+    transform: rotate(90deg);
 }
 
 /* Toolbar - strictly single row, no wrapping */

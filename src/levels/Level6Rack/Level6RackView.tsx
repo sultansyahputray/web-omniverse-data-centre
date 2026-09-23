@@ -1,10 +1,13 @@
-import React from 'react';
-import { CameraView, RegionKey, SiteMetric } from '../../types';
+import React, { useState } from 'react';
+import { CameraView, RegionKey, SiteMetric, ScreenPosition } from '../../types';
 import { HallRowItem } from '../Level4Hall/Level4FloatingRows';
 import { Breadcrumb, BreadcrumbItem } from '../../reusable/Breadcrumb';
+import { NavigationButton } from '../../reusable/Button';
+import { HistoricalDataModal } from '../../reusable/HistoricalDataModal';
 import { ChevronLeftIcon } from '../../Icons';
 import { AdaptiveViewCube } from '../Level2Region/AdaptiveViewCube';
 import { HALL_OPTIONS } from '../Level4Hall/Level4Header';
+import { Level6RackDetailCard } from './Level6RackDetailCard';
 import './Level6Rack.css';
 
 interface Level6RackViewProps {
@@ -15,6 +18,7 @@ interface Level6RackViewProps {
     activeRackNum: number;
     regionMetric?: SiteMetric;
     cameraView?: CameraView;
+    screenPositions?: Record<string, ScreenPosition>;
     onBackToRow: () => void;
     onBackToHall: () => void;
     onSelectCameraView?: (view: CameraView) => void;
@@ -27,10 +31,16 @@ export const Level6RackView: React.FC<Level6RackViewProps> = ({
     activeRackNum,
     regionMetric,
     cameraView = 'iso',
+    screenPositions,
     onBackToRow,
     onBackToHall,
     onSelectCameraView
 }) => {
+    // Detail Card is open by default as requested
+    const [isDetailsOpen, setIsDetailsOpen] = useState(true);
+    // Historical Data Modal state
+    const [isHistoryOpen, setIsHistoryOpen] = useState(false);
+
     const title = regionMetric?.title || 'SOUTHEAST ASIA';
     const hubSubtitle = regionMetric?.subtitle || 'BATAM HUB';
 
@@ -93,10 +103,35 @@ export const Level6RackView: React.FC<Level6RackViewProps> = ({
                 </div>
             </div>
 
-            {/* Top-Right Actions: Breadcrumb */}
+            {/* Top-Right Actions: View Details Button + Breadcrumb */}
             <div className="level6-top-right-actions">
+                <NavigationButton
+                    label="View Details"
+                    onClick={() => setIsDetailsOpen((prev) => !prev)}
+                />
                 <Breadcrumb items={breadcrumbItems} onItemClick={handleBreadcrumbClick} />
             </div>
+
+            {/* Selected Rack Detail Floating Card (Open by default) */}
+            {isDetailsOpen && (() => {
+                const activeRackPos = (screenPositions && (screenPositions['active_rack'] || (activeRackId ? screenPositions[activeRackId] : undefined)))
+                    || {
+                        // Simulated default rack center in viewport when backend is not streaming 3D positions
+                        x: 40 + ((activeRackNum - 1) * 1.2),
+                        y: 52,
+                        visible: true
+                    };
+
+                return (
+                    <Level6RackDetailCard
+                        rackNum={activeRackNum}
+                        rowLabel={activeRow.label}
+                        screenPosition={activeRackPos}
+                        onClose={() => setIsDetailsOpen(false)}
+                        onViewHistory={() => setIsHistoryOpen(true)}
+                    />
+                );
+            })()}
 
             {/* Bottom-Right ViewCube (Dice Rotation) */}
             <div className="level6-bottom-controls">
@@ -108,6 +143,13 @@ export const Level6RackView: React.FC<Level6RackViewProps> = ({
                     />
                 </div>
             </div>
+
+            {/* Historical Data Popup Modal */}
+            <HistoricalDataModal
+                isOpen={isHistoryOpen}
+                title={`NVL72 ${rackLabel} Historical Data`}
+                onClose={() => setIsHistoryOpen(false)}
+            />
         </div>
     );
 };

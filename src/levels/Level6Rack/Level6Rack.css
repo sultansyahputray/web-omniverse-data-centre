@@ -17,6 +17,7 @@
         opacity: 0;
         transform: scale(0.99);
     }
+
     to {
         opacity: 1;
         transform: scale(1);
@@ -149,4 +150,238 @@
     display: flex;
     justify-content: center;
     align-items: center;
+}
+
+/* =========================================================================
+   LEVEL 6 SELECTED RACK DETAIL CARD STYLES
+   Matches NVIDIA Vera Rubin NVL72 Rack Telemetry Card Mockup
+   ========================================================================= */
+
+.level6-rack-detail-card {
+    position: absolute;
+    top: 155px;
+    right: 44px;
+    width: 570px;
+    background: linear-gradient(180deg, rgba(36, 65, 120, 1) 0%, rgba(14, 25, 53, 0.9) 100%);
+    border: 2px solid #00C0E8;
+    border-radius: 16px;
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    padding: 18px 22px 22px 22px;
+    pointer-events: auto;
+    z-index: 35;
+    display: flex;
+    flex-direction: column;
+    animation: rackCardFadeIn 0.25s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    box-sizing: border-box;
+    will-change: left, top;
+}
+
+/* Connector Callout Line pointing to the 3D Rack */
+.rack-card-connector-wrap {
+    position: absolute;
+    left: -90px;
+    top: 250px;
+    pointer-events: none;
+    z-index: 34;
+}
+
+.rack-card-connector-wrap.dynamic {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    overflow: visible;
+    pointer-events: none;
+    z-index: 34;
+}
+
+/* Card Header */
+.rack-card-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 5px;
+}
+
+.rack-card-header-left {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.rack-card-title {
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    font-size: 19px;
+    font-weight: 700;
+    color: #71F6FF;
+    letter-spacing: 0.5px;
+}
+
+.rack-card-header-right {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+
+/* 4 Circular Gauges Row */
+.rack-card-gauges-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 22px;
+    gap: 8px;
+}
+
+.rack-gauge-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    flex: 1;
+    min-width: 0;
+}
+
+.rack-gauge-title {
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    font-size: 11.5px;
+    font-weight: 600;
+    color: #FFFFFF;
+    line-height: 1.25;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    margin-bottom: 8px;
+    word-break: break-word;
+}
+
+.rack-gauge-power-display {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    line-height: 1.05;
+}
+
+.rack-gauge-power-display .power-num {
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    font-size: 15px;
+    font-weight: 700;
+    color: #ffffff;
+    letter-spacing: 0.5px;
+}
+
+.rack-gauge-power-display .power-unit {
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    font-size: 10px;
+    font-weight: 600;
+    color: #C5D5E5;
+    margin-top: 1px;
+}
+
+/* Capsule Tabs Row */
+.rack-card-tabs-container {
+    margin-bottom: 18px;
+}
+
+/* Tab Content: 2-Column Parameter Grid */
+.rack-card-content {
+    width: 100%;
+}
+
+.rack-card-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    column-gap: 24px;
+    row-gap: 10px;
+}
+
+.rack-card-col {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.rack-card-param-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 28px;
+}
+
+.rack-card-param-label {
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    font-size: 13.5px;
+    font-weight: 500;
+    color: #FFFFFF;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+}
+
+.rack-card-param-val-group {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    margin-left: 10px;
+}
+
+.rack-card-badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 70px;
+    min-width: 70px;
+    padding: 3px 12px;
+    border-radius: 6px;
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    color: #ffffff;
+    text-align: center;
+    box-sizing: border-box;
+}
+
+.badge-green {
+    background-color: #34C75999;
+    border: 2px solid #34C759;
+}
+
+.badge-blue {
+    background-color: #2E637A80;
+    border: 2px solid #4C8590;
+}
+
+.rack-card-param-unit {
+    display: inline-block;
+    width: 20px;
+    min-width: 20px;
+    margin-left: 5px;
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    font-size: 13px;
+    font-weight: 500;
+    color: #FFFFFF;
+    text-align: left;
+}
+
+.rack-card-param-unit.empty {
+    /* display: none; */
+    width: 20px;
+    min-width: 20px;
+    margin-left: 5;
+}
+
+@keyframes rackCardFadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-8px) scale(0.98);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
 }
