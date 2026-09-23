@@ -16,6 +16,7 @@ import { Level3BuildingView } from './levels/Level3Building/Level3BuildingView';
 import { Level4HallView } from './levels/Level4Hall/Level4HallView';
 import { Level5RowView } from './levels/Level5Row/Level5RowView';
 import { Level6RackView } from './levels/Level6Rack/Level6RackView';
+import { Level7ServerView } from './levels/Level7Server/Level7ServerView';
 import { HALL_ROW_ITEMS, HallRowItem } from './levels/Level4Hall/Level4FloatingRows';
 import './GlobalDashboard.css';
 
@@ -64,7 +65,7 @@ export const App: React.FC = () => {
         if (typeof window !== 'undefined') {
             const params = new URLSearchParams(window.location.search);
             const lvl = params.get('level') as AppLevel;
-            if (lvl && ['earth', 'region', 'building', 'hall', 'row', 'rack'].includes(lvl)) {
+            if (lvl && ['earth', 'region', 'building', 'hall', 'row', 'rack', 'server'].includes(lvl)) {
                 return lvl;
             }
         }
@@ -81,6 +82,15 @@ export const App: React.FC = () => {
         const params = new URLSearchParams(window.location.search);
         const rNum = params.get('rack_num');
         return rNum ? parseInt(rNum, 10) : 1;
+    });
+    const [activeServer, setActiveServer] = useState<string>(() => {
+        const params = new URLSearchParams(window.location.search);
+        return params.get('server_id') || 'VR_1';
+    });
+    const [activeServerNum, setActiveServerNum] = useState<number>(() => {
+        const params = new URLSearchParams(window.location.search);
+        const sNum = params.get('server_num');
+        return sNum ? parseInt(sNum, 10) : 1;
     });
     const [timeOfDay, setTimeOfDay] = useState<TimeOfDay>('pagi');
     const [cameraView, setCameraView] = useState<CameraView>('iso');
@@ -276,6 +286,71 @@ export const App: React.FC = () => {
         await postBackend('clear-selection', {});
     };
 
+    // Transition from Level 6/5 -> Level 7 (Server / Compute Tray Level)
+    const handleSelectServer = async (serverId: string, serverNum: number) => {
+        lastUserNavRef.current = Date.now();
+        setScreenPositions({});
+        setActiveServer(serverId);
+        setActiveServerNum(serverNum);
+        setCurrentLevel('server');
+        await postBackend('navigate', {
+            level: 'server',
+            server_id: serverId,
+            server_num: serverNum,
+            rack_id: activeRack,
+            rack_num: activeRackNum,
+            row_id: activeRow.id,
+            row_num: activeRow.rowNum,
+            hall_id: activeHall,
+            region: activeRegion
+        });
+    };
+
+    // Transition back from Level 7 -> Level 6 (Rack)
+    const handleBackToRackFromServer = async () => {
+        lastUserNavRef.current = Date.now();
+        setScreenPositions({});
+        setCurrentLevel('rack');
+        await postBackend('navigate', {
+            level: 'rack',
+            rack_id: activeRack,
+            rack_num: activeRackNum,
+            row_id: activeRow.id,
+            row_num: activeRow.rowNum,
+            hall_id: activeHall,
+            region: activeRegion
+        });
+        await postBackend('clear-selection', {});
+    };
+
+    // Transition back from Level 7 -> Level 5 (Row)
+    const handleBackToRowFromServer = async () => {
+        lastUserNavRef.current = Date.now();
+        setScreenPositions({});
+        setActiveRack('');
+        setActiveRackNum(1);
+        setCurrentLevel('row');
+        await postBackend('navigate', {
+            level: 'row',
+            row_id: activeRow.id,
+            row_num: activeRow.rowNum,
+            hall_id: activeHall,
+            region: activeRegion
+        });
+        await postBackend('clear-selection', {});
+    };
+
+    // Transition back from Level 7 -> Level 4 (Hall)
+    const handleBackToHallFromServer = async () => {
+        lastUserNavRef.current = Date.now();
+        setScreenPositions({});
+        setActiveRack('');
+        setActiveRackNum(1);
+        setCurrentLevel('hall');
+        await postBackend('navigate', { level: 'hall', hall_id: activeHall, region: activeRegion });
+        await postBackend('clear-selection', {});
+    };
+
     // Poll backend status to dynamically track 3D coordinates & sync level/selection
     useEffect(() => {
         let isMounted = true;
@@ -343,6 +418,19 @@ export const App: React.FC = () => {
                             }
                             if (data.active_rack_num && data.active_rack_num !== activeRackNum) {
                                 setActiveRackNum(data.active_rack_num);
+                            }
+                        }
+
+                        // 2e. Sync active server
+                        if (
+                            Date.now() - lastUserNavRef.current > 2000 &&
+                            data.active_server
+                        ) {
+                            if (data.active_server !== activeServer) {
+                                setActiveServer(data.active_server);
+                            }
+                            if (data.active_server_num && data.active_server_num !== activeServerNum) {
+                                setActiveServerNum(data.active_server_num);
                             }
                         }
 
@@ -529,6 +617,25 @@ export const App: React.FC = () => {
                         screenPositions={screenPositions}
                         onBackToRow={handleBackToRowFromRack}
                         onBackToHall={handleBackToHallFromRack}
+                        onSelectCameraView={handleSelectCameraView}
+                        onSelectServer={handleSelectServer}
+                    />
+                )}
+                {currentLevel === 'server' && activeRow && (
+                    <Level7ServerView
+                        activeRegion={activeRegion}
+                        activeHallId={activeHall}
+                        activeRow={activeRow}
+                        activeRackId={activeRack}
+                        activeRackNum={activeRackNum}
+                        activeServerId={activeServer}
+                        activeServerNum={activeServerNum}
+                        regionMetric={currentRegionMetric}
+                        cameraView={cameraView}
+                        screenPositions={screenPositions}
+                        onBackToRack={handleBackToRackFromServer}
+                        onBackToRow={handleBackToRowFromServer}
+                        onBackToHall={handleBackToHallFromServer}
                         onSelectCameraView={handleSelectCameraView}
                     />
                 )}

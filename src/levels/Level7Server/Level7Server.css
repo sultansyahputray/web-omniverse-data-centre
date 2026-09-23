@@ -1,0 +1,320 @@
+/* =========================================================================
+   LEVEL 7 SERVER / COMPUTE TRAY STYLES
+   Cyberpunk / Industrial Sci-Fi Data Centre Compute Tray Aesthetics
+   ========================================================================= */
+
+.level7-server-overlay {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    z-index: 20;
+    display: block;
+    animation: level7FadeIn 0.35s ease forwards;
+}
+
+@keyframes level7FadeIn {
+    from {
+        opacity: 0;
+        transform: scale(0.99);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+/* --- TOP-LEFT HEADER --- */
+.level7-header-container {
+    position: absolute;
+    top: 36px;
+    left: 44px;
+    pointer-events: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.back-to-rack-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    background: rgba(6, 18, 36, 0.85);
+    border: 1px solid rgba(0, 210, 255, 0.4);
+    border-radius: 6px;
+    padding: 8px 16px;
+    color: #ffffff;
+    font-family: var(--font-heading, 'Inter', system-ui, sans-serif);
+    font-size: 11.5px;
+    font-weight: 700;
+    letter-spacing: 1.6px;
+    cursor: pointer;
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.5), 0 0 10px rgba(0, 210, 255, 0.15);
+    transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+    width: fit-content;
+}
+
+.back-to-rack-btn:hover {
+    background: rgba(0, 210, 255, 0.15);
+    border-color: #00e5ff;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.6), 0 0 18px rgba(0, 229, 255, 0.4);
+    transform: translateX(-2px);
+}
+
+.level7-title-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.level7-accent-bar {
+    width: 4px;
+    height: 24px;
+    background: linear-gradient(180deg, #00E5FF 0%, #007799 100%);
+    border-radius: 2px;
+    box-shadow: 0 0 10px rgba(0, 229, 255, 0.8);
+}
+
+.level7-main-title {
+    font-family: 'Inter', system-ui, sans-serif;
+    font-size: 26px;
+    font-weight: 900;
+    color: #ffffff;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    text-shadow: 0 0 20px rgba(0, 229, 255, 0.4);
+    margin: 0;
+}
+
+.level7-badge {
+    background: rgba(0, 229, 255, 0.15);
+    border: 1px solid #00E5FF;
+    border-radius: 4px;
+    padding: 3px 8px;
+    font-size: 10px;
+    font-weight: 800;
+    color: #00E5FF;
+    letter-spacing: 1px;
+    box-shadow: 0 0 10px rgba(0, 229, 255, 0.25);
+}
+
+.level7-server-badge {
+    background: rgba(0, 229, 255, 0.2);
+    border: 1px solid #00E5FF;
+    border-radius: 4px;
+    padding: 3px 10px;
+    font-size: 10px;
+    font-weight: 800;
+    color: #ffffff;
+    letter-spacing: 1.2px;
+    box-shadow: 0 0 12px rgba(0, 229, 255, 0.35);
+}
+
+.level7-subtitle {
+    font-family: 'Inter', system-ui, sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    color: #88A2B8;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+}
+
+/* --- TOP-RIGHT ACTIONS (BREADCRUMB) --- */
+.level7-top-right-actions {
+    position: absolute;
+    top: 80px;
+    right: 44px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    pointer-events: auto;
+    z-index: 30;
+}
+
+/* --- BOTTOM-RIGHT VIEWCUBE --- */
+.level7-bottom-controls {
+    position: absolute;
+    bottom: 30px;
+    right: 44px;
+    display: flex;
+    align-items: flex-end;
+    pointer-events: auto;
+    z-index: 30;
+}
+
+.level7-viewcube-anchor {
+    width: 140px;
+    height: 140px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* =========================================================================
+   LEVEL 7 COMPUTE TRAY DETAIL CARD STYLES
+   ========================================================================= */
+
+.level7-server-detail-card {
+    position: absolute;
+    top: 155px;
+    right: 44px;
+    width: 580px;
+    background: linear-gradient(180deg, rgba(36, 65, 120, 1) 0%, rgba(14, 25, 53, 0.92) 100%);
+    border: 2px solid #00C0E8;
+    border-radius: 16px;
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    padding: 18px 22px 22px 22px;
+    pointer-events: auto;
+    z-index: 35;
+    display: flex;
+    flex-direction: column;
+    animation: serverCardFadeIn 0.25s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    box-sizing: border-box;
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.65), 0 0 30px rgba(0, 192, 232, 0.25);
+}
+
+@keyframes serverCardFadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.server-card-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 5px;
+}
+
+.server-card-header-left {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.server-card-title {
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    font-size: 19px;
+    font-weight: 700;
+    color: #71F6FF;
+    letter-spacing: 0.5px;
+}
+
+.server-card-header-right {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.server-card-gauges-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 20px;
+    gap: 8px;
+}
+
+.server-gauge-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    flex: 1;
+    min-width: 0;
+}
+
+.server-gauge-title {
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    font-size: 11.5px;
+    font-weight: 600;
+    color: #FFFFFF;
+    margin-bottom: 8px;
+    white-space: nowrap;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.6);
+}
+
+.server-card-tabs-container {
+    margin-bottom: 16px;
+    display: flex;
+    justify-content: center;
+}
+
+.server-card-content {
+    background: rgba(8, 18, 36, 0.6);
+    border: 1px solid rgba(0, 195, 208, 0.2);
+    border-radius: 12px;
+    padding: 16px;
+}
+
+.server-card-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px 24px;
+}
+
+.server-card-col {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.server-card-param-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-family: 'Inter', system-ui, sans-serif;
+    font-size: 12px;
+}
+
+.server-card-param-label {
+    color: #88A2B8;
+    font-weight: 500;
+}
+
+.server-card-param-val-group {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.server-card-badge {
+    padding: 2px 8px;
+    border-radius: 4px;
+    font-weight: 700;
+    font-size: 12px;
+}
+
+.server-card-badge.badge-green {
+    background: rgba(34, 197, 94, 0.15);
+    border: 1px solid rgba(34, 197, 94, 0.5);
+    color: #4ade80;
+}
+
+.server-card-badge.badge-blue {
+    background: rgba(59, 130, 246, 0.15);
+    border: 1px solid rgba(59, 130, 246, 0.5);
+    color: #60a5fa;
+}
+
+.server-card-badge.badge-amber {
+    background: rgba(245, 158, 11, 0.15);
+    border: 1px solid rgba(245, 158, 11, 0.5);
+    color: #fbbf24;
+}
+
+.server-card-param-unit {
+    color: #88A2B8;
+    font-size: 11px;
+    min-width: 24px;
+}
+
+.server-card-param-unit.empty {
+    min-width: 0;
+}

@@ -6,38 +6,38 @@ import { HistoricalDataModal } from '../../reusable/HistoricalDataModal';
 import { ChevronLeftIcon } from '../../Icons';
 import { AdaptiveViewCube } from '../Level2Region/AdaptiveViewCube';
 import { HALL_OPTIONS } from '../Level4Hall/Level4Header';
-import { Level6RackDetailCard } from './Level6RackDetailCard';
-import './Level6Rack.css';
+import { Level7ServerDetailCard } from './Level7ServerDetailCard';
+import './Level7Server.css';
 
-interface Level6RackViewProps {
+interface Level7ServerViewProps {
     activeRegion: RegionKey;
     activeHallId: string;
     activeRow: HallRowItem;
     activeRackId: string;
     activeRackNum: number;
+    activeServerId: string;
+    activeServerNum: number;
     regionMetric?: SiteMetric;
     cameraView?: CameraView;
     screenPositions?: Record<string, ScreenPosition>;
+    onBackToRack: () => void;
     onBackToRow: () => void;
     onBackToHall: () => void;
     onSelectCameraView?: (view: CameraView) => void;
-    onSelectServer?: (serverId: string, serverNum: number) => void;
 }
 
-export const Level6RackView: React.FC<Level6RackViewProps> = ({
+export const Level7ServerView: React.FC<Level7ServerViewProps> = ({
     activeHallId,
     activeRow,
-    activeRackId,
     activeRackNum,
+    activeServerNum,
     regionMetric,
     cameraView = 'iso',
-    screenPositions,
+    onBackToRack,
     onBackToRow,
     onBackToHall,
-    onSelectCameraView,
-    onSelectServer
+    onSelectCameraView
 }) => {
-    // Historical Data Modal state
     const [isHistoryOpen, setIsHistoryOpen] = useState(false);
 
     const title = regionMetric?.title || 'SOUTHEAST ASIA';
@@ -45,11 +45,15 @@ export const Level6RackView: React.FC<Level6RackViewProps> = ({
 
     const currentHall = HALL_OPTIONS.find((h) => h.id === activeHallId) || HALL_OPTIONS[0];
 
-    // Format display rack label, e.g. "Rack 04"
     const rackFormattedNum = String(activeRackNum).padStart(2, '0');
-    const rackLabel = `Rack ${rackFormattedNum}`;
+    const serverFormattedNum = String(activeServerNum).padStart(2, '0');
+    const rowFormattedNum = String(activeRow?.rowNum || 1).padStart(2, '0');
 
-    // Top-Right Breadcrumb: [ Hall L1-A > Row A > Rack 04 ]
+    const rackLabel = `Rack ${rackFormattedNum}`;
+    const serverLabel = `Compute Tray ${serverFormattedNum}`;
+    const rowLabel = `Row ${rowFormattedNum}`;
+
+    // Top-Right Breadcrumb: [ Hall G-A > Row 03 > Rack 04 > Compute Tray 04 ]
     const breadcrumbItems: BreadcrumbItem[] = [
         {
             id: 'hall',
@@ -58,12 +62,17 @@ export const Level6RackView: React.FC<Level6RackViewProps> = ({
         },
         {
             id: 'row',
-            label: activeRow.label,
+            label: rowLabel,
             navigation: 'row'
         },
         {
             id: 'rack',
             label: rackLabel,
+            navigation: 'rack'
+        },
+        {
+            id: 'server',
+            label: serverLabel,
             navigation: null
         }
     ];
@@ -73,67 +82,56 @@ export const Level6RackView: React.FC<Level6RackViewProps> = ({
             onBackToHall();
         } else if (item.id === 'row' || item.navigation === 'row' || index === 1) {
             onBackToRow();
+        } else if (item.id === 'rack' || item.navigation === 'rack' || index === 2) {
+            onBackToRack();
         }
     };
 
     return (
-        <div className="level6-rack-overlay">
-            {/* Top-Left Header: Back to Row Button + Badges */}
-            <div className="level6-header-container">
+        <div className="level7-server-overlay">
+            {/* Top-Left Header: Back to Rack Button + Badges */}
+            <div className="level7-header-container">
                 <button
-                    className="back-to-row-btn"
-                    onClick={onBackToRow}
-                    title={`Return to Level 5: ${activeRow.label}`}
-                    aria-label="Back to Row"
+                    className="back-to-rack-btn"
+                    onClick={onBackToRack}
+                    title={`Return to Level 6: ${rackLabel}`}
+                    aria-label="Back to Rack"
                 >
                     <ChevronLeftIcon size={16} color="#00E5FF" />
-                    <span>BACK TO {activeRow.label.toUpperCase()}</span>
+                    <span>BACK TO {rackLabel.toUpperCase()}</span>
                 </button>
 
-                <div className="level6-title-row">
-                    <span className="level6-accent-bar" />
-                    <h1 className="level6-main-title">{title}</h1>
-                    <span className="level6-badge">LEVEL 06</span>
-                    <span className="level6-rack-badge">{rackLabel.toUpperCase()}</span>
+                <div className="level7-title-row">
+                    <span className="level7-accent-bar" />
+                    <h1 className="level7-main-title">{title}</h1>
+                    <span className="level7-badge">LEVEL 07</span>
+                    <span className="level7-server-badge">{serverLabel.toUpperCase()}</span>
                 </div>
 
-                <div className="level6-subtitle">
-                    {hubSubtitle} &bull; {currentHall.title.toUpperCase()} &bull; {activeRow.label.toUpperCase()} &bull; {rackLabel.toUpperCase()}
+                <div className="level7-subtitle">
+                    {hubSubtitle} &bull; {currentHall.title.toUpperCase()} &bull; {rowLabel.toUpperCase()} &bull; {rackLabel.toUpperCase()} &bull; {serverLabel.toUpperCase()}
                 </div>
             </div>
 
             {/* Top-Right Actions: Breadcrumb */}
-            <div className="level6-top-right-actions">
+            <div className="level7-top-right-actions">
                 <Breadcrumb items={breadcrumbItems} onItemClick={handleBreadcrumbClick} />
             </div>
 
-            {/* Selected Rack Detail Floating Card (Closing navigates back to Hall and resets selection) */}
-            {(() => {
-                const activeRackPos = (screenPositions && (screenPositions['active_rack'] || (activeRackId ? screenPositions[activeRackId] : undefined)))
-                    || {
-                    // Simulated default rack center in viewport when backend is not streaming 3D positions
-                    x: 40 + ((activeRackNum - 1) * 1.2),
-                    y: 52,
-                    visible: true
-                };
-
-                return (
-                    <Level6RackDetailCard
-                        rackNum={activeRackNum}
-                        rowLabel={activeRow.label}
-                        screenPosition={activeRackPos}
-                        onClose={onBackToHall}
-                        onViewHistory={() => setIsHistoryOpen(true)}
-                        onSelectServer={onSelectServer}
-                    />
-                );
-            })()}
+            {/* Selected Compute Tray Detail Floating Card */}
+            <Level7ServerDetailCard
+                serverNum={activeServerNum}
+                rackNum={activeRackNum}
+                rowLabel={rowLabel}
+                onClose={onBackToRack}
+                onViewHistory={() => setIsHistoryOpen(true)}
+            />
 
             {/* Bottom-Right ViewCube (Dice Rotation) */}
-            <div className="level6-bottom-controls">
-                <div className="level6-viewcube-anchor">
+            <div className="level7-bottom-controls">
+                <div className="level7-viewcube-anchor">
                     <AdaptiveViewCube
-                        focusLabel={rackLabel.toUpperCase()}
+                        focusLabel={serverLabel.toUpperCase()}
                         currentView={cameraView}
                         onSelectView={onSelectCameraView || (() => { })}
                     />
@@ -143,7 +141,7 @@ export const Level6RackView: React.FC<Level6RackViewProps> = ({
             {/* Historical Data Popup Modal */}
             <HistoricalDataModal
                 isOpen={isHistoryOpen}
-                title={`NVL72 ${rackLabel} Historical Data`}
+                title={`NVL72 ${rackLabel} - ${serverLabel} Historical Data`}
                 onClose={() => setIsHistoryOpen(false)}
             />
         </div>

@@ -10,6 +10,7 @@ interface Level6RackDetailCardProps {
     screenPosition?: ScreenPosition;
     onClose: () => void;
     onViewHistory: () => void;
+    onSelectServer?: (serverId: string, serverNum: number) => void;
 }
 
 const RACK_TABS: ButtonBarWithStatusItem[] = [
@@ -23,7 +24,8 @@ export const Level6RackDetailCard: React.FC<Level6RackDetailCardProps> = ({
     rowLabel = 'Row A',
     screenPosition,
     onClose,
-    onViewHistory
+    onViewHistory,
+    onSelectServer
 }) => {
     // Default active tab to Power (index 2) as shown in the user's reference image
     const [activeTabIdx, setActiveTabIdx] = useState(2);
@@ -372,6 +374,43 @@ export const Level6RackDetailCard: React.FC<Level6RackDetailCardProps> = ({
                             {renderParamRow('Running Jobs', '4')}
                             {renderParamRow('Active Servers', rackMetrics.activeServers)}
                         </div>
+                        {onSelectServer && (
+                            <div style={{ gridColumn: 'span 2', marginTop: '12px', paddingTop: '10px', borderTop: '1px solid rgba(0, 195, 208, 0.2)' }}>
+                                <div style={{ fontSize: '11px', color: '#88A2B8', fontWeight: 700, marginBottom: '8px', letterSpacing: '0.8px' }}>
+                                    INSPECT COMPUTE TRAY (LEVEL 07):
+                                </div>
+                                <div style={{ display: 'flex', flexWrap: 'wrap', gap: '6px' }}>
+                                    {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18].map((sNum) => (
+                                        <button
+                                            key={sNum}
+                                            style={{
+                                                background: 'rgba(0, 229, 255, 0.1)',
+                                                border: '1px solid rgba(0, 229, 255, 0.35)',
+                                                borderRadius: '4px',
+                                                padding: '3px 7px',
+                                                fontSize: '11px',
+                                                color: '#71F6FF',
+                                                cursor: 'pointer',
+                                                fontWeight: 600,
+                                                transition: 'all 0.15s ease'
+                                            }}
+                                            onMouseEnter={(e) => {
+                                                e.currentTarget.style.background = 'rgba(0, 229, 255, 0.3)';
+                                                e.currentTarget.style.borderColor = '#00E5FF';
+                                            }}
+                                            onMouseLeave={(e) => {
+                                                e.currentTarget.style.background = 'rgba(0, 229, 255, 0.1)';
+                                                e.currentTarget.style.borderColor = 'rgba(0, 229, 255, 0.35)';
+                                            }}
+                                            onClick={() => onSelectServer(`VR_${sNum}`, sNum)}
+                                            title={`Inspect Compute Tray VR_${sNum}`}
+                                        >
+                                            VR_{sNum}
+                                        </button>
+                                    ))}
+                                </div>
+                            </div>
+                        )}
                     </div>
                 )}
 

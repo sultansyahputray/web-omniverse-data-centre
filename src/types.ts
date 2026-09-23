@@ -1,4 +1,4 @@
-export type AppLevel = 'earth' | 'region' | 'building' | 'hall' | 'row' | 'rack';
+export type AppLevel = 'earth' | 'region' | 'building' | 'hall' | 'row' | 'rack' | 'server';
 export type BuildingSubView = 'cutaway' | 'power_details' | 'cooling_details';
 export type TimeOfDay = 'pagi' | 'sore' | 'malam';
 export type RegionKey = 'SG' | 'AUS' | 'JPN';
@@ -39,6 +39,8 @@ export interface BackendStatus {
     active_row_num?: number | null;
     active_rack?: string | null;
     active_rack_num?: number | null;
+    active_server?: string | null;
+    active_server_num?: number | null;
     time_of_day?: TimeOfDay;
     camera_view?: CameraView;
     layer?: string;
