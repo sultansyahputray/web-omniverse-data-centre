@@ -70,9 +70,12 @@ export const Level7ComputeTrayListCard: React.FC<Level7ComputeTrayListCardProps>
         <div className="level7-compute-tray-card">
             {/* Header: Microchip Icon + Title */}
             <div className="compute-tray-card-header">
-                <MicrochipIcon size={20} color="#00E5FF" />
+                <MicrochipIcon size={20} color="rgba(113, 246, 255, 1)" />
                 <h3 className="compute-tray-card-title">Compute Tray List</h3>
             </div>
+
+            {/* HORIZONTAL DIVIDER */}
+            <div className="title-h-divider"></div>
 
             {/* Tree Scroll Area */}
             <div className="compute-tray-tree-scroll">

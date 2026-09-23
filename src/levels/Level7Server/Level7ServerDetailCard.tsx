@@ -110,7 +110,7 @@ export const Level7ServerDetailCard: React.FC<Level7ServerDetailCardProps> = ({
             {/* Header: Microchip Icon + 2-line Title (Image 2) */}
             <div className="server-card-header">
                 <div className="server-card-header-left">
-                    <MicrochipIcon size={28} color="#00C3D0" />
+                    <MicrochipIcon size={28} color="rgba(113, 246, 255, 1)" />
                     <div className="server-card-title-group">
                         <span className="server-card-title-line1">NVL72 Rack {rackNum}</span>
                         <span className="server-card-title-line2">Compute Tray {formattedServerNum}</span>
@@ -130,6 +130,9 @@ export const Level7ServerDetailCard: React.FC<Level7ServerDetailCardProps> = ({
                     />
                 </div>
             </div>
+
+            {/* HORIZONTAL DIVIDER */}
+            <div className="title-h-divider"></div>
 
             {/* Capsule Tabs: Computing [1] | Cooling | Power */}
             <div className="server-card-tabs-container">

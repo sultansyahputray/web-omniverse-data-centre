@@ -72,7 +72,7 @@ const TreeItem = ({
                     >
                         <FontAwesomeIcon
                             icon={isExpand ? 'fa-solid fa-caret-down' : 'fa-solid fa-caret-right'}
-                            style={{ color: '#FFFFFF', fontSize: '11px' }}
+                            style={{ color: '#FFFFFF', fontSize: '16px' }}
                         />
                     </button>
                 ) : (
