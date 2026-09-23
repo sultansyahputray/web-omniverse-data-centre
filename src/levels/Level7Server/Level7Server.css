@@ -465,51 +465,10 @@
     transform: translate(-50%, -50%);
     pointer-events: auto;
     transition: left 0.12s ease-out, top 0.12s ease-out, opacity 0.2s ease;
+    z-index: 24;
 }
 
-.floating-superchip-pill-btn {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    background: #00838F;
-    border: 2px solid #00E5FF;
-    border-radius: 20px;
-    padding: 7px 18px;
-    color: #ffffff;
-    font-family: 'Inter', system-ui, -apple-system, sans-serif;
-    font-size: 14px;
-    font-weight: 700;
-    cursor: pointer;
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-    box-shadow: 0 4px 18px rgba(0, 0, 0, 0.55), 0 0 16px rgba(0, 229, 255, 0.4);
-    transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+.floating-superchip-container .navigation-button-container {
+    box-shadow: 0 4px 18px rgba(0, 0, 0, 0.55), 0 0 16px rgba(0, 195, 208, 0.35);
     white-space: nowrap;
-}
-
-.floating-superchip-pill-btn:hover {
-    background: #00acc1;
-    border-color: #ffffff;
-    transform: translateY(-2px) scale(1.04);
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.65), 0 0 22px rgba(0, 229, 255, 0.7);
-}
-
-.floating-superchip-pill-btn:active {
-    transform: translateY(0) scale(0.99);
-}
-
-.floating-superchip-text {
-    line-height: 1;
-    letter-spacing: 0.2px;
-}
-
-.floating-superchip-arrow {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: transform 0.2s ease;
-}
-
-.floating-superchip-pill-btn:hover .floating-superchip-arrow {
-    transform: translateX(3px);
 }
