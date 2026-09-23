@@ -1,4 +1,4 @@
-import React, { Fragment, useState, useEffect, useMemo, useRef, useReducer } from 'react';
+import React, { Fragment, useState, useEffect, useMemo, useRef, useContext, createContext } from 'react';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { library } from '@fortawesome/fontawesome-svg-core'
@@ -14,28 +14,47 @@ import './Reusable.css';
 export interface TreeHierarchyNode {
     id: string,
     label: string,
+    click_callback: (e: Event) => void | null
     children: TreeHierarchyNode[]
 } 
 
 interface TreeHierarchyProps {
-    content: TreeHierarchyNode
+    node: TreeHierarchyNode,
+    is_expand: boolean
 }
 
-export const TreeHierarchy = ({ content }: TreeHierarchyProps) => {
-    const TreeHTMLCreator = (parent_node: TreeHierarchyNode) => {
-        return (
-            <ul className="parent-node-container">
-                {parent_node.children.map((node, idx) => (
-                    <Fragment>
-                        <li id={node.id}>{node.label}</li>
-                        {node.children.length > 0 && TreeHTMLCreator(node)}
-                    </Fragment>
-                ))}
-            </ul>
-        )
+const IsExpandContext = createContext<boolean>(true);
+
+const TreeItem = ({ id, label, click_callback, children }: TreeHierarchyNode) => {
+    const [isExpand, setIsExpand] = useState<boolean>(true);
+    
+    const handleButtonClick = () => {
+        setIsExpand(!isExpand)
     };
 
+    const handleLabelClick = (e) => {
+        if (click_callback != null) {
+            click_callback(e);
+        }
+    }
+
     return (
-        TreeHTMLCreator(content)
+        <IsExpandContext.Provider value={isExpand}>
+            <li id={id}>
+                {children.length > 0 && <button onClick={handleButtonClick} className="tree-content-expand-collapse-button"><FontAwesomeIcon icon={isExpand ? "fa-solid fa-caret-right" : "fa-solid fa-caret-down"} style={{color: "#FFFFFF",}} /></button>}
+                <label id={id} onClick={handleLabelClick}>{label}</label>
+            </li>
+            {(children.length > 0 && isExpand) && <TreeHierarchy node={{id: id, label: label, children: children}} is_expand={isExpand}></TreeHierarchy>}
+        </IsExpandContext.Provider>
+    );
+}
+
+export const TreeHierarchy = ({ node, is_expand }: TreeHierarchyProps) => {
+    return (
+        <ul className={is_expand ? "parent-node-container expand" : "parent-node-container collapse"}>
+            {node.children.map((child, idx) => (
+                <TreeItem id={child.id} label={child.label} children={child.children} click_callback={child.click_callback}></TreeItem>
+            ))}
+        </ul>
     );
 }

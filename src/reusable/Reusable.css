@@ -239,3 +239,8 @@
     padding-left: 20px;
     list-style-type: none;
 }
+
+.tree-content-expand-collapse-button {
+    background-color: transparent;
+    border-width: 0px;
+}
