@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { CameraView, RegionKey, SiteMetric, ScreenPosition } from '../../types';
 import { HallRowItem } from '../Level4Hall/Level4FloatingRows';
 import { Breadcrumb, BreadcrumbItem } from '../../reusable/Breadcrumb';
-import { NavigationButton } from '../../reusable/Button';
 import { HistoricalDataModal } from '../../reusable/HistoricalDataModal';
 import { ChevronLeftIcon } from '../../Icons';
 import { AdaptiveViewCube } from '../Level2Region/AdaptiveViewCube';
@@ -36,8 +35,6 @@ export const Level6RackView: React.FC<Level6RackViewProps> = ({
     onBackToHall,
     onSelectCameraView
 }) => {
-    // Detail Card is open by default as requested
-    const [isDetailsOpen, setIsDetailsOpen] = useState(true);
     // Historical Data Modal state
     const [isHistoryOpen, setIsHistoryOpen] = useState(false);
 
@@ -103,31 +100,27 @@ export const Level6RackView: React.FC<Level6RackViewProps> = ({
                 </div>
             </div>
 
-            {/* Top-Right Actions: View Details Button + Breadcrumb */}
+            {/* Top-Right Actions: Breadcrumb */}
             <div className="level6-top-right-actions">
-                <NavigationButton
-                    label="View Details"
-                    onClick={() => setIsDetailsOpen((prev) => !prev)}
-                />
                 <Breadcrumb items={breadcrumbItems} onItemClick={handleBreadcrumbClick} />
             </div>
 
-            {/* Selected Rack Detail Floating Card (Open by default) */}
-            {isDetailsOpen && (() => {
+            {/* Selected Rack Detail Floating Card (Closing navigates back to Hall and resets selection) */}
+            {(() => {
                 const activeRackPos = (screenPositions && (screenPositions['active_rack'] || (activeRackId ? screenPositions[activeRackId] : undefined)))
                     || {
-                        // Simulated default rack center in viewport when backend is not streaming 3D positions
-                        x: 40 + ((activeRackNum - 1) * 1.2),
-                        y: 52,
-                        visible: true
-                    };
+                    // Simulated default rack center in viewport when backend is not streaming 3D positions
+                    x: 40 + ((activeRackNum - 1) * 1.2),
+                    y: 52,
+                    visible: true
+                };
 
                 return (
                     <Level6RackDetailCard
                         rackNum={activeRackNum}
                         rowLabel={activeRow.label}
                         screenPosition={activeRackPos}
-                        onClose={() => setIsDetailsOpen(false)}
+                        onClose={onBackToHall}
                         onViewHistory={() => setIsHistoryOpen(true)}
                     />
                 );

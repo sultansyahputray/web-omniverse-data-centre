@@ -252,6 +252,8 @@ export const App: React.FC = () => {
     const handleBackToRowFromRack = async () => {
         lastUserNavRef.current = Date.now();
         setScreenPositions({});
+        setActiveRack('');
+        setActiveRackNum(1);
         setCurrentLevel('row');
         await postBackend('navigate', {
             level: 'row',
@@ -267,6 +269,8 @@ export const App: React.FC = () => {
     const handleBackToHallFromRack = async () => {
         lastUserNavRef.current = Date.now();
         setScreenPositions({});
+        setActiveRack('');
+        setActiveRackNum(1);
         setCurrentLevel('hall');
         await postBackend('navigate', { level: 'hall', hall_id: activeHall, region: activeRegion });
         await postBackend('clear-selection', {});
