@@ -7,6 +7,7 @@ import { ChevronLeftIcon } from '../../Icons';
 import { AdaptiveViewCube } from '../Level2Region/AdaptiveViewCube';
 import { HALL_OPTIONS } from '../Level4Hall/Level4Header';
 import { Level7ServerDetailCard } from './Level7ServerDetailCard';
+import { Level7BottomGaugesCard } from './Level7BottomGaugesCard';
 import './Level7Server.css';
 
 interface Level7ServerViewProps {
@@ -127,8 +128,9 @@ export const Level7ServerView: React.FC<Level7ServerViewProps> = ({
                 onViewHistory={() => setIsHistoryOpen(true)}
             />
 
-            {/* Bottom-Right ViewCube (Dice Rotation) */}
+            {/* Bottom-Right Controls: Gauges Card (Image 3) + ViewCube Dice Rotation */}
             <div className="level7-bottom-controls">
+                <Level7BottomGaugesCard serverNum={activeServerNum} />
                 <div className="level7-viewcube-anchor">
                     <AdaptiveViewCube
                         focusLabel={serverLabel.toUpperCase()}

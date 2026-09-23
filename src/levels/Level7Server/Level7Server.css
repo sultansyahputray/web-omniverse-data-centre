@@ -132,65 +132,35 @@
     z-index: 30;
 }
 
-/* --- BOTTOM-RIGHT VIEWCUBE --- */
-.level7-bottom-controls {
-    position: absolute;
-    bottom: 30px;
-    right: 44px;
-    display: flex;
-    align-items: flex-end;
-    pointer-events: auto;
-    z-index: 30;
-}
-
-.level7-viewcube-anchor {
-    width: 140px;
-    height: 140px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
 /* =========================================================================
-   LEVEL 7 COMPUTE TRAY DETAIL CARD STYLES
+   1. LEVEL 7 SERVER DETAIL CARD (IMAGE 2 - BELOW BREADCRUMB)
    ========================================================================= */
 
 .level7-server-detail-card {
     position: absolute;
-    top: 155px;
+    top: 135px;
     right: 44px;
-    width: 580px;
-    background: linear-gradient(180deg, rgba(36, 65, 120, 1) 0%, rgba(14, 25, 53, 0.92) 100%);
+    width: 350px;
+    background: linear-gradient(180deg, rgba(20, 48, 92, 0.95) 0%, rgba(10, 24, 52, 0.96) 100%);
     border: 2px solid #00C0E8;
     border-radius: 16px;
     backdrop-filter: blur(16px);
     -webkit-backdrop-filter: blur(16px);
-    padding: 18px 22px 22px 22px;
+    padding: 16px 18px 18px 18px;
     pointer-events: auto;
     z-index: 35;
     display: flex;
     flex-direction: column;
-    animation: serverCardFadeIn 0.25s cubic-bezier(0.16, 1, 0.3, 1) forwards;
     box-sizing: border-box;
-    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.65), 0 0 30px rgba(0, 192, 232, 0.25);
-}
-
-@keyframes serverCardFadeIn {
-    from {
-        opacity: 0;
-        transform: translateY(10px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
+    box-shadow: 0 12px 35px rgba(0, 0, 0, 0.7), 0 0 24px rgba(0, 192, 232, 0.3);
+    animation: serverCardFadeIn 0.25s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
 .server-card-header {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    margin-bottom: 5px;
+    margin-bottom: 14px;
 }
 
 .server-card-header-left {
@@ -199,122 +169,214 @@
     gap: 12px;
 }
 
-.server-card-title {
-    font-family: 'Inter', system-ui, -apple-system, sans-serif;
-    font-size: 19px;
+.server-card-title-group {
+    display: flex;
+    flex-direction: column;
+    line-height: 1.25;
+}
+
+.server-card-title-line1 {
+    font-family: 'Inter', system-ui, sans-serif;
+    font-size: 15px;
+    font-weight: 700;
+    color: #FFFFFF;
+    letter-spacing: 0.3px;
+}
+
+.server-card-title-line2 {
+    font-family: 'Inter', system-ui, sans-serif;
+    font-size: 15px;
     font-weight: 700;
     color: #71F6FF;
-    letter-spacing: 0.5px;
+    letter-spacing: 0.3px;
 }
 
 .server-card-header-right {
     display: flex;
     align-items: center;
-    gap: 12px;
-}
-
-.server-card-gauges-row {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-    margin-bottom: 20px;
     gap: 8px;
 }
 
-.server-gauge-item {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
-    flex: 1;
-    min-width: 0;
+.server-card-history-btn {
+    font-size: 11px !important;
+    padding: 5px 10px !important;
 }
 
-.server-gauge-title {
-    font-family: 'Inter', system-ui, -apple-system, sans-serif;
-    font-size: 11.5px;
-    font-weight: 600;
-    color: #FFFFFF;
-    margin-bottom: 8px;
-    white-space: nowrap;
-    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.6);
-}
-
+/* Tabs */
 .server-card-tabs-container {
-    margin-bottom: 16px;
+    margin-bottom: 14px;
     display: flex;
+    justify-content: flex-start;
+}
+
+.server-card-tabs-container .button-bar-with-status-container {
+    width: 100%;
+    display: flex;
+    background: rgba(5, 14, 30, 0.7);
+    border-radius: 20px;
+    padding: 3px;
+    border: 1px solid rgba(0, 192, 232, 0.25);
+}
+
+.server-card-tabs-container .button-bar-item {
+    flex: 1;
+    display: flex;
+    align-items: center;
     justify-content: center;
+    gap: 6px;
+    padding: 5px 8px;
+    font-size: 12px;
+    font-weight: 600;
+    color: #88A2B8;
+    background: transparent;
+    border: none;
+    border-radius: 16px;
+    cursor: pointer;
+    transition: all 0.2s ease;
 }
 
+.server-card-tabs-container .button-bar-item.active {
+    background: #00B4D8;
+    color: #FFFFFF;
+    font-weight: 700;
+    box-shadow: 0 0 10px rgba(0, 180, 216, 0.5);
+}
+
+/* Single-column list matching Image 2 */
 .server-card-content {
-    background: rgba(8, 18, 36, 0.6);
-    border: 1px solid rgba(0, 195, 208, 0.2);
-    border-radius: 12px;
-    padding: 16px;
-}
-
-.server-card-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 12px 24px;
-}
-
-.server-card-col {
     display: flex;
     flex-direction: column;
-    gap: 10px;
 }
 
-.server-card-param-row {
+.server-card-list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.server-detail-row {
     display: flex;
     align-items: center;
     justify-content: space-between;
     font-family: 'Inter', system-ui, sans-serif;
-    font-size: 12px;
+    font-size: 12.5px;
+    padding: 2px 0;
 }
 
-.server-card-param-label {
-    color: #88A2B8;
+.server-detail-label {
+    color: #FFFFFF;
     font-weight: 500;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    padding-right: 8px;
 }
 
-.server-card-param-val-group {
+.server-detail-val-group {
     display: flex;
     align-items: center;
-    gap: 6px;
+    gap: 8px;
+    flex-shrink: 0;
 }
 
-.server-card-badge {
-    padding: 2px 8px;
-    border-radius: 4px;
+.server-detail-badge {
+    background: #189849;
+    color: #FFFFFF;
     font-weight: 700;
+    font-size: 13px;
+    border-radius: 6px;
+    padding: 3px 12px;
+    min-width: 32px;
+    text-align: center;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.35);
+}
+
+.server-detail-unit {
+    color: #FFFFFF;
     font-size: 12px;
+    font-weight: 600;
+    min-width: 18px;
+    text-align: left;
 }
 
-.server-card-badge.badge-green {
-    background: rgba(34, 197, 94, 0.15);
-    border: 1px solid rgba(34, 197, 94, 0.5);
-    color: #4ade80;
-}
-
-.server-card-badge.badge-blue {
-    background: rgba(59, 130, 246, 0.15);
-    border: 1px solid rgba(59, 130, 246, 0.5);
-    color: #60a5fa;
-}
-
-.server-card-badge.badge-amber {
-    background: rgba(245, 158, 11, 0.15);
-    border: 1px solid rgba(245, 158, 11, 0.5);
-    color: #fbbf24;
-}
-
-.server-card-param-unit {
-    color: #88A2B8;
-    font-size: 11px;
-    min-width: 24px;
-}
-
-.server-card-param-unit.empty {
+.server-detail-unit.empty {
     min-width: 0;
+}
+
+/* =========================================================================
+   2. LEVEL 7 BOTTOM CONTROLS & GAUGES CARD (IMAGE 3 - LEFT OF DICE)
+   ========================================================================= */
+
+.level7-bottom-controls {
+    position: absolute;
+    bottom: 30px;
+    right: 44px;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    pointer-events: auto;
+    z-index: 30;
+}
+
+.level7-viewcube-anchor {
+    width: 135px;
+    height: 135px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-shrink: 0;
+}
+
+.level7-bottom-gauges-card {
+    background: linear-gradient(180deg, rgba(20, 48, 92, 0.95) 0%, rgba(10, 24, 52, 0.96) 100%);
+    border: 2px solid #00C0E8;
+    border-radius: 14px;
+    padding: 12px 20px 14px 20px;
+    display: flex;
+    align-items: center;
+    gap: 24px;
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.65), 0 0 20px rgba(0, 192, 232, 0.25);
+    animation: serverCardFadeIn 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.bottom-gauge-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    min-width: 82px;
+}
+
+.bottom-gauge-title {
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    font-size: 11px;
+    font-weight: 600;
+    color: #FFFFFF;
+    line-height: 1.25;
+    margin-bottom: 6px;
+    text-align: center;
+    white-space: nowrap;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.6);
+}
+
+.bottom-gauge-power-display {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    line-height: 1;
+}
+
+.bottom-gauge-power-display .power-val {
+    font-size: 13px;
+    font-weight: 800;
+    color: #FFFFFF;
+}
+
+.bottom-gauge-power-display .power-sub {
+    font-size: 9.5px;
+    font-weight: 700;
+    color: rgba(255, 255, 255, 0.85);
+    margin-top: 1px;
 }

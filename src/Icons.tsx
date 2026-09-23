@@ -248,3 +248,27 @@ export const RegionalAvailabilityGauge: React.FC<{
         );
     };
 
+// Microchip / Compute Tray IC icon (matches NVL72 Compute Tray header in Image 2)
+export const MicrochipIcon: React.FC<{ size?: number; color?: string }> = ({ size = 26, color = '#71F6FF' }) => (
+    <svg width={size} height={size} viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <rect x="5.5" y="5.5" width="13" height="13" rx="2" stroke={color} strokeWidth="1.8" />
+        <rect x="8.5" y="8.5" width="7" height="7" rx="1" fill={color} fillOpacity="0.25" stroke={color} strokeWidth="1.2" />
+        {/* Top pins */}
+        <line x1="8.5" y1="2" x2="8.5" y2="5.5" stroke={color} strokeWidth="1.5" strokeLinecap="round" />
+        <line x1="12" y1="2" x2="12" y2="5.5" stroke={color} strokeWidth="1.5" strokeLinecap="round" />
+        <line x1="15.5" y1="2" x2="15.5" y2="5.5" stroke={color} strokeWidth="1.5" strokeLinecap="round" />
+        {/* Bottom pins */}
+        <line x1="8.5" y1="18.5" x2="8.5" y2="22" stroke={color} strokeWidth="1.5" strokeLinecap="round" />
+        <line x1="12" y1="18.5" x2="12" y2="22" stroke={color} strokeWidth="1.5" strokeLinecap="round" />
+        <line x1="15.5" y1="18.5" x2="15.5" y2="22" stroke={color} strokeWidth="1.5" strokeLinecap="round" />
+        {/* Left pins */}
+        <line x1="2" y1="8.5" x2="5.5" y2="8.5" stroke={color} strokeWidth="1.5" strokeLinecap="round" />
+        <line x1="2" y1="12" x2="5.5" y2="12" stroke={color} strokeWidth="1.5" strokeLinecap="round" />
+        <line x1="2" y1="15.5" x2="5.5" y2="15.5" stroke={color} strokeWidth="1.5" strokeLinecap="round" />
+        {/* Right pins */}
+        <line x1="18.5" y1="8.5" x2="22" y2="8.5" stroke={color} strokeWidth="1.5" strokeLinecap="round" />
+        <line x1="18.5" y1="12" x2="22" y2="12" stroke={color} strokeWidth="1.5" strokeLinecap="round" />
+        <line x1="18.5" y1="15.5" x2="22" y2="15.5" stroke={color} strokeWidth="1.5" strokeLinecap="round" />
+    </svg>
+);
+

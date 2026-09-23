@@ -1,7 +1,6 @@
 import React, { useState, useMemo } from 'react';
 import { NavigationButton, ButtonBarWithStatus, ButtonBarWithStatusItem, CloseButton } from '../../reusable/Button';
-import { RegionalAvailabilityGauge } from '../../Icons';
-import { DualRackServerIcon } from '../Level5Row/Level5RackComparisonModal';
+import { MicrochipIcon } from '../../Icons';
 
 interface Level7ServerDetailCardProps {
     serverNum: number;
@@ -12,7 +11,7 @@ interface Level7ServerDetailCardProps {
 }
 
 const SERVER_TABS: ButtonBarWithStatusItem[] = [
-    { label: 'Computing' },
+    { label: 'Computing', status: [{ label: 'alert', color: '#ef4444', count: 1 }] },
     { label: 'Cooling' },
     { label: 'Power' }
 ];
@@ -20,56 +19,88 @@ const SERVER_TABS: ButtonBarWithStatusItem[] = [
 export const Level7ServerDetailCard: React.FC<Level7ServerDetailCardProps> = ({
     serverNum,
     rackNum,
-    rowLabel = 'Row 01',
     onClose,
     onViewHistory
 }) => {
-    const [activeTabIdx, setActiveTabIdx] = useState(0);
+    // Default active tab to Cooling (index 1) exactly as shown in reference Image 2
+    const [activeTabIdx, setActiveTabIdx] = useState(1);
 
     const formattedServerNum = String(serverNum).padStart(2, '0');
-    const formattedRackNum = String(rackNum).padStart(2, '0');
 
-    // Dynamic metrics based on server number
-    const serverMetrics = useMemo(() => {
-        const baseCpu = 45 + ((serverNum * 7) % 40);
-        const baseGpu = 55 + ((serverNum * 9) % 38);
-        const basePower = (1.8 + ((serverNum * 0.35) % 2.2)).toFixed(2);
-        const coldPlateTemp = (42 + ((serverNum * 3) % 18)).toFixed(1);
+    // Dynamic metrics based on server number, matching Image 2 for default server
+    const metrics = useMemo(() => {
+        if (serverNum === 4 || serverNum === 8) {
+            return {
+                coolantInlet: '21.2',
+                coolantOutlet: '26.8',
+                veraCpu1: '56',
+                veraCpu2: '58',
+                veraCpu3: '43',
+                veraCpu4: '41',
+                rubinGpu1: '52',
+                rubinGpu2: '38',
+                cpuUtil: '54',
+                gpuUtil: '58',
+                activeGpus: '2 / 2',
+                gpuMemUtil: '29%',
+                memUtil: '36%',
+                diskUtil: '31%',
+                readThroughput: '2.8',
+                writeThroughput: '1.9',
+                nvlink: '890',
+                runningJobs: '4',
+                dcVoltage: '48.2',
+                trayCurrent: '16.6',
+                activePower: '2.40',
+                powerUtil: '38.3%',
+                dailyConsumption: '57.6',
+                vrmEff: '95.4%',
+                powerFactor: '0.98',
+                powerState: 'P0 (Max Perf)'
+            };
+        }
 
+        // Realistic variations for other server numbers
+        const delta = (serverNum % 5) * 1.2;
         return {
-            cpuUtil: baseCpu,
-            gpuUtil: baseGpu,
-            powerKW: basePower,
-            coldPlateTemp,
-            trayVoltage: '48.2',
-            trayCurrent: (parseFloat(basePower) * 20.8).toFixed(1),
-            vrmEfficiency: '95.4%',
-            inletTemp: '19.4',
-            outletTemp: (19.4 + parseFloat(coldPlateTemp) * 0.25).toFixed(1),
-            flowRate: '4.2',
-            memoryUtil: `${(50 + (serverNum * 5) % 45)}%`,
-            pcieBandwidth: '890',
-            activeGpuCount: '2 / 2 Blackwell B200',
-            nodeStatus: 'Healthy'
+            coolantInlet: (20.5 + delta * 0.3).toFixed(1),
+            coolantOutlet: (25.5 + delta * 0.4).toFixed(1),
+            veraCpu1: String(Math.round(52 + delta * 2)),
+            veraCpu2: String(Math.round(54 + delta * 2)),
+            veraCpu3: String(Math.round(40 + delta)),
+            veraCpu4: String(Math.round(39 + delta)),
+            rubinGpu1: String(Math.round(48 + delta * 2)),
+            rubinGpu2: String(Math.round(36 + delta)),
+            cpuUtil: String(Math.round(50 + delta * 3)),
+            gpuUtil: String(Math.round(52 + delta * 3)),
+            activeGpus: '2 / 2',
+            gpuMemUtil: `${Math.round(25 + delta * 2)}%`,
+            memUtil: `${Math.round(32 + delta * 2)}%`,
+            diskUtil: '31%',
+            readThroughput: (2.5 + delta * 0.1).toFixed(1),
+            writeThroughput: (1.8 + delta * 0.1).toFixed(1),
+            nvlink: '890',
+            runningJobs: String(3 + (serverNum % 3)),
+            dcVoltage: '48.2',
+            trayCurrent: (15.5 + delta * 0.5).toFixed(1),
+            activePower: (2.2 + delta * 0.1).toFixed(2),
+            powerUtil: `${(35 + delta * 2).toFixed(1)}%`,
+            dailyConsumption: (52.0 + delta * 2).toFixed(1),
+            vrmEff: '95.4%',
+            powerFactor: '0.98',
+            powerState: 'P0 (Max Perf)'
         };
     }, [serverNum]);
 
-    const renderParamRow = (
-        label: string,
-        value: string | number,
-        unit: string = '',
-        badgeType: 'green' | 'blue' | 'amber' = 'green'
-    ) => (
-        <div className="server-card-param-row">
-            <span className="server-card-param-label">{label}</span>
-            <div className="server-card-param-val-group">
-                <span className={`server-card-badge badge-${badgeType}`}>
-                    {value}
-                </span>
+    const renderParamRow = (label: string, value: string | number, unit: string = '°C') => (
+        <div className="server-detail-row">
+            <span className="server-detail-label">{label}</span>
+            <div className="server-detail-val-group">
+                <span className="server-detail-badge">{value}</span>
                 {unit ? (
-                    <span className="server-card-param-unit">{unit}</span>
+                    <span className="server-detail-unit">{unit}</span>
                 ) : (
-                    <span className="server-card-param-unit empty" />
+                    <span className="server-detail-unit empty" />
                 )}
             </div>
         </div>
@@ -77,18 +108,21 @@ export const Level7ServerDetailCard: React.FC<Level7ServerDetailCardProps> = ({
 
     return (
         <div className="level7-server-detail-card">
-            {/* 1. Header */}
+            {/* Header: Microchip Icon + 2-line Title (Image 2) */}
             <div className="server-card-header">
                 <div className="server-card-header-left">
-                    <DualRackServerIcon size={24} color="#00C3D0" />
-                    <span className="server-card-title">Compute Tray {formattedServerNum}</span>
+                    <MicrochipIcon size={28} color="#00C3D0" />
+                    <div className="server-card-title-group">
+                        <span className="server-card-title-line1">NVL72 Rack {rackNum}</span>
+                        <span className="server-card-title-line2">Compute Tray {formattedServerNum}</span>
+                    </div>
                 </div>
 
                 <div className="server-card-header-right">
                     <NavigationButton
                         label="View history"
                         onClick={onViewHistory}
-                        className="rack-card-history-btn"
+                        className="server-card-history-btn"
                     />
                     <CloseButton
                         onClick={onClose}
@@ -98,66 +132,7 @@ export const Level7ServerDetailCard: React.FC<Level7ServerDetailCardProps> = ({
                 </div>
             </div>
 
-            {/* HORIZONTAL DIVIDER */}
-            <div className="title-h-divider"></div>
-
-            {/* 2. Top Row: 4 Circular Gauges */}
-            <div className="server-card-gauges-row">
-                <div className="server-gauge-item">
-                    <span className="server-gauge-title">Grace CPU Util</span>
-                    <RegionalAvailabilityGauge
-                        percentage={serverMetrics.cpuUtil}
-                        size={68}
-                        strokeWidth={7}
-                        color="#00E5FF"
-                        bgColor="rgba(255, 255, 255, 0.12)"
-                    />
-                </div>
-                <div className="server-gauge-item">
-                    <span className="server-gauge-title">B200 GPU Util</span>
-                    <RegionalAvailabilityGauge
-                        percentage={serverMetrics.gpuUtil}
-                        size={68}
-                        strokeWidth={7}
-                        color="#FFCC00"
-                        bgColor="rgba(255, 255, 255, 0.12)"
-                    />
-                </div>
-                <div className="server-gauge-item">
-                    <span className="server-gauge-title">Tray Power</span>
-                    <RegionalAvailabilityGauge
-                        percentage={Math.min(95, Math.round((parseFloat(serverMetrics.powerKW) / 4.0) * 100))}
-                        size={68}
-                        strokeWidth={7}
-                        color="#00E5FF"
-                        bgColor="rgba(255, 255, 255, 0.12)"
-                        customDisplay={
-                            <div className="rack-gauge-power-display">
-                                <span className="power-num">{serverMetrics.powerKW}</span>
-                                <span className="power-unit">kW</span>
-                            </div>
-                        }
-                    />
-                </div>
-                <div className="server-gauge-item">
-                    <span className="server-gauge-title">Cold Plate</span>
-                    <RegionalAvailabilityGauge
-                        percentage={Math.min(100, Math.round((parseFloat(serverMetrics.coldPlateTemp) / 80) * 100))}
-                        size={68}
-                        strokeWidth={7}
-                        color="#10B981"
-                        bgColor="rgba(255, 255, 255, 0.12)"
-                        customDisplay={
-                            <div className="rack-gauge-power-display">
-                                <span className="power-num">{serverMetrics.coldPlateTemp}</span>
-                                <span className="power-unit">°C</span>
-                            </div>
-                        }
-                    />
-                </div>
-            </div>
-
-            {/* 3. Capsule Tabs: Computing | Cooling | Power */}
+            {/* Capsule Tabs: Computing [1] | Cooling | Power */}
             <div className="server-card-tabs-container">
                 <ButtonBarWithStatus
                     items={SERVER_TABS}
@@ -166,59 +141,49 @@ export const Level7ServerDetailCard: React.FC<Level7ServerDetailCardProps> = ({
                 />
             </div>
 
-            {/* 4. Tab Content: 2-Column Parameter Grid */}
+            {/* Tab Contents: Single column list exactly matching Image 2 */}
             <div className="server-card-content">
-                {activeTabIdx === 0 && (
-                    // COMPUTING TAB
-                    <div className="server-card-grid">
-                        <div className="server-card-col">
-                            {renderParamRow('CPU Utilization', `${serverMetrics.cpuUtil}%`)}
-                            {renderParamRow('GPU Utilization', `${serverMetrics.gpuUtil}%`)}
-                            {renderParamRow('Active GPUs', serverMetrics.activeGpuCount, '', 'blue')}
-                            {renderParamRow('HBM3e Memory', serverMetrics.memoryUtil)}
-                        </div>
-                        <div className="server-card-col">
-                            {renderParamRow('NVLink 5.0 Throughput', serverMetrics.pcieBandwidth, 'GB/s')}
-                            {renderParamRow('Chassis Model', 'NVL72 1U Tray', '', 'blue')}
-                            {renderParamRow('Parent Rack', `Rack ${formattedRackNum}`)}
-                            {renderParamRow('Node Health', serverMetrics.nodeStatus, '', 'green')}
-                        </div>
+                {activeTabIdx === 1 && (
+                    // COOLING TAB (Image 2)
+                    <div className="server-card-list">
+                        {renderParamRow('Coolant Inlet Temperature', metrics.coolantInlet, '°C')}
+                        {renderParamRow('Coolant Outlet Temperature', metrics.coolantOutlet, '°C')}
+                        {renderParamRow('Vera CPU 1 Temperature', metrics.veraCpu1, '°C')}
+                        {renderParamRow('Vera CPU 2 Temperature', metrics.veraCpu2, '°C')}
+                        {renderParamRow('Vera CPU 3 Temperature', metrics.veraCpu3, '°C')}
+                        {renderParamRow('Vera CPU 4 Temperature', metrics.veraCpu4, '°C')}
+                        {renderParamRow('Rubin GPU 1 Temperature', metrics.rubinGpu1, '°C')}
+                        {renderParamRow('Rubin GPU 2 Temperature', metrics.rubinGpu2, '°C')}
                     </div>
                 )}
 
-                {activeTabIdx === 1 && (
-                    // COOLING TAB
-                    <div className="server-card-grid">
-                        <div className="server-card-col">
-                            {renderParamRow('Cold Plate Temp', serverMetrics.coldPlateTemp, '°C')}
-                            {renderParamRow('Coolant Supply Temp', serverMetrics.inletTemp, '°C')}
-                            {renderParamRow('Coolant Return Temp', serverMetrics.outletTemp, '°C')}
-                            {renderParamRow('Coolant Flow Rate', serverMetrics.flowRate, 'L/min')}
-                        </div>
-                        <div className="server-card-col">
-                            {renderParamRow('Quick Disconnect', 'Sealed / Normal')}
-                            {renderParamRow('Leak Sensor', 'Clear (0.0V)', '', 'green')}
-                            {renderParamRow('Manifold Delta-P', '0.45', 'bar')}
-                            {renderParamRow('Cooling Loop', 'Closed Direct-to-Chip', '', 'blue')}
-                        </div>
+                {activeTabIdx === 0 && (
+                    // COMPUTING TAB
+                    <div className="server-card-list">
+                        {renderParamRow('CPU Utilization', `${metrics.cpuUtil}%`, '')}
+                        {renderParamRow('GPU Utilization', `${metrics.gpuUtil}%`, '')}
+                        {renderParamRow('Active Rubin GPUs', metrics.activeGpus, '')}
+                        {renderParamRow('GPU Memory Utilization', metrics.gpuMemUtil, '')}
+                        {renderParamRow('Memory Utilization', metrics.memUtil, '')}
+                        {renderParamRow('Disk Utilization', metrics.diskUtil, '')}
+                        {renderParamRow('Read Throughput', metrics.readThroughput, 'GB/s')}
+                        {renderParamRow('Write Throughput', metrics.writeThroughput, 'GB/s')}
+                        {renderParamRow('NVLink Throughput', metrics.nvlink, 'GB/s')}
+                        {renderParamRow('Running Jobs', metrics.runningJobs, '')}
                     </div>
                 )}
 
                 {activeTabIdx === 2 && (
                     // POWER TAB
-                    <div className="server-card-grid">
-                        <div className="server-card-col">
-                            {renderParamRow('DC Bus Voltage', serverMetrics.trayVoltage, 'V')}
-                            {renderParamRow('Tray Current', serverMetrics.trayCurrent, 'A')}
-                            {renderParamRow('Active Power', serverMetrics.powerKW, 'kW')}
-                            {renderParamRow('VRM Efficiency', serverMetrics.vrmEfficiency, '', 'blue')}
-                        </div>
-                        <div className="server-card-col">
-                            {renderParamRow('Input Source', 'Rack Busbar 48V DC')}
-                            {renderParamRow('Power Cap', '4.2', 'kW')}
-                            {renderParamRow('Phase Imbalance', '0.4%')}
-                            {renderParamRow('Power State', 'P0 (Max Perf)', '', 'green')}
-                        </div>
+                    <div className="server-card-list">
+                        {renderParamRow('DC Bus Voltage', metrics.dcVoltage, 'V')}
+                        {renderParamRow('Tray Current', metrics.trayCurrent, 'A')}
+                        {renderParamRow('Active Power', metrics.activePower, 'kW')}
+                        {renderParamRow('Power Utilization', metrics.powerUtil, '')}
+                        {renderParamRow('Daily Consumption', metrics.dailyConsumption, 'kWh')}
+                        {renderParamRow('VRM Efficiency', metrics.vrmEff, '')}
+                        {renderParamRow('Power Factor', metrics.powerFactor, '')}
+                        {renderParamRow('Power State', metrics.powerState, '')}
                     </div>
                 )}
             </div>
