@@ -8,6 +8,7 @@ import { AdaptiveViewCube } from '../Level2Region/AdaptiveViewCube';
 import { HALL_OPTIONS } from '../Level4Hall/Level4Header';
 import { Level7ServerDetailCard } from './Level7ServerDetailCard';
 import { Level7BottomGaugesCard } from './Level7BottomGaugesCard';
+import { Level7ComputeTrayListCard } from './Level7ComputeTrayListCard';
 import './Level7Server.css';
 
 interface Level7ServerViewProps {
@@ -25,6 +26,7 @@ interface Level7ServerViewProps {
     onBackToRow: () => void;
     onBackToHall: () => void;
     onSelectCameraView?: (view: CameraView) => void;
+    onSelectServer?: (serverId: string, serverNum: number) => void;
 }
 
 export const Level7ServerView: React.FC<Level7ServerViewProps> = ({
@@ -37,7 +39,8 @@ export const Level7ServerView: React.FC<Level7ServerViewProps> = ({
     onBackToRack,
     onBackToRow,
     onBackToHall,
-    onSelectCameraView
+    onSelectCameraView,
+    onSelectServer
 }) => {
     const [isHistoryOpen, setIsHistoryOpen] = useState(false);
 
@@ -113,6 +116,12 @@ export const Level7ServerView: React.FC<Level7ServerViewProps> = ({
                     {hubSubtitle} &bull; {currentHall.title.toUpperCase()} &bull; {rowLabel.toUpperCase()} &bull; {rackLabel.toUpperCase()} &bull; {serverLabel.toUpperCase()}
                 </div>
             </div>
+
+            {/* Top-Left Compute Tray Hierarchy Tree Card (Directly Below Header) */}
+            <Level7ComputeTrayListCard
+                activeServerNum={activeServerNum}
+                onSelectServer={onSelectServer}
+            />
 
             {/* Top-Right Actions: Breadcrumb */}
             <div className="level7-top-right-actions">

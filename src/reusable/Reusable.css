@@ -402,13 +402,97 @@
 
 /* --- Tree Hierarchy --- */
 .parent-node-container {
-    padding-left: 20px;
     list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
+
+.parent-node-container.root {
+    padding-left: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+}
+
+.parent-node-container:not(.root) {
+    padding-left: 18px;
+    margin-top: 3px;
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+}
+
+.tree-node-item {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
+
+.tree-item-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 6px 10px;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background 0.15s ease, color 0.15s ease;
+    user-select: none;
+}
+
+.tree-item-row:hover {
+    background: rgba(0, 195, 208, 0.15);
+}
+
+.tree-item-row.active {
+    background: #00838F;
+    box-shadow: 0 0 10px rgba(0, 131, 143, 0.4);
 }
 
 .tree-content-expand-collapse-button {
     background-color: transparent;
     border-width: 0px;
+    cursor: pointer;
+    padding: 0;
+    width: 14px;
+    height: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    color: #ffffff;
+    transition: transform 0.15s ease;
+}
+
+.tree-content-expand-collapse-button:hover {
+    transform: scale(1.15);
+}
+
+.tree-leaf-spacer {
+    width: 14px;
+    height: 14px;
+    flex-shrink: 0;
+    display: inline-block;
+}
+
+.tree-item-label {
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    font-size: 13px;
+    font-weight: 500;
+    color: #e2e8f0;
+    letter-spacing: 0.2px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    flex: 1;
+}
+
+.tree-item-row:hover .tree-item-label {
+    color: #ffffff;
+}
+
+.tree-item-row.active .tree-item-label {
+    color: #ffffff;
+    font-weight: 700;
 }
 
 /* --- Historical Data Modal --- */

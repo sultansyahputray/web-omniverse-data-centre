@@ -55,8 +55,7 @@ export const Level7ServerDetailCard: React.FC<Level7ServerDetailCardProps> = ({
                 powerUtil: '38.3%',
                 dailyConsumption: '57.6',
                 vrmEff: '95.4%',
-                powerFactor: '0.98',
-                powerState: 'P0 (Max Perf)'
+                powerFactor: '0.98'
             };
         }
 
@@ -183,7 +182,6 @@ export const Level7ServerDetailCard: React.FC<Level7ServerDetailCardProps> = ({
                         {renderParamRow('Daily Consumption', metrics.dailyConsumption, 'kWh')}
                         {renderParamRow('VRM Efficiency', metrics.vrmEff, '')}
                         {renderParamRow('Power Factor', metrics.powerFactor, '')}
-                        {renderParamRow('Power State', metrics.powerState, '')}
                     </div>
                 )}
             </div>

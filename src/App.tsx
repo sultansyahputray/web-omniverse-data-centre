@@ -637,6 +637,7 @@ export const App: React.FC = () => {
                         onBackToRow={handleBackToRowFromServer}
                         onBackToHall={handleBackToHallFromServer}
                         onSelectCameraView={handleSelectCameraView}
+                        onSelectServer={handleSelectServer}
                     />
                 )}
             </div>
