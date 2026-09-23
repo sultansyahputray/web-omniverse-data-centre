@@ -15,6 +15,7 @@ import { Level2RegionView } from './levels/Level2Region/Level2RegionView';
 import { Level3BuildingView } from './levels/Level3Building/Level3BuildingView';
 import { Level4HallView } from './levels/Level4Hall/Level4HallView';
 import { Level5RowView } from './levels/Level5Row/Level5RowView';
+import { Level6RackView } from './levels/Level6Rack/Level6RackView';
 import { HALL_ROW_ITEMS, HallRowItem } from './levels/Level4Hall/Level4FloatingRows';
 import './GlobalDashboard.css';
 
@@ -63,7 +64,7 @@ export const App: React.FC = () => {
         if (typeof window !== 'undefined') {
             const params = new URLSearchParams(window.location.search);
             const lvl = params.get('level') as AppLevel;
-            if (lvl && ['earth', 'region', 'building', 'hall', 'row'].includes(lvl)) {
+            if (lvl && ['earth', 'region', 'building', 'hall', 'row', 'rack'].includes(lvl)) {
                 return lvl;
             }
         }
@@ -72,6 +73,8 @@ export const App: React.FC = () => {
     const [activeRegion, setActiveRegion] = useState<RegionKey>('SG');
     const [activeHall, setActiveHall] = useState<string>('hall_l1_a');
     const [activeRow, setActiveRow] = useState<HallRowItem>(HALL_ROW_ITEMS[0]);
+    const [activeRack, setActiveRack] = useState<string>('rack_01_01');
+    const [activeRackNum, setActiveRackNum] = useState<number>(1);
     const [timeOfDay, setTimeOfDay] = useState<TimeOfDay>('pagi');
     const [cameraView, setCameraView] = useState<CameraView>('iso');
     const [screenPositions, setScreenPositions] = useState<Record<string, ScreenPosition>>({});
@@ -215,6 +218,51 @@ export const App: React.FC = () => {
         setScreenPositions({});
         setCurrentLevel('hall');
         await postBackend('navigate', { level: 'hall', hall_id: activeHall, region: activeRegion });
+        await postBackend('clear-selection', {});
+    };
+
+    // Transition from Level 5/4 -> Level 6 (Selected Rack)
+    const handleSelectRack = async (rackId: string, rackNum: number, row?: HallRowItem) => {
+        lastUserNavRef.current = Date.now();
+        setScreenPositions({});
+        const targetRow = row || activeRow;
+        setActiveRack(rackId);
+        setActiveRackNum(rackNum);
+        if (targetRow) setActiveRow(targetRow);
+        setCurrentLevel('rack');
+        await postBackend('navigate', {
+            level: 'rack',
+            rack_id: rackId,
+            rack_num: rackNum,
+            row_id: targetRow.id,
+            row_num: targetRow.rowNum,
+            hall_id: activeHall,
+            region: activeRegion
+        });
+    };
+
+    // Transition back from Level 6 -> Level 5 (Row)
+    const handleBackToRowFromRack = async () => {
+        lastUserNavRef.current = Date.now();
+        setScreenPositions({});
+        setCurrentLevel('row');
+        await postBackend('navigate', {
+            level: 'row',
+            row_id: activeRow.id,
+            row_num: activeRow.rowNum,
+            hall_id: activeHall,
+            region: activeRegion
+        });
+        await postBackend('clear-selection', {});
+    };
+
+    // Transition back from Level 6 -> Level 4 (Data Hall)
+    const handleBackToHallFromRack = async () => {
+        lastUserNavRef.current = Date.now();
+        setScreenPositions({});
+        setCurrentLevel('hall');
+        await postBackend('navigate', { level: 'hall', hall_id: activeHall, region: activeRegion });
+        await postBackend('clear-selection', {});
     };
 
     // Poll backend status to dynamically track 3D coordinates & sync level/selection
@@ -271,6 +319,19 @@ export const App: React.FC = () => {
                             const matchedRow = HALL_ROW_ITEMS.find((r) => r.id === data.active_row);
                             if (matchedRow && matchedRow.id !== activeRow.id) {
                                 setActiveRow(matchedRow);
+                            }
+                        }
+
+                        // 2d. Sync active rack
+                        if (
+                            Date.now() - lastUserNavRef.current > 2000 &&
+                            data.active_rack
+                        ) {
+                            if (data.active_rack !== activeRack) {
+                                setActiveRack(data.active_rack);
+                            }
+                            if (data.active_rack_num && data.active_rack_num !== activeRackNum) {
+                                setActiveRackNum(data.active_rack_num);
                             }
                         }
 
@@ -442,6 +503,20 @@ export const App: React.FC = () => {
                         regionMetric={currentRegionMetric}
                         cameraView={cameraView}
                         onBackToHall={handleBackToHall}
+                        onSelectCameraView={handleSelectCameraView}
+                    />
+                )}
+                {currentLevel === 'rack' && activeRow && (
+                    <Level6RackView
+                        activeRegion={activeRegion}
+                        activeHallId={activeHall}
+                        activeRow={activeRow}
+                        activeRackId={activeRack}
+                        activeRackNum={activeRackNum}
+                        regionMetric={currentRegionMetric}
+                        cameraView={cameraView}
+                        onBackToRow={handleBackToRowFromRack}
+                        onBackToHall={handleBackToHallFromRack}
                         onSelectCameraView={handleSelectCameraView}
                     />
                 )}
