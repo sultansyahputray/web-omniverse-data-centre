@@ -402,6 +402,11 @@
     list-style-type: none;
 }
 
+.tree-content-expand-collapse-button {
+    background-color: transparent;
+    border-width: 0px;
+}
+
 /* --- Historical Data Modal --- */
 .hd-modal-overlay {
     position: fixed;
