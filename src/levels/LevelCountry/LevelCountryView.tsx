@@ -22,11 +22,13 @@ interface CardPlacement {
 const COUNTRY_QUADRANT_PLACEMENTS: Record<string, CardPlacement> = {
     TH: {
         placement: 'left',
-        offsetY: 0
+        offsetY: 0,
+        offsetX: -3
     },
     MY: {
         placement: 'right',
-        offsetY: -12
+        offsetY: -10,
+        offsetX: 3
     },
     SG: {
         placement: 'left',
