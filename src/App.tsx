@@ -11,6 +11,7 @@ import {
 } from './types';
 import { WebRTCViewerContainer } from './WebRTCViewerContainer';
 import { Level1EarthView } from './levels/Level1Earth/Level1EarthView';
+import { LevelCountryView } from './levels/LevelCountry/LevelCountryView';
 import { Level2RegionView } from './levels/Level2Region/Level2RegionView';
 import { Level3BuildingView } from './levels/Level3Building/Level3BuildingView';
 import { Level4HallView } from './levels/Level4Hall/Level4HallView';
@@ -60,13 +61,64 @@ const INITIAL_METRICS: SiteMetric[] = [
     }
 ];
 
+const SOUTHEAST_ASIA_COUNTRY_METRICS: SiteMetric[] = [
+    {
+        key: 'SG',
+        title: 'Singapore',
+        subtitle: 'Main Hub',
+        sites: 2,
+        capacityMW: 140,
+        availabilityPct: 99.98,
+        position: {
+            top: '52%',
+            left: '42%'
+        }
+    },
+    {
+        key: 'BTM',
+        title: 'Batam',
+        subtitle: 'Nongsa Digital Park',
+        sites: 1,
+        capacityMW: 90,
+        availabilityPct: 99.95,
+        position: {
+            top: '60%',
+            left: '48%'
+        }
+    },
+    {
+        key: 'MY',
+        title: 'Malaysia',
+        subtitle: 'Cyberjaya & Johor Hub',
+        sites: 2,
+        capacityMW: 110,
+        availabilityPct: 99.92,
+        position: {
+            top: '44%',
+            left: '36%'
+        }
+    },
+    {
+        key: 'TH',
+        title: 'Thailand',
+        subtitle: 'Bangkok Hub',
+        sites: 1,
+        capacityMW: 75,
+        availabilityPct: 99.90,
+        position: {
+            top: '32%',
+            left: '34%'
+        }
+    }
+];
+
 export const App: React.FC = () => {
     const [metrics] = useState<SiteMetric[]>(INITIAL_METRICS);
     const [currentLevel, setCurrentLevel] = useState<AppLevel>(() => {
         if (typeof window !== 'undefined') {
             const params = new URLSearchParams(window.location.search);
             const lvl = params.get('level') as AppLevel;
-            if (lvl && ['earth', 'region', 'building', 'hall', 'row', 'rack', 'server', 'superchip'].includes(lvl)) {
+            if (lvl && ['earth', 'country', 'region', 'building', 'hall', 'row', 'rack', 'server', 'superchip'].includes(lvl)) {
                 return lvl;
             }
         }
@@ -160,7 +212,11 @@ export const App: React.FC = () => {
 
     // Active region metric object for Level 2
     const currentRegionMetric = useMemo(() => {
-        return metrics.find((m) => m.key === activeRegion) || metrics[0];
+        return (
+            SOUTHEAST_ASIA_COUNTRY_METRICS.find((m) => m.key === activeRegion) ||
+            metrics.find((m) => m.key === activeRegion) ||
+            metrics[0]
+        );
     }, [metrics, activeRegion]);
 
     // Resilient backend POST dispatcher with automatic port fallback (8089 -> 8088 -> 8090)
@@ -188,8 +244,22 @@ export const App: React.FC = () => {
         return false;
     };
 
-    // Transition from Level 1 -> Level 2 on region card or 3D point click
-    const handleSelectRegion = async (key: RegionKey) => {
+    // Transition from Level 1 -> Level Country (if Southeast Asia / SG) or Level 2 (if AUS / JPN)
+    const handleSelectRegionFromEarth = async (key: RegionKey) => {
+        lastUserNavRef.current = Date.now();
+        setScreenPositions({});
+        if (key === 'SG') {
+            setCurrentLevel('country');
+            await postBackend('navigate', { level: 'country', region: 'SG' });
+        } else {
+            setCurrentLevel('region');
+            setActiveRegion(key);
+            await postBackend('navigate', { level: 'region', region: key });
+        }
+    };
+
+    // Transition from Level Country -> Level 2 (Campus / Building Site)
+    const handleSelectCountry = async (key: RegionKey) => {
         lastUserNavRef.current = Date.now();
         setScreenPositions({});
         setCurrentLevel('region');
@@ -197,12 +267,25 @@ export const App: React.FC = () => {
         await postBackend('navigate', { level: 'region', region: key });
     };
 
-    // Transition back from Level 2 -> Level 1 (Global Earth)
+    // Transition back to Level 1 (Global Earth)
     const handleBackToGlobal = async () => {
         lastUserNavRef.current = Date.now();
         setScreenPositions({});
         setCurrentLevel('earth');
         await postBackend('navigate', { level: 'earth' });
+    };
+
+    // Transition back from Level 2 -> Level Country (if SE Asia) or Level 1 Earth (if AUS / JPN)
+    const handleBackFromRegion = async () => {
+        lastUserNavRef.current = Date.now();
+        setScreenPositions({});
+        if (['SG', 'BTM', 'MY', 'TH'].includes(activeRegion)) {
+            setCurrentLevel('country');
+            await postBackend('navigate', { level: 'country', region: activeRegion });
+        } else {
+            setCurrentLevel('earth');
+            await postBackend('navigate', { level: 'earth' });
+        }
     };
 
     // Change Level 2 Time-of-Day (Pagi / Sore / Malam)
@@ -596,8 +679,8 @@ export const App: React.FC = () => {
             }
         };
 
-        // Smooth tracking polling: 100ms for Level 1, 150ms for Level 2
-        const pollInterval = currentLevel === 'earth' ? 100 : 150;
+        // Smooth tracking polling: 100ms for Level 1 Earth & Country, 150ms for Level 2
+        const pollInterval = (currentLevel === 'earth' || currentLevel === 'country') ? 100 : 150;
         const intervalId = setInterval(pollStatus, pollInterval);
 
         return () => {
@@ -612,7 +695,7 @@ export const App: React.FC = () => {
             <WebRTCViewerContainer
                 server="127.0.0.1"
                 signalingPort={49100}
-                isInteractive={currentLevel !== 'earth'}
+                isInteractive={currentLevel !== 'earth' && currentLevel !== 'country'}
             />
 
             {/* 2. Vignette Depth Overlay */}
@@ -626,10 +709,23 @@ export const App: React.FC = () => {
                         totals={totals}
                         activePoint={null}
                         screenPositions={screenPositions}
-                        onSelectRegion={handleSelectRegion}
+                        onSelectRegion={handleSelectRegionFromEarth}
                         onRotateEarth={(dir, step) => postBackend('earth-rotate', { direction: dir, step_deg: step || 18.0 })}
                         onZoomEarth={(act) => postBackend('earth-zoom', { action: act, step_factor: 0.15 })}
                         onResetEarth={() => postBackend('navigate', { level: 'earth' })}
+                    />
+                )}
+                {currentLevel === 'country' && (
+                    <LevelCountryView
+                        metrics={SOUTHEAST_ASIA_COUNTRY_METRICS}
+                        totals={totals}
+                        activePoint={activeRegion}
+                        screenPositions={screenPositions}
+                        onSelectCountry={handleSelectCountry}
+                        onBackToGlobal={handleBackToGlobal}
+                        onRotateEarth={(dir, step) => postBackend('earth-rotate', { direction: dir, step_deg: step || 18.0 })}
+                        onZoomEarth={(act) => postBackend('earth-zoom', { action: act, step_factor: 0.15 })}
+                        onResetCountry={() => postBackend('navigate', { level: 'country', region: 'SG' })}
                     />
                 )}
                 {currentLevel === 'region' && (
@@ -639,7 +735,7 @@ export const App: React.FC = () => {
                         timeOfDay={timeOfDay}
                         cameraView={cameraView}
                         screenPositions={screenPositions}
-                        onBackToGlobal={handleBackToGlobal}
+                        onBackToGlobal={handleBackFromRegion}
                         onSelectTimeOfDay={handleSelectTimeOfDay}
                         onSelectCameraView={handleSelectCameraView}
                         onSelectZone={(zone) => {

@@ -1,12 +1,12 @@
 import React from 'react';
-import { SiteMetric, ScreenPosition } from './types';
+import { SiteMetric, ScreenPosition, RegionKey } from './types';
 import { ServerRackIcon, ChevronRightIcon, RegionalAvailabilityGauge } from './Icons';
 
 interface CoordinateCardProps {
     metric: SiteMetric;
     isActive: boolean;
     screenPosition?: ScreenPosition;
-    onClick: (key: 'SG' | 'AUS' | 'JPN') => void;
+    onClick: (key: RegionKey) => void;
 }
 
 export const CoordinateCard: React.FC<CoordinateCardProps> = ({

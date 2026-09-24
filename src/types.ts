@@ -1,7 +1,7 @@
-export type AppLevel = 'earth' | 'region' | 'building' | 'hall' | 'row' | 'rack' | 'server' | 'superchip';
+export type AppLevel = 'earth' | 'country' | 'region' | 'building' | 'hall' | 'row' | 'rack' | 'server' | 'superchip';
 export type BuildingSubView = 'cutaway' | 'power_details' | 'cooling_details';
 export type TimeOfDay = 'pagi' | 'sore' | 'malam';
-export type RegionKey = 'SG' | 'AUS' | 'JPN';
+export type RegionKey = 'SG' | 'AUS' | 'JPN' | 'BTM' | 'MY' | 'TH';
 export type CameraView = 'iso' | 'front' | 'back' | 'right' | 'left' | 'top';
 
 export interface ScreenPosition {
