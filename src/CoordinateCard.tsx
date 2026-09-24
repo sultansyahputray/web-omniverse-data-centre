@@ -6,6 +6,9 @@ interface CoordinateCardProps {
     metric: SiteMetric;
     isActive: boolean;
     screenPosition?: ScreenPosition;
+    placement?: 'left' | 'right';
+    offsetY?: number;
+    offsetX?: number;
     onClick: (key: RegionKey) => void;
 }
 
@@ -13,17 +16,22 @@ export const CoordinateCard: React.FC<CoordinateCardProps> = ({
     metric,
     isActive,
     screenPosition,
+    placement,
+    offsetY = 0,
+    offsetX = 0,
     onClick
 }) => {
     const isDynamic = screenPosition !== undefined;
     const isVisible = isDynamic ? screenPosition.visible : true;
 
     // Anchor orientation:
-    let isLeftOfDot = isDynamic
-        ? screenPosition.x < 55
-        : (metric.position.left !== undefined);
+    let isLeftOfDot = placement !== undefined
+        ? placement === 'left'
+        : isDynamic
+            ? screenPosition.x < 55
+            : (metric.position.left !== undefined);
 
-    if (isDynamic) {
+    if (placement === undefined && isDynamic) {
         if (screenPosition.x < 24) {
             // Too close to left screen edge -> place card to the right of the dot
             isLeftOfDot = false;
@@ -37,21 +45,24 @@ export const CoordinateCard: React.FC<CoordinateCardProps> = ({
     }
 
     // Clamp Y position so cards never clip out of viewport
-    const targetY = isDynamic ? Math.max(10, Math.min(88, screenPosition.y)) : 50;
+    const rawY = isDynamic ? screenPosition.y + offsetY : 50;
+    const targetY = isDynamic ? Math.max(10, Math.min(88, rawY)) : 50;
+    const rawX = isDynamic ? screenPosition.x + offsetX : 50;
 
     const positionStyle: React.CSSProperties = isDynamic
         ? {
             position: 'absolute',
             left: isLeftOfDot
-                ? `calc(${screenPosition.x}% - 28px)`
-                : `calc(${screenPosition.x}% + 28px)`,
+                ? `calc(${rawX}% - 28px)`
+                : `calc(${rawX}% + 28px)`,
             top: `${targetY}%`,
             bottom: 'auto',
             right: 'auto',
             transform: isLeftOfDot ? 'translate(-100%, -50%)' : 'translate(0%, -50%)',
             opacity: isVisible ? 1 : 0,
             pointerEvents: isVisible ? 'auto' : 'none',
-            visibility: isVisible ? 'visible' : 'hidden'
+            visibility: isVisible ? 'visible' : 'hidden',
+            transition: 'top 0.25s cubic-bezier(0.2, 0.8, 0.2, 1), left 0.25s cubic-bezier(0.2, 0.8, 0.2, 1)'
         }
         : {
             top: metric.position.top,
