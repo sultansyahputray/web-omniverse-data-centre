@@ -77,7 +77,7 @@
     align-items: center;
     justify-content: space-between;
     padding: 6px 14px;
-    background: linear-gradient(180deg, #1b6d80 0%, #175463 100%);
+    background: linear-gradient(180deg, rgba(49, 143, 162, 1) 0%, rgba(42, 98, 110, 1) 100%);
     border: 2px solid #00c3d0;
     border-radius: 10px;
     margin-bottom: 8px;

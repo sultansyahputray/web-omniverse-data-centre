@@ -26,7 +26,7 @@ const COUNTRY_QUADRANT_PLACEMENTS: Record<string, CardPlacement> = {
     },
     MY: {
         placement: 'right',
-        offsetY: -3
+        offsetY: -12
     },
     SG: {
         placement: 'left',
