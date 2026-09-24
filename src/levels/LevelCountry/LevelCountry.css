@@ -103,8 +103,8 @@
     gap: 12px;
     padding: 12px 14px 14px 14px;
     background:
-        linear-gradient(180deg, #182e54 0%, #0d1a36 90%) padding-box,
-        linear-gradient(180deg, #0091b0 0%, rgba(0, 56, 67, 0.42) 100%) border-box;
+        linear-gradient(180deg, rgba(36, 65, 120, 1) 0%, rgba(14, 25, 53, 0.9) 90%) padding-box,
+        linear-gradient(180deg, rgba(0, 145, 176, 1) 0%, rgba(0, 56, 67, 0.42) 100%) border-box;
     backdrop-filter: blur(16px);
     -webkit-backdrop-filter: blur(16px);
     border: 2px solid transparent;
@@ -121,7 +121,7 @@
     align-items: center;
     justify-content: space-between;
     width: 100%;
-    margin-top: 8px;
+    margin-top: 4px;
 }
 
 .country-dc-title-group {
@@ -217,7 +217,6 @@
 }
 
 .country-gauge-chart {
-    margin-bottom: 10px;
     display: flex;
     align-items: center;
     justify-content: center;
