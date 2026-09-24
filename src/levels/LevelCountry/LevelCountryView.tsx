@@ -2,7 +2,7 @@ import React from 'react';
 import { SiteMetric, PortfolioTotals, ScreenPosition, RegionKey } from '../../types';
 import { CountryHeader } from './CountryHeader';
 import { Level1Footer } from '../Level1Earth/Level1Footer';
-import { CoordinateCard } from '../../CoordinateCard';
+import { CountryCoordinateCard } from './CountryCoordinateCard';
 import { Level1GlobeControls } from '../Level1Earth/Level1GlobeControls';
 import './LevelCountry.css';
 
@@ -105,7 +105,7 @@ export const LevelCountryView: React.FC<LevelCountryViewProps> = ({
                 };
 
                 return (
-                    <CoordinateCard
+                    <CountryCoordinateCard
                         key={metric.key}
                         metric={metric}
                         isActive={activePoint === metric.key}

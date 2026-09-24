@@ -64,11 +64,14 @@ const INITIAL_METRICS: SiteMetric[] = [
 const SOUTHEAST_ASIA_COUNTRY_METRICS: SiteMetric[] = [
     {
         key: 'TH',
-        title: 'Bangkok,Thailand',
+        title: 'Bangkok, Thailand',
         subtitle: 'Main Hub',
         sites: 1,
         capacityMW: 75,
         availabilityPct: 99.90,
+        gpuComputeUtilisation: 54,
+        facilityLoad: 54,
+        coolingLoad: 54,
         position: {
             top: '34%',
             left: '28%'
@@ -76,11 +79,14 @@ const SOUTHEAST_ASIA_COUNTRY_METRICS: SiteMetric[] = [
     },
     {
         key: 'MY',
-        title: 'Kutching, Malaysia',
+        title: 'Kuching, Malaysia',
         subtitle: 'Main Hub',
         sites: 2,
         capacityMW: 110,
         availabilityPct: 99.92,
+        gpuComputeUtilisation: 54,
+        facilityLoad: 54,
+        coolingLoad: 54,
         position: {
             top: '38%',
             right: '28%'
@@ -93,6 +99,9 @@ const SOUTHEAST_ASIA_COUNTRY_METRICS: SiteMetric[] = [
         sites: 2,
         capacityMW: 140,
         availabilityPct: 99.98,
+        gpuComputeUtilisation: 54,
+        facilityLoad: 54,
+        coolingLoad: 54,
         position: {
             top: '60%',
             left: '30%'
@@ -103,8 +112,11 @@ const SOUTHEAST_ASIA_COUNTRY_METRICS: SiteMetric[] = [
         title: 'Batam, Indonesia',
         subtitle: 'Main Hub',
         sites: 1,
-        capacityMW: 90,
+        capacityMW: 50,
         availabilityPct: 99.95,
+        gpuComputeUtilisation: 54,
+        facilityLoad: 54,
+        coolingLoad: 54,
         position: {
             top: '60%',
             right: '30%'

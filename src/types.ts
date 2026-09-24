@@ -17,6 +17,9 @@ export interface SiteMetric {
     sites: number;
     capacityMW: number;
     availabilityPct: number;
+    gpuComputeUtilisation?: number;
+    facilityLoad?: number;
+    coolingLoad?: number;
     position: {
         top?: string;
         bottom?: string;
