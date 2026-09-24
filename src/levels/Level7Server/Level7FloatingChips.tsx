@@ -32,16 +32,18 @@ export const Level7FloatingChips: React.FC<Level7FloatingChipsProps> = ({
 
     // 1. Resolve Super Chip 1 position
     const rawPos1 =
-        screenPositions?.[`SP_${activeServerNum}_1`] ||
+        screenPositions?.[`super_chip_${formattedServerNum}_1`] ||
         screenPositions?.[`SP_${formattedServerNum}_1`] ||
+        screenPositions?.[`SP_${activeServerNum}_1`] ||
         screenPositions?.['super_chip_1'] ||
         { x: 48, y: 28, visible: true };
     const pos1 = sanitizePos(rawPos1, 48, 28);
 
     // 2. Resolve Super Chip 2 position (placed in the open 3D area, well clear of the right card)
     const rawPos2 =
-        screenPositions?.[`SP_${activeServerNum}_2`] ||
+        screenPositions?.[`super_chip_${formattedServerNum}_2`] ||
         screenPositions?.[`SP_${formattedServerNum}_2`] ||
+        screenPositions?.[`SP_${activeServerNum}_2`] ||
         screenPositions?.['super_chip_2'] ||
         { x: 66, y: 44, visible: true };
     const pos2 = sanitizePos(rawPos2, 66, 44);
@@ -60,12 +62,12 @@ export const Level7FloatingChips: React.FC<Level7FloatingChipsProps> = ({
             >
                 <NavigationButton
                     label="Super Chip 1"
-                    navigation={`SP_${activeServerNum}_1`}
+                    navigation={`super_chip_${formattedServerNum}_1`}
                     onClick={() => {
                         if (onSelectSuperChip) {
                             onSelectSuperChip(1);
                         } else {
-                            console.log(`[Level7] Super Chip 1 clicked (prim: SP_${activeServerNum}_1)`);
+                            console.log(`[Level7] Super Chip 1 clicked (prim: super_chip_${formattedServerNum}_1)`);
                         }
                     }}
                 />
@@ -83,12 +85,12 @@ export const Level7FloatingChips: React.FC<Level7FloatingChipsProps> = ({
             >
                 <NavigationButton
                     label="Super Chip 2"
-                    navigation={`SP_${activeServerNum}_2`}
+                    navigation={`super_chip_${formattedServerNum}_2`}
                     onClick={() => {
                         if (onSelectSuperChip) {
                             onSelectSuperChip(2);
                         } else {
-                            console.log(`[Level7] Super Chip 2 clicked (prim: SP_${activeServerNum}_2)`);
+                            console.log(`[Level7] Super Chip 2 clicked (prim: super_chip_${formattedServerNum}_2)`);
                         }
                     }}
                 />

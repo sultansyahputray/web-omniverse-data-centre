@@ -1,0 +1,28 @@
+/* Level 8 Superchip Overlay and Floating Label Positioning */
+@import '../Level7Server/Level7Server.css';
+
+.level8-floating-labels-layer {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    z-index: 15;
+}
+
+.floating-chip-label-anchor {
+    position: absolute;
+    transform: translate(-50%, -100%);
+    pointer-events: none;
+    transition: left 0.15s ease-out, top 0.15s ease-out, opacity 0.2s ease;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.server-card-title-single {
+    font-family: 'Inter', system-ui, sans-serif;
+    font-size: 18px;
+    font-weight: 700;
+    color: rgba(113, 246, 255, 1);
+    letter-spacing: 0.3px;
+}
+

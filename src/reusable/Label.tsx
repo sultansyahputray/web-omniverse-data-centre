@@ -14,10 +14,10 @@ import './Reusable.css';
 
 interface LabelProps {
     label: string,
-    value: number | null,
-    unit: string | null,
-    color: string | null,
-    border: string | null
+    value?: number | null,
+    unit?: string | null,
+    color?: string | null,
+    border?: string | null
 }
 
 export const DonutGaugeLabel = ({ label, value, color }: LabelProps) => {

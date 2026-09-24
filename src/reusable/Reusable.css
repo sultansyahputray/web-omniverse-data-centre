@@ -197,9 +197,8 @@
 /* --- Label - Pure --- */
 .pure-label-container {
     font-size: 14px;
-    ;
     text-align: center;
-    width: 100px;
+    min-width: 100px;
     padding: 8px;
     background: linear-gradient(180deg, #244178 0%, rgba(14, 25, 53, 0.9) 100%);
     border: 1px solid #00C0E8;

@@ -17,6 +17,7 @@ import { Level4HallView } from './levels/Level4Hall/Level4HallView';
 import { Level5RowView } from './levels/Level5Row/Level5RowView';
 import { Level6RackView } from './levels/Level6Rack/Level6RackView';
 import { Level7ServerView } from './levels/Level7Server/Level7ServerView';
+import { Level8SuperchipView } from './levels/Level8Superchip/Level8SuperchipView';
 import { HALL_ROW_ITEMS, HallRowItem } from './levels/Level4Hall/Level4FloatingRows';
 import './GlobalDashboard.css';
 
@@ -65,7 +66,7 @@ export const App: React.FC = () => {
         if (typeof window !== 'undefined') {
             const params = new URLSearchParams(window.location.search);
             const lvl = params.get('level') as AppLevel;
-            if (lvl && ['earth', 'region', 'building', 'hall', 'row', 'rack', 'server'].includes(lvl)) {
+            if (lvl && ['earth', 'region', 'building', 'hall', 'row', 'rack', 'server', 'superchip'].includes(lvl)) {
                 return lvl;
             }
         }
@@ -92,14 +93,51 @@ export const App: React.FC = () => {
         const sNum = params.get('server_num');
         return sNum ? parseInt(sNum, 10) : 1;
     });
+    const [activeSuperchip, setActiveSuperchip] = useState<string>(() => {
+        const params = new URLSearchParams(window.location.search);
+        return params.get('superchip_id') || '';
+    });
+    const [activeSuperchipNum, setActiveSuperchipNum] = useState<number>(() => {
+        const params = new URLSearchParams(window.location.search);
+        const scNum = params.get('superchip_num');
+        return scNum ? parseInt(scNum, 10) : 1;
+    });
     const [timeOfDay, setTimeOfDay] = useState<TimeOfDay>('pagi');
     const [cameraView, setCameraView] = useState<CameraView>('iso');
     const [screenPositions, setScreenPositions] = useState<Record<string, ScreenPosition>>({});
 
     const activePortRef = useRef<number>(8089);
     const lastUserTimeRef = useRef<number>(0);
-    const lastUserNavRef = useRef<number>(0);
+    const lastUserNavRef = useRef<number>(
+        typeof window !== 'undefined' && new URLSearchParams(window.location.search).get('level')
+            ? Date.now()
+            : 0
+    );
     const lastUserCamRef = useRef<number>(0);
+
+    // Initial mount sync: if URL contains ?level=..., notify Omniverse backend immediately
+    useEffect(() => {
+        if (typeof window !== 'undefined') {
+            const params = new URLSearchParams(window.location.search);
+            const lvl = params.get('level');
+            if (lvl) {
+                lastUserNavRef.current = Date.now();
+                postBackend('navigate', {
+                    level: lvl,
+                    superchip_num: activeSuperchipNum,
+                    superchip_id: activeSuperchip,
+                    server_id: activeServer,
+                    server_num: activeServerNum,
+                    rack_id: activeRack,
+                    rack_num: activeRackNum,
+                    row_id: activeRow?.id,
+                    row_num: activeRow?.rowNum,
+                    hall_id: activeHall,
+                    region: activeRegion
+                });
+            }
+        }
+    }, []);
 
     // Calculate totals dynamically as requested:
     // "jumlah site itu adalah total dari seluruh data centre yang ada,
@@ -351,6 +389,63 @@ export const App: React.FC = () => {
         await postBackend('clear-selection', {});
     };
 
+    // Level 7 -> Level 8 (Superchip Level): Frame clicked superchip, hide SP cover, expose Vera & Rubin GPUs
+    const handleSelectSuperChip = async (chipNum: number, trayNum?: number) => {
+        lastUserNavRef.current = Date.now();
+        setScreenPositions({});
+        const targetServerNum = trayNum || activeServerNum;
+        if (trayNum && trayNum !== activeServerNum) {
+            setActiveServerNum(trayNum);
+            setActiveServer(`VR_${trayNum}`);
+        }
+        setActiveSuperchipNum(chipNum);
+        const formattedServer = String(targetServerNum).padStart(2, '0');
+        const superchipId = `super_chip_${formattedServer}_${chipNum}`;
+        setActiveSuperchip(superchipId);
+        setCurrentLevel('superchip');
+        await postBackend('navigate', {
+            level: 'superchip',
+            superchip_num: chipNum,
+            superchip_id: superchipId,
+            server_id: `VR_${targetServerNum}`,
+            server_num: targetServerNum,
+            rack_id: activeRack,
+            rack_num: activeRackNum,
+            row_id: activeRow?.id,
+            row_num: activeRow?.rowNum,
+            hall_id: activeHall,
+            region: activeRegion
+        });
+    };
+
+    // Transition back from Level 8 (Superchip) -> Level 7 (Compute Tray)
+    const handleBackToServerFromSuperchip = async () => {
+        lastUserNavRef.current = Date.now();
+        setScreenPositions({});
+        setActiveSuperchipNum(1);
+        setActiveSuperchip('');
+        setCurrentLevel('server');
+        await postBackend('navigate', {
+            level: 'server',
+            server_id: activeServer,
+            server_num: activeServerNum,
+            rack_id: activeRack,
+            rack_num: activeRackNum,
+            row_id: activeRow.id,
+            row_num: activeRow.rowNum,
+            hall_id: activeHall,
+            region: activeRegion
+        });
+        await postBackend('clear-selection', {});
+    };
+
+    // Level 7: Select & frame any component in compute tray (e.g. SP, Vera CPU, Rubin GPU)
+    const handleSelectPrim = async (primPath: string) => {
+        await postBackend('select-prim', {
+            prim_path: primPath
+        });
+    };
+
     // Poll backend status to dynamically track 3D coordinates & sync level/selection
     useEffect(() => {
         let isMounted = true;
@@ -431,6 +526,19 @@ export const App: React.FC = () => {
                             }
                             if (data.active_server_num && data.active_server_num !== activeServerNum) {
                                 setActiveServerNum(data.active_server_num);
+                            }
+                        }
+
+                        // 2f. Sync active superchip
+                        if (
+                            Date.now() - lastUserNavRef.current > 2000 &&
+                            data.active_superchip
+                        ) {
+                            if (data.active_superchip !== activeSuperchip) {
+                                setActiveSuperchip(data.active_superchip);
+                            }
+                            if (data.active_superchip_num && data.active_superchip_num !== activeSuperchipNum) {
+                                setActiveSuperchipNum(data.active_superchip_num);
                             }
                         }
 
@@ -638,6 +746,31 @@ export const App: React.FC = () => {
                         onBackToHall={handleBackToHallFromServer}
                         onSelectCameraView={handleSelectCameraView}
                         onSelectServer={handleSelectServer}
+                        onSelectSuperChip={handleSelectSuperChip}
+                        onSelectPrim={handleSelectPrim}
+                    />
+                )}
+                {currentLevel === 'superchip' && activeRow && (
+                    <Level8SuperchipView
+                        activeRegion={activeRegion}
+                        activeHallId={activeHall}
+                        activeRow={activeRow}
+                        activeRackId={activeRack}
+                        activeRackNum={activeRackNum}
+                        activeServerId={activeServer}
+                        activeServerNum={activeServerNum}
+                        activeSuperchipNum={activeSuperchipNum}
+                        regionMetric={currentRegionMetric}
+                        cameraView={cameraView}
+                        screenPositions={screenPositions}
+                        onBackToServer={handleBackToServerFromSuperchip}
+                        onBackToRack={handleBackToRackFromServer}
+                        onBackToRow={handleBackToRowFromServer}
+                        onBackToHall={handleBackToHallFromServer}
+                        onSelectCameraView={handleSelectCameraView}
+                        onSelectServer={handleSelectServer}
+                        onSelectSuperChip={handleSelectSuperChip}
+                        onSelectPrim={handleSelectPrim}
                     />
                 )}
             </div>
