@@ -64,8 +64,8 @@ const INITIAL_METRICS: SiteMetric[] = [
 const SOUTHEAST_ASIA_COUNTRY_METRICS: SiteMetric[] = [
     {
         key: 'TH',
-        title: 'Thailand',
-        subtitle: 'Bangkok Eastern Corridor',
+        title: 'Bangkok,Thailand',
+        subtitle: 'Main Hub',
         sites: 1,
         capacityMW: 75,
         availabilityPct: 99.90,
@@ -76,8 +76,8 @@ const SOUTHEAST_ASIA_COUNTRY_METRICS: SiteMetric[] = [
     },
     {
         key: 'MY',
-        title: 'Malaysia',
-        subtitle: 'Cyberjaya & Johor Hub',
+        title: 'Kutching, Malaysia',
+        subtitle: 'Main Hub',
         sites: 2,
         capacityMW: 110,
         availabilityPct: 99.92,
@@ -100,8 +100,8 @@ const SOUTHEAST_ASIA_COUNTRY_METRICS: SiteMetric[] = [
     },
     {
         key: 'BTM',
-        title: 'Batam',
-        subtitle: 'Nongsa Digital Park',
+        title: 'Batam, Indonesia',
+        subtitle: 'Main Hub',
         sites: 1,
         capacityMW: 90,
         availabilityPct: 99.95,
