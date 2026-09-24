@@ -63,6 +63,30 @@ const INITIAL_METRICS: SiteMetric[] = [
 
 const SOUTHEAST_ASIA_COUNTRY_METRICS: SiteMetric[] = [
     {
+        key: 'TH',
+        title: 'Thailand',
+        subtitle: 'Bangkok Eastern Corridor',
+        sites: 1,
+        capacityMW: 75,
+        availabilityPct: 99.90,
+        position: {
+            top: '34%',
+            left: '28%'
+        }
+    },
+    {
+        key: 'MY',
+        title: 'Malaysia',
+        subtitle: 'Cyberjaya & Johor Hub',
+        sites: 2,
+        capacityMW: 110,
+        availabilityPct: 99.92,
+        position: {
+            top: '38%',
+            right: '28%'
+        }
+    },
+    {
         key: 'SG',
         title: 'Singapore',
         subtitle: 'Main Hub',
@@ -70,8 +94,8 @@ const SOUTHEAST_ASIA_COUNTRY_METRICS: SiteMetric[] = [
         capacityMW: 140,
         availabilityPct: 99.98,
         position: {
-            top: '52%',
-            left: '42%'
+            top: '60%',
+            left: '30%'
         }
     },
     {
@@ -83,31 +107,7 @@ const SOUTHEAST_ASIA_COUNTRY_METRICS: SiteMetric[] = [
         availabilityPct: 99.95,
         position: {
             top: '60%',
-            left: '48%'
-        }
-    },
-    {
-        key: 'MY',
-        title: 'Malaysia',
-        subtitle: 'Cyberjaya & Johor Hub',
-        sites: 2,
-        capacityMW: 110,
-        availabilityPct: 99.92,
-        position: {
-            top: '44%',
-            left: '36%'
-        }
-    },
-    {
-        key: 'TH',
-        title: 'Thailand',
-        subtitle: 'Bangkok Hub',
-        sites: 1,
-        capacityMW: 75,
-        availabilityPct: 99.90,
-        position: {
-            top: '32%',
-            left: '34%'
+            right: '30%'
         }
     }
 ];

@@ -83,7 +83,10 @@ export const CoordinateCard: React.FC<CoordinateCardProps> = ({
         >
             {/* 3D Target Connector Line pointing from card towards red dot */}
             {isDynamic && isVisible && (
-                <div className={`card-connector-arm ${isLeftOfDot ? 'arm-right' : 'arm-left'}`}>
+                <div
+                    className={`card-connector-arm ${isLeftOfDot ? 'arm-right' : 'arm-left'}`}
+                    style={offsetY !== 0 ? { top: offsetY > 0 ? '20px' : 'calc(100% - 20px)' } : undefined}
+                >
                     <div className="arm-pulse-dot"></div>
                 </div>
             )}
