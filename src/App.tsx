@@ -49,14 +49,26 @@ const INITIAL_METRICS: SiteMetric[] = [
     },
     {
         key: 'JPN',
-        title: 'Japan',
-        subtitle: 'Tokyo Hub',
+        title: 'United States',
+        subtitle: 'Main Hub',
         sites: 1,
         capacityMW: 180,
         availabilityPct: 54,
         position: {
             top: '36%',
             right: '10%'
+        }
+    },
+    {
+        key: 'UK',
+        title: 'United Kingdom',
+        subtitle: 'London Hub',
+        sites: 1,
+        capacityMW: 150,
+        availabilityPct: 54,
+        position: {
+            top: '30%',
+            left: '42%'
         }
     }
 ];
