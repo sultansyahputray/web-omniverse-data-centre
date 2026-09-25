@@ -1,0 +1,31 @@
+{
+  "values": [
+    {
+      "name": "Value 1",
+      "gpuComputingUtilisation": 80,
+      "facilityPower": 46.29,
+      "itLoad": 41.33,
+      "pue": 1.120,
+      "coolingLoad": 41.230,
+      "activeAlarm": 0
+    },
+    {
+      "name": "Value 2",
+      "gpuComputingUtilisation": 90,
+      "facilityPower": 47.55,
+      "itLoad": 42.38,
+      "pue": 1.122,
+      "coolingLoad": 42.380,
+      "activeAlarm": 10
+    },
+    {
+      "name": "Value 3",
+      "gpuComputingUtilisation": 97,
+      "facilityPower": 49.45,
+      "itLoad": 44.03,
+      "pue": 1.123,
+      "coolingLoad": 44.130,
+      "activeAlarm": 8
+    }
+  ]
+}

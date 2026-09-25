@@ -216,6 +216,10 @@
     white-space: nowrap;
 }
 
+.country-gauge-label.single-line {
+    justify-content: center;
+}
+
 .country-gauge-chart {
     display: flex;
     align-items: center;

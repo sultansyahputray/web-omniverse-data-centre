@@ -18,7 +18,70 @@
     --text-muted-dark: #4d667c;
     --font-heading: 'Outfit', sans-serif;
     --font-body: 'Inter', sans-serif;
+
+    /* =========================================================================
+       GLOBAL UNIFIED STATUS PALETTE (GREEN, YELLOW, ORANGE, RED, CYAN)
+       Konfigurasi 1 pintu warna untuk badge & pill di seluruh level dashboard
+       ========================================================================= */
+    --status-green: #34c759;
+    --status-green-bg: rgba(52, 199, 89, 0.6);
+    --status-green-border: rgba(52, 199, 89, 1);
+    --status-green-glow: rgba(52, 199, 89, 0.35);
+
+    --status-yellow: #ffcc00;
+    --status-yellow-bg: rgba(255, 204, 0, 0.4);
+    --status-yellow-border: rgba(255, 204, 0, 1);
+    --status-yellow-glow: rgba(255, 204, 0, 0.35);
+
+    --status-orange: #ff9500;
+    --status-orange-bg: rgba(255, 149, 0, 0.4);
+    --status-orange-border: rgba(255, 149, 0, 1);
+    --status-orange-glow: rgba(255, 149, 0, 0.35);
+
+    --status-red: #ff383c;
+    --status-red-bg: rgba(255, 56, 60, 0.5);
+    --status-red-border: rgba(255, 56, 60, 1);
+    --status-red-glow: rgba(255, 56, 60, 0.35);
+
+    --status-cyan: #00d4ff;
+    --status-cyan-bg: rgba(0, 212, 255, 0.22);
+    --status-cyan-border: rgba(0, 212, 255, 1);
+    --status-cyan-glow: rgba(0, 212, 255, 0.35);
 }
+
+/* =========================================================================
+   UNIVERSAL STATUS BADGE & PILL UTILITY CLASSES
+   Bisa digunakan di card / level manapun secara konsisten
+   ========================================================================= */
+.badge-green,
+.badge-status-green {
+    background: var(--status-green-bg) !important;
+    border-color: var(--status-green-border) !important;
+    color: #ffffff !important;
+}
+
+.badge-yellow,
+.badge-gold,
+.badge-status-yellow {
+    background: var(--status-yellow-bg) !important;
+    border-color: var(--status-yellow-border) !important;
+    color: #ffffff !important;
+}
+
+.badge-orange,
+.badge-status-orange {
+    background: var(--status-orange-bg) !important;
+    border-color: var(--status-orange-border) !important;
+    color: #ffffff !important;
+}
+
+.badge-red,
+.badge-status-red {
+    background: var(--status-red-bg) !important;
+    border-color: var(--status-red-border) !important;
+    color: #ffffff !important;
+}
+
 
 * {
     box-sizing: border-box;

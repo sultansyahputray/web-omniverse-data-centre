@@ -10,6 +10,10 @@ import { TimeOfDaySelector } from '../Level2Region/TimeOfDaySelector';
 import { AdaptiveViewCube } from '../Level2Region/AdaptiveViewCube';
 import { REGION_ZONES } from '../Level2Region/Level2RegionView';
 import { FloatingZoneTag } from '../Level2Region/FloatingZoneTag';
+import level3BuildingData from '../../data/level3Building.json';
+import level3PowerDetailsData from '../../data/level3PowerDetails.json';
+import level3CoolingDetailsData from '../../data/level3CoolingDetails.json';
+import { GLOBAL_TIMERS, getTimerMs } from '../../config';
 import './Level3Building.css';
 
 interface Level3BuildingViewProps {
@@ -47,6 +51,21 @@ export const Level3BuildingView: React.FC<Level3BuildingViewProps> = ({
     // Manage internal subView state, synchronized with prop if controlled
     const [currentSubView, setCurrentSubView] = useState<BuildingSubView>(subView);
     const [coolingMode, setCoolingMode] = useState<CoolingMode>('liquid');
+    const [valueIndex, setValueIndex] = useState<number>(0);
+
+    // Interval rotasi data: Value 1 -> Value 2 -> Value 3 (mengacu ke GLOBAL_TIMERS.region_building_time di config.ts)
+    useEffect(() => {
+        const intervalMs = getTimerMs(GLOBAL_TIMERS.region_building_time);
+        const timer = setInterval(() => {
+            setValueIndex((prev) => (prev + 1) % 3);
+        }, intervalMs);
+        return () => clearInterval(timer);
+    }, []);
+
+    const cutawayMetrics = level3BuildingData.values[valueIndex] || level3BuildingData.values[0];
+    const powerDetailsMetrics = level3PowerDetailsData.values[valueIndex] || level3PowerDetailsData.values[0];
+    const coolingModeKey = coolingMode === 'air' ? 'air' : 'liquid';
+    const coolingDetailsMetrics = level3CoolingDetailsData[coolingModeKey]?.values[valueIndex] || level3CoolingDetailsData.liquid.values[0];
 
     useEffect(() => {
         setCurrentSubView(subView);
@@ -109,9 +128,23 @@ export const Level3BuildingView: React.FC<Level3BuildingViewProps> = ({
             />
 
             {/* Left Sidebar: Normal Cutaway Telemetry OR Power Path OR Cooling Telemetry */}
-            {currentSubView === 'power_details' && <PowerPathTelemetryCard />}
-            {currentSubView === 'cooling_details' && <CoolingDetailsTelemetryCard coolingMode={coolingMode} />}
-            {currentSubView === 'cutaway' && <Level3TelemetryCard />}
+            {currentSubView === 'power_details' && <PowerPathTelemetryCard data={powerDetailsMetrics} />}
+            {currentSubView === 'cooling_details' && (
+                <CoolingDetailsTelemetryCard
+                    data={coolingDetailsMetrics}
+                    coolingMode={coolingMode}
+                />
+            )}
+            {currentSubView === 'cutaway' && (
+                <Level3TelemetryCard
+                    gpuComputingUtilisation={cutawayMetrics.gpuComputingUtilisation}
+                    facilityPower={cutawayMetrics.facilityPower}
+                    itLoad={cutawayMetrics.itLoad}
+                    pue={cutawayMetrics.pue}
+                    coolingLoad={cutawayMetrics.coolingLoad}
+                    activeAlarm={cutawayMetrics.activeAlarm}
+                />
+            )}
 
             {/* 3D Floating Hall Tags: In detail modes (power/cooling), NOC is hidden, only halls are shown */}
             <Level3HallsOverlay

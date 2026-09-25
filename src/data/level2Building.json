@@ -1,0 +1,29 @@
+{
+  "activePower": "156.6 kW",
+  "values": [
+    {
+      "name": "Value 1",
+      "gpuComputeUtilisation": 80,
+      "facilityLoad": 92.60,
+      "pue": 1.120,
+      "coolingUtilisation": 80.84,
+      "activeAlarm": 0
+    },
+    {
+      "name": "Value 2",
+      "gpuComputeUtilisation": 90,
+      "facilityLoad": 95.10,
+      "pue": 1.122,
+      "coolingUtilisation": 83.10,
+      "activeAlarm": 10
+    },
+    {
+      "name": "Value 3",
+      "gpuComputeUtilisation": 97,
+      "facilityLoad": 98.90,
+      "pue": 1.123,
+      "coolingUtilisation": 86.53,
+      "activeAlarm": 8
+    }
+  ]
+}

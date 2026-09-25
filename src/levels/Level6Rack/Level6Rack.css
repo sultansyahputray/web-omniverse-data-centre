@@ -346,8 +346,24 @@
 }
 
 .badge-green {
-    background-color: #34C75999;
-    border: 2px solid #34C759;
+    background-color: var(--status-green-bg);
+    border: 2px solid var(--status-green-border);
+}
+
+.badge-yellow,
+.badge-gold {
+    background-color: var(--status-yellow-bg);
+    border: 2px solid var(--status-yellow-border);
+}
+
+.badge-orange {
+    background-color: var(--status-orange-bg);
+    border: 2px solid var(--status-orange-border);
+}
+
+.badge-red {
+    background-color: var(--status-red-bg);
+    border: 2px solid var(--status-red-border);
 }
 
 .badge-blue {

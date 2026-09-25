@@ -639,11 +639,11 @@
 }
 
 .hd-badge.warning {
-    background: #f97316;
+    background: var(--status-orange);
 }
 
 .hd-badge.alert {
-    background: #ef4444;
+    background: var(--status-red);
 }
 
 .hd-filters {
@@ -888,14 +888,26 @@
 }
 
 .hd-param-val.badge-green {
-    background: #34C75999;
-    border: 2px solid #34C759;
+    background: var(--status-green-bg);
+    border: 2px solid var(--status-green-border);
     color: #ffffff;
 }
 
 .hd-param-val.badge-yellow {
-    background: #FFCC0066;
-    border: 2px solid #FFCC00;
+    background: var(--status-yellow-bg);
+    border: 2px solid var(--status-yellow-border);
+    color: #ffffff;
+}
+
+.hd-param-val.badge-orange {
+    background: var(--status-orange-bg);
+    border: 2px solid var(--status-orange-border);
+    color: #ffffff;
+}
+
+.hd-param-val.badge-red {
+    background: var(--status-red-bg);
+    border: 2px solid var(--status-red-border);
     color: #ffffff;
 }
 

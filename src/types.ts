@@ -19,8 +19,12 @@ export interface SiteMetric {
     availabilityPct?: number;
     facilityLoadValues?: number[];
     facilityLoad?: number;
+    facilityLoads?: number[];
     gpuComputeUtilisation?: number;
+    gpuComputeUtilisations?: number[];
     coolingLoad?: number;
+    coolingUtilisation?: number;
+    coolingUtilisations?: number[];
     position: {
         top?: string;
         bottom?: string;

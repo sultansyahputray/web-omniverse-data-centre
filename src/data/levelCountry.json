@@ -1,14 +1,56 @@
 [
   {
+    "key": "BTM",
+    "title": "Batam, Indonesia",
+    "subtitle": "Main Hub",
+    "sites": 1,
+    "capacityMW": 50,
+    "availabilityPct": 99.95,
+    "gpuComputeUtilisation": 80,
+    "gpuComputeUtilisations": [80, 90, 97],
+    "facilityLoad": 92.60,
+    "facilityLoads": [92.60, 95.10, 98.90],
+    "coolingUtilisation": 80.84,
+    "coolingUtilisations": [80.84, 86.30, 86.53],
+    "coolingLoad": 80.84,
+    "position": {
+      "top": "60%",
+      "right": "30%"
+    }
+  },
+  {
+    "key": "SG",
+    "title": "Singapore",
+    "subtitle": "Main Hub",
+    "sites": 2,
+    "capacityMW": 100,
+    "availabilityPct": 99.98,
+    "gpuComputeUtilisation": 82,
+    "gpuComputeUtilisations": [82, 77, 85],
+    "facilityLoad": 97.50,
+    "facilityLoads": [97.50, 94.30, 98.20],
+    "coolingUtilisation": 85.50,
+    "coolingUtilisations": [85.50, 81.40, 85.80],
+    "coolingLoad": 85.50,
+    "position": {
+      "top": "60%",
+      "left": "30%"
+    }
+  },
+  {
     "key": "TH",
     "title": "Bangkok, Thailand",
     "subtitle": "Main Hub",
     "sites": 1,
-    "capacityMW": 75,
+    "capacityMW": 50,
     "availabilityPct": 99.90,
-    "gpuComputeUtilisation": 54,
-    "facilityLoad": 54,
-    "coolingLoad": 54,
+    "gpuComputeUtilisation": 81,
+    "gpuComputeUtilisations": [81, 79, 82],
+    "facilityLoad": 95.10,
+    "facilityLoads": [95.10, 94.50, 96.50],
+    "coolingUtilisation": 86.30,
+    "coolingUtilisations": [86.30, 82.40, 84.20],
+    "coolingLoad": 86.30,
     "position": {
       "top": "34%",
       "left": "28%"
@@ -19,44 +61,18 @@
     "title": "Kuching, Malaysia",
     "subtitle": "Main Hub",
     "sites": 2,
-    "capacityMW": 110,
+    "capacityMW": 50,
     "availabilityPct": 99.92,
-    "gpuComputeUtilisation": 54,
-    "facilityLoad": 54,
-    "coolingLoad": 54,
+    "gpuComputeUtilisation": 78,
+    "gpuComputeUtilisations": [78, 81, 79],
+    "facilityLoad": 94.50,
+    "facilityLoads": [94.50, 95.60, 94.20],
+    "coolingUtilisation": 80.20,
+    "coolingUtilisations": [80.20, 85.50, 81.10],
+    "coolingLoad": 80.20,
     "position": {
       "top": "38%",
       "right": "28%"
-    }
-  },
-  {
-    "key": "SG",
-    "title": "Singapore",
-    "subtitle": "Main Hub",
-    "sites": 2,
-    "capacityMW": 140,
-    "availabilityPct": 99.98,
-    "gpuComputeUtilisation": 54,
-    "facilityLoad": 54,
-    "coolingLoad": 54,
-    "position": {
-      "top": "60%",
-      "left": "30%"
-    }
-  },
-  {
-    "key": "BTM",
-    "title": "Batam, Indonesia",
-    "subtitle": "Main Hub",
-    "sites": 1,
-    "capacityMW": 50,
-    "availabilityPct": 99.95,
-    "gpuComputeUtilisation": 54,
-    "facilityLoad": 54,
-    "coolingLoad": 54,
-    "position": {
-      "top": "60%",
-      "right": "30%"
     }
   }
 ]

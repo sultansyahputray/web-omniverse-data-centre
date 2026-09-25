@@ -167,12 +167,12 @@ export const Level6RackDetailCard: React.FC<Level6RackDetailCardProps> = ({
         label: string,
         value: string | number,
         unit: string = '',
-        badgeType: 'green' | 'blue' = 'green'
+        badgeType: 'green' | 'yellow' | 'orange' | 'red' | 'blue' = 'green'
     ) => (
         <div className="rack-card-param-row">
             <span className="rack-card-param-label">{label}</span>
             <div className="rack-card-param-val-group">
-                <span className={`rack-card-badge ${badgeType === 'blue' ? 'badge-blue' : 'badge-green'}`}>
+                <span className={`rack-card-badge badge-${badgeType}`}>
                     {value}
                 </span>
                 {unit ? (

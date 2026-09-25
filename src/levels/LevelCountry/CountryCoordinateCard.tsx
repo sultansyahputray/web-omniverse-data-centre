@@ -1,10 +1,12 @@
 import React from 'react';
 import { SiteMetric, ScreenPosition, RegionKey } from '../../types';
 import { ServerRackIcon, ChevronRightIcon, RegionalAvailabilityGauge } from '../../Icons';
+import { getStatus, getStatusColor } from '../../thresholdUtils';
 
 interface CountryCoordinateCardProps {
     metric: SiteMetric;
     isActive: boolean;
+    valueIndex?: number;
     screenPosition?: ScreenPosition;
     placement?: 'left' | 'right';
     offsetY?: number;
@@ -15,6 +17,7 @@ interface CountryCoordinateCardProps {
 export const CountryCoordinateCard: React.FC<CountryCoordinateCardProps> = ({
     metric,
     isActive,
+    valueIndex = 0,
     screenPosition,
     placement,
     offsetY = 0,
@@ -71,10 +74,25 @@ export const CountryCoordinateCard: React.FC<CountryCoordinateCardProps> = ({
         onClick(metric.key);
     };
 
-    const gpuCompute = metric.gpuComputeUtilisation ?? 54;
-    const facilityLoad = metric.facilityLoad ?? 54;
-    const coolingLoad = metric.coolingLoad ?? 54;
+    // Pick values based on rotation index (Value 1 -> Value 2 -> Value 3)
+    const gpuValues = metric.gpuComputeUtilisations ?? (metric.gpuComputeUtilisation !== undefined ? [metric.gpuComputeUtilisation] : [54]);
+    const facValues = metric.facilityLoads ?? metric.facilityLoadValues ?? (metric.facilityLoad !== undefined ? [metric.facilityLoad] : [54]);
+    const coolValues = metric.coolingUtilisations ?? (metric.coolingUtilisation !== undefined ? [metric.coolingUtilisation] : metric.coolingLoad !== undefined ? [metric.coolingLoad] : [54]);
+
+    const gpuCompute = gpuValues[valueIndex % gpuValues.length];
+    const facilityLoad = facValues[valueIndex % facValues.length];
+    const coolingUtil = coolValues[valueIndex % coolValues.length];
     const capacityMW = metric.capacityMW ?? 50;
+
+    // Threshold evaluation based on centralized status rules
+    const gpuStatus = getStatus('gpuComputeUtil', gpuCompute);
+    const gpuColor = getStatusColor(gpuStatus);
+
+    const facStatus = getStatus('facilityLoad', facilityLoad);
+    const facColor = getStatusColor(facStatus);
+
+    const coolStatus = getStatus('coolingUtilisation', coolingUtil);
+    const coolColor = getStatusColor(coolStatus);
 
     return (
         <div
@@ -129,7 +147,7 @@ export const CountryCoordinateCard: React.FC<CountryCoordinateCardProps> = ({
                     </div>
                 </div>
 
-                {/* Gauges Row: 3 Columns (GPU Compute Utilisation, Facility Load, Cooling Load) */}
+                {/* Gauges Row: 3 Columns (GPU Compute Utilisation, Facility Load, Cooling Utilisation) */}
                 <div className="country-gauges-row">
                     {/* Column 1: GPU Compute Utilisation */}
                     <div className="country-gauge-col">
@@ -142,8 +160,9 @@ export const CountryCoordinateCard: React.FC<CountryCoordinateCardProps> = ({
                                 percentage={gpuCompute}
                                 size={66}
                                 strokeWidth={7.5}
-                                color="#ffcc00"
+                                color={gpuColor}
                                 bgColor="rgba(75, 115, 155, 0.45)"
+                                customDisplay={`${gpuCompute % 1 === 0 ? gpuCompute : gpuCompute.toFixed(1)}%`}
                             />
                         </div>
                     </div>
@@ -158,24 +177,27 @@ export const CountryCoordinateCard: React.FC<CountryCoordinateCardProps> = ({
                                 percentage={facilityLoad}
                                 size={66}
                                 strokeWidth={7.5}
-                                color="#ffcc00"
+                                color={facColor}
                                 bgColor="rgba(75, 115, 155, 0.45)"
+                                customDisplay={`${facilityLoad.toFixed(2)}%`}
                             />
                         </div>
                     </div>
 
-                    {/* Column 3: Cooling Load */}
+                    {/* Column 3: Cooling Utilisation */}
                     <div className="country-gauge-col">
-                        <div className="country-gauge-label single-line">
-                            <span>Cooling Load</span>
+                        <div className="country-gauge-label">
+                            <span>Cooling</span>
+                            <span>Utilisation</span>
                         </div>
                         <div className="country-gauge-chart">
                             <RegionalAvailabilityGauge
-                                percentage={coolingLoad}
+                                percentage={coolingUtil}
                                 size={66}
                                 strokeWidth={7.5}
-                                color="#ffcc00"
+                                color={coolColor}
                                 bgColor="rgba(75, 115, 155, 0.45)"
+                                customDisplay={`${coolingUtil.toFixed(2)}%`}
                             />
                         </div>
                     </div>

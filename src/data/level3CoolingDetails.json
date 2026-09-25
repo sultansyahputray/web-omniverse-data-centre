@@ -1,0 +1,70 @@
+{
+  "liquid": {
+    "values": [
+      {
+        "name": "Value 1",
+        "coolingEfficiency": 92,
+        "capacityUtilisation": 73.1,
+        "coolantFlow": 100,
+        "deltaP": 100,
+        "avgInletTemp": 45,
+        "avgDeltaT": 10,
+        "activeAlarm": 0
+      },
+      {
+        "name": "Value 2",
+        "coolingEfficiency": 94,
+        "capacityUtilisation": 82.0,
+        "coolantFlow": 98,
+        "deltaP": 104,
+        "avgInletTemp": 45,
+        "avgDeltaT": 12,
+        "activeAlarm": 1
+      },
+      {
+        "name": "Value 3",
+        "coolingEfficiency": 76,
+        "capacityUtilisation": 82.0,
+        "coolantFlow": 72,
+        "deltaP": 128,
+        "avgInletTemp": 45,
+        "avgDeltaT": 21,
+        "activeAlarm": 4
+      }
+    ]
+  },
+  "air": {
+    "values": [
+      {
+        "name": "Value 1",
+        "coolingEfficiency": 92,
+        "capacityUtilisation": 73.1,
+        "coolantFlow": 100,
+        "deltaP": 100,
+        "avgInletTemp": 45,
+        "avgDeltaT": 10,
+        "activeAlarm": 0
+      },
+      {
+        "name": "Value 2",
+        "coolingEfficiency": 94,
+        "capacityUtilisation": 82.0,
+        "coolantFlow": 98,
+        "deltaP": 104,
+        "avgInletTemp": 45,
+        "avgDeltaT": 12,
+        "activeAlarm": 1
+      },
+      {
+        "name": "Value 3",
+        "coolingEfficiency": 76,
+        "capacityUtilisation": 82.0,
+        "coolantFlow": 72,
+        "deltaP": 128,
+        "avgInletTemp": 45,
+        "avgDeltaT": 21,
+        "activeAlarm": 4
+      }
+    ]
+  }
+}

@@ -126,13 +126,20 @@
     border: 1.5px solid #00c0e8;
     border-radius: 12px;
     padding: 14px 12px 16px 12px;
-    width: 146px;
+    width: 154px;
     backdrop-filter: blur(14px);
     -webkit-backdrop-filter: blur(14px);
     box-shadow: 0 12px 36px rgba(0, 0, 0, 0.6), 0 0 18px rgba(0, 192, 232, 0.25);
     display: flex;
     flex-direction: column;
     gap: 10px;
+}
+
+.telemetry-gauge-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2px 0;
 }
 
 .level3-telemetry-section {
@@ -153,36 +160,73 @@
     line-height: 1.25;
 }
 
-.telemetry-pill-green {
+.telemetry-pill-green,
+.telemetry-pill-default {
     width: 100%;
     box-sizing: border-box;
-    background: #23974e;
-    border: 1px solid #2ecc71;
+    background: var(--status-green-bg);
+    border: 1.5px solid var(--status-green-border);
     border-radius: 6px;
-    padding: 6px 10px;
+    padding: 6px 8px;
     color: #ffffff;
     font-family: 'Inter', system-ui, sans-serif;
-    font-size: 14.5px;
+    font-size: 14px;
     font-weight: 700;
     text-align: center;
     letter-spacing: 0.3px;
-    box-shadow: 0 2px 8px rgba(35, 151, 78, 0.35);
+    white-space: nowrap;
+    box-shadow: 0 2px 8px var(--status-green-glow);
+}
+
+.telemetry-pill-yellow {
+    width: 100%;
+    box-sizing: border-box;
+    background: var(--status-yellow-bg);
+    border: 1.5px solid var(--status-yellow-border);
+    border-radius: 6px;
+    padding: 6px 8px;
+    color: #ffffff;
+    font-family: 'Inter', system-ui, sans-serif;
+    font-size: 14px;
+    font-weight: 700;
+    text-align: center;
+    letter-spacing: 0.3px;
+    white-space: nowrap;
+    box-shadow: 0 2px 8px var(--status-yellow-glow);
+}
+
+.telemetry-pill-orange {
+    width: 100%;
+    box-sizing: border-box;
+    background: var(--status-orange-bg);
+    border: 1.5px solid var(--status-orange-border);
+    border-radius: 6px;
+    padding: 6px 8px;
+    color: #ffffff;
+    font-family: 'Inter', system-ui, sans-serif;
+    font-size: 14px;
+    font-weight: 700;
+    text-align: center;
+    letter-spacing: 0.3px;
+    white-space: nowrap;
+    box-shadow: 0 2px 8px var(--status-orange-glow);
 }
 
 .telemetry-pill-red {
     width: 100%;
     box-sizing: border-box;
-    background: #c22f38;
-    border: 1px solid #ef4444;
+    background: var(--status-red-bg);
+    border: 1.5px solid var(--status-red-border);
     border-radius: 6px;
-    padding: 6px 10px;
+    padding: 6px 8px;
     color: #ffffff;
     font-family: 'Inter', system-ui, sans-serif;
-    font-size: 14.5px;
+    font-size: 14px;
     font-weight: 700;
     text-align: center;
     letter-spacing: 0.3px;
-    box-shadow: 0 2px 8px rgba(194, 47, 56, 0.35);
+    white-space: nowrap;
+    box-shadow: 0 2px 8px var(--status-red-glow);
 }
 
 .telemetry-pill-blue {
@@ -200,8 +244,9 @@
     letter-spacing: 0.3px;
 }
 
-/* --- ELECTRICAL POWER PATH TELEMETRY CARD (Level 3 Detail Mode) --- */
-.power-path-sidebar {
+/* --- ELECTRICAL POWER PATH & COOLING DETAILS TELEMETRY CARD (Level 3 Detail Modes) --- */
+.power-path-sidebar,
+.cooling-path-sidebar {
     position: absolute;
     top: 155px;
     left: 44px;
@@ -260,15 +305,16 @@
     color: #ffffff;
     letter-spacing: 0.2px;
     text-align: center;
-    white-space: nowrap;
+    line-height: 1.25;
 }
 
-/* 1. Active Power Gold Pill */
-.power-pill-gold {
+/* 1. Active Power Gold/Yellow Pill */
+.power-pill-gold,
+.power-pill-yellow {
     width: 80%;
     box-sizing: border-box;
-    background: #FFCC0066;
-    border: 2px solid #FFCC00;
+    background: var(--status-yellow-bg);
+    border: 1.5px solid var(--status-yellow-border);
     border-radius: 8px;
     padding: 5px 8px;
     color: #ffffff;
@@ -277,6 +323,7 @@
     font-weight: 800;
     text-align: center;
     letter-spacing: 0.4px;
+    box-shadow: 0 2px 8px var(--status-yellow-glow);
 }
 
 /* 2. Active Rack Navy Pill */
@@ -296,12 +343,13 @@
     box-shadow: 0 2px 8px rgba(35, 77, 107, 0.35);
 }
 
-/* 3. Green Telemetry Pills (Voltage, PF, Imbalance, Headroom, Alarm) */
-.power-pill-green {
+/* 3. Status Telemetry Pills */
+.power-pill-green,
+.power-pill-default {
     width: 80%;
     box-sizing: border-box;
-    background: #1b8a43;
-    border: 1.5px solid #2ecc71;
+    background: var(--status-green-bg);
+    border: 1.5px solid var(--status-green-border);
     border-radius: 8px;
     padding: 5px 8px;
     color: #ffffff;
@@ -310,7 +358,39 @@
     font-weight: 800;
     text-align: center;
     letter-spacing: 0.4px;
-    box-shadow: 0 2px 8px rgba(27, 138, 67, 0.35);
+    box-shadow: 0 2px 8px var(--status-green-glow);
+}
+
+.power-pill-orange {
+    width: 80%;
+    box-sizing: border-box;
+    background: var(--status-orange-bg);
+    border: 1.5px solid var(--status-orange-border);
+    border-radius: 8px;
+    padding: 5px 8px;
+    color: #ffffff;
+    font-family: 'Inter', system-ui, sans-serif;
+    font-size: 15px;
+    font-weight: 800;
+    text-align: center;
+    letter-spacing: 0.4px;
+    box-shadow: 0 2px 8px var(--status-orange-glow);
+}
+
+.power-pill-red {
+    width: 80%;
+    box-sizing: border-box;
+    background: var(--status-red-bg);
+    border: 1.5px solid var(--status-red-border);
+    border-radius: 8px;
+    padding: 5px 8px;
+    color: #ffffff;
+    font-family: 'Inter', system-ui, sans-serif;
+    font-size: 15px;
+    font-weight: 800;
+    text-align: center;
+    letter-spacing: 0.4px;
+    box-shadow: 0 2px 8px var(--status-red-glow);
 }
 
 /* 4. Donut Gauge for Avg. PDU Load */

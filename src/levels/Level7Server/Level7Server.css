@@ -280,7 +280,8 @@
 }
 
 .server-detail-badge {
-    background: #189849;
+    background: var(--status-green-bg);
+    border: 1.5px solid var(--status-green-border);
     color: #FFFFFF;
     font-weight: 700;
     font-size: 13px;
@@ -289,8 +290,35 @@
     width: 60px;
     min-width: 60px;
     text-align: center;
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.35);
+    box-shadow: 0 2px 6px var(--status-green-glow);
+    box-sizing: border-box;
 }
+
+.server-detail-badge.badge-green {
+    background: var(--status-green-bg);
+    border-color: var(--status-green-border);
+    box-shadow: 0 2px 6px var(--status-green-glow);
+}
+
+.server-detail-badge.badge-yellow,
+.server-detail-badge.badge-gold {
+    background: var(--status-yellow-bg);
+    border-color: var(--status-yellow-border);
+    box-shadow: 0 2px 6px var(--status-yellow-glow);
+}
+
+.server-detail-badge.badge-orange {
+    background: var(--status-orange-bg);
+    border-color: var(--status-orange-border);
+    box-shadow: 0 2px 6px var(--status-orange-glow);
+}
+
+.server-detail-badge.badge-red {
+    background: var(--status-red-bg);
+    border-color: var(--status-red-border);
+    box-shadow: 0 2px 6px var(--status-red-glow);
+}
+
 
 .server-detail-unit {
     color: #FFFFFF;

@@ -1,0 +1,37 @@
+{
+  "values": [
+    {
+      "name": "Value 1",
+      "facilityLoad": 92.6,
+      "gpuComputeUtilisation": 80,
+      "electricalN1PathLoading": 88.00,
+      "activePower": 46.30,
+      "voltage": 480,
+      "powerFactor": 0.98,
+      "abLoadImbalance": 2,
+      "activeAlarm": 0
+    },
+    {
+      "name": "Value 2",
+      "facilityLoad": 95.1,
+      "gpuComputeUtilisation": 90,
+      "electricalN1PathLoading": 95.00,
+      "activePower": 47.55,
+      "voltage": 478,
+      "powerFactor": 0.97,
+      "abLoadImbalance": 4,
+      "activeAlarm": 3
+    },
+    {
+      "name": "Value 3",
+      "facilityLoad": 98.9,
+      "gpuComputeUtilisation": 97,
+      "electricalN1PathLoading": 102,
+      "activePower": 49.45,
+      "voltage": 475,
+      "powerFactor": 0.96,
+      "abLoadImbalance": 5,
+      "activeAlarm": 4
+    }
+  ]
+}

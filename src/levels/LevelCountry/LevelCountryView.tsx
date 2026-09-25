@@ -1,9 +1,10 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { SiteMetric, PortfolioTotals, ScreenPosition, RegionKey } from '../../types';
 import { CountryHeader } from './CountryHeader';
 import { Level1Footer } from '../Level1Earth/Level1Footer';
 import { CountryCoordinateCard } from './CountryCoordinateCard';
 import { Level1GlobeControls } from '../Level1Earth/Level1GlobeControls';
+import { GLOBAL_TIMERS, getTimerMs } from '../../config';
 import './LevelCountry.css';
 
 interface CardPlacement {
@@ -63,6 +64,17 @@ export const LevelCountryView: React.FC<LevelCountryViewProps> = ({
     onZoomEarth,
     onResetCountry
 }) => {
+    const [valueIndex, setValueIndex] = useState<number>(0);
+
+    // Interval rotasi data: Value 1 -> Value 2 -> Value 3 (mengacu ke GLOBAL_TIMERS.country_time di config.ts)
+    useEffect(() => {
+        const intervalMs = getTimerMs(GLOBAL_TIMERS.country_time);
+        const timer = setInterval(() => {
+            setValueIndex((prev) => (prev + 1) % 3);
+        }, intervalMs);
+        return () => clearInterval(timer);
+    }, []);
+
     const isDraggingRef = React.useRef<boolean>(false);
     const lastTriggerXRef = React.useRef<number>(0);
 
@@ -110,6 +122,7 @@ export const LevelCountryView: React.FC<LevelCountryViewProps> = ({
                     <CountryCoordinateCard
                         key={metric.key}
                         metric={metric}
+                        valueIndex={valueIndex}
                         isActive={activePoint === metric.key}
                         screenPosition={screenPositions[metric.key]}
                         placement={placementInfo.placement}

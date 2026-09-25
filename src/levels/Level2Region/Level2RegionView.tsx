@@ -1,10 +1,12 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { CameraView, RegionKey, RegionZoneItem, ScreenPosition, SiteMetric, TimeOfDay } from '../../types';
 import { RegionHeader } from './RegionHeader';
 import { TimeOfDaySelector } from './TimeOfDaySelector';
 import { AdaptiveViewCube } from './AdaptiveViewCube';
 import { RegionFacilityCard } from './RegionFacilityCard';
 import { FloatingZoneTag } from './FloatingZoneTag';
+import level2BuildingData from '../../data/level2Building.json';
+import { GLOBAL_TIMERS, getTimerMs } from '../../config';
 import './Level2Region.css';
 
 export const REGION_ZONES: RegionZoneItem[] = [
@@ -83,6 +85,20 @@ export const Level2RegionView: React.FC<Level2RegionViewProps> = ({
     onSelectZone
 }) => {
     const focusTitle = regionMetric?.title ? `${regionMetric.title}` : `${activeRegion} DATA CENTRE`;
+
+    // Rotation across Value 1, Value 2, Value 3 from level2Building.json using global timer
+    const [telemetryIndex, setTelemetryIndex] = useState<number>(0);
+
+    useEffect(() => {
+        const intervalMs = getTimerMs(GLOBAL_TIMERS.region_building_time);
+        const timer = setInterval(() => {
+            setTelemetryIndex((prev) => (prev + 1) % level2BuildingData.values.length);
+        }, intervalMs);
+        return () => clearInterval(timer);
+    }, []);
+
+    const currentTelemetry = level2BuildingData.values[telemetryIndex];
+
     // Only consider live tracking active if screenPositions actually contains Region zone keys.
     // If it only contains Level 1 Earth keys (SG, AUS, JPN), fallback to showing default positions.
     const hasRegionTracking = Boolean(
@@ -94,13 +110,14 @@ export const Level2RegionView: React.FC<Level2RegionViewProps> = ({
             {/* Top-Left: Back Button + Region Title */}
             <RegionHeader regionMetric={regionMetric} onBack={onBackToGlobal} />
 
-            {/* Left Sidebar: Telemetry Card (Facility Load, Cooling, Availability, Power, PUE) */}
+            {/* Left Sidebar: Telemetry Card (Facility Load, Cooling Utilization, GPU Compute Utilization, Active Power, PUE, Active Alarm) */}
             <RegionFacilityCard
-                facilityLoad={54}
-                coolingCapacity={58}
-                availability={regionMetric?.availabilityPct || 99.9}
-                activePower="156.6 kW"
-                pue="1.30"
+                facilityLoad={currentTelemetry.facilityLoad}
+                coolingUtilization={currentTelemetry.coolingUtilisation}
+                gpuComputeUtilization={currentTelemetry.gpuComputeUtilisation}
+                activePower={level2BuildingData.activePower}
+                pue={currentTelemetry.pue}
+                activeAlarm={currentTelemetry.activeAlarm}
             />
 
             {/* 8 Floating 3D Zone Tags across Region with occlusion awareness */}

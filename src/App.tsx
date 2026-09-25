@@ -22,19 +22,21 @@ import { Level8SuperchipView } from './levels/Level8Superchip/Level8SuperchipVie
 import { HALL_ROW_ITEMS, HallRowItem } from './levels/Level4Hall/Level4FloatingRows';
 import level1GlobeData from './data/level1Globe.json';
 import levelCountryData from './data/levelCountry.json';
+import { GLOBAL_TIMERS, getTimerMs } from './config';
 import './GlobalDashboard.css';
 
 const GLOBE_METRICS_DATA: SiteMetric[] = level1GlobeData as SiteMetric[];
 const SOUTHEAST_ASIA_COUNTRY_METRICS: SiteMetric[] = levelCountryData as SiteMetric[];
 
 export const App: React.FC = () => {
-    // 30-second rotation across Value 1, Value 2, Value 3 for Facility Load
+    // Rotation across Value 1, Value 2, Value 3 for Facility Load using global timer
     const [facilityLoadIndex, setFacilityLoadIndex] = useState<number>(0);
 
     useEffect(() => {
+        const intervalMs = getTimerMs(GLOBAL_TIMERS.globe_time);
         const timer = setInterval(() => {
             setFacilityLoadIndex((prev) => (prev + 1) % 3);
-        }, 30000);
+        }, intervalMs);
         return () => clearInterval(timer);
     }, []);
 

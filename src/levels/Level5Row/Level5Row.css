@@ -297,11 +297,11 @@
     align-items: flex-end;
 }
 
-/* Metric Pills */
+/* Metric Pills (uses Unified Status Palette) */
 .summary-pill-green {
     box-sizing: border-box;
-    background: #1b8a43;
-    border: 1.5px solid #2ecc71;
+    background: var(--status-green-bg);
+    border: 1.5px solid var(--status-green-border);
     border-radius: 6px;
     padding: 3px 10px;
     color: #ffffff;
@@ -310,13 +310,14 @@
     font-weight: 800;
     min-width: 76px;
     text-align: center;
-    box-shadow: 0 2px 8px rgba(27, 138, 67, 0.35);
+    box-shadow: 0 2px 8px var(--status-green-glow);
 }
 
-.summary-pill-gold {
+.summary-pill-gold,
+.summary-pill-yellow {
     box-sizing: border-box;
-    background: #FFCC0066;
-    border: 1.5px solid #FFCC00;
+    background: var(--status-yellow-bg);
+    border: 1.5px solid var(--status-yellow-border);
     border-radius: 6px;
     padding: 3px 10px;
     color: #ffffff;
@@ -325,6 +326,37 @@
     font-weight: 800;
     min-width: 76px;
     text-align: center;
+    box-shadow: 0 2px 8px var(--status-yellow-glow);
+}
+
+.summary-pill-orange {
+    box-sizing: border-box;
+    background: var(--status-orange-bg);
+    border: 1.5px solid var(--status-orange-border);
+    border-radius: 6px;
+    padding: 3px 10px;
+    color: #ffffff;
+    font-family: 'Inter', system-ui, sans-serif;
+    font-size: 13.5px;
+    font-weight: 800;
+    min-width: 76px;
+    text-align: center;
+    box-shadow: 0 2px 8px var(--status-orange-glow);
+}
+
+.summary-pill-red {
+    box-sizing: border-box;
+    background: var(--status-red-bg);
+    border: 1.5px solid var(--status-red-border);
+    border-radius: 6px;
+    padding: 3px 10px;
+    color: #ffffff;
+    font-family: 'Inter', system-ui, sans-serif;
+    font-size: 13.5px;
+    font-weight: 800;
+    min-width: 76px;
+    text-align: center;
+    box-shadow: 0 2px 8px var(--status-red-glow);
 }
 
 .summary-pill-navy {

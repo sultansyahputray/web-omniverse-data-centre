@@ -96,11 +96,16 @@ export const Level7ServerDetailCard: React.FC<Level7ServerDetailCardProps> = ({
         };
     }, [serverNum]);
 
-    const renderParamRow = (label: string, value: string | number, unit: string = '°C') => (
+    const renderParamRow = (
+        label: string,
+        value: string | number,
+        unit: string = '°C',
+        badgeColor: 'green' | 'yellow' | 'orange' | 'red' = 'green'
+    ) => (
         <div className="server-detail-row">
             <span className="server-detail-label">{label}</span>
             <div className="server-detail-val-group">
-                <span className="server-detail-badge">{value}</span>
+                <span className={`server-detail-badge badge-${badgeColor}`}>{value}</span>
                 {unit ? (
                     <span className="server-detail-unit">{unit}</span>
                 ) : (

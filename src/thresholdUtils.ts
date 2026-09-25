@@ -1,3 +1,6 @@
+import type React from 'react';
+import { STATUS_PALETTE } from './config';
+
 export type ThresholdStatus = 'green' | 'yellow' | 'orange' | 'red' | 'default';
 
 export const getStatus = (param: string, value: number | string): ThresholdStatus => {
@@ -7,13 +10,173 @@ export const getStatus = (param: string, value: number | string): ThresholdStatu
     }
 
     switch (param) {
-        // FACILITY LOAD (Level Globe / Country / Building)
-        // Green: <= 95%, Yellow: 95% - 98%, Red: >= 98%
+        // --- LEVEL BUILDING / REGION SPECIFIC THRESHOLDS (IMAGE 3) ---
+        // GPU Compute Utilisation: Green: < 80%, Yellow: 80% - 95%, Red: > 95%
+        case 'gpuComputeUtil':
+        case 'gpuComputeUtilisation':
+        case 'gpuComputeUtilization':
+        case 'gpu_compute_utilisation':
+        case 'gpu_compute_utilization':
+            if (Number(value) < 80) return 'green';
+            if (Number(value) <= 95) return 'yellow';
+            return 'red';
+
+        // Facility Load: Green: <= 95%, Yellow: 95% - 98%, Red: >= 98%
         case 'facilityLoad':
         case 'facility_load':
         case 'facilityLoadPct':
             if (Number(value) <= 95) return 'green';
             if (Number(value) < 98) return 'yellow';
+            return 'red';
+
+        // PUE: Green: <= 1.12, Yellow: 1.12 - <= 1.15, Red: > 1.15
+        case 'pue':
+        case 'pueValue':
+            if (Number(value) <= 1.12) return 'green';
+            if (Number(value) <= 1.15) return 'yellow';
+            return 'red';
+
+        // LEVEL 3 CUTAWAY / BUILDING: GPU Computing Utilisation: Green: <= 80%, Yellow: 80% - 95%, Red: > 95%
+        case 'gpuComputingUtilisation':
+        case 'gpuComputingUtilization':
+        case 'gpu_computing_utilisation':
+        case 'gpu_computing_utilization':
+            if (Number(value) <= 80) return 'green';
+            if (Number(value) <= 95) return 'yellow';
+            return 'red';
+
+        // Facility Power (MW): Green: <= 47.53 MW, Yellow: 47.53 - 49 MW, Red: >= 49.0 MW
+        case 'facilityPower':
+        case 'facility_power':
+            if (Number(value) <= 47.53) return 'green';
+            if (Number(value) < 49.0) return 'yellow';
+            return 'red';
+
+        // LEVEL 3 POWER PATH: Active Power (MW): Green: <= 47.5 MW, Yellow: 47.5 - 49.0 MW, Red: >= 49.0 MW
+        case 'powerPathActivePower':
+        case 'buildingActivePower':
+        case 'activePowerMW':
+            if (Number(value) <= 47.5) return 'green';
+            if (Number(value) < 49.0) return 'yellow';
+            return 'red';
+
+        // LEVEL 3 POWER PATH: Voltage (V): Green: 456 - 504, Yellow: 432 - 456 or 504 - 528, Red: < 432 or > 528
+        case 'powerPathVoltage':
+        case 'buildingVoltage':
+            if (Number(value) >= 456 && Number(value) <= 504) return 'green';
+            if ((Number(value) >= 432 && Number(value) < 456) || (Number(value) > 504 && Number(value) <= 528)) return 'yellow';
+            return 'red';
+
+        // LEVEL 3 POWER PATH: Power Factor: Green: >= 0.95, Yellow: 0.90 - 0.95, Red: < 0.90
+        case 'powerPathPowerFactor':
+            if (Number(value) >= 0.95) return 'green';
+            if (Number(value) >= 0.90) return 'yellow';
+            return 'red';
+
+        // LEVEL 3 POWER PATH: A/B Load Imbalance (%): Green: <= 5%, Yellow: 5% - 10%, Red: > 10%
+        case 'abLoadImbalance':
+        case 'ab_load_imbalance':
+        case 'loadImbalance':
+            if (Number(value) <= 5) return 'green';
+            if (Number(value) <= 10) return 'yellow';
+            return 'red';
+
+        // LEVEL 3 POWER PATH: Electrical N-1 Path Loading (%): Green: <= 90%, Yellow: 90% - 98%, Red: > 98%
+        case 'electricalN1PathLoading':
+        case 'electrical_n1_path_loading':
+        case 'n1PathLoading':
+        case 'powerHeadroom':
+            if (Number(value) <= 90) return 'green';
+            if (Number(value) <= 98) return 'yellow';
+            return 'red';
+
+        // LEVEL 3 CUTAWAY: IT Load (MW): Green: <= 41.33 MW, Yellow: 41.33 - 45.0 MW, Red: > 45.0 MW
+        case 'itLoad':
+        case 'it_load':
+        case 'itLoadMW':
+        case 'it_load_mw':
+            if (Number(value) <= 41.33) return 'green';
+            if (Number(value) <= 45.0) return 'yellow';
+            return 'red';
+
+        // Cooling Load (MW): Green: <= 43.35 MW, Yellow: 43.35 - 48.45 MW, Red: > 48.45 MW
+        case 'coolingLoad':
+        case 'cooling_load':
+            if (Number(value) <= 43.35) return 'green';
+            if (Number(value) <= 48.45) return 'yellow';
+            return 'red';
+
+        // Cooling Utilisation (%): Green: <= 85%, Yellow: 85% - 95%, Red: >= 95%
+        case 'coolingUtilisation':
+        case 'coolingUtilization':
+        case 'cooling_utilisation':
+        case 'cooling_utilization':
+        case 'coolingCapacity':
+            if (Number(value) <= 85) return 'green';
+            if (Number(value) < 95) return 'yellow';
+            return 'red';
+
+        // --- LEVEL 3 COOLING DETAILS THRESHOLDS (IMAGE 3) ---
+        // 1. Liquid Cooling Efficiency: Green: > 90%, Yellow: 80% - 90%, Red: < 80%
+        case 'liquidCoolingEfficiency':
+        case 'coolingEfficiency':
+        case 'coolingDetailsEfficiency':
+            if (Number(value) > 90) return 'green';
+            if (Number(value) >= 80) return 'yellow';
+            return 'red';
+
+        // 2. Liquid Cooling Capacity Utilisation (%): Green: < 80%, Yellow: 80% - 90%, Red: > 90%
+        case 'liquidCoolingCapacityUtilisation':
+        case 'liquidCoolingCapacityUtilization':
+        case 'coolingCapacityUtilisation':
+        case 'coolingCapacityUtilization':
+        case 'coolingDetailsCapacityUtilisation':
+            if (Number(value) < 80) return 'green';
+            if (Number(value) <= 90) return 'yellow';
+            return 'red';
+
+        // 3. Coolant Flow vs Required (%): Green: >= 90%, Yellow: 80% - <90%, Red: < 80%
+        case 'coolantFlowVsRequired':
+        case 'coolantFlow':
+            if (Number(value) >= 90) return 'green';
+            if (Number(value) >= 80) return 'yellow';
+            return 'red';
+
+        // 4. ΔP vs Design (%): Green: 90% - 110%, Yellow: 80% - <90% or > 110% - 120%, Red: < 80% or > 120%
+        case 'deltaPVsDesign':
+        case 'deltaP':
+        case 'coolingDeltaP':
+            if (Number(value) >= 90 && Number(value) <= 110) return 'green';
+            if ((Number(value) >= 80 && Number(value) < 90) || (Number(value) > 110 && Number(value) <= 120)) return 'yellow';
+            return 'red';
+
+        // 5. Average Coolant Inlet Temp (°C): Green: <= 45°C, Yellow: > 45°C - 47°C, Red: > 47°C
+        case 'avgCoolantInletTemp':
+        case 'coolingInletTemp':
+            if (Number(value) <= 45) return 'green';
+            if (Number(value) <= 47) return 'yellow';
+            return 'red';
+
+        // 6. Average Coolant ΔT (°C): Green: 10°C - 15°C, Yellow: 5°C - <10°C or >15°C - 20°C, Red: <5°C or >20°C
+        case 'avgCoolantDeltaT':
+        case 'coolingDeltaT':
+            if (Number(value) >= 10 && Number(value) <= 15) return 'green';
+            if ((Number(value) >= 5 && Number(value) < 10) || (Number(value) > 15 && Number(value) <= 20)) return 'yellow';
+            return 'red';
+
+        // 7. Active Alarm (Cooling Details): Green: 0, Red: > 0 (Matches Image 1 & 3: 0 is green, 1 and 4 are red)
+        case 'coolingActiveAlarm':
+            if (Number(value) <= 0) return 'green';
+            return 'red';
+
+        // Active Alarm: Green: 0, Yellow: 1-3, Red: > 3 (Matches Image 1 & Image 3)
+        case 'powerPathActiveAlarm':
+        case 'activeAlarm':
+        case 'activeAlarms':
+        case 'active_alarm':
+        case 'active_alarms':
+            if (Number(value) <= 0) return 'green';
+            if (Number(value) <= 3) return 'yellow';
             return 'red';
 
         case 'overallPerformance':
@@ -98,12 +261,6 @@ export const getStatus = (param: string, value: number | string): ThresholdStatu
             if (Number(value) >= 70) return 'orange';
             return 'red';
 
-        case 'pue':
-            if (Number(value) <= 1.2) return 'green';
-            if (Number(value) <= 1.4) return 'yellow';
-            if (Number(value) <= 1.6) return 'orange';
-            return 'red';
-
         // TEMPERATURES
         case 'roomTemp':
             if (Number(value) >= 18 && Number(value) <= 24) return 'green';
@@ -138,8 +295,7 @@ export const getStatus = (param: string, value: number | string): ThresholdStatu
             if ((Number(value) >= 1.5 && Number(value) < 3) || (Number(value) > 7 && Number(value) <= 9)) return 'yellow';
             if ((Number(value) >= 0.5 && Number(value) < 1.5) || (Number(value) > 9 && Number(value) <= 11)) return 'orange';
             return 'red';
-        case 'coolantDeltaT':
-        case 'avgCoolantDeltaT':
+        case 'rackCoolantDeltaT':
             if (Number(value) >= 5 && Number(value) <= 9) return 'green';
             if ((Number(value) >= 3 && Number(value) < 5) || (Number(value) > 9 && Number(value) <= 11)) return 'yellow';
             if ((Number(value) >= 1.5 && Number(value) < 3) || (Number(value) > 11 && Number(value) <= 14)) return 'orange';
@@ -217,7 +373,6 @@ export const getStatus = (param: string, value: number | string): ThresholdStatu
             return 'red';
 
         case 'coolantFlowRate':
-        case 'coolantFlow':
             if (Number(value) >= 40 && Number(value) <= 50) return 'green';
             if ((Number(value) >= 35 && Number(value) < 40) || (Number(value) > 50 && Number(value) <= 55)) return 'yellow';
             if ((Number(value) >= 25 && Number(value) < 35) || (Number(value) > 55 && Number(value) <= 65)) return 'orange';
@@ -334,23 +489,12 @@ export const getStatus = (param: string, value: number | string): ThresholdStatu
 };
 
 export const getStatusColor = (status: ThresholdStatus): string => {
-    switch (status) {
-        case 'green': return '#34c759';
-        case 'yellow': return '#ffcc00';
-        case 'orange': return '#ff9500';
-        case 'red': return '#ff383c';
-        case 'default': return '#00d4ff';
-    }
+    return STATUS_PALETTE[status]?.hex ?? STATUS_PALETTE.default.hex;
 };
 
 export const getPillStyle = (status: ThresholdStatus) => {
-    switch (status) {
-        case 'green': return { bg: 'rgba(52, 199, 89, 0.6)', border: 'rgba(52, 199, 89, 1)' };
-        case 'yellow': return { bg: 'rgba(255, 204, 0, 0.4)', border: 'rgba(255, 204, 0, 1)' };
-        case 'orange': return { bg: 'rgba(255, 149, 0, 0.4)', border: 'rgba(255, 149, 0, 1)' };
-        case 'red': return { bg: 'rgba(255, 56, 60, 0.5)', border: 'rgba(255, 56, 60, 1)' };
-        case 'default': return { bg: 'rgba(0, 212, 255, 0.15)', border: 'rgba(0, 212, 255, 0.4)' };
-    }
+    const token = STATUS_PALETTE[status] ?? STATUS_PALETTE.default;
+    return { bg: token.bg, border: token.border || 'transparent' };
 };
 
 export const getPillClass = (status: ThresholdStatus) => {
@@ -372,3 +516,15 @@ export const getTextClass = (status: ThresholdStatus) => {
         case 'default': return 'crc-default-text';
     }
 };
+
+export const getBadgeBoxStyle = (status: ThresholdStatus): React.CSSProperties => {
+    const token = STATUS_PALETTE[status] ?? STATUS_PALETTE.default;
+    return {
+        background: token.bg,
+        border: token.border ? `1.5px solid ${token.border}` : 'none',
+        boxShadow: token.glow ? `0 0 10px ${token.glow}` : 'none',
+        color: '#ffffff'
+    };
+};
+
+
