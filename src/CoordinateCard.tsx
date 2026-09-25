@@ -1,6 +1,7 @@
 import React from 'react';
 import { SiteMetric, ScreenPosition, RegionKey } from './types';
 import { ServerRackIcon, ChevronRightIcon, RegionalAvailabilityGauge } from './Icons';
+import { getStatus, getStatusColor } from './thresholdUtils';
 
 interface CoordinateCardProps {
     metric: SiteMetric;
@@ -23,6 +24,11 @@ export const CoordinateCard: React.FC<CoordinateCardProps> = ({
 }) => {
     const isDynamic = screenPosition !== undefined;
     const isVisible = isDynamic ? screenPosition.visible : true;
+
+    // Facility Load threshold calculation
+    const facilityLoadValue = metric.facilityLoad ?? metric.availabilityPct ?? 0;
+    const thresholdStatus = getStatus('facilityLoad', facilityLoadValue);
+    const gaugeColor = getStatusColor(thresholdStatus);
 
     // Anchor orientation:
     let isLeftOfDot = placement !== undefined
@@ -144,16 +150,17 @@ export const CoordinateCard: React.FC<CoordinateCardProps> = ({
                 {/* Vertical Divider */}
                 <div className="region-v-divider"></div>
 
-                {/* Right Column: Availability & Yellow Circular Donut Gauge */}
+                {/* Right Column: Facility Load & Circular Donut Gauge with Dynamic Threshold */}
                 <div className="region-body-right">
-                    <span className="availability-title">Availability</span>
+                    <span className="availability-title">Facility Load</span>
                     <div className="availability-gauge-container">
                         <RegionalAvailabilityGauge
-                            percentage={metric.availabilityPct}
+                            percentage={facilityLoadValue}
                             size={72}
                             strokeWidth={8}
-                            color="#ffcc00"
+                            color={gaugeColor}
                             bgColor="rgba(255, 255, 255, 0.1)"
+                            customDisplay={`${facilityLoadValue.toFixed(2)}%`}
                         />
                     </div>
                 </div>

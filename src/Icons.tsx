@@ -240,8 +240,11 @@ export const RegionalAvailabilityGauge: React.FC<{
                         style={{ transition: 'stroke-dashoffset 0.3s ease-in-out, stroke 0.3s ease-in-out' }}
                     />
                 </svg>
-                {/* Value text — font size proportional to size * 0.22, same as reference */}
-                <span className="circle-gauge-value" style={{ fontSize: size * 0.22 }}>
+                {/* Value text — dynamically adjust font size so 2-decimal percentage values fit comfortably */}
+                <span
+                    className="circle-gauge-value"
+                    style={{ fontSize: (customDisplay ? String(customDisplay) : displayText).length > 5 ? size * 0.17 : size * 0.21 }}
+                >
                     {customDisplay ? customDisplay : displayText}
                 </span>
             </div>

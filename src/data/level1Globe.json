@@ -1,0 +1,50 @@
+[
+  {
+    "key": "SG",
+    "title": "Southeast Asia",
+    "subtitle": "Batam Hub",
+    "sites": 5,
+    "capacityMW": 250,
+    "facilityLoadValues": [94.93, 94.88, 96.95],
+    "position": {
+      "top": "58%",
+      "left": "20%"
+    }
+  },
+  {
+    "key": "AUS",
+    "title": "Australia",
+    "subtitle": "Sydney Hub",
+    "sites": 2,
+    "capacityMW": 100,
+    "facilityLoadValues": [98.20, 97.40, 98.10],
+    "position": {
+      "bottom": "12%",
+      "right": "10%"
+    }
+  },
+  {
+    "key": "JPN",
+    "title": "Japan",
+    "subtitle": "Tokyo Hub",
+    "sites": 10,
+    "capacityMW": 800,
+    "facilityLoadValues": [92.50, 94.30, 95.10],
+    "position": {
+      "top": "36%",
+      "right": "10%"
+    }
+  },
+  {
+    "key": "UK",
+    "title": "United Kingdom",
+    "subtitle": "London Hub",
+    "sites": 5,
+    "capacityMW": 500,
+    "facilityLoadValues": [94.60, 95.30, 94.50],
+    "position": {
+      "top": "30%",
+      "left": "42%"
+    }
+  }
+]

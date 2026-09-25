@@ -20,124 +20,37 @@ import { Level6RackView } from './levels/Level6Rack/Level6RackView';
 import { Level7ServerView } from './levels/Level7Server/Level7ServerView';
 import { Level8SuperchipView } from './levels/Level8Superchip/Level8SuperchipView';
 import { HALL_ROW_ITEMS, HallRowItem } from './levels/Level4Hall/Level4FloatingRows';
+import level1GlobeData from './data/level1Globe.json';
+import levelCountryData from './data/levelCountry.json';
 import './GlobalDashboard.css';
 
-const INITIAL_METRICS: SiteMetric[] = [
-    {
-        key: 'SG',
-        title: 'Southeast Asia',
-        subtitle: 'Batam Hub',
-        sites: 2,
-        capacityMW: 360,
-        availabilityPct: 54,
-        position: {
-            top: '58%',
-            left: '20%'
-        }
-    },
-    {
-        key: 'AUS',
-        title: 'Australia',
-        subtitle: 'Sydney Hub',
-        sites: 2,
-        capacityMW: 250,
-        availabilityPct: 54,
-        position: {
-            bottom: '12%',
-            right: '10%'
-        }
-    },
-    {
-        key: 'JPN',
-        title: 'United States',
-        subtitle: 'Main Hub',
-        sites: 1,
-        capacityMW: 180,
-        availabilityPct: 54,
-        position: {
-            top: '36%',
-            right: '10%'
-        }
-    },
-    {
-        key: 'UK',
-        title: 'United Kingdom',
-        subtitle: 'London Hub',
-        sites: 1,
-        capacityMW: 150,
-        availabilityPct: 54,
-        position: {
-            top: '30%',
-            left: '42%'
-        }
-    }
-];
-
-const SOUTHEAST_ASIA_COUNTRY_METRICS: SiteMetric[] = [
-    {
-        key: 'TH',
-        title: 'Bangkok, Thailand',
-        subtitle: 'Main Hub',
-        sites: 1,
-        capacityMW: 75,
-        availabilityPct: 99.90,
-        gpuComputeUtilisation: 54,
-        facilityLoad: 54,
-        coolingLoad: 54,
-        position: {
-            top: '34%',
-            left: '28%'
-        }
-    },
-    {
-        key: 'MY',
-        title: 'Kuching, Malaysia',
-        subtitle: 'Main Hub',
-        sites: 2,
-        capacityMW: 110,
-        availabilityPct: 99.92,
-        gpuComputeUtilisation: 54,
-        facilityLoad: 54,
-        coolingLoad: 54,
-        position: {
-            top: '38%',
-            right: '28%'
-        }
-    },
-    {
-        key: 'SG',
-        title: 'Singapore',
-        subtitle: 'Main Hub',
-        sites: 2,
-        capacityMW: 140,
-        availabilityPct: 99.98,
-        gpuComputeUtilisation: 54,
-        facilityLoad: 54,
-        coolingLoad: 54,
-        position: {
-            top: '60%',
-            left: '30%'
-        }
-    },
-    {
-        key: 'BTM',
-        title: 'Batam, Indonesia',
-        subtitle: 'Main Hub',
-        sites: 1,
-        capacityMW: 50,
-        availabilityPct: 99.95,
-        gpuComputeUtilisation: 54,
-        facilityLoad: 54,
-        coolingLoad: 54,
-        position: {
-            top: '60%',
-            right: '30%'
-        }
-    }
-];
+const GLOBE_METRICS_DATA: SiteMetric[] = level1GlobeData as SiteMetric[];
+const SOUTHEAST_ASIA_COUNTRY_METRICS: SiteMetric[] = levelCountryData as SiteMetric[];
 
 export const App: React.FC = () => {
-    const [metrics] = useState<SiteMetric[]>(INITIAL_METRICS);
+    // 30-second rotation across Value 1, Value 2, Value 3 for Facility Load
+    const [facilityLoadIndex, setFacilityLoadIndex] = useState<number>(0);
+
+    useEffect(() => {
+        const timer = setInterval(() => {
+            setFacilityLoadIndex((prev) => (prev + 1) % 3);
+        }, 30000);
+        return () => clearInterval(timer);
+    }, []);
+
+    // Dynamically derive current metrics for Level 1 Globe with rotated Facility Load %
+    const metrics: SiteMetric[] = useMemo(() => {
+        return GLOBE_METRICS_DATA.map((item) => {
+            const currentLoad = item.facilityLoadValues
+                ? item.facilityLoadValues[facilityLoadIndex]
+                : (item.facilityLoad ?? item.availabilityPct ?? 54);
+            return {
+                ...item,
+                facilityLoad: currentLoad,
+                availabilityPct: currentLoad
+            };
+        });
+    }, [facilityLoadIndex]);
     const [currentLevel, setCurrentLevel] = useState<AppLevel>(() => {
         if (typeof window !== 'undefined') {
             const params = new URLSearchParams(window.location.search);
@@ -222,15 +135,16 @@ export const App: React.FC = () => {
     const totals: PortfolioTotals = useMemo(() => {
         const totalSites = metrics.reduce((acc, m) => acc + m.sites, 0);
         const totalCapacityMW = metrics.reduce((acc, m) => acc + m.capacityMW, 0);
-        const avgAvailabilityPct =
+        const avgFacilityLoadPct =
             metrics.length > 0
-                ? metrics.reduce((acc, m) => acc + m.availabilityPct, 0) / metrics.length
+                ? metrics.reduce((acc, m) => acc + (m.facilityLoad ?? m.availabilityPct ?? 0), 0) / metrics.length
                 : 54;
 
         return {
             totalSites,
             totalCapacityMW,
-            avgAvailabilityPct
+            avgAvailabilityPct: avgFacilityLoadPct,
+            avgFacilityLoadPct
         };
     }, [metrics]);
 

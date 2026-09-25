@@ -16,9 +16,10 @@ export interface SiteMetric {
     subtitle?: string;
     sites: number;
     capacityMW: number;
-    availabilityPct: number;
-    gpuComputeUtilisation?: number;
+    availabilityPct?: number;
+    facilityLoadValues?: number[];
     facilityLoad?: number;
+    gpuComputeUtilisation?: number;
     coolingLoad?: number;
     position: {
         top?: string;
@@ -31,7 +32,8 @@ export interface SiteMetric {
 export interface PortfolioTotals {
     totalSites: number;
     totalCapacityMW: number;
-    avgAvailabilityPct: number;
+    avgAvailabilityPct?: number;
+    avgFacilityLoadPct?: number;
 }
 
 export interface BackendStatus {
