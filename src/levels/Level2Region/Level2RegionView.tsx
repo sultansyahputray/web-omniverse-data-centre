@@ -141,6 +141,8 @@ export const Level2RegionView: React.FC<Level2RegionViewProps> = ({
                         label={zone.label}
                         screenPosition={screenPos}
                         defaultPosition={zone.defaultPos}
+                        offsetX={zone.offsetX ?? 0}
+                        offsetY={zone.offsetY ?? 0}
                         isVisible={isVisible}
                         isMain={Boolean(zone.isMain || zone.id === 'example_building')}
                         onClick={() => (onSelectZone ? onSelectZone(zone) : undefined)}

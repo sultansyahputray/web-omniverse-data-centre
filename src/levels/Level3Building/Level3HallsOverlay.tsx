@@ -7,6 +7,8 @@ export interface HallItem {
     title: string;
     subtitle?: string;
     defaultPos: { x: number; y: number };
+    offsetX?: number; // Offset horizontal dalam % (geser kanan +, geser kiri -)
+    offsetY?: number; // Offset vertikal dalam % (geser bawah +, geser atas -)
     type?: 'hall' | 'room' | 'noc' | 'utility';
     primPath?: string;
     floor?: 'G' | 'L1';
@@ -20,6 +22,8 @@ export const LEVEL3_HALLS: HallItem[] = [
         title: 'Hall G-A',
         subtitle: '',
         defaultPos: { x: 38, y: 55 },
+        offsetX: 0,
+        offsetY: 0,
         type: 'hall',
         floor: 'G',
         side: 'A',
@@ -30,6 +34,8 @@ export const LEVEL3_HALLS: HallItem[] = [
         title: 'Hall G-B',
         subtitle: '',
         defaultPos: { x: 62, y: 55 },
+        offsetX: 0,
+        offsetY: 0,
         type: 'hall',
         floor: 'G',
         side: 'B',
@@ -42,6 +48,8 @@ export const LEVEL3_HALLS: HallItem[] = [
         title: 'Hall L1-A',
         subtitle: '',
         defaultPos: { x: 38, y: 38 },
+        offsetX: 0,
+        offsetY: 0,
         type: 'hall',
         floor: 'L1',
         side: 'A',
@@ -52,18 +60,22 @@ export const LEVEL3_HALLS: HallItem[] = [
         title: 'Hall L1-B',
         subtitle: '',
         defaultPos: { x: 62, y: 38 },
+        offsetX: 0,
+        offsetY: 0,
         type: 'hall',
         floor: 'L1',
         side: 'B',
         primPath: '/World/region/example_building/hall_l1_b'
     },
 
-    // --- Level 1 (L1): 6 Ancillary Room Placeholders (Side A & Side B) ---
+    // --- Level 1 (L1): 6 Ancillary Room Placeholders (Side A & Side B) - Label Only ---
     {
         id: 'noc_a',
         title: 'NOC A',
         subtitle: 'Control Room',
         defaultPos: { x: 28, y: 44 },
+        offsetX: -3.5,
+        offsetY: 0,
         type: 'room',
         floor: 'L1',
         side: 'A',
@@ -74,6 +86,8 @@ export const LEVEL3_HALLS: HallItem[] = [
         title: 'Power Block A',
         subtitle: 'Power Distribution',
         defaultPos: { x: 23, y: 34 },
+        offsetX: -2.0,
+        offsetY: 2.5,
         type: 'room',
         floor: 'L1',
         side: 'A',
@@ -84,6 +98,8 @@ export const LEVEL3_HALLS: HallItem[] = [
         title: 'Battery Room A',
         subtitle: 'UPS Storage',
         defaultPos: { x: 25, y: 40 },
+        offsetX: -2.0,
+        offsetY: -5.5,
         type: 'room',
         floor: 'L1',
         side: 'A',
@@ -94,6 +110,8 @@ export const LEVEL3_HALLS: HallItem[] = [
         title: 'NOC B',
         subtitle: 'Control Room',
         defaultPos: { x: 72, y: 44 },
+        offsetX: 3.5,
+        offsetY: 0,
         type: 'room',
         floor: 'L1',
         side: 'B',
@@ -104,6 +122,8 @@ export const LEVEL3_HALLS: HallItem[] = [
         title: 'Power Block B',
         subtitle: 'Power Distribution',
         defaultPos: { x: 77, y: 34 },
+        offsetX: 2.0,
+        offsetY: 2.5,
         type: 'room',
         floor: 'L1',
         side: 'B',
@@ -114,6 +134,8 @@ export const LEVEL3_HALLS: HallItem[] = [
         title: 'Battery Room B',
         subtitle: 'UPS Storage',
         defaultPos: { x: 75, y: 40 },
+        offsetX: 2.0,
+        offsetY: -5.5,
         type: 'room',
         floor: 'L1',
         side: 'B',
@@ -138,11 +160,11 @@ export const Level3HallsOverlay: React.FC<Level3HallsOverlayProps> = ({
 
     return (
         <div className="level3-halls-overlay">
-            {/* 3D Floating Hall & Room Tags */}
+            {/* 3D Floating Hall Buttons & Pure Room Labels */}
             {hallsToRender.map((hall) => {
                 const screenPos = screenPositions ? screenPositions[hall.id] : undefined;
-                const posX = screenPos ? screenPos.x : hall.defaultPos.x;
-                const posY = screenPos ? screenPos.y : hall.defaultPos.y;
+                const posX = (screenPos ? screenPos.x : hall.defaultPos.x) + (hall.offsetX ?? 0);
+                const posY = (screenPos ? screenPos.y : hall.defaultPos.y) + (hall.offsetY ?? 0);
                 const isVisible = screenPos !== undefined ? screenPos.visible : true;
                 const isHall = hall.type === 'hall';
 
@@ -154,33 +176,44 @@ export const Level3HallsOverlay: React.FC<Level3HallsOverlayProps> = ({
                             left: `${posX}%`,
                             top: `${posY}%`,
                             opacity: isVisible ? 1 : 0,
-                            pointerEvents: isVisible ? 'auto' : 'none',
+                            pointerEvents: isVisible && isHall ? 'auto' : 'none',
                             visibility: isVisible ? 'visible' : 'hidden'
                         }}
                     >
-                        <button
-                            className={`floating-hall-button ${isHall ? 'is-nav-hall' : 'is-room-tag'}`}
-                            onClick={() => (onSelectHall ? onSelectHall(hall) : undefined)}
-                            title={isHall ? `Navigate to ${hall.title}` : `Zoom into ${hall.title}`}
-                        >
-                            <div className="floating-hall-content">
-                                <div className="floating-hall-title-row">
-                                    {!isHall && <span className="room-indicator-dot" />}
-                                    <span className="floating-hall-title">{hall.title}</span>
-                                    {isHall && (
+                        {isHall ? (
+                            <button
+                                className="floating-hall-button is-nav-hall"
+                                onClick={() => (onSelectHall ? onSelectHall(hall) : undefined)}
+                                title={`Navigate to ${hall.title}`}
+                            >
+                                <div className="floating-hall-content">
+                                    <div className="floating-hall-title-row">
+                                        <span className="floating-hall-title">{hall.title}</span>
                                         <span className="floating-hall-arrow">
                                             <ChevronRightIcon size={13} color="#ffffff" />
                                         </span>
+                                    </div>
+                                    {hall.subtitle && (
+                                        <span className="floating-hall-subtitle">{hall.subtitle}</span>
                                     )}
                                 </div>
+                            </button>
+                        ) : (
+                            /* Label Only (non-clickable badge, style PureLabel from Level 8) */
+                            <div className="pure-label-container floating-room-pure-label">
+                                <div className="room-label-title-row">
+                                    <span className="room-indicator-dot" />
+                                    <span className="room-label-title">{hall.title}</span>
+                                </div>
                                 {hall.subtitle && (
-                                    <span className="floating-hall-subtitle">{hall.subtitle}</span>
+                                    <span className="room-label-subtitle">{hall.subtitle}</span>
                                 )}
                             </div>
-                        </button>
+                        )}
                     </div>
                 );
             })}
         </div>
     );
 };
+

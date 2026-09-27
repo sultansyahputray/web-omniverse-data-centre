@@ -67,5 +67,7 @@ export interface RegionZoneItem {
     label: string;
     primPath: string;
     defaultPos: { x: number; y: number };
+    offsetX?: number;
+    offsetY?: number;
     isMain?: boolean;
 }
