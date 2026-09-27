@@ -36,6 +36,12 @@ export const REGION_ZONES: RegionZoneItem[] = [
         defaultPos: { x: 65, y: 62 }
     },
     {
+        id: 'water_treatment_unit',
+        label: 'Water Treatment Unit',
+        primPath: '/World/region/water_treatment_unit',
+        defaultPos: { x: 65, y: 54 }
+    },
+    {
         id: 'fuel_compound',
         label: 'Fuel Compound',
         primPath: '/World/region/fuel_compound',
