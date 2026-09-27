@@ -238,29 +238,36 @@
     }
 }
 
-/* Power Card layout (2 columns of metrics + 1 gauge) */
-.level5-metrics-dual-col {
-    display: flex;
-    align-items: center;
-    gap: 16px;
+/* Power Card pure 2x2 grid layout (no gauge) */
+.level5-power-pure-card {
+    min-width: 250px;
+    padding: 14px 18px;
 }
 
-.level5-metric-subcol {
+.level5-power-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px 18px;
+    width: 100%;
+}
+
+.level5-power-cell {
     display: flex;
     flex-direction: column;
-    gap: 8px;
+    align-items: center;
+    gap: 6px;
 }
 
 .level5-metric-cell {
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 4px;
+    gap: 6px;
 }
 
 .level5-metric-label {
     font-family: 'Inter', system-ui, sans-serif;
-    font-size: 11px;
+    font-size: 11.5px;
     font-weight: 600;
     color: #e2e8f0;
     white-space: nowrap;
@@ -268,11 +275,34 @@
     line-height: 1.2;
 }
 
-/* Cooling Card layout (3 columns of metrics + 1 gauge) */
+/* Cooling Card layout with toggle bar */
+.level5-cooling-card {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+    min-width: 440px;
+    padding: 12px 18px 14px 18px;
+}
+
+.level5-cooling-toggle-container {
+    width: 100%;
+    display: flex;
+    justify-content: flex-start;
+}
+
+.level5-cooling-body {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 18px;
+    width: 100%;
+}
+
 .level5-metrics-triple-col {
     display: flex;
     align-items: center;
-    gap: 16px;
+    gap: 14px;
 }
 
 .level5-gauge-section {
@@ -290,6 +320,13 @@
     color: #ffffff;
     text-align: center;
     white-space: nowrap;
+}
+
+.level5-bottom-right-stack {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 12px;
 }
 
 .level5-viewcube-anchor {
@@ -371,5 +408,97 @@
     font-weight: 800;
     min-width: 76px;
     text-align: center;
+    box-shadow: 0 2px 8px rgba(35, 77, 107, 0.35);
+}
+
+/* Cooling Mode Toggle Bar Styles */
+.cooling-mode-toggle-bar {
+    display: inline-flex;
+    align-items: center;
+    background: linear-gradient(180deg, #244178 0%, #0E1935E5 100%);
+    border: 2px solid #00C0E8;
+    border-radius: 9999px;
+    padding: 0px;
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    user-select: none;
+    position: relative;
+}
+
+.cooling-toggle-btn {
+    background: transparent;
+    border: none;
+    border-radius: 9999px;
+    padding: 6px 18px;
+    color: #ffffff;
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    font-size: 13.5px;
+    font-weight: 700;
+    cursor: pointer;
+    outline: none;
+    transition: all 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+    white-space: nowrap;
+    letter-spacing: 0.3px;
+}
+
+.cooling-toggle-btn.active {
+    background: #00C3D0;
+    color: #ffffff;
+}
+
+.cooling-toggle-btn:not(.active):hover {
+    color: #00E5FF;
+    background: rgba(0, 229, 255, 0.08);
+}
+
+/* Summary Pills Common */
+.summary-pill-common {
+    box-sizing: border-box;
+    border-radius: 6px;
+    padding: 3px 10px;
+    color: #ffffff;
+    font-family: 'Inter', system-ui, sans-serif;
+    font-size: 13.5px;
+    font-weight: 800;
+    min-width: 76px;
+    text-align: center;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    white-space: nowrap;
+}
+
+.summary-pill-common.rc-pill-green,
+.rc-pill-green {
+    background: var(--status-green-bg);
+    border: 1.5px solid var(--status-green-border);
+    box-shadow: 0 2px 8px var(--status-green-glow);
+}
+
+.summary-pill-common.rc-pill-yellow,
+.rc-pill-yellow {
+    background: var(--status-yellow-bg);
+    border: 1.5px solid var(--status-yellow-border);
+    box-shadow: 0 2px 8px var(--status-yellow-glow);
+}
+
+.summary-pill-common.rc-pill-orange,
+.rc-pill-orange {
+    background: var(--status-orange-bg);
+    border: 1.5px solid var(--status-orange-border);
+    box-shadow: 0 2px 8px var(--status-orange-glow);
+}
+
+.summary-pill-common.rc-pill-red,
+.rc-pill-red {
+    background: var(--status-red-bg);
+    border: 1.5px solid var(--status-red-border);
+    box-shadow: 0 2px 8px var(--status-red-glow);
+}
+
+.summary-pill-common.rc-pill-default,
+.rc-pill-default {
+    background: #234d6b;
+    border: 1.5px solid #3c7a9e;
     box-shadow: 0 2px 8px rgba(35, 77, 107, 0.35);
 }

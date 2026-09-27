@@ -1,47 +1,142 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { CameraView, RegionKey, ScreenPosition, SiteMetric } from '../../types';
 import { HALL_OPTIONS, Level4Header } from './Level4Header';
 import { BreadcrumbItem } from '../../reusable/Breadcrumb';
 import { Level4ComputingCard } from './Level4ComputingCard';
 import { Level4PowerSummaryCard } from './Level4PowerSummaryCard';
 import { Level4CoolingSummaryCard } from './Level4CoolingSummaryCard';
-import { HallRowItem, Level4FloatingRows } from './Level4FloatingRows';
+import { HallRowItem, Level4FloatingRows, RowPlacement } from './Level4FloatingRows';
 import { AdaptiveViewCube } from '../Level2Region/AdaptiveViewCube';
+import { LoadScenarioSelector } from '../../reusable/LoadScenarioSelector';
+import { GLOBAL_TIMERS, getTimerMs } from '../../config';
+import level4HallData from '../../data/level4Hall.json';
 import './Level4Hall.css';
+
+/**
+ * Row Button Placement Offsets & Anchors (matching Level Country pattern):
+ * - offsetX: geser posisi horizontal (+ ke kanan, - ke kiri dalam %)
+ * - offsetY: geser posisi vertikal (+ ke bawah, - ke atas dalam %)
+ * - anchor: 'rack1' (depan lorong), 'rack10' (belakang lorong), atau 'auto'
+ */
+export const HALL_ROW_PLACEMENTS: Record<string, RowPlacement> = {
+    row_01: {
+        offsetX: 0,
+        offsetY: 0,
+        anchor: 'rack1'
+    },
+    row_02: {
+        offsetX: 0,
+        offsetY: 0,
+        anchor: 'rack1'
+    },
+    // Row C & Row D berada di titik pod yang sama di 3D, dipisahkan dengan offset horizontal/vertikal
+    row_03: {
+        offsetX: -4,
+        offsetY: 0,
+        anchor: 'rack1'
+    },
+    row_04: {
+        offsetX: 4,
+        offsetY: 0,
+        anchor: 'rack1'
+    },
+    // Row E & Row F berada di titik pod yang sama di 3D, dipisahkan dengan offset horizontal/vertikal
+    row_05: {
+        offsetX: -4,
+        offsetY: 0,
+        anchor: 'rack1'
+    },
+    row_06: {
+        offsetX: 4,
+        offsetY: 0,
+        anchor: 'rack1'
+    }
+};
 
 interface Level4HallViewProps {
     activeRegion: RegionKey;
     activeHallId: string;
     regionMetric?: SiteMetric;
     cameraView?: CameraView;
+    currentScenario?: string;
     breadcrumbItems?: BreadcrumbItem[];
     screenPositions?: Record<string, ScreenPosition>;
+    rowPlacements?: Record<string, RowPlacement>;
     onBackToBuilding: () => void;
     onSelectHall: (hallId: string) => void;
     onSelectRow?: (row: HallRowItem) => void;
     onSelectCameraView?: (view: CameraView) => void;
+    onSelectScenario?: (scenario: string) => void;
     onBreadcrumbClick?: (item: BreadcrumbItem, index: number) => void;
 }
+
+const TIME_STEPS = [0, 6, 12, 18, 24, 30, 36, 42, 48, 54];
 
 export const Level4HallView: React.FC<Level4HallViewProps> = ({
     activeHallId,
     regionMetric,
     cameraView = 'iso',
+    currentScenario = 'Normal Load',
     breadcrumbItems,
     screenPositions,
+    rowPlacements = HALL_ROW_PLACEMENTS,
     onBackToBuilding,
     onSelectHall,
     onSelectRow,
     onSelectCameraView,
+    onSelectScenario,
     onBreadcrumbClick
 }) => {
     const [selectedRow, setSelectedRow] = useState<HallRowItem | null>(null);
 
+    // Initial time step index calculated from current wall clock minute
+    const getInitialTimeIndex = () => {
+        const m = new Date().getMinutes();
+        return Math.floor(m / 6) % TIME_STEPS.length;
+    };
+
+    const [timeIndex, setTimeIndex] = useState<number>(getInitialTimeIndex);
+
+    // 6-minute rotation interval synchronized to load scenario and time steps
+    useEffect(() => {
+        // If hall_time is set to 360 seconds (6 minutes) or above, sync with wall clock 6-minute marks
+        if (GLOBAL_TIMERS.hall_time >= 360) {
+            const updateStep = () => {
+                const m = new Date().getMinutes();
+                const idx = Math.floor(m / 6) % TIME_STEPS.length;
+                setTimeIndex(idx);
+            };
+            updateStep();
+            const timer = setInterval(updateStep, 1000);
+            return () => clearInterval(timer);
+        } else {
+            // Fast rotation mode for debugging/custom timer configured in config.ts
+            const intervalMs = getTimerMs(GLOBAL_TIMERS.hall_time);
+            const timer = setInterval(() => {
+                setTimeIndex((prev) => (prev + 1) % TIME_STEPS.length);
+            }, intervalMs);
+            return () => clearInterval(timer);
+        }
+    }, []);
+
+    // Resolve load scenario key for level4Hall.json
+    const scenarioKey = (currentScenario === 'Low Load' || currentScenario === 'Normal Load')
+        ? 'Normal Load'
+        : currentScenario === 'High Load'
+        ? 'High Load'
+        : 'Medium Load';
+
+    const currentTimeStep = TIME_STEPS[timeIndex] ?? 0;
+    const scenarioData = (level4HallData as any)[scenarioKey] || (level4HallData as any)['Normal Load'];
+    const currentStepData = scenarioData[currentTimeStep.toString()] || scenarioData['0'];
+
+    const computingMetrics = currentStepData?.computing;
+    const powerMetrics = currentStepData?.power;
+    const coolingMetrics = currentStepData?.cooling;
+
     const currentHall = HALL_OPTIONS.find((h) => h.id === activeHallId) || HALL_OPTIONS[0];
 
     // Compute active breadcrumb items: Default is [ { id: '1', label: currentHall.title } ]
-    // When a row is clicked: dynamically extends to [ { id: '1', label: currentHall.title }, { id: '2', label: selectedRow.label } ]
-    // If custom breadcrumbItems is passed via prop, it uses that directly.
     const activeBreadcrumbItems: BreadcrumbItem[] = breadcrumbItems || [
         {
             id: '1',
@@ -88,29 +183,36 @@ export const Level4HallView: React.FC<Level4HallViewProps> = ({
             />
 
             {/* 1. Component 1: Computing Summary Card (Top-Left, below header) */}
-            <Level4ComputingCard />
+            <Level4ComputingCard data={computingMetrics} />
 
-            {/* 4. Component 4: Floating Row Buttons (Row A - Row E above racks) */}
+            {/* 4. Component 4: Floating Row Buttons (Row A - Row F above racks) */}
             <Level4FloatingRows
                 screenPositions={screenPositions}
+                rowPlacements={rowPlacements}
                 onSelectRow={handleRowSelect}
             />
 
-            {/* Bottom Row Container: Power Summary + Cooling Summary + AdaptiveViewCube in 1 line */}
+            {/* Bottom Row Container: Power Summary + Cooling Summary + (Load Scenario & ViewCube) */}
             <div className="level4-bottom-row-controls">
-                {/* 2. Component 2: Power Summary Card */}
-                <Level4PowerSummaryCard />
+                {/* 2. Component 2: Power Summary Card (4 columns) */}
+                <Level4PowerSummaryCard data={powerMetrics} />
 
-                {/* 3. Component 3: Cooling Summary Card */}
-                <Level4CoolingSummaryCard />
+                {/* 3. Component 3: Cooling Summary Card (Liquid vs Air toggle + metrics) */}
+                <Level4CoolingSummaryCard data={coolingMetrics} />
 
-                {/* AdaptiveViewCube (Dice Rotation) */}
-                <div className="level4-viewcube-anchor">
-                    <AdaptiveViewCube
-                        focusLabel="DATA HALL"
-                        currentView={cameraView}
-                        onSelectView={onSelectCameraView || (() => { })}
+                {/* Bottom-Right Stack: Load Scenario Dropdown above Dice Rotation */}
+                <div className="level4-bottom-right-stack">
+                    <LoadScenarioSelector
+                        currentScenario={currentScenario}
+                        onSelectScenario={onSelectScenario}
                     />
+                    <div className="level4-viewcube-anchor">
+                        <AdaptiveViewCube
+                            focusLabel="DATA HALL"
+                            currentView={cameraView}
+                            onSelectView={onSelectCameraView || (() => { })}
+                        />
+                    </div>
                 </div>
             </div>
         </div>

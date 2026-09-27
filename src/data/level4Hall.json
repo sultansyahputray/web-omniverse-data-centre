@@ -1,0 +1,1290 @@
+{
+  "Normal Load": {
+    "0": {
+      "time": 0,
+      "computing": {
+        "cpuUtil": 36.14,
+        "gpuUtil": 43.76,
+        "memUtil": 46.33,
+        "diskUtil": 38.57,
+        "activeAlarm": 5
+      },
+      "power": {
+        "activePower": 711.81,
+        "activeServers": 143,
+        "pue": 1.09,
+        "avgPowerPerRack": 79.09,
+        "activeAlarm": 1
+      },
+      "cooling": {
+        "activeAlarm": 2,
+        "liquid": {
+          "inletTemp": 45.05,
+          "outletTemp": 61,
+          "coolantFlow": 66.978,
+          "coolingEff": 88.67
+        },
+        "air": {
+          "supplyTemp": 25.21,
+          "returnTemp": 32.23,
+          "airFlow": 1230.78,
+          "coolingEff": 88.07
+        }
+      }
+    },
+    "6": {
+      "time": 6,
+      "computing": {
+        "cpuUtil": 37.68,
+        "gpuUtil": 44.32,
+        "memUtil": 45.16,
+        "diskUtil": 36.7,
+        "activeAlarm": 6
+      },
+      "power": {
+        "activePower": 710.72,
+        "activeServers": 143,
+        "pue": 1.12,
+        "avgPowerPerRack": 78.969,
+        "activeAlarm": 6
+      },
+      "cooling": {
+        "activeAlarm": 9,
+        "liquid": {
+          "inletTemp": 45.43,
+          "outletTemp": 61,
+          "coolantFlow": 66.296,
+          "coolingEff": 89.4
+        },
+        "air": {
+          "supplyTemp": 25.19,
+          "returnTemp": 32.43,
+          "airFlow": 1233.13,
+          "coolingEff": 87.76
+        }
+      }
+    },
+    "12": {
+      "time": 12,
+      "computing": {
+        "cpuUtil": 36.69,
+        "gpuUtil": 43.14,
+        "memUtil": 45.04,
+        "diskUtil": 37.99,
+        "activeAlarm": 6
+      },
+      "power": {
+        "activePower": 719.23,
+        "activeServers": 143,
+        "pue": 1.1,
+        "avgPowerPerRack": 79.915,
+        "activeAlarm": 5
+      },
+      "cooling": {
+        "activeAlarm": 6,
+        "liquid": {
+          "inletTemp": 45.96,
+          "outletTemp": 61,
+          "coolantFlow": 65.762,
+          "coolingEff": 89.09
+        },
+        "air": {
+          "supplyTemp": 25.29,
+          "returnTemp": 32.49,
+          "airFlow": 1234.82,
+          "coolingEff": 87.61
+        }
+      }
+    },
+    "18": {
+      "time": 18,
+      "computing": {
+        "cpuUtil": 37.93,
+        "gpuUtil": 44.71,
+        "memUtil": 45.1,
+        "diskUtil": 36.87,
+        "activeAlarm": 2
+      },
+      "power": {
+        "activePower": 709.44,
+        "activeServers": 143,
+        "pue": 1.11,
+        "avgPowerPerRack": 78.827,
+        "activeAlarm": 9
+      },
+      "cooling": {
+        "activeAlarm": 9,
+        "liquid": {
+          "inletTemp": 45.21,
+          "outletTemp": 59,
+          "coolantFlow": 66.788,
+          "coolingEff": 88.86
+        },
+        "air": {
+          "supplyTemp": 25.28,
+          "returnTemp": 32.38,
+          "airFlow": 1235.12,
+          "coolingEff": 88.29
+        }
+      }
+    },
+    "24": {
+      "time": 24,
+      "computing": {
+        "cpuUtil": 36.28,
+        "gpuUtil": 42.0,
+        "memUtil": 44.9,
+        "diskUtil": 36.01,
+        "activeAlarm": 9
+      },
+      "power": {
+        "activePower": 706.17,
+        "activeServers": 143,
+        "pue": 1.14,
+        "avgPowerPerRack": 78.463,
+        "activeAlarm": 10
+      },
+      "cooling": {
+        "activeAlarm": 5,
+        "liquid": {
+          "inletTemp": 45.7,
+          "outletTemp": 61,
+          "coolantFlow": 67.768,
+          "coolingEff": 88.81
+        },
+        "air": {
+          "supplyTemp": 25.15,
+          "returnTemp": 32.12,
+          "airFlow": 1239.06,
+          "coolingEff": 87.56
+        }
+      }
+    },
+    "30": {
+      "time": 30,
+      "computing": {
+        "cpuUtil": 37.92,
+        "gpuUtil": 44.97,
+        "memUtil": 44.84,
+        "diskUtil": 37.82,
+        "activeAlarm": 3
+      },
+      "power": {
+        "activePower": 718.4,
+        "activeServers": 143,
+        "pue": 1.16,
+        "avgPowerPerRack": 79.822,
+        "activeAlarm": 8
+      },
+      "cooling": {
+        "activeAlarm": 5,
+        "liquid": {
+          "inletTemp": 45.59,
+          "outletTemp": 61,
+          "coolantFlow": 67.799,
+          "coolingEff": 88.08
+        },
+        "air": {
+          "supplyTemp": 25.16,
+          "returnTemp": 32.4,
+          "airFlow": 1237.95,
+          "coolingEff": 87.69
+        }
+      }
+    },
+    "36": {
+      "time": 36,
+      "computing": {
+        "cpuUtil": 37.38,
+        "gpuUtil": 42.9,
+        "memUtil": 45.22,
+        "diskUtil": 37.44,
+        "activeAlarm": 0
+      },
+      "power": {
+        "activePower": 717.22,
+        "activeServers": 143,
+        "pue": 1.09,
+        "avgPowerPerRack": 79.691,
+        "activeAlarm": 6
+      },
+      "cooling": {
+        "activeAlarm": 8,
+        "liquid": {
+          "inletTemp": 45.1,
+          "outletTemp": 61,
+          "coolantFlow": 67.524,
+          "coolingEff": 87.94
+        },
+        "air": {
+          "supplyTemp": 25.29,
+          "returnTemp": 32.51,
+          "airFlow": 1244.26,
+          "coolingEff": 87.31
+        }
+      }
+    },
+    "42": {
+      "time": 42,
+      "computing": {
+        "cpuUtil": 37.31,
+        "gpuUtil": 43.98,
+        "memUtil": 45.02,
+        "diskUtil": 36.92,
+        "activeAlarm": 10
+      },
+      "power": {
+        "activePower": 721.93,
+        "activeServers": 143,
+        "pue": 1.12,
+        "avgPowerPerRack": 80.214,
+        "activeAlarm": 2
+      },
+      "cooling": {
+        "activeAlarm": 8,
+        "liquid": {
+          "inletTemp": 45.27,
+          "outletTemp": 61,
+          "coolantFlow": 68.555,
+          "coolingEff": 88.42
+        },
+        "air": {
+          "supplyTemp": 25.24,
+          "returnTemp": 32.38,
+          "airFlow": 1245.12,
+          "coolingEff": 87.68
+        }
+      }
+    },
+    "48": {
+      "time": 48,
+      "computing": {
+        "cpuUtil": 37.42,
+        "gpuUtil": 42.87,
+        "memUtil": 45.23,
+        "diskUtil": 37.75,
+        "activeAlarm": 2
+      },
+      "power": {
+        "activePower": 717.12,
+        "activeServers": 143,
+        "pue": 1.1,
+        "avgPowerPerRack": 79.68,
+        "activeAlarm": 7
+      },
+      "cooling": {
+        "activeAlarm": 10,
+        "liquid": {
+          "inletTemp": 45.02,
+          "outletTemp": 61,
+          "coolantFlow": 67.476,
+          "coolingEff": 88.66
+        },
+        "air": {
+          "supplyTemp": 25.4,
+          "returnTemp": 32.15,
+          "airFlow": 1239.35,
+          "coolingEff": 88.1
+        }
+      }
+    },
+    "54": {
+      "time": 54,
+      "computing": {
+        "cpuUtil": 37.92,
+        "gpuUtil": 43.43,
+        "memUtil": 45.66,
+        "diskUtil": 36.84,
+        "activeAlarm": 0
+      },
+      "power": {
+        "activePower": 710.58,
+        "activeServers": 143,
+        "pue": 1.13,
+        "avgPowerPerRack": 78.954,
+        "activeAlarm": 2
+      },
+      "cooling": {
+        "activeAlarm": 9,
+        "liquid": {
+          "inletTemp": 45.43,
+          "outletTemp": 62,
+          "coolantFlow": 69.441,
+          "coolingEff": 88.56
+        },
+        "air": {
+          "supplyTemp": 25.2,
+          "returnTemp": 32.21,
+          "airFlow": 1224.64,
+          "coolingEff": 87.86
+        }
+      }
+    }
+  },
+  "Low Load": {
+    "0": {
+      "time": 0,
+      "computing": {
+        "cpuUtil": 36.14,
+        "gpuUtil": 43.76,
+        "memUtil": 46.33,
+        "diskUtil": 38.57,
+        "activeAlarm": 5
+      },
+      "power": {
+        "activePower": 711.81,
+        "activeServers": 143,
+        "pue": 1.09,
+        "avgPowerPerRack": 79.09,
+        "activeAlarm": 1
+      },
+      "cooling": {
+        "activeAlarm": 2,
+        "liquid": {
+          "inletTemp": 45.05,
+          "outletTemp": 61,
+          "coolantFlow": 66.978,
+          "coolingEff": 88.67
+        },
+        "air": {
+          "supplyTemp": 25.21,
+          "returnTemp": 32.23,
+          "airFlow": 1230.78,
+          "coolingEff": 88.07
+        }
+      }
+    },
+    "6": {
+      "time": 6,
+      "computing": {
+        "cpuUtil": 37.68,
+        "gpuUtil": 44.32,
+        "memUtil": 45.16,
+        "diskUtil": 36.7,
+        "activeAlarm": 6
+      },
+      "power": {
+        "activePower": 710.72,
+        "activeServers": 143,
+        "pue": 1.12,
+        "avgPowerPerRack": 78.969,
+        "activeAlarm": 6
+      },
+      "cooling": {
+        "activeAlarm": 9,
+        "liquid": {
+          "inletTemp": 45.43,
+          "outletTemp": 61,
+          "coolantFlow": 66.296,
+          "coolingEff": 89.4
+        },
+        "air": {
+          "supplyTemp": 25.19,
+          "returnTemp": 32.43,
+          "airFlow": 1233.13,
+          "coolingEff": 87.76
+        }
+      }
+    },
+    "12": {
+      "time": 12,
+      "computing": {
+        "cpuUtil": 36.69,
+        "gpuUtil": 43.14,
+        "memUtil": 45.04,
+        "diskUtil": 37.99,
+        "activeAlarm": 6
+      },
+      "power": {
+        "activePower": 719.23,
+        "activeServers": 143,
+        "pue": 1.1,
+        "avgPowerPerRack": 79.915,
+        "activeAlarm": 5
+      },
+      "cooling": {
+        "activeAlarm": 6,
+        "liquid": {
+          "inletTemp": 45.96,
+          "outletTemp": 61,
+          "coolantFlow": 65.762,
+          "coolingEff": 89.09
+        },
+        "air": {
+          "supplyTemp": 25.29,
+          "returnTemp": 32.49,
+          "airFlow": 1234.82,
+          "coolingEff": 87.61
+        }
+      }
+    },
+    "18": {
+      "time": 18,
+      "computing": {
+        "cpuUtil": 37.93,
+        "gpuUtil": 44.71,
+        "memUtil": 45.1,
+        "diskUtil": 36.87,
+        "activeAlarm": 2
+      },
+      "power": {
+        "activePower": 709.44,
+        "activeServers": 143,
+        "pue": 1.11,
+        "avgPowerPerRack": 78.827,
+        "activeAlarm": 9
+      },
+      "cooling": {
+        "activeAlarm": 9,
+        "liquid": {
+          "inletTemp": 45.21,
+          "outletTemp": 59,
+          "coolantFlow": 66.788,
+          "coolingEff": 88.86
+        },
+        "air": {
+          "supplyTemp": 25.28,
+          "returnTemp": 32.38,
+          "airFlow": 1235.12,
+          "coolingEff": 88.29
+        }
+      }
+    },
+    "24": {
+      "time": 24,
+      "computing": {
+        "cpuUtil": 36.28,
+        "gpuUtil": 42.0,
+        "memUtil": 44.9,
+        "diskUtil": 36.01,
+        "activeAlarm": 9
+      },
+      "power": {
+        "activePower": 706.17,
+        "activeServers": 143,
+        "pue": 1.14,
+        "avgPowerPerRack": 78.463,
+        "activeAlarm": 10
+      },
+      "cooling": {
+        "activeAlarm": 5,
+        "liquid": {
+          "inletTemp": 45.7,
+          "outletTemp": 61,
+          "coolantFlow": 67.768,
+          "coolingEff": 88.81
+        },
+        "air": {
+          "supplyTemp": 25.15,
+          "returnTemp": 32.12,
+          "airFlow": 1239.06,
+          "coolingEff": 87.56
+        }
+      }
+    },
+    "30": {
+      "time": 30,
+      "computing": {
+        "cpuUtil": 37.92,
+        "gpuUtil": 44.97,
+        "memUtil": 44.84,
+        "diskUtil": 37.82,
+        "activeAlarm": 3
+      },
+      "power": {
+        "activePower": 718.4,
+        "activeServers": 143,
+        "pue": 1.16,
+        "avgPowerPerRack": 79.822,
+        "activeAlarm": 8
+      },
+      "cooling": {
+        "activeAlarm": 5,
+        "liquid": {
+          "inletTemp": 45.59,
+          "outletTemp": 61,
+          "coolantFlow": 67.799,
+          "coolingEff": 88.08
+        },
+        "air": {
+          "supplyTemp": 25.16,
+          "returnTemp": 32.4,
+          "airFlow": 1237.95,
+          "coolingEff": 87.69
+        }
+      }
+    },
+    "36": {
+      "time": 36,
+      "computing": {
+        "cpuUtil": 37.38,
+        "gpuUtil": 42.9,
+        "memUtil": 45.22,
+        "diskUtil": 37.44,
+        "activeAlarm": 0
+      },
+      "power": {
+        "activePower": 717.22,
+        "activeServers": 143,
+        "pue": 1.09,
+        "avgPowerPerRack": 79.691,
+        "activeAlarm": 6
+      },
+      "cooling": {
+        "activeAlarm": 8,
+        "liquid": {
+          "inletTemp": 45.1,
+          "outletTemp": 61,
+          "coolantFlow": 67.524,
+          "coolingEff": 87.94
+        },
+        "air": {
+          "supplyTemp": 25.29,
+          "returnTemp": 32.51,
+          "airFlow": 1244.26,
+          "coolingEff": 87.31
+        }
+      }
+    },
+    "42": {
+      "time": 42,
+      "computing": {
+        "cpuUtil": 37.31,
+        "gpuUtil": 43.98,
+        "memUtil": 45.02,
+        "diskUtil": 36.92,
+        "activeAlarm": 10
+      },
+      "power": {
+        "activePower": 721.93,
+        "activeServers": 143,
+        "pue": 1.12,
+        "avgPowerPerRack": 80.214,
+        "activeAlarm": 2
+      },
+      "cooling": {
+        "activeAlarm": 8,
+        "liquid": {
+          "inletTemp": 45.27,
+          "outletTemp": 61,
+          "coolantFlow": 68.555,
+          "coolingEff": 88.42
+        },
+        "air": {
+          "supplyTemp": 25.24,
+          "returnTemp": 32.38,
+          "airFlow": 1245.12,
+          "coolingEff": 87.68
+        }
+      }
+    },
+    "48": {
+      "time": 48,
+      "computing": {
+        "cpuUtil": 37.42,
+        "gpuUtil": 42.87,
+        "memUtil": 45.23,
+        "diskUtil": 37.75,
+        "activeAlarm": 2
+      },
+      "power": {
+        "activePower": 717.12,
+        "activeServers": 143,
+        "pue": 1.1,
+        "avgPowerPerRack": 79.68,
+        "activeAlarm": 7
+      },
+      "cooling": {
+        "activeAlarm": 10,
+        "liquid": {
+          "inletTemp": 45.02,
+          "outletTemp": 61,
+          "coolantFlow": 67.476,
+          "coolingEff": 88.66
+        },
+        "air": {
+          "supplyTemp": 25.4,
+          "returnTemp": 32.15,
+          "airFlow": 1239.35,
+          "coolingEff": 88.1
+        }
+      }
+    },
+    "54": {
+      "time": 54,
+      "computing": {
+        "cpuUtil": 37.92,
+        "gpuUtil": 43.43,
+        "memUtil": 45.66,
+        "diskUtil": 36.84,
+        "activeAlarm": 0
+      },
+      "power": {
+        "activePower": 710.58,
+        "activeServers": 143,
+        "pue": 1.13,
+        "avgPowerPerRack": 78.954,
+        "activeAlarm": 2
+      },
+      "cooling": {
+        "activeAlarm": 9,
+        "liquid": {
+          "inletTemp": 45.43,
+          "outletTemp": 62,
+          "coolantFlow": 69.441,
+          "coolingEff": 88.56
+        },
+        "air": {
+          "supplyTemp": 25.2,
+          "returnTemp": 32.21,
+          "airFlow": 1224.64,
+          "coolingEff": 87.86
+        }
+      }
+    }
+  },
+  "Medium Load": {
+    "0": {
+      "time": 0,
+      "computing": {
+        "cpuUtil": 58.13,
+        "gpuUtil": 74.55,
+        "memUtil": 56.25,
+        "diskUtil": 55.94,
+        "activeAlarm": 9
+      },
+      "power": {
+        "activePower": 1041.9,
+        "activeServers": 145,
+        "pue": 1.1,
+        "avgPowerPerRack": 115.766,
+        "activeAlarm": 2
+      },
+      "cooling": {
+        "activeAlarm": 2,
+        "liquid": {
+          "inletTemp": 45.67,
+          "outletTemp": 60.98,
+          "coolantFlow": 78.93,
+          "coolingEff": 84.57
+        },
+        "air": {
+          "supplyTemp": 26.06,
+          "returnTemp": 34.68,
+          "airFlow": 1481.9,
+          "coolingEff": 84.16
+        }
+      }
+    },
+    "6": {
+      "time": 6,
+      "computing": {
+        "cpuUtil": 56.93,
+        "gpuUtil": 73.23,
+        "memUtil": 57.24,
+        "diskUtil": 56.37,
+        "activeAlarm": 8
+      },
+      "power": {
+        "activePower": 1050.67,
+        "activeServers": 145,
+        "pue": 1.14,
+        "avgPowerPerRack": 116.742,
+        "activeAlarm": 6
+      },
+      "cooling": {
+        "activeAlarm": 6,
+        "liquid": {
+          "inletTemp": 45.16,
+          "outletTemp": 60.83,
+          "coolantFlow": 79.26,
+          "coolingEff": 84.59
+        },
+        "air": {
+          "supplyTemp": 26.22,
+          "returnTemp": 34.68,
+          "airFlow": 1489.93,
+          "coolingEff": 84.46
+        }
+      }
+    },
+    "12": {
+      "time": 12,
+      "computing": {
+        "cpuUtil": 58.12,
+        "gpuUtil": 73.24,
+        "memUtil": 55.78,
+        "diskUtil": 55.88,
+        "activeAlarm": 10
+      },
+      "power": {
+        "activePower": 1053.42,
+        "activeServers": 145,
+        "pue": 1.11,
+        "avgPowerPerRack": 117.047,
+        "activeAlarm": 1
+      },
+      "cooling": {
+        "activeAlarm": 4,
+        "liquid": {
+          "inletTemp": 45.17,
+          "outletTemp": 60.67,
+          "coolantFlow": 79.38,
+          "coolingEff": 84.46
+        },
+        "air": {
+          "supplyTemp": 26.07,
+          "returnTemp": 34.75,
+          "airFlow": 1488.05,
+          "coolingEff": 85.14
+        }
+      }
+    },
+    "18": {
+      "time": 18,
+      "computing": {
+        "cpuUtil": 57.16,
+        "gpuUtil": 74.24,
+        "memUtil": 56.63,
+        "diskUtil": 56.7,
+        "activeAlarm": 9
+      },
+      "power": {
+        "activePower": 1046.57,
+        "activeServers": 145,
+        "pue": 1.15,
+        "avgPowerPerRack": 116.285,
+        "activeAlarm": 0
+      },
+      "cooling": {
+        "activeAlarm": 10,
+        "liquid": {
+          "inletTemp": 45.42,
+          "outletTemp": 60.71,
+          "coolantFlow": 79.43,
+          "coolingEff": 85.21
+        },
+        "air": {
+          "supplyTemp": 26.25,
+          "returnTemp": 34.58,
+          "airFlow": 1486.46,
+          "coolingEff": 84.7
+        }
+      }
+    },
+    "24": {
+      "time": 24,
+      "computing": {
+        "cpuUtil": 57.06,
+        "gpuUtil": 73.52,
+        "memUtil": 56.7,
+        "diskUtil": 56.34,
+        "activeAlarm": 2
+      },
+      "power": {
+        "activePower": 1068.71,
+        "activeServers": 145,
+        "pue": 1.13,
+        "avgPowerPerRack": 118.746,
+        "activeAlarm": 3
+      },
+      "cooling": {
+        "activeAlarm": 0,
+        "liquid": {
+          "inletTemp": 45.95,
+          "outletTemp": 60.57,
+          "coolantFlow": 78.44,
+          "coolingEff": 84.45
+        },
+        "air": {
+          "supplyTemp": 26.3,
+          "returnTemp": 34.81,
+          "airFlow": 1485.36,
+          "coolingEff": 85.1
+        }
+      }
+    },
+    "30": {
+      "time": 30,
+      "computing": {
+        "cpuUtil": 56.97,
+        "gpuUtil": 73.33,
+        "memUtil": 56.33,
+        "diskUtil": 55.92,
+        "activeAlarm": 10
+      },
+      "power": {
+        "activePower": 1071.91,
+        "activeServers": 145,
+        "pue": 1.15,
+        "avgPowerPerRack": 119.101,
+        "activeAlarm": 6
+      },
+      "cooling": {
+        "activeAlarm": 6,
+        "liquid": {
+          "inletTemp": 45.56,
+          "outletTemp": 60.85,
+          "coolantFlow": 78.27,
+          "coolingEff": 84.96
+        },
+        "air": {
+          "supplyTemp": 26.11,
+          "returnTemp": 34.6,
+          "airFlow": 1482.61,
+          "coolingEff": 84.56
+        }
+      }
+    },
+    "36": {
+      "time": 36,
+      "computing": {
+        "cpuUtil": 58.12,
+        "gpuUtil": 73.16,
+        "memUtil": 56.48,
+        "diskUtil": 56.36,
+        "activeAlarm": 8
+      },
+      "power": {
+        "activePower": 1056.23,
+        "activeServers": 145,
+        "pue": 1.12,
+        "avgPowerPerRack": 117.359,
+        "activeAlarm": 5
+      },
+      "cooling": {
+        "activeAlarm": 1,
+        "liquid": {
+          "inletTemp": 45.42,
+          "outletTemp": 60.98,
+          "coolantFlow": 78.54,
+          "coolingEff": 84.71
+        },
+        "air": {
+          "supplyTemp": 26.24,
+          "returnTemp": 34.77,
+          "airFlow": 1476.35,
+          "coolingEff": 85.2
+        }
+      }
+    },
+    "42": {
+      "time": 42,
+      "computing": {
+        "cpuUtil": 57.81,
+        "gpuUtil": 75.2,
+        "memUtil": 55.45,
+        "diskUtil": 56.31,
+        "activeAlarm": 5
+      },
+      "power": {
+        "activePower": 1050.83,
+        "activeServers": 145,
+        "pue": 1.15,
+        "avgPowerPerRack": 116.758,
+        "activeAlarm": 9
+      },
+      "cooling": {
+        "activeAlarm": 8,
+        "liquid": {
+          "inletTemp": 45.76,
+          "outletTemp": 60.9,
+          "coolantFlow": 78.73,
+          "coolingEff": 85.34
+        },
+        "air": {
+          "supplyTemp": 26.23,
+          "returnTemp": 34.66,
+          "airFlow": 1485.85,
+          "coolingEff": 84.41
+        }
+      }
+    },
+    "48": {
+      "time": 48,
+      "computing": {
+        "cpuUtil": 56.78,
+        "gpuUtil": 74.35,
+        "memUtil": 56.48,
+        "diskUtil": 55.71,
+        "activeAlarm": 8
+      },
+      "power": {
+        "activePower": 1062.09,
+        "activeServers": 145,
+        "pue": 1.13,
+        "avgPowerPerRack": 118.01,
+        "activeAlarm": 7
+      },
+      "cooling": {
+        "activeAlarm": 9,
+        "liquid": {
+          "inletTemp": 45.33,
+          "outletTemp": 60.6,
+          "coolantFlow": 78.87,
+          "coolingEff": 85.12
+        },
+        "air": {
+          "supplyTemp": 26.27,
+          "returnTemp": 34.77,
+          "airFlow": 1474.53,
+          "coolingEff": 84.79
+        }
+      }
+    },
+    "54": {
+      "time": 54,
+      "computing": {
+        "cpuUtil": 57.87,
+        "gpuUtil": 73.12,
+        "memUtil": 56.83,
+        "diskUtil": 55.83,
+        "activeAlarm": 6
+      },
+      "power": {
+        "activePower": 1061.25,
+        "activeServers": 145,
+        "pue": 1.14,
+        "avgPowerPerRack": 117.916,
+        "activeAlarm": 7
+      },
+      "cooling": {
+        "activeAlarm": 1,
+        "liquid": {
+          "inletTemp": 45.5,
+          "outletTemp": 60.76,
+          "coolantFlow": 69.06,
+          "coolingEff": 85.15
+        },
+        "air": {
+          "supplyTemp": 26.04,
+          "returnTemp": 34.73,
+          "airFlow": 1487.0,
+          "coolingEff": 84.84
+        }
+      }
+    }
+  },
+  "High Load": {
+    "0": {
+      "time": 0,
+      "computing": {
+        "cpuUtil": 74.13,
+        "gpuUtil": 90.27,
+        "memUtil": 81.37,
+        "diskUtil": 76.97,
+        "activeAlarm": 9
+      },
+      "power": {
+        "activePower": 1354.22,
+        "activeServers": 147,
+        "pue": 1.131,
+        "avgPowerPerRack": 150.47,
+        "activeAlarm": 7
+      },
+      "cooling": {
+        "activeAlarm": 3,
+        "liquid": {
+          "inletTemp": 45.1,
+          "outletTemp": 62.27,
+          "coolantFlow": 90.1,
+          "coolingEff": 82.33
+        },
+        "air": {
+          "supplyTemp": 27.39,
+          "returnTemp": 38.78,
+          "airFlow": 1753.58,
+          "coolingEff": 81.69
+        }
+      }
+    },
+    "6": {
+      "time": 6,
+      "computing": {
+        "cpuUtil": 72.43,
+        "gpuUtil": 90.5,
+        "memUtil": 80.73,
+        "diskUtil": 76.47,
+        "activeAlarm": 7
+      },
+      "power": {
+        "activePower": 1379.66,
+        "activeServers": 147,
+        "pue": 1.14,
+        "avgPowerPerRack": 153.3,
+        "activeAlarm": 0
+      },
+      "cooling": {
+        "activeAlarm": 6,
+        "liquid": {
+          "inletTemp": 44.82,
+          "outletTemp": 61.87,
+          "coolantFlow": 90.01,
+          "coolingEff": 81.5
+        },
+        "air": {
+          "supplyTemp": 27.35,
+          "returnTemp": 38.11,
+          "airFlow": 1694.25,
+          "coolingEff": 81.5
+        }
+      }
+    },
+    "12": {
+      "time": 12,
+      "computing": {
+        "cpuUtil": 71.83,
+        "gpuUtil": 91.06,
+        "memUtil": 82.07,
+        "diskUtil": 77.02,
+        "activeAlarm": 3
+      },
+      "power": {
+        "activePower": 1368.48,
+        "activeServers": 147,
+        "pue": 1.121,
+        "avgPowerPerRack": 152.05,
+        "activeAlarm": 8
+      },
+      "cooling": {
+        "activeAlarm": 8,
+        "liquid": {
+          "inletTemp": 45.38,
+          "outletTemp": 61.75,
+          "coolantFlow": 88.94,
+          "coolingEff": 81.89
+        },
+        "air": {
+          "supplyTemp": 27.3,
+          "returnTemp": 38.41,
+          "airFlow": 1729.4,
+          "coolingEff": 82.1
+        }
+      }
+    },
+    "18": {
+      "time": 18,
+      "computing": {
+        "cpuUtil": 76.62,
+        "gpuUtil": 92.15,
+        "memUtil": 82.01,
+        "diskUtil": 77.89,
+        "activeAlarm": 0
+      },
+      "power": {
+        "activePower": 1368.38,
+        "activeServers": 147,
+        "pue": 1.131,
+        "avgPowerPerRack": 152.04,
+        "activeAlarm": 5
+      },
+      "cooling": {
+        "activeAlarm": 9,
+        "liquid": {
+          "inletTemp": 44.85,
+          "outletTemp": 62.2,
+          "coolantFlow": 87.75,
+          "coolingEff": 81.68
+        },
+        "air": {
+          "supplyTemp": 27.16,
+          "returnTemp": 38.01,
+          "airFlow": 1723.88,
+          "coolingEff": 81.76
+        }
+      }
+    },
+    "24": {
+      "time": 24,
+      "computing": {
+        "cpuUtil": 74.1,
+        "gpuUtil": 91.19,
+        "memUtil": 81.28,
+        "diskUtil": 76.4,
+        "activeAlarm": 9
+      },
+      "power": {
+        "activePower": 1363.81,
+        "activeServers": 147,
+        "pue": 1.102,
+        "avgPowerPerRack": 151.53,
+        "activeAlarm": 2
+      },
+      "cooling": {
+        "activeAlarm": 3,
+        "liquid": {
+          "inletTemp": 45.19,
+          "outletTemp": 62.79,
+          "coolantFlow": 89.76,
+          "coolingEff": 81.64
+        },
+        "air": {
+          "supplyTemp": 27.15,
+          "returnTemp": 38.24,
+          "airFlow": 1734.18,
+          "coolingEff": 81.46
+        }
+      }
+    },
+    "30": {
+      "time": 30,
+      "computing": {
+        "cpuUtil": 71.63,
+        "gpuUtil": 89.74,
+        "memUtil": 81.87,
+        "diskUtil": 78.24,
+        "activeAlarm": 10
+      },
+      "power": {
+        "activePower": 1362.74,
+        "activeServers": 147,
+        "pue": 1.128,
+        "avgPowerPerRack": 151.42,
+        "activeAlarm": 0
+      },
+      "cooling": {
+        "activeAlarm": 5,
+        "liquid": {
+          "inletTemp": 45.13,
+          "outletTemp": 62.2,
+          "coolantFlow": 90.03,
+          "coolingEff": 81.71
+        },
+        "air": {
+          "supplyTemp": 27.39,
+          "returnTemp": 37.93,
+          "airFlow": 1739.01,
+          "coolingEff": 82.01
+        }
+      }
+    },
+    "36": {
+      "time": 36,
+      "computing": {
+        "cpuUtil": 75.41,
+        "gpuUtil": 90.83,
+        "memUtil": 81.28,
+        "diskUtil": 76.7,
+        "activeAlarm": 10
+      },
+      "power": {
+        "activePower": 1366.32,
+        "activeServers": 147,
+        "pue": 1.15,
+        "avgPowerPerRack": 151.81,
+        "activeAlarm": 3
+      },
+      "cooling": {
+        "activeAlarm": 8,
+        "liquid": {
+          "inletTemp": 45.01,
+          "outletTemp": 62.35,
+          "coolantFlow": 90.43,
+          "coolingEff": 81.76
+        },
+        "air": {
+          "supplyTemp": 27.49,
+          "returnTemp": 38.02,
+          "airFlow": 1728.56,
+          "coolingEff": 81.38
+        }
+      }
+    },
+    "42": {
+      "time": 42,
+      "computing": {
+        "cpuUtil": 73.73,
+        "gpuUtil": 91.53,
+        "memUtil": 81.34,
+        "diskUtil": 77.93,
+        "activeAlarm": 8
+      },
+      "power": {
+        "activePower": 1361.32,
+        "activeServers": 147,
+        "pue": 1.112,
+        "avgPowerPerRack": 151.26,
+        "activeAlarm": 0
+      },
+      "cooling": {
+        "activeAlarm": 6,
+        "liquid": {
+          "inletTemp": 45.24,
+          "outletTemp": 61.89,
+          "coolantFlow": 89.15,
+          "coolingEff": 81.44
+        },
+        "air": {
+          "supplyTemp": 27.35,
+          "returnTemp": 37.53,
+          "airFlow": 1700.92,
+          "coolingEff": 82.33
+        }
+      }
+    },
+    "48": {
+      "time": 48,
+      "computing": {
+        "cpuUtil": 73.29,
+        "gpuUtil": 92.23,
+        "memUtil": 81.24,
+        "diskUtil": 76.64,
+        "activeAlarm": 1
+      },
+      "power": {
+        "activePower": 1353.53,
+        "activeServers": 147,
+        "pue": 1.131,
+        "avgPowerPerRack": 150.39,
+        "activeAlarm": 5
+      },
+      "cooling": {
+        "activeAlarm": 2,
+        "liquid": {
+          "inletTemp": 45.06,
+          "outletTemp": 62.87,
+          "coolantFlow": 89.66,
+          "coolingEff": 81.27
+        },
+        "air": {
+          "supplyTemp": 27.31,
+          "returnTemp": 38.38,
+          "airFlow": 1736.73,
+          "coolingEff": 81.23
+        }
+      }
+    },
+    "54": {
+      "time": 54,
+      "computing": {
+        "cpuUtil": 72.81,
+        "gpuUtil": 92.03,
+        "memUtil": 81.26,
+        "diskUtil": 77.08,
+        "activeAlarm": 9
+      },
+      "power": {
+        "activePower": 1354.38,
+        "activeServers": 147,
+        "pue": 1.121,
+        "avgPowerPerRack": 150.49,
+        "activeAlarm": 1
+      },
+      "cooling": {
+        "activeAlarm": 5,
+        "liquid": {
+          "inletTemp": 45.03,
+          "outletTemp": 62.28,
+          "coolantFlow": 70.25,
+          "coolingEff": 81.53
+        },
+        "air": {
+          "supplyTemp": 27.54,
+          "returnTemp": 37.94,
+          "airFlow": 1724.7,
+          "coolingEff": 81.84
+        }
+      }
+    }
+  }
+}

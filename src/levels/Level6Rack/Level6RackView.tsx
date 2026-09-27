@@ -5,6 +5,7 @@ import { Breadcrumb, BreadcrumbItem } from '../../reusable/Breadcrumb';
 import { HistoricalDataModal } from '../../reusable/HistoricalDataModal';
 import { ChevronLeftIcon } from '../../Icons';
 import { AdaptiveViewCube } from '../Level2Region/AdaptiveViewCube';
+import { LoadScenarioSelector } from '../../reusable/LoadScenarioSelector';
 import { HALL_OPTIONS } from '../Level4Hall/Level4Header';
 import { Level6RackDetailCard } from './Level6RackDetailCard';
 import './Level6Rack.css';
@@ -17,10 +18,12 @@ interface Level6RackViewProps {
     activeRackNum: number;
     regionMetric?: SiteMetric;
     cameraView?: CameraView;
+    currentScenario?: string;
     screenPositions?: Record<string, ScreenPosition>;
     onBackToRow: () => void;
     onBackToHall: () => void;
     onSelectCameraView?: (view: CameraView) => void;
+    onSelectScenario?: (scenario: string) => void;
     onSelectServer?: (serverId: string, serverNum: number) => void;
 }
 
@@ -31,10 +34,12 @@ export const Level6RackView: React.FC<Level6RackViewProps> = ({
     activeRackNum,
     regionMetric,
     cameraView = 'iso',
+    currentScenario = 'Normal Load',
     screenPositions,
     onBackToRow,
     onBackToHall,
     onSelectCameraView,
+    onSelectScenario,
     onSelectServer
 }) => {
     // Historical Data Modal state
@@ -129,8 +134,12 @@ export const Level6RackView: React.FC<Level6RackViewProps> = ({
                 );
             })()}
 
-            {/* Bottom-Right ViewCube (Dice Rotation) */}
+            {/* Bottom-Right Controls: Load Scenario Dropdown & ViewCube (Dice Rotation) */}
             <div className="level6-bottom-controls">
+                <LoadScenarioSelector
+                    currentScenario={currentScenario}
+                    onSelectScenario={onSelectScenario}
+                />
                 <div className="level6-viewcube-anchor">
                     <AdaptiveViewCube
                         focusLabel={rackLabel.toUpperCase()}
@@ -144,6 +153,9 @@ export const Level6RackView: React.FC<Level6RackViewProps> = ({
             <HistoricalDataModal
                 isOpen={isHistoryOpen}
                 title={`NVL72 ${rackLabel} Historical Data`}
+                level="rack"
+                rackNum={activeRackNum}
+                selectedRack={String(activeRackNum)}
                 onClose={() => setIsHistoryOpen(false)}
             />
         </div>

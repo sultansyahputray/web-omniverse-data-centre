@@ -18,11 +18,11 @@ export const GLOBAL_TIMERS = {
     /** Durasi rotasi telemetry di Level 2 Region & Level 3 Building (detik) */
     region_building_time: 30,
 
-    /** Durasi rotasi Level 4: Data Hall (detik) */
-    hall_time: 30,
+    /** Durasi rotasi Level 4: Data Hall (detik) - Rotasi per 6 menit (360 detik) */
+    hall_time: 360,
 
-    /** Durasi rotasi Level 5: Row (detik) */
-    row_time: 30,
+    /** Durasi rotasi Level 5: Row (detik) - Rotasi per 6 menit (360 detik) */
+    row_time: 360,
 
     /** Durasi rotasi Level 6: Rack (detik) */
     rack_time: 30,

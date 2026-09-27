@@ -3,6 +3,8 @@ import { NavigationButton, ButtonBarWithStatus, ButtonBarWithStatusItem, CloseBu
 import { RegionalAvailabilityGauge } from '../../Icons';
 import { DualRackServerIcon } from '../Level5Row/Level5RackComparisonModal';
 import { ScreenPosition } from '../../types';
+import { getStatus, getStatusColor } from '../../thresholdUtils';
+import level6RackData from '../../data/level6Rack.json';
 
 interface Level6RackDetailCardProps {
     rackNum: number;
@@ -13,11 +15,11 @@ interface Level6RackDetailCardProps {
     onSelectServer?: (serverId: string, serverNum: number) => void;
 }
 
-const RACK_TABS: ButtonBarWithStatusItem[] = [
-    { label: 'Computing', status: [{ label: 'alert', color: '#ef4444', count: 1 }] },
-    { label: 'Cooling' },
-    { label: 'Power' }
-];
+function getSlotIndexFromTime(date: Date = new Date()): number {
+    const minutes = date.getMinutes();
+    const slot = Math.floor(minutes / 6);
+    return Math.min(Math.max(slot, 0), 9);
+}
 
 export const Level6RackDetailCard: React.FC<Level6RackDetailCardProps> = ({
     rackNum,
@@ -27,8 +29,43 @@ export const Level6RackDetailCard: React.FC<Level6RackDetailCardProps> = ({
     onViewHistory,
     onSelectServer
 }) => {
-    // Default active tab to Power (index 2) as shown in the user's reference image
-    const [activeTabIdx, setActiveTabIdx] = useState(2);
+    // Active capsule tab: 0: Computing, 1: Cooling, 2: Power
+    const [activeTabIdx, setActiveTabIdx] = useState(0);
+
+    // Track real-time clock to update slot index per 6 minutes
+    const [currentTime, setCurrentTime] = useState(() => new Date());
+    useEffect(() => {
+        const timer = setInterval(() => setCurrentTime(new Date()), 10000);
+        return () => clearInterval(timer);
+    }, []);
+
+    // Time slot 0 to 9 matching [0, 6, 12, 18, 24, 30, 36, 42, 48, 54] minutes
+    const timeSlot = getSlotIndexFromTime(currentTime);
+
+    const summaryData = level6RackData.summary[timeSlot] || level6RackData.summary[0];
+    const computingData = level6RackData.computing[timeSlot] || level6RackData.computing[0];
+    const powerData = level6RackData.power[timeSlot] || level6RackData.power[0];
+    const coolingData = level6RackData.cooling[timeSlot] || level6RackData.cooling[0];
+
+    // Top Summary Gauges Calculations
+    const cpuGaugeVal = summaryData.avgCpuUtil;
+    const gpuGaugeVal = summaryData.avgGpuUtil;
+    const rackPowerVal = summaryData.rackActivePower;
+    // Rack power percentage against rack capacity (184 kW)
+    const rackPowerGaugePct = Math.min(100, Math.round((summaryData.rackActivePower / powerData.rackCapacity) * 100));
+    const coolingEffVal = summaryData.coolingEff;
+
+    // Computing alert count from CPU and GPU throttling events
+    const computingAlerts = (computingData.cpuThermalThrottling || 0) + (computingData.gpuThermalThrottling || 0);
+
+    const rackTabs: ButtonBarWithStatusItem[] = useMemo(() => [
+        {
+            label: 'Computing',
+            status: computingAlerts > 0 ? [{ label: 'alert', color: '#ef4444', count: computingAlerts }] : undefined
+        },
+        { label: 'Cooling' },
+        { label: 'Power' }
+    ], [computingAlerts]);
 
     // Track window viewport dimensions for screen coordinate mapping
     const [windowSize, setWindowSize] = useState({
@@ -92,10 +129,8 @@ export const Level6RackDetailCard: React.FC<Level6RackDetailCardProps> = ({
     let pathD = '';
     if (isDynamic) {
         if (!isLeftOfRack) {
-            // Card is on right -> line runs straight horizontally from dot to card's left edge (x = 0)
             pathD = `M ${localDotX} ${localDotY} L 0 ${localDotY}`;
         } else {
-            // Card is on left -> line runs straight horizontally from dot to card's right edge (x = CARD_WIDTH)
             pathD = `M ${localDotX} ${localDotY} L ${CARD_WIDTH} ${localDotY}`;
         }
     }
@@ -119,50 +154,6 @@ export const Level6RackDetailCard: React.FC<Level6RackDetailCardProps> = ({
             left: 'auto'
         };
 
-    // Dynamic metrics based on rackNum, matching user screenshot for Rack 4
-    const rackMetrics = useMemo(() => {
-        if (rackNum === 4) {
-            return {
-                voltage: '400',
-                current: '16.6',
-                activePower: '11.5',
-                rackCapacity: '30',
-                powerUtil: '38.3%',
-                dailyConsumption: '174.7',
-                upsStatus: 'Online',
-                batteryHealth: '96%',
-                pduLoad: '38.3%',
-                powerFactor: '0.96',
-                cpuUtil: 54,
-                gpuUtil: 58,
-                rackPowerGauge: 68,
-                coolingEff: 58,
-                activeServers: '13 / 13'
-            };
-        }
-
-        // Generic plausible values for other rack numbers
-        const basePower = (10 + (rackNum * 2.1) % 15).toFixed(1);
-        const util = (30 + (rackNum * 5.7) % 55).toFixed(1);
-        return {
-            voltage: '400',
-            current: (parseFloat(basePower) * 1.44).toFixed(1),
-            activePower: basePower,
-            rackCapacity: '30',
-            powerUtil: `${util}%`,
-            dailyConsumption: (parseFloat(basePower) * 15.2).toFixed(1),
-            upsStatus: 'Online',
-            batteryHealth: '98%',
-            pduLoad: `${util}%`,
-            powerFactor: '0.97',
-            cpuUtil: 50 + (rackNum * 3) % 40,
-            gpuUtil: 52 + (rackNum * 4) % 40,
-            rackPowerGauge: Math.min(95, Math.round((parseFloat(basePower) / 30) * 100)),
-            coolingEff: 58,
-            activeServers: `${12 + (rackNum % 5)} / 16`
-        };
-    }, [rackNum]);
-
     const renderParamRow = (
         label: string,
         value: string | number,
@@ -170,7 +161,7 @@ export const Level6RackDetailCard: React.FC<Level6RackDetailCardProps> = ({
         badgeType: 'green' | 'yellow' | 'orange' | 'red' | 'blue' = 'green'
     ) => (
         <div className="rack-card-param-row">
-            <span className="rack-card-param-label">{label}</span>
+            <span className="rack-card-param-label" title={label}>{label}</span>
             <div className="rack-card-param-val-group">
                 <span className={`rack-card-badge badge-${badgeType}`}>
                     {value}
@@ -280,34 +271,34 @@ export const Level6RackDetailCard: React.FC<Level6RackDetailCardProps> = ({
                 <div className="rack-gauge-item">
                     <span className="rack-gauge-title">Average CPU Utilization</span>
                     <RegionalAvailabilityGauge
-                        percentage={rackMetrics.cpuUtil}
+                        percentage={cpuGaugeVal}
                         size={72}
                         strokeWidth={8}
-                        color="#FFCC00"
+                        color={getStatusColor(getStatus('cpuUtil', cpuGaugeVal))}
                         bgColor="rgba(255, 255, 255, 0.12)"
                     />
                 </div>
                 <div className="rack-gauge-item">
                     <span className="rack-gauge-title">Average GPU Utilization</span>
                     <RegionalAvailabilityGauge
-                        percentage={rackMetrics.gpuUtil}
+                        percentage={gpuGaugeVal}
                         size={72}
                         strokeWidth={8}
-                        color="#FFCC00"
+                        color={getStatusColor(getStatus('gpuUtil', gpuGaugeVal))}
                         bgColor="rgba(255, 255, 255, 0.12)"
                     />
                 </div>
                 <div className="rack-gauge-item">
                     <span className="rack-gauge-title">Rack Power</span>
                     <RegionalAvailabilityGauge
-                        percentage={rackMetrics.rackPowerGauge}
+                        percentage={rackPowerGaugePct}
                         size={72}
                         strokeWidth={8}
-                        color="#FFCC00"
+                        color={getStatusColor(getStatus('avgPowerPerRack', rackPowerVal))}
                         bgColor="rgba(255, 255, 255, 0.12)"
                         customDisplay={
                             <div className="rack-gauge-power-display">
-                                <span className="power-num">XXX</span>
+                                <span className="power-num">{rackPowerVal}</span>
                                 <span className="power-unit">kW</span>
                             </div>
                         }
@@ -316,19 +307,19 @@ export const Level6RackDetailCard: React.FC<Level6RackDetailCardProps> = ({
                 <div className="rack-gauge-item">
                     <span className="rack-gauge-title">Cooling Efficiency</span>
                     <RegionalAvailabilityGauge
-                        percentage={rackMetrics.coolingEff}
+                        percentage={coolingEffVal}
                         size={72}
                         strokeWidth={8}
-                        color="#FFCC00"
+                        color={getStatusColor(getStatus('coolingEff', coolingEffVal))}
                         bgColor="rgba(255, 255, 255, 0.12)"
                     />
                 </div>
             </div>
 
-            {/* 3. Capsule Tabs: Computing [1] | Cooling | Power */}
+            {/* 3. Capsule Tabs: Computing [alert badge] | Cooling | Power */}
             <div className="rack-card-tabs-container">
                 <ButtonBarWithStatus
-                    items={RACK_TABS}
+                    items={rackTabs}
                     selectedIndex={activeTabIdx}
                     onSelect={(idx) => setActiveTabIdx(idx)}
                 />
@@ -336,100 +327,65 @@ export const Level6RackDetailCard: React.FC<Level6RackDetailCardProps> = ({
 
             {/* 4. Tab Content: 2-Column Parameter Grid */}
             <div className="rack-card-content">
-                {activeTabIdx === 2 && (
-                    // POWER TAB (matches reference screenshot exactly)
-                    <div className="rack-card-grid">
-                        <div className="rack-card-col">
-                            {renderParamRow('Voltage', rackMetrics.voltage, 'V')}
-                            {renderParamRow('Current', rackMetrics.current, 'A')}
-                            {renderParamRow('Active Power', rackMetrics.activePower, 'kW')}
-                            {renderParamRow('Rack Capacity', rackMetrics.rackCapacity, 'kW', 'blue')}
-                            {renderParamRow('Power Utilization', rackMetrics.powerUtil)}
-                            {renderParamRow('Daily Consumption', rackMetrics.dailyConsumption, 'kWh')}
-                        </div>
-                        <div className="rack-card-col">
-                            {renderParamRow('UPS Status', rackMetrics.upsStatus)}
-                            {renderParamRow('Battery Health', rackMetrics.batteryHealth)}
-                            {renderParamRow('PDU Load', rackMetrics.pduLoad)}
-                            {renderParamRow('Power Factor', rackMetrics.powerFactor)}
-                        </div>
-                    </div>
-                )}
-
                 {activeTabIdx === 0 && (
                     // COMPUTING TAB
                     <div className="rack-card-grid">
                         <div className="rack-card-col">
-                            {renderParamRow('CPU Utilization', `${rackMetrics.cpuUtil}%`)}
-                            {renderParamRow('GPU Utilization', `${rackMetrics.gpuUtil}%`)}
-                            {renderParamRow('Active GPU Count', '4 / 8')}
-                            {renderParamRow('GPU Memory Utilization', '29%')}
-                            {renderParamRow('Memory Utilization', '36%')}
-                            {renderParamRow('Disk Utilization', '31%')}
+                            {renderParamRow('CPU Utilization', computingData.cpuUtil.toFixed(2), '%', getStatus('cpuUtil', computingData.cpuUtil) as any)}
+                            {renderParamRow('GPU Utilization', computingData.gpuUtil.toFixed(2), '%', getStatus('gpuUtil', computingData.gpuUtil) as any)}
+                            {renderParamRow('Active GPU Count', `${computingData.activeGpuCount} / 72`, '', 'green')}
+                            {renderParamRow('GPU Memory Utilization', computingData.gpuMemoryUtil.toFixed(2), '%', getStatus('gpuMemUtil', computingData.gpuMemoryUtil) as any)}
+                            {renderParamRow('Memory Utilization', computingData.memoryUtil.toFixed(2), '%', getStatus('memUtil', computingData.memoryUtil) as any)}
+                            {renderParamRow('Disk Utilization', computingData.diskUtil.toFixed(2), '%', getStatus('diskUtil', computingData.diskUtil) as any)}
                         </div>
                         <div className="rack-card-col">
-                            {renderParamRow('Read Throughput', '2.8', 'GB/s')}
-                            {renderParamRow('Write Throughput', '1.9', 'GB/s')}
-                            {renderParamRow('Network Throughput', '15.2', 'Gbps')}
-                            {renderParamRow('Running Jobs', '4')}
-                            {renderParamRow('Active Servers', rackMetrics.activeServers)}
+                            {renderParamRow('Read Throughput', computingData.readThroughput.toFixed(1), 'GB/s', 'green')}
+                            {renderParamRow('Write Throughput', computingData.writeThroughput.toFixed(1), 'GB/s', 'green')}
+                            {renderParamRow('Network Throughput', computingData.networkThroughput.toFixed(1), 'Gbps', 'green')}
+                            {renderParamRow('Running Jobs', computingData.runningJobs, '', 'green')}
+                            {renderParamRow('Active Servers', `${computingData.activeServers} / 16`, '', 'green')}
                         </div>
-                        {onSelectServer && (
-                            <div style={{ gridColumn: 'span 2', marginTop: '12px', paddingTop: '10px', borderTop: '1px solid rgba(0, 195, 208, 0.2)' }}>
-                                <div style={{ fontSize: '11px', color: '#88A2B8', fontWeight: 700, marginBottom: '8px', letterSpacing: '0.8px' }}>
-                                    INSPECT COMPUTE TRAY (LEVEL 07):
-                                </div>
-                                <div style={{ display: 'flex', flexWrap: 'wrap', gap: '6px' }}>
-                                    {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18].map((sNum) => (
-                                        <button
-                                            key={sNum}
-                                            style={{
-                                                background: 'rgba(0, 229, 255, 0.1)',
-                                                border: '1px solid rgba(0, 229, 255, 0.35)',
-                                                borderRadius: '4px',
-                                                padding: '3px 7px',
-                                                fontSize: '11px',
-                                                color: '#71F6FF',
-                                                cursor: 'pointer',
-                                                fontWeight: 600,
-                                                transition: 'all 0.15s ease'
-                                            }}
-                                            onMouseEnter={(e) => {
-                                                e.currentTarget.style.background = 'rgba(0, 229, 255, 0.3)';
-                                                e.currentTarget.style.borderColor = '#00E5FF';
-                                            }}
-                                            onMouseLeave={(e) => {
-                                                e.currentTarget.style.background = 'rgba(0, 229, 255, 0.1)';
-                                                e.currentTarget.style.borderColor = 'rgba(0, 229, 255, 0.35)';
-                                            }}
-                                            onClick={() => onSelectServer(`VR_${sNum}`, sNum)}
-                                            title={`Inspect Compute Tray VR_${sNum}`}
-                                        >
-                                            VR_{sNum}
-                                        </button>
-                                    ))}
-                                </div>
-                            </div>
-                        )}
                     </div>
                 )}
 
                 {activeTabIdx === 1 && (
-                    // COOLING TAB
+                    // COOLING TAB (Unified Single Grid)
                     <div className="rack-card-grid">
                         <div className="rack-card-col">
-                            {renderParamRow('Coolant Supply Temp', '18.2', '°C')}
-                            {renderParamRow('Coolant Return Temp', '24.6', '°C')}
-                            {renderParamRow('Coolant Flow Rate', '10.9', 'L/min')}
-                            {renderParamRow('Coolant Pressure', '1.85', 'bar')}
-                            {renderParamRow('Heat Removed', '9.8', 'kW')}
+                            {renderParamRow('Coolant Supply Temp', coolingData.coolantSupplyTemp.toFixed(2), '°C', getStatus('avgCoolantInletTemp', coolingData.coolantSupplyTemp) as any)}
+                            {renderParamRow('Coolant Return Temp', coolingData.coolantReturnTemp.toFixed(2), '°C', getStatus('avgCoolantOutletTemp', coolingData.coolantReturnTemp) as any)}
+                            {renderParamRow('Coolant Flow Rate', coolingData.coolantFlowRate.toFixed(1), 'L/min', getStatus('hallCoolantFlow', coolingData.coolantFlowRate) as any)}
+                            {renderParamRow('Coolant Pressure', coolingData.coolantPressure.toFixed(2), 'bar', 'green')}
+                            {renderParamRow('Heat Removed', coolingData.heatRemoved, 'kW', 'green')}
+                            {renderParamRow('Coolant Leak Status', coolingData.coolantLeakStatus, '', coolingData.coolantLeakStatus === 'No Leak' ? 'green' : 'red')}
                         </div>
                         <div className="rack-card-col">
-                            {renderParamRow('CPU Temperature', '48.5', '°C')}
-                            {renderParamRow('GPU Temperature', '54.2', '°C')}
-                            {renderParamRow('Rack Inlet Temp', '22.4', '°C')}
-                            {renderParamRow('Rack Outlet Temp', '34.7', '°C')}
-                            {renderParamRow('CDU Status', 'Normal')}
+                            {renderParamRow('CPU Temperature', coolingData.cpuTemp.toFixed(2), '°C', coolingData.cpuTemp <= 65 ? 'green' : coolingData.cpuTemp <= 75 ? 'yellow' : 'red')}
+                            {renderParamRow('GPU Temperature', coolingData.gpu1Temp.toFixed(2), '°C', coolingData.gpu1Temp <= 70 ? 'green' : coolingData.gpu1Temp <= 80 ? 'yellow' : 'red')}
+                            {renderParamRow('Cold Aisle Temp', coolingData.coldAisleTemp.toFixed(2), '°C', getStatus('coldAisleTemp', coolingData.coldAisleTemp) as any)}
+                            {renderParamRow('Hot Aisle Temp', coolingData.hotAisleTemp.toFixed(2), '°C', getStatus('hotAisleTemp', coolingData.hotAisleTemp) as any)}
+                            {renderParamRow('CDU Utilization', coolingData.cduUtilization.toFixed(1), '%', getStatus('liquidCoolingCapacityUtilisation', coolingData.cduUtilization) as any)}
+                            {renderParamRow('CDU Status', coolingData.cduStatus, '', coolingData.cduStatus === 'Operational' ? 'green' : 'yellow')}
+                        </div>
+                    </div>
+                )}
+
+                {activeTabIdx === 2 && (
+                    // POWER TAB
+                    <div className="rack-card-grid">
+                        <div className="rack-card-col">
+                            {renderParamRow('Voltage', powerData.voltage.toFixed(2), 'V', getStatus('powerPathVoltage', powerData.voltage) as any)}
+                            {renderParamRow('Current', powerData.current.toFixed(2), 'A', 'green')}
+                            {renderParamRow('Active Power', powerData.activePower, 'kW', getStatus('avgPowerPerRack', powerData.activePower) as any)}
+                            {renderParamRow('Rack Capacity', powerData.rackCapacity, 'kW', 'blue')}
+                            {renderParamRow('Power Utilization', powerData.powerUtil.toFixed(2), '%', getStatus('facilityLoad', powerData.powerUtil) as any)}
+                            {renderParamRow('Daily Consumption', powerData.dailyConsumption.toFixed(2), 'kWh', 'green')}
+                        </div>
+                        <div className="rack-card-col">
+                            {renderParamRow('UPS Status', powerData.upsStatus, '', powerData.upsStatus === 'Normal' ? 'green' : 'red')}
+                            {renderParamRow('Battery Health', powerData.batteryHealth.toFixed(1), '%', powerData.batteryHealth >= 95 ? 'green' : 'yellow')}
+                            {renderParamRow('PDU Load', powerData.powerUtil.toFixed(2), '%', getStatus('facilityLoad', powerData.powerUtil) as any)}
+                            {renderParamRow('Power Factor', powerData.powerFactor.toFixed(2), '', getStatus('powerPathPowerFactor', powerData.powerFactor) as any)}
                         </div>
                     </div>
                 )}

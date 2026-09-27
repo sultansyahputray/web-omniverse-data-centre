@@ -1,11 +1,17 @@
 import React from 'react';
 import { RegionalAvailabilityGauge } from '../../Icons';
+import { getStatus, getStatusColor } from '../../thresholdUtils';
 
 export interface Level5ComputingMetrics {
+    cpuUtil?: number;
     cpuUtilization?: number;
+    gpuUtil?: number;
     gpuUtilization?: number;
+    memUtil?: number;
     memoryUtilization?: number;
+    diskUtil?: number;
     diskUtilization?: number;
+    activeAlarm?: number;
 }
 
 interface Level5VerticalComputingCardProps {
@@ -15,10 +21,15 @@ interface Level5VerticalComputingCardProps {
 export const Level5VerticalComputingCard: React.FC<Level5VerticalComputingCardProps> = ({
     data
 }) => {
-    const cpu = data?.cpuUtilization ?? 54;
-    const gpu = data?.gpuUtilization ?? 58;
-    const mem = data?.memoryUtilization ?? 99.9;
-    const disk = data?.diskUtilization ?? 99.9;
+    const cpu = data?.cpuUtil ?? data?.cpuUtilization ?? 36.14;
+    const gpu = data?.gpuUtil ?? data?.gpuUtilization ?? 43.76;
+    const mem = data?.memUtil ?? data?.memoryUtilization ?? 46.33;
+    const disk = data?.diskUtil ?? data?.diskUtilization ?? 38.57;
+
+    const cpuColor = getStatusColor(getStatus('cpuUtil', cpu));
+    const gpuColor = getStatusColor(getStatus('gpuUtil', gpu));
+    const memColor = getStatusColor(getStatus('memUtil', mem));
+    const diskColor = getStatusColor(getStatus('diskUtil', disk));
 
     return (
         <div className="level5-vertical-computing-card" aria-label="Computing Utilization">
@@ -31,7 +42,7 @@ export const Level5VerticalComputingCard: React.FC<Level5VerticalComputingCardPr
                     percentage={cpu}
                     size={72}
                     strokeWidth={8}
-                    color="#FFCC00"
+                    color={cpuColor}
                     bgColor="rgba(255, 255, 255, 0.12)"
                 />
             </div>
@@ -45,7 +56,7 @@ export const Level5VerticalComputingCard: React.FC<Level5VerticalComputingCardPr
                     percentage={gpu}
                     size={72}
                     strokeWidth={8}
-                    color="#FFCC00"
+                    color={gpuColor}
                     bgColor="rgba(255, 255, 255, 0.12)"
                 />
             </div>
@@ -59,7 +70,7 @@ export const Level5VerticalComputingCard: React.FC<Level5VerticalComputingCardPr
                     percentage={mem}
                     size={72}
                     strokeWidth={8}
-                    color="#34C759"
+                    color={memColor}
                     bgColor="rgba(255, 255, 255, 0.12)"
                 />
             </div>
@@ -73,7 +84,7 @@ export const Level5VerticalComputingCard: React.FC<Level5VerticalComputingCardPr
                     percentage={disk}
                     size={72}
                     strokeWidth={8}
-                    color="#34C759"
+                    color={diskColor}
                     bgColor="rgba(255, 255, 255, 0.12)"
                 />
             </div>

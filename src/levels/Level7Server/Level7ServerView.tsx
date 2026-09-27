@@ -1,15 +1,17 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { CameraView, RegionKey, SiteMetric, ScreenPosition } from '../../types';
 import { HallRowItem } from '../Level4Hall/Level4FloatingRows';
 import { Breadcrumb, BreadcrumbItem } from '../../reusable/Breadcrumb';
 import { HistoricalDataModal } from '../../reusable/HistoricalDataModal';
 import { ChevronLeftIcon } from '../../Icons';
 import { AdaptiveViewCube } from '../Level2Region/AdaptiveViewCube';
+import { LoadScenarioSelector } from '../../reusable/LoadScenarioSelector';
 import { HALL_OPTIONS } from '../Level4Hall/Level4Header';
 import { Level7ServerDetailCard } from './Level7ServerDetailCard';
 import { Level7BottomGaugesCard } from './Level7BottomGaugesCard';
 import { Level7ComputeTrayListCard } from './Level7ComputeTrayListCard';
 import { Level7FloatingChips } from './Level7FloatingChips';
+import level7Data from '../../data/level7ComputeTray.json';
 import './Level7Server.css';
 
 interface Level7ServerViewProps {
@@ -22,11 +24,13 @@ interface Level7ServerViewProps {
     activeServerNum: number;
     regionMetric?: SiteMetric;
     cameraView?: CameraView;
+    currentScenario?: string;
     screenPositions?: Record<string, ScreenPosition>;
     onBackToRack: () => void;
     onBackToRow: () => void;
     onBackToHall: () => void;
     onSelectCameraView?: (view: CameraView) => void;
+    onSelectScenario?: (scenario: string) => void;
     onSelectServer?: (serverId: string, serverNum: number) => void;
     onSelectSuperChip?: (chipNum: number, trayNum?: number) => void;
     onSelectPrim?: (primPath: string) => void;
@@ -39,16 +43,42 @@ export const Level7ServerView: React.FC<Level7ServerViewProps> = ({
     activeServerNum,
     regionMetric,
     cameraView = 'iso',
+    currentScenario = 'Low Load',
     screenPositions,
     onBackToRack,
     onBackToRow,
     onBackToHall,
     onSelectCameraView,
+    onSelectScenario,
     onSelectServer,
     onSelectSuperChip,
     onSelectPrim
 }) => {
     const [isHistoryOpen, setIsHistoryOpen] = useState(false);
+    const [currentTime, setCurrentTime] = useState<Date>(() => new Date());
+
+    useEffect(() => {
+        const timer = setInterval(() => setCurrentTime(new Date()), 10000);
+        return () => clearInterval(timer);
+    }, []);
+
+    const timeSlot = Math.min(Math.max(Math.floor(currentTime.getMinutes() / 6) % 10, 0), 9);
+
+    const normalizedScenario = useMemo(() => {
+        if (!currentScenario) return 'Low Load';
+        const s = currentScenario.toLowerCase();
+        if (s.includes('high')) return 'High Load';
+        if (s.includes('med')) return 'Medium Load';
+        return 'Low Load';
+    }, [currentScenario]);
+
+    const activeTrayData = useMemo(() => {
+        const d = (level7Data as any)[normalizedScenario] || (level7Data as any)['Low Load'];
+        return {
+            summary: d.summary[timeSlot] || d.summary[0],
+            power: d.power[timeSlot] || d.power[0]
+        };
+    }, [normalizedScenario, timeSlot]);
 
     const title = regionMetric?.title || 'SOUTHEAST ASIA';
     const hubSubtitle = regionMetric?.subtitle || 'BATAM HUB';
@@ -148,19 +178,34 @@ export const Level7ServerView: React.FC<Level7ServerViewProps> = ({
                 serverNum={activeServerNum}
                 rackNum={activeRackNum}
                 rowLabel={rowLabel}
+                scenario={normalizedScenario}
+                timeSlot={timeSlot}
                 onClose={onBackToRack}
                 onViewHistory={() => setIsHistoryOpen(true)}
             />
 
-            {/* Bottom-Right Controls: Gauges Card (Image 3) + ViewCube Dice Rotation */}
+            {/* Bottom-Right Controls: Gauges Card (Image 3) + (Load Scenario & ViewCube) */}
             <div className="level7-bottom-controls">
-                <Level7BottomGaugesCard serverNum={activeServerNum} />
-                <div className="level7-viewcube-anchor">
-                    <AdaptiveViewCube
-                        focusLabel={serverLabel.toUpperCase()}
-                        currentView={cameraView}
-                        onSelectView={onSelectCameraView || (() => { })}
+                <Level7BottomGaugesCard
+                    serverNum={activeServerNum}
+                    cpuUtil={activeTrayData.summary.avgCpuUtil}
+                    gpuUtil={activeTrayData.summary.avgGpuUtil}
+                    powerKW={activeTrayData.summary.trayTotalPower}
+                    powerLimit={activeTrayData.power.powerLimit}
+                    coolingEff={activeTrayData.summary.coolingEff}
+                />
+                <div className="level7-bottom-right-stack">
+                    <LoadScenarioSelector
+                        currentScenario={currentScenario}
+                        onSelectScenario={onSelectScenario}
                     />
+                    <div className="level7-viewcube-anchor">
+                        <AdaptiveViewCube
+                            focusLabel={serverLabel.toUpperCase()}
+                            currentView={cameraView}
+                            onSelectView={onSelectCameraView || (() => { })}
+                        />
+                    </div>
                 </div>
             </div>
 
@@ -168,6 +213,10 @@ export const Level7ServerView: React.FC<Level7ServerViewProps> = ({
             <HistoricalDataModal
                 isOpen={isHistoryOpen}
                 title={`NVL72 ${rackLabel} - ${serverLabel} Historical Data`}
+                level="tray"
+                rackNum={activeRackNum}
+                serverNum={activeServerNum}
+                currentScenario={normalizedScenario}
                 onClose={() => setIsHistoryOpen(false)}
             />
         </div>

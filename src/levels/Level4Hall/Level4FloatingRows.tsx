@@ -10,7 +10,26 @@ export interface HallRowItem {
     rack10Key: string;
     defaultPos1: { x: number; y: number };
     defaultPos10: { x: number; y: number };
+    offsetX?: number;
+    offsetY?: number;
+    anchor?: 'rack1' | 'rack10' | 'auto';
 }
+
+export interface RowPlacement {
+    offsetX?: number;
+    offsetY?: number;
+    anchor?: 'rack1' | 'rack10' | 'auto';
+    visible?: boolean;
+}
+
+export const DEFAULT_HALL_ROW_PLACEMENTS: Record<string, RowPlacement> = {
+    row_01: { offsetX: 0, offsetY: 0, anchor: 'rack1' },
+    row_02: { offsetX: 0, offsetY: 0, anchor: 'rack1' },
+    row_03: { offsetX: -4, offsetY: 0, anchor: 'rack1' }, // Row C dipisah ke kiri
+    row_04: { offsetX: 4, offsetY: 0, anchor: 'rack1' },  // Row D dipisah ke kanan
+    row_05: { offsetX: -4, offsetY: 0, anchor: 'rack1' }, // Row E dipisah ke kiri
+    row_06: { offsetX: 4, offsetY: 0, anchor: 'rack1' },  // Row F dipisah ke kanan
+};
 
 export const HALL_ROW_ITEMS: HallRowItem[] = [
     {
@@ -69,51 +88,84 @@ export const HALL_ROW_ITEMS: HallRowItem[] = [
     }
 ];
 
-interface Level4FloatingRowsProps {
+export interface Level4FloatingRowsProps {
     screenPositions?: Record<string, ScreenPosition>;
+    rowPlacements?: Record<string, RowPlacement>;
     onSelectRow?: (row: HallRowItem) => void;
 }
 
 export const Level4FloatingRows: React.FC<Level4FloatingRowsProps> = ({
     screenPositions,
+    rowPlacements = DEFAULT_HALL_ROW_PLACEMENTS,
     onSelectRow
 }) => {
-    // Computing Summary card bounding box boundary on 100% viewport scale:
-    // Left edge ~2.3% to ~38%, Top edge ~3.5% to ~32%
+    // Helper to detect if a screen coordinate is occluded by the Computing Summary card
     const isUnderComputingCard = (x: number, y: number) => {
-        return x <= 38.0 && y <= 32.0;
+        return x <= 30.0 && y <= 25.0;
     };
 
     return (
         <div className="level4-floating-rows-layer">
             {HALL_ROW_ITEMS.map((row) => {
+                const placement: RowPlacement =
+                    (rowPlacements && (rowPlacements[row.id] || rowPlacements[row.label])) || {
+                        offsetX: row.offsetX ?? 0,
+                        offsetY: row.offsetY ?? 0,
+                        anchor: row.anchor ?? 'rack1'
+                    };
+
                 const pos1 = screenPositions ? screenPositions[row.rack1Key] : undefined;
                 const pos10 = screenPositions ? screenPositions[row.rack10Key] : undefined;
+                const anchor = placement.anchor || row.anchor || 'rack1';
 
-                // Determine whether rack 1 is occluded by static Computing Summary dashboard card
-                const candidate1X = pos1 ? pos1.x : row.defaultPos1.x;
-                const candidate1Y = pos1 ? pos1.y : row.defaultPos1.y;
-                const occludedByCard = isUnderComputingCard(candidate1X, candidate1Y);
+                let chosenX: number;
+                let chosenY: number;
+                let isVisible: boolean;
 
-                // If rack 1 is blocked by card, anchor above rack 10!
-                const chosenX = occludedByCard
-                    ? (pos10 ? pos10.x : row.defaultPos10.x)
-                    : candidate1X;
-                const chosenY = occludedByCard
-                    ? (pos10 ? pos10.y : row.defaultPos10.y)
-                    : candidate1Y;
+                if (anchor === 'rack10') {
+                    chosenX = pos10 ? pos10.x : row.defaultPos10.x;
+                    chosenY = pos10 ? pos10.y : row.defaultPos10.y;
+                    isVisible = pos10 !== undefined ? pos10.visible : true;
+                } else if (anchor === 'auto') {
+                    const c1X = pos1 ? pos1.x : row.defaultPos1.x;
+                    const c1Y = pos1 ? pos1.y : row.defaultPos1.y;
+                    const occluded = isUnderComputingCard(c1X, c1Y);
 
-                const isVisible = occludedByCard
-                    ? (pos10 !== undefined ? pos10.visible : true)
-                    : (pos1 !== undefined ? pos1.visible : true);
+                    if (occluded && pos10 && pos10.visible) {
+                        chosenX = pos10.x;
+                        chosenY = pos10.y;
+                        isVisible = true;
+                    } else {
+                        chosenX = c1X;
+                        chosenY = c1Y;
+                        isVisible = pos1 !== undefined ? pos1.visible : true;
+                    }
+                } else {
+                    // Default: 'rack1' (front aisle/rack of each row)
+                    chosenX = pos1 ? pos1.x : row.defaultPos1.x;
+                    chosenY = pos1 ? pos1.y : row.defaultPos1.y;
+                    isVisible = pos1 !== undefined ? pos1.visible : true;
+                }
+
+                // Explicit override from placement config if set
+                if (placement.visible !== undefined) {
+                    isVisible = placement.visible;
+                }
+
+                // Apply user-configured offsets (just like Country Level)
+                const offsetX = placement.offsetX ?? row.offsetX ?? 0;
+                const offsetY = placement.offsetY ?? row.offsetY ?? 0;
+
+                const finalX = chosenX + offsetX;
+                const finalY = chosenY + offsetY;
 
                 return (
                     <div
                         key={row.id}
                         className="floating-row-btn-container"
                         style={{
-                            left: `${chosenX}%`,
-                            top: `${chosenY}%`,
+                            left: `${finalX}%`,
+                            top: `${finalY}%`,
                             opacity: isVisible ? 1 : 0,
                             pointerEvents: isVisible ? 'auto' : 'none',
                             visibility: isVisible ? 'visible' : 'hidden'

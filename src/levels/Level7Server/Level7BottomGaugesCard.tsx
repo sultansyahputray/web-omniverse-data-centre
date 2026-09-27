@@ -1,5 +1,6 @@
 import React from 'react';
 import { RegionalAvailabilityGauge } from '../../Icons';
+import { getStatus, getStatusColor } from '../../thresholdUtils';
 
 interface Level7BottomGaugesCardProps {
     serverNum?: number;
@@ -7,15 +8,24 @@ interface Level7BottomGaugesCardProps {
     gpuUtil?: number;
     coolingEff?: number;
     powerKW?: string | number;
+    powerLimit?: number;
 }
 
 export const Level7BottomGaugesCard: React.FC<Level7BottomGaugesCardProps> = ({
-    serverNum = 4,
-    cpuUtil = 54,
-    gpuUtil = 58,
-    coolingEff = 58,
-    powerKW = 'XXX'
+    cpuUtil = 35.10,
+    gpuUtil = 36.71,
+    coolingEff = 83.65,
+    powerKW = '2.00',
+    powerLimit = 12.3
 }) => {
+    const numPowerKW = typeof powerKW === 'number' ? powerKW : (parseFloat(powerKW) || 2.00);
+    const powerPct = Math.min(100, Math.max(0, Math.round((numPowerKW / powerLimit) * 100)));
+
+    const cpuColor = getStatusColor(getStatus('trayCpuUtil', cpuUtil));
+    const gpuColor = getStatusColor(getStatus('trayGpuUtil', gpuUtil));
+    const powerColor = getStatusColor(getStatus('trayTotalPower', numPowerKW));
+    const coolingColor = getStatusColor(coolingEff >= 80 ? 'green' : 'yellow');
+
     return (
         <div className="level7-bottom-gauges-card">
             {/* 1. Average CPU Utilization */}
@@ -24,10 +34,10 @@ export const Level7BottomGaugesCard: React.FC<Level7BottomGaugesCardProps> = ({
                     Average<br />CPU Utilization
                 </div>
                 <RegionalAvailabilityGauge
-                    percentage={cpuUtil}
+                    percentage={Math.round(cpuUtil)}
                     size={72}
                     strokeWidth={8}
-                    color="#FFCC00"
+                    color={cpuColor}
                     bgColor="rgba(255, 255, 255, 0.12)"
                 />
             </div>
@@ -38,10 +48,10 @@ export const Level7BottomGaugesCard: React.FC<Level7BottomGaugesCardProps> = ({
                     Average<br />GPU Utilization
                 </div>
                 <RegionalAvailabilityGauge
-                    percentage={gpuUtil}
+                    percentage={Math.round(gpuUtil)}
                     size={72}
                     strokeWidth={8}
-                    color="#FFCC00"
+                    color={gpuColor}
                     bgColor="rgba(255, 255, 255, 0.12)"
                 />
             </div>
@@ -52,14 +62,14 @@ export const Level7BottomGaugesCard: React.FC<Level7BottomGaugesCardProps> = ({
                     Tray Power
                 </div>
                 <RegionalAvailabilityGauge
-                    percentage={68}
+                    percentage={powerPct}
                     size={72}
                     strokeWidth={8}
-                    color="#FFCC00"
+                    color={powerColor}
                     bgColor="rgba(255, 255, 255, 0.12)"
                     customDisplay={
                         <div className="bottom-gauge-power-display">
-                            <span className="power-val">{powerKW}</span>
+                            <span className="power-val">{typeof powerKW === 'number' ? powerKW.toFixed(2) : powerKW}</span>
                             <span className="power-sub">kW</span>
                         </div>
                     }
@@ -72,10 +82,10 @@ export const Level7BottomGaugesCard: React.FC<Level7BottomGaugesCardProps> = ({
                     Cooling<br />Efficiency
                 </div>
                 <RegionalAvailabilityGauge
-                    percentage={coolingEff}
+                    percentage={Math.round(coolingEff)}
                     size={72}
                     strokeWidth={8}
-                    color="#FFCC00"
+                    color={coolingColor}
                     bgColor="rgba(255, 255, 255, 0.12)"
                 />
             </div>

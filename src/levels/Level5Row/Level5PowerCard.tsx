@@ -1,12 +1,15 @@
 import React from 'react';
-import { RegionalAvailabilityGauge } from '../../Icons';
+import { getStatus, getPillClass } from '../../thresholdUtils';
 
 export interface Level5PowerMetrics {
-    activePower?: string;
-    activeRack?: string | number;
-    pue1?: string | number;
-    pue2?: string | number;
-    avgPduLoad?: number;
+    activePower?: number | string;
+    activeServers?: number | string;
+    activeServer?: number | string;
+    activeRack?: number | string;
+    pue?: number | string;
+    pue1?: number | string;
+    avgPowerPerRack?: number | string;
+    activeAlarm?: number;
 }
 
 interface Level5PowerCardProps {
@@ -16,51 +19,62 @@ interface Level5PowerCardProps {
 export const Level5PowerCard: React.FC<Level5PowerCardProps> = ({
     data
 }) => {
-    const activePower = data?.activePower ?? '156.6 kW';
-    const activeRack = data?.activeRack ?? '126';
-    const pue1 = data?.pue1 ?? '1.25';
-    const pue2 = data?.pue2 ?? '1.25';
-    const avgPduLoad = data?.avgPduLoad ?? 61.6;
+    const rawPower = data?.activePower ?? 711.81;
+    const rawServers = data?.activeServers ?? data?.activeServer ?? data?.activeRack ?? 143;
+    const rawPue = data?.pue ?? data?.pue1 ?? 1.09;
+    const rawPowerPerRack = data?.avgPowerPerRack ?? 79.09;
+
+    const powerStatus = getStatus('hallActivePower', rawPower);
+    const pueStatus = getStatus('pue', rawPue);
+    const rackPowerStatus = getStatus('avgPowerPerRack', rawPowerPerRack);
+
+    const formattedPower = typeof rawPower === 'number'
+        ? `${rawPower.toFixed(2)} kW`
+        : `${rawPower}`;
+
+    const formattedPue = typeof rawPue === 'number'
+        ? rawPue.toFixed(3)
+        : `${rawPue}`;
+
+    const formattedRackPower = typeof rawPowerPerRack === 'number'
+        ? `${rawPowerPerRack.toFixed(2)} kW`
+        : `${rawPowerPerRack}`;
 
     return (
-        <div className="level5-row-card level5-power-card" aria-label="Power & Rack Status">
-            {/* Left Metrics Columns */}
-            <div className="level5-metrics-dual-col">
-                {/* Col 1 */}
-                <div className="level5-metric-subcol">
-                    <div className="level5-metric-cell">
-                        <span className="level5-metric-label">Active Power</span>
-                        <div className="summary-pill-gold">{activePower}</div>
-                    </div>
-                    <div className="level5-metric-cell">
-                        <span className="level5-metric-label">PUE</span>
-                        <div className="summary-pill-green">{pue1}</div>
+        <div className="level5-row-card level5-power-pure-card" aria-label="Power Status">
+            {/* 2x2 Grid of Metrics */}
+            <div className="level5-power-grid">
+                {/* Row 1, Col 1: Active Power */}
+                <div className="level5-power-cell">
+                    <span className="level5-metric-label">Active Power</span>
+                    <div className={`summary-pill-common ${getPillClass(powerStatus)}`}>
+                        {formattedPower}
                     </div>
                 </div>
 
-                {/* Col 2 */}
-                <div className="level5-metric-subcol">
-                    <div className="level5-metric-cell">
-                        <span className="level5-metric-label">Active Rack</span>
-                        <div className="summary-pill-navy">{activeRack}</div>
-                    </div>
-                    <div className="level5-metric-cell">
-                        <span className="level5-metric-label">PUE</span>
-                        <div className="summary-pill-green">{pue2}</div>
+                {/* Row 1, Col 2: Active Server */}
+                <div className="level5-power-cell">
+                    <span className="level5-metric-label">Active Server</span>
+                    <div className="summary-pill-common summary-pill-navy">
+                        {rawServers}
                     </div>
                 </div>
-            </div>
 
-            {/* Right Donut Gauge */}
-            <div className="level5-gauge-section">
-                <span className="level5-gauge-label">Avg. PDU Load</span>
-                <RegionalAvailabilityGauge
-                    percentage={avgPduLoad}
-                    size={78}
-                    strokeWidth={8.5}
-                    color="#FFCC00"
-                    bgColor="rgba(255, 255, 255, 0.12)"
-                />
+                {/* Row 2, Col 1: PUE */}
+                <div className="level5-power-cell">
+                    <span className="level5-metric-label">PUE</span>
+                    <div className={`summary-pill-common ${getPillClass(pueStatus)}`}>
+                        {formattedPue}
+                    </div>
+                </div>
+
+                {/* Row 2, Col 2: Avg. Power/Rack */}
+                <div className="level5-power-cell">
+                    <span className="level5-metric-label">Avg. Power/Rack</span>
+                    <div className={`summary-pill-common ${getPillClass(rackPowerStatus)}`}>
+                        {formattedRackPower}
+                    </div>
+                </div>
             </div>
         </div>
     );

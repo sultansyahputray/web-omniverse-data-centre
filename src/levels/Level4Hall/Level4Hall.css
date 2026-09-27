@@ -216,7 +216,65 @@
 }
 
 .level4-card-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
     margin-bottom: 12px;
+}
+
+.level4-header-alarm {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.alarm-title {
+    font-family: 'Inter', system-ui, sans-serif;
+    font-size: 12px;
+    font-weight: 600;
+    color: #e2e8f0;
+    white-space: nowrap;
+}
+
+.level4-alarm-badge {
+    box-sizing: border-box;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 32px;
+    height: 22px;
+    padding: 0 8px;
+    border-radius: 6px;
+    font-family: 'Inter', system-ui, sans-serif;
+    font-size: 13px;
+    font-weight: 800;
+    color: #ffffff;
+    user-select: none;
+}
+
+.level4-alarm-badge.green {
+    background: var(--status-green-bg);
+    border: 1.5px solid var(--status-green-border);
+    box-shadow: 0 0 8px var(--status-green-glow);
+}
+
+.level4-alarm-badge.yellow {
+    background: var(--status-yellow-bg);
+    border: 1.5px solid var(--status-yellow-border);
+    box-shadow: 0 0 8px var(--status-yellow-glow);
+}
+
+.level4-alarm-badge.orange {
+    background: var(--status-orange-bg);
+    border: 1.5px solid var(--status-orange-border);
+    box-shadow: 0 0 8px var(--status-orange-glow);
+}
+
+.level4-alarm-badge.red {
+    background: var(--status-red-bg);
+    border: 1.5px solid var(--status-red-border);
+    box-shadow: 0 0 8px var(--status-red-glow);
 }
 
 .level4-card-title {
@@ -278,8 +336,45 @@
     backdrop-filter: blur(14px);
     -webkit-backdrop-filter: blur(14px);
     box-shadow: 0 10px 32px rgba(0, 0, 0, 0.65), 0 0 18px rgba(0, 192, 232, 0.25);
-    min-width: 320px;
     animation: level4BottomSlideIn 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.level4-power-card {
+    min-width: 440px;
+}
+
+.level4-cooling-card {
+    min-width: 420px;
+}
+
+.level4-cooling-toggle-container {
+    margin-top: 10px;
+    margin-bottom: 8px;
+}
+
+/* 4 HORIZONTAL METRIC COLUMNS FOR POWER SUMMARY */
+.level4-power-metrics-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
+    align-items: center;
+    margin-top: 12px;
+}
+
+.power-metric-col {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+}
+
+.power-metric-col-label {
+    font-family: 'Inter', system-ui, sans-serif;
+    font-size: 12px;
+    font-weight: 600;
+    color: #e2e8f0;
+    text-align: center;
+    white-space: nowrap;
 }
 
 @keyframes level4BottomSlideIn {
@@ -321,6 +416,98 @@
     font-weight: 600;
     color: #e2e8f0;
     white-space: nowrap;
+}
+
+/* Cooling Mode Toggle Bar Styles */
+.cooling-mode-toggle-bar {
+    display: inline-flex;
+    align-items: center;
+    background: linear-gradient(180deg, #244178 0%, #0E1935E5 100%);
+    border: 2px solid #00C0E8;
+    border-radius: 9999px;
+    padding: 0px;
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    user-select: none;
+    position: relative;
+}
+
+.cooling-toggle-btn {
+    background: transparent;
+    border: none;
+    border-radius: 9999px;
+    padding: 6px 18px;
+    color: #ffffff;
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    font-size: 13.5px;
+    font-weight: 700;
+    cursor: pointer;
+    outline: none;
+    transition: all 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+    white-space: nowrap;
+    letter-spacing: 0.3px;
+}
+
+.cooling-toggle-btn.active {
+    background: #00C3D0;
+    color: #ffffff;
+}
+
+.cooling-toggle-btn:not(.active):hover {
+    color: #00E5FF;
+    background: rgba(0, 229, 255, 0.08);
+}
+
+/* Summary Pills Common */
+.summary-pill-common {
+    box-sizing: border-box;
+    border-radius: 6px;
+    padding: 3px 10px;
+    color: #ffffff;
+    font-family: 'Inter', system-ui, sans-serif;
+    font-size: 13.5px;
+    font-weight: 800;
+    min-width: 76px;
+    text-align: center;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    white-space: nowrap;
+}
+
+.summary-pill-common.rc-pill-green,
+.rc-pill-green {
+    background: var(--status-green-bg);
+    border: 1.5px solid var(--status-green-border);
+    box-shadow: 0 2px 8px var(--status-green-glow);
+}
+
+.summary-pill-common.rc-pill-yellow,
+.rc-pill-yellow {
+    background: var(--status-yellow-bg);
+    border: 1.5px solid var(--status-yellow-border);
+    box-shadow: 0 2px 8px var(--status-yellow-glow);
+}
+
+.summary-pill-common.rc-pill-orange,
+.rc-pill-orange {
+    background: var(--status-orange-bg);
+    border: 1.5px solid var(--status-orange-border);
+    box-shadow: 0 2px 8px var(--status-orange-glow);
+}
+
+.summary-pill-common.rc-pill-red,
+.rc-pill-red {
+    background: var(--status-red-bg);
+    border: 1.5px solid var(--status-red-border);
+    box-shadow: 0 2px 8px var(--status-red-glow);
+}
+
+.summary-pill-common.rc-pill-default,
+.rc-pill-default {
+    background: #234d6b;
+    border: 1.5px solid #3c7a9e;
+    box-shadow: 0 2px 8px rgba(35, 77, 107, 0.35);
 }
 
 /* Summary Pills & Level 4 Pills */
@@ -436,6 +623,13 @@
     color: #FFFFFF;
     text-align: center;
     white-space: nowrap;
+}
+
+.level4-bottom-right-stack {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 12px;
 }
 
 .level4-viewcube-anchor {

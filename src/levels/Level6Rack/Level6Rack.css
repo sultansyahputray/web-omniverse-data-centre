@@ -139,14 +139,16 @@
     bottom: 30px;
     right: 44px;
     display: flex;
-    align-items: flex-end;
+    flex-direction: column;
+    align-items: stretch;
+    width: 180px;
+    gap: 12px;
     pointer-events: auto;
     z-index: 30;
 }
 
 .level6-viewcube-anchor {
-    width: 140px;
-    height: 140px;
+    width: 180px;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -329,13 +331,14 @@
     margin-left: 10px;
 }
 
+
 .rack-card-badge {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    width: 70px;
-    min-width: 70px;
-    padding: 3px 12px;
+    min-width: 65px;
+    width: auto;
+    padding: 3px 8px;
     border-radius: 6px;
     font-family: 'Inter', system-ui, -apple-system, sans-serif;
     font-size: 13px;
@@ -373,9 +376,9 @@
 
 .rack-card-param-unit {
     display: inline-block;
-    width: 20px;
-    min-width: 20px;
-    margin-left: 5px;
+    width: 38px;
+    min-width: 38px;
+    margin-left: 6px;
     font-family: 'Inter', system-ui, -apple-system, sans-serif;
     font-size: 13px;
     font-weight: 500;
@@ -384,10 +387,9 @@
 }
 
 .rack-card-param-unit.empty {
-    /* display: none; */
-    width: 20px;
-    min-width: 20px;
-    margin-left: 5;
+    width: 38px;
+    min-width: 38px;
+    margin-left: 6px;
 }
 
 @keyframes rackCardFadeIn {

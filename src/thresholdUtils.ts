@@ -150,12 +150,60 @@ export const getStatus = (param: string, value: number | string): ThresholdStatu
             if ((Number(value) >= 80 && Number(value) < 90) || (Number(value) > 110 && Number(value) <= 120)) return 'yellow';
             return 'red';
 
-        // 5. Average Coolant Inlet Temp (°C): Green: <= 45°C, Yellow: > 45°C - 47°C, Red: > 47°C
+        // 5. Average Coolant Inlet Temp (°C): Green: <= 45.2°C, Yellow: > 45.2°C - 47°C, Red: > 47°C
         case 'avgCoolantInletTemp':
         case 'coolingInletTemp':
-            if (Number(value) <= 45) return 'green';
-            if (Number(value) <= 47) return 'yellow';
+        case 'coolantInletTemp':
+        case 'hallCoolantInletTemp':
+            if (Number(value) <= 45.2) return 'green';
+            if (Number(value) <= 47.0) return 'yellow';
             return 'red';
+
+        case 'avgCoolantOutletTemp':
+        case 'coolantOutletTemp':
+        case 'hallCoolantOutletTemp':
+            if (Number(value) <= 61.5) return 'green';
+            if (Number(value) <= 64.0) return 'yellow';
+            return 'red';
+
+        case 'hallCoolantFlow':
+        case 'coolantFlowLmin':
+            if (Number(value) >= 60 && Number(value) <= 75) return 'green';
+            if (Number(value) > 75 && Number(value) <= 85) return 'yellow';
+            if (Number(value) > 85 && Number(value) <= 95) return 'orange';
+            return 'red';
+
+        case 'avgHallSupplyTemp':
+        case 'hallSupplyTemp':
+            if (Number(value) <= 25.5) return 'green';
+            if (Number(value) <= 27.0) return 'yellow';
+            return 'orange';
+
+        case 'avgHallReturnTemp':
+        case 'hallReturnTemp':
+            if (Number(value) <= 34.0) return 'green';
+            if (Number(value) <= 37.0) return 'yellow';
+            return 'orange';
+
+        // LEVEL 4 HALL POWER & RACKS
+        case 'hallActivePower':
+        case 'activePower':
+        case 'activePowerKW':
+            if (Number(value) <= 900) return 'green';
+            if (Number(value) <= 1200) return 'yellow';
+            if (Number(value) <= 1450) return 'orange';
+            return 'red';
+
+        case 'avgPowerPerRack':
+        case 'powerPerRack':
+            if (Number(value) <= 100) return 'green';
+            if (Number(value) <= 130) return 'yellow';
+            if (Number(value) <= 160) return 'orange';
+            return 'red';
+
+        case 'activeServers':
+        case 'activeServer':
+            return 'default';
 
         // 6. Average Coolant ΔT (°C): Green: 10°C - 15°C, Yellow: 5°C - <10°C or >15°C - 20°C, Red: <5°C or >20°C
         case 'avgCoolantDeltaT':
@@ -380,6 +428,8 @@ export const getStatus = (param: string, value: number | string): ThresholdStatu
 
         case 'airflowCfm':
         case 'airflowRate':
+        case 'airFlow':
+        case 'hallAirFlow':
             if (Number(value) >= 1000 && Number(value) <= 1300) return 'green';
             if (Number(value) > 1300 && Number(value) <= 1600) return 'yellow';
             if (Number(value) > 1600 && Number(value) <= 2000) return 'orange';
@@ -482,6 +532,309 @@ export const getStatus = (param: string, value: number | string): ThresholdStatu
             if (Number(value) > 0.7 && Number(value) <= 1) return 'yellow';
             if (Number(value) > 1 && Number(value) <= 2) return 'orange';
             return 'red';
+
+        // --- LEVEL 7 COMPUTE TRAY SPECIFIC THRESHOLDS ---
+        case 'trayCpuUtil':
+        case 'tray_cpu_util': {
+            const v = Number(value);
+            if (v >= 30 && v <= 70) return 'green';
+            if ((v >= 15 && v < 30) || (v > 70 && v <= 85)) return 'yellow';
+            if ((v >= 8 && v < 15) || (v > 85 && v <= 95)) return 'orange';
+            return 'red';
+        }
+
+        case 'trayGpuUtil':
+        case 'tray_gpu_util': {
+            const v = Number(value);
+            if (v < 40) return 'green';
+            if (v <= 65) return 'yellow';
+            if (v <= 90) return 'orange';
+            return 'red';
+        }
+
+        case 'trayHbmUtil':
+        case 'tray_hbm_util':
+        case 'trayGpuMemUtil': {
+            const v = Number(value);
+            if (v <= 60) return 'green';
+            if (v <= 70) return 'yellow';
+            if (v <= 80) return 'orange';
+            return 'red';
+        }
+
+        case 'trayCpuTemp':
+        case 'tray_cpu_temp': {
+            const v = Number(value);
+            if (v <= 65) return 'green';
+            if (v <= 75) return 'yellow';
+            if (v <= 85) return 'orange';
+            return 'red';
+        }
+
+        case 'trayCoolingCpuTemp':
+        case 'tray_cooling_cpu_temp': {
+            const v = Number(value);
+            if (v <= 60) return 'green';
+            if (v <= 70) return 'yellow';
+            if (v <= 80) return 'orange';
+            return 'red';
+        }
+
+        case 'trayGpuTemp':
+        case 'tray_gpu_temp': {
+            const v = Number(value);
+            if (v <= 65) return 'green';
+            if (v <= 75) return 'yellow';
+            if (v <= 85) return 'orange';
+            return 'red';
+        }
+
+        case 'trayHbmTemp':
+        case 'tray_hbm_temp': {
+            const v = Number(value);
+            if (v <= 60) return 'green';
+            if (v <= 65) return 'yellow';
+            if (v <= 75) return 'orange';
+            return 'red';
+        }
+
+        case 'trayCoolantInletTemp':
+        case 'tray_coolant_inlet_temp': {
+            const v = Number(value);
+            if (v >= 42 && v <= 51) return 'green';
+            if (v > 51 && v <= 58) return 'yellow';
+            if (v > 58 && v <= 65) return 'orange';
+            return 'red';
+        }
+
+        case 'trayCoolantOutletTemp':
+        case 'tray_coolant_outlet_temp': {
+            const v = Number(value);
+            if (v <= 67) return 'green';
+            if (v <= 81) return 'yellow';
+            if (v <= 89) return 'orange';
+            return 'red';
+        }
+
+        case 'trayCoolantFlowRate':
+        case 'tray_coolant_flow_rate': {
+            const v = Number(value);
+            if (v >= 3.67 && v <= 4.61) return 'green';
+            if (v > 4.61 && v <= 5.06) return 'yellow';
+            if (v > 5.06 && v <= 6.00) return 'orange';
+            return 'red';
+        }
+
+        case 'trayLeakDetection':
+        case 'tray_leak_detection':
+        case 'leakDetection':
+        case 'leak_detection': {
+            const s = String(value).toLowerCase();
+            if (s.includes('no leak') || s === 'normal') return 'green';
+            if (s.includes('minor')) return 'yellow';
+            if (s.includes('major')) return 'orange';
+            if (s.includes('critical')) return 'red';
+            return 'green';
+        }
+
+        case 'trayCpuPower':
+        case 'tray_cpu_power': {
+            const v = Number(value);
+            if (v <= 0.583) return 'green';
+            if (v <= 0.972) return 'yellow';
+            if (v <= 1.250) return 'orange';
+            return 'red';
+        }
+
+        case 'trayGpuPower':
+        case 'tray_gpu_power': {
+            const v = Number(value);
+            if (v <= 1.722) return 'green';
+            if (v <= 2.833) return 'yellow';
+            if (v <= 3.667) return 'orange';
+            return 'red';
+        }
+
+        case 'trayTotalPower':
+        case 'tray_total_power': {
+            const v = Number(value);
+            if (v <= 3.889) return 'green';
+            if (v <= 6.667) return 'yellow';
+            if (v <= 8.333) return 'orange';
+            return 'red';
+        }
+
+        case 'trayPowerThrottling':
+        case 'tray_power_throttling': {
+            const v = Number(value);
+            if (v <= 0) return 'green';
+            if (v <= 5) return 'yellow';
+            if (v <= 10) return 'orange';
+            return 'red';
+        }
+
+        // --- LEVEL 8 SUPERCHIP SPECIFIC THRESHOLDS ---
+        case 'scCpuUtil':
+        case 'sc_cpu_util': {
+            const v = Number(value);
+            if (v >= 30 && v <= 70) return 'green';
+            if ((v >= 15 && v < 30) || (v > 70 && v <= 85)) return 'yellow';
+            if ((v >= 8 && v < 15) || (v > 85 && v <= 95)) return 'orange';
+            return 'red';
+        }
+
+        case 'scGpuUtil':
+        case 'sc_gpu_util':
+        case 'scGpu1Util':
+        case 'sc_gpu1_util':
+        case 'scGpu2Util':
+        case 'sc_gpu2_util': {
+            const v = Number(value);
+            if (v < 40) return 'green';
+            if (v <= 65) return 'yellow';
+            if (v <= 90) return 'orange';
+            return 'red';
+        }
+
+        case 'scHbmUtil':
+        case 'sc_hbm_util': {
+            const v = Number(value);
+            if (v <= 60) return 'green';
+            if (v <= 70) return 'yellow';
+            if (v <= 80) return 'orange';
+            return 'red';
+        }
+
+        case 'scCpuTemp':
+        case 'sc_cpu_temp': {
+            const v = Number(value);
+            if (v <= 65) return 'green';
+            if (v <= 75) return 'yellow';
+            if (v <= 85) return 'orange';
+            return 'red';
+        }
+
+        case 'scAvgGpuTemp':
+        case 'sc_avg_gpu_temp': {
+            const v = Number(value);
+            if (v <= 65) return 'green';
+            if (v <= 75) return 'yellow';
+            if (v <= 85) return 'orange';
+            return 'red';
+        }
+
+        case 'scCpuPower':
+        case 'sc_cpu_power': {
+            const v = Number(value);
+            if (v <= 0.23) return 'green';
+            if (v <= 0.35) return 'yellow';
+            if (v <= 0.50) return 'orange';
+            return 'red';
+        }
+
+        case 'scGpu1Power':
+        case 'sc_gpu1_power': {
+            const v = Number(value);
+            if (v <= 0.65) return 'green';
+            if (v <= 1.05) return 'yellow';
+            if (v <= 1.35) return 'orange';
+            return 'red';
+        }
+
+        case 'scGpu2Power':
+        case 'sc_gpu2_power': {
+            const v = Number(value);
+            if (v <= 0.65) return 'green';
+            if (v <= 1.05) return 'yellow';
+            if (v <= 1.40) return 'orange';
+            return 'red';
+        }
+
+        case 'scTotalPower':
+        case 'sc_total_power':
+        case 'superchipTotalPower': {
+            const v = Number(value);
+            if (v <= 1.50) return 'green';
+            if (v <= 2.50) return 'yellow';
+            if (v <= 4.00) return 'orange';
+            return 'red';
+        }
+
+        case 'scPowerThrottling':
+        case 'sc_power_throttling': {
+            const v = Number(value);
+            if (v <= 0) return 'green';
+            if (v <= 5) return 'yellow';
+            if (v <= 10) return 'orange';
+            return 'red';
+        }
+
+        case 'scCoolingCpuTemp':
+        case 'sc_cooling_cpu_temp': {
+            const v = Number(value);
+            if (v <= 60) return 'green';
+            if (v <= 70) return 'yellow';
+            if (v <= 80) return 'orange';
+            return 'red';
+        }
+
+        case 'scGpu1Temp':
+        case 'sc_gpu1_temp':
+        case 'scGpu2Temp':
+        case 'sc_gpu2_temp': {
+            const v = Number(value);
+            if (v <= 65) return 'green';
+            if (v <= 75) return 'yellow';
+            if (v <= 85) return 'orange';
+            return 'red';
+        }
+
+        case 'scHbmTemp':
+        case 'sc_hbm_temp': {
+            const v = Number(value);
+            if (v <= 60) return 'green';
+            if (v <= 65) return 'yellow';
+            if (v <= 75) return 'orange';
+            return 'red';
+        }
+
+        case 'scCoolantInletTemp':
+        case 'sc_coolant_inlet_temp': {
+            const v = Number(value);
+            if (v >= 42 && v <= 51) return 'green';
+            if (v > 51 && v <= 58) return 'yellow';
+            if (v > 58 && v <= 65) return 'orange';
+            return 'red';
+        }
+
+        case 'scCoolantOutletTemp':
+        case 'sc_coolant_outlet_temp': {
+            const v = Number(value);
+            if (v <= 67) return 'green';
+            if (v <= 81) return 'yellow';
+            if (v <= 89) return 'orange';
+            return 'red';
+        }
+
+        case 'scCoolantFlowRate':
+        case 'sc_coolant_flow_rate': {
+            const v = Number(value);
+            if (v >= 3.67 && v <= 4.61) return 'green';
+            if (v > 4.61 && v <= 5.06) return 'yellow';
+            if (v > 5.06 && v <= 6.00) return 'orange';
+            return 'red';
+        }
+
+        case 'scLeakDetection':
+        case 'sc_leak_detection': {
+            const s = String(value).toLowerCase();
+            if (s.includes('no leak') || s === 'normal') return 'green';
+            if (s.includes('minor')) return 'yellow';
+            if (s.includes('major')) return 'orange';
+            if (s.includes('critical')) return 'red';
+            return 'green';
+        }
+
 
         default:
             return 'default';

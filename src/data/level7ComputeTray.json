@@ -1,0 +1,1022 @@
+{
+  "Low Load": {
+    "summary": [
+      {
+        "time": 0,
+        "avgCpuUtil": 35.1,
+        "avgGpuUtil": 36.71,
+        "trayTotalPower": 2.0,
+        "coolingEff": 83.65
+      },
+      {
+        "time": 6,
+        "avgCpuUtil": 34.15,
+        "avgGpuUtil": 39.72,
+        "trayTotalPower": 1.93,
+        "coolingEff": 83.28
+      },
+      {
+        "time": 12,
+        "avgCpuUtil": 31.73,
+        "avgGpuUtil": 38.31,
+        "trayTotalPower": 2.04,
+        "coolingEff": 83.41
+      },
+      {
+        "time": 18,
+        "avgCpuUtil": 34.14,
+        "avgGpuUtil": 42.98,
+        "trayTotalPower": 1.94,
+        "coolingEff": 82.1
+      },
+      {
+        "time": 24,
+        "avgCpuUtil": 30.35,
+        "avgGpuUtil": 36.67,
+        "trayTotalPower": 1.91,
+        "coolingEff": 82.78
+      },
+      {
+        "time": 30,
+        "avgCpuUtil": 34.84,
+        "avgGpuUtil": 40.09,
+        "trayTotalPower": 1.97,
+        "coolingEff": 82.51
+      },
+      {
+        "time": 36,
+        "avgCpuUtil": 35.87,
+        "avgGpuUtil": 39.98,
+        "trayTotalPower": 1.99,
+        "coolingEff": 83.39
+      },
+      {
+        "time": 42,
+        "avgCpuUtil": 31.1,
+        "avgGpuUtil": 36.48,
+        "trayTotalPower": 2.02,
+        "coolingEff": 83.45
+      },
+      {
+        "time": 48,
+        "avgCpuUtil": 31.3,
+        "avgGpuUtil": 38.98,
+        "trayTotalPower": 1.94,
+        "coolingEff": 82.77
+      },
+      {
+        "time": 54,
+        "avgCpuUtil": 31.13,
+        "avgGpuUtil": 42.95,
+        "trayTotalPower": 1.98,
+        "coolingEff": 82.43
+      }
+    ],
+    "computing": [
+      {
+        "time": 0,
+        "avgCpuUtil": 35.1,
+        "avgGpuUtil": 36.714,
+        "avgHbmUtil": 30.86,
+        "avgCpuTemp": 60.8,
+        "avgGpuTemp": 63.02
+      },
+      {
+        "time": 6,
+        "avgCpuUtil": 34.15,
+        "avgGpuUtil": 39.716,
+        "avgHbmUtil": 34.46,
+        "avgCpuTemp": 61.1,
+        "avgGpuTemp": 63.25
+      },
+      {
+        "time": 12,
+        "avgCpuUtil": 31.73,
+        "avgGpuUtil": 38.309,
+        "avgHbmUtil": 34.75,
+        "avgCpuTemp": 60.6,
+        "avgGpuTemp": 62.83
+      },
+      {
+        "time": 18,
+        "avgCpuUtil": 34.14,
+        "avgGpuUtil": 42.978,
+        "avgHbmUtil": 33.27,
+        "avgCpuTemp": 60.8,
+        "avgGpuTemp": 62.91
+      },
+      {
+        "time": 24,
+        "avgCpuUtil": 30.35,
+        "avgGpuUtil": 36.671,
+        "avgHbmUtil": 35.28,
+        "avgCpuTemp": 60.8,
+        "avgGpuTemp": 62.85
+      },
+      {
+        "time": 30,
+        "avgCpuUtil": 34.84,
+        "avgGpuUtil": 40.093,
+        "avgHbmUtil": 31.85,
+        "avgCpuTemp": 61.5,
+        "avgGpuTemp": 63.69
+      },
+      {
+        "time": 36,
+        "avgCpuUtil": 35.87,
+        "avgGpuUtil": 39.977,
+        "avgHbmUtil": 33.25,
+        "avgCpuTemp": 61.3,
+        "avgGpuTemp": 63.49
+      },
+      {
+        "time": 42,
+        "avgCpuUtil": 31.1,
+        "avgGpuUtil": 36.482,
+        "avgHbmUtil": 32.2,
+        "avgCpuTemp": 60.1,
+        "avgGpuTemp": 62.28
+      },
+      {
+        "time": 48,
+        "avgCpuUtil": 31.3,
+        "avgGpuUtil": 38.976,
+        "avgHbmUtil": 31.61,
+        "avgCpuTemp": 55.5,
+        "avgGpuTemp": 57.67
+      },
+      {
+        "time": 54,
+        "avgCpuUtil": 31.13,
+        "avgGpuUtil": 42.949,
+        "avgHbmUtil": 30.79,
+        "avgCpuTemp": 60.9,
+        "avgGpuTemp": 63.12
+      }
+    ],
+    "power": [
+      {
+        "time": 0,
+        "cpuPower": 0.3,
+        "gpuPower": 1.7,
+        "trayTotalPower": 2.0,
+        "powerLimit": 12.3,
+        "powerThrottling": 0.0
+      },
+      {
+        "time": 6,
+        "cpuPower": 0.29,
+        "gpuPower": 1.643,
+        "trayTotalPower": 1.933,
+        "powerLimit": 12.3,
+        "powerThrottling": 0.0
+      },
+      {
+        "time": 12,
+        "cpuPower": 0.306,
+        "gpuPower": 1.733,
+        "trayTotalPower": 2.038,
+        "powerLimit": 12.3,
+        "powerThrottling": 0.0
+      },
+      {
+        "time": 18,
+        "cpuPower": 0.291,
+        "gpuPower": 1.647,
+        "trayTotalPower": 1.938,
+        "powerLimit": 12.3,
+        "powerThrottling": 0.0
+      },
+      {
+        "time": 24,
+        "cpuPower": 0.287,
+        "gpuPower": 1.626,
+        "trayTotalPower": 1.913,
+        "powerLimit": 12.3,
+        "powerThrottling": 0.0
+      },
+      {
+        "time": 30,
+        "cpuPower": 0.296,
+        "gpuPower": 1.676,
+        "trayTotalPower": 1.972,
+        "powerLimit": 12.3,
+        "powerThrottling": 0.0
+      },
+      {
+        "time": 36,
+        "cpuPower": 0.298,
+        "gpuPower": 1.688,
+        "trayTotalPower": 1.986,
+        "powerLimit": 12.3,
+        "powerThrottling": 0.0
+      },
+      {
+        "time": 42,
+        "cpuPower": 0.303,
+        "gpuPower": 1.714,
+        "trayTotalPower": 2.017,
+        "powerLimit": 12.3,
+        "powerThrottling": 0.0
+      },
+      {
+        "time": 48,
+        "cpuPower": 0.292,
+        "gpuPower": 1.653,
+        "trayTotalPower": 1.945,
+        "powerLimit": 12.3,
+        "powerThrottling": 0.0
+      },
+      {
+        "time": 54,
+        "cpuPower": 0.297,
+        "gpuPower": 1.683,
+        "trayTotalPower": 1.98,
+        "powerLimit": 12.3,
+        "powerThrottling": 0.0
+      }
+    ],
+    "cooling": [
+      {
+        "time": 0,
+        "avgCpuTemp": 60.83,
+        "avgGpuTemp": 63.0,
+        "avgHbmTemp": 66.18,
+        "avgCoolantInletTemp": 44.54,
+        "avgCoolantOutletTemp": 60.27,
+        "avgCoolantFlowRate": 3.45,
+        "leakDetection": "Leak Minor"
+      },
+      {
+        "time": 6,
+        "avgCpuTemp": 61.13,
+        "avgGpuTemp": 63.2,
+        "avgHbmTemp": 66.3,
+        "avgCoolantInletTemp": 45.88,
+        "avgCoolantOutletTemp": 60.59,
+        "avgCoolantFlowRate": 3.42,
+        "leakDetection": "Leak Minor"
+      },
+      {
+        "time": 12,
+        "avgCpuTemp": 60.59,
+        "avgGpuTemp": 62.8,
+        "avgHbmTemp": 66.05,
+        "avgCoolantInletTemp": 44.33,
+        "avgCoolantOutletTemp": 60.02,
+        "avgCoolantFlowRate": 3.75,
+        "leakDetection": "No Leak"
+      },
+      {
+        "time": 18,
+        "avgCpuTemp": 60.79,
+        "avgGpuTemp": 62.9,
+        "avgHbmTemp": 65.97,
+        "avgCoolantInletTemp": 44.82,
+        "avgCoolantOutletTemp": 60.25,
+        "avgCoolantFlowRate": 3.53,
+        "leakDetection": "Leak Minor"
+      },
+      {
+        "time": 24,
+        "avgCpuTemp": 60.75,
+        "avgGpuTemp": 62.9,
+        "avgHbmTemp": 65.88,
+        "avgCoolantInletTemp": 44.45,
+        "avgCoolantOutletTemp": 60.22,
+        "avgCoolantFlowRate": 3.62,
+        "leakDetection": "Leak Minor"
+      },
+      {
+        "time": 30,
+        "avgCpuTemp": 61.53,
+        "avgGpuTemp": 63.7,
+        "avgHbmTemp": 66.81,
+        "avgCoolantInletTemp": 44.84,
+        "avgCoolantOutletTemp": 60.98,
+        "avgCoolantFlowRate": 3.58,
+        "leakDetection": "Leak Minor"
+      },
+      {
+        "time": 36,
+        "avgCpuTemp": 61.32,
+        "avgGpuTemp": 63.5,
+        "avgHbmTemp": 66.63,
+        "avgCoolantInletTemp": 45.0,
+        "avgCoolantOutletTemp": 60.76,
+        "avgCoolantFlowRate": 3.78,
+        "leakDetection": "No Leak"
+      },
+      {
+        "time": 42,
+        "avgCpuTemp": 60.07,
+        "avgGpuTemp": 62.3,
+        "avgHbmTemp": 65.47,
+        "avgCoolantInletTemp": 44.52,
+        "avgCoolantOutletTemp": 59.51,
+        "avgCoolantFlowRate": 3.56,
+        "leakDetection": "Leak Minor"
+      },
+      {
+        "time": 48,
+        "avgCpuTemp": 55.54,
+        "avgGpuTemp": 57.7,
+        "avgHbmTemp": 60.75,
+        "avgCoolantInletTemp": 45.0,
+        "avgCoolantOutletTemp": 55.0,
+        "avgCoolantFlowRate": 3.75,
+        "leakDetection": "No Leak"
+      },
+      {
+        "time": 54,
+        "avgCpuTemp": 60.95,
+        "avgGpuTemp": 63.1,
+        "avgHbmTemp": 66.24,
+        "avgCoolantInletTemp": 44.88,
+        "avgCoolantOutletTemp": 60.39,
+        "avgCoolantFlowRate": 3.76,
+        "leakDetection": "No Leak"
+      }
+    ]
+  },
+  "Medium Load": {
+    "summary": [
+      {
+        "time": 0,
+        "avgCpuUtil": 57.16,
+        "avgGpuUtil": 69.17,
+        "trayTotalPower": 3.26,
+        "coolingEff": 87.3
+      },
+      {
+        "time": 6,
+        "avgCpuUtil": 54.87,
+        "avgGpuUtil": 70.51,
+        "trayTotalPower": 3.12,
+        "coolingEff": 84.77
+      },
+      {
+        "time": 12,
+        "avgCpuUtil": 58.48,
+        "avgGpuUtil": 69.76,
+        "trayTotalPower": 3.07,
+        "coolingEff": 81.56
+      },
+      {
+        "time": 18,
+        "avgCpuUtil": 58.73,
+        "avgGpuUtil": 68.92,
+        "trayTotalPower": 3.19,
+        "coolingEff": 83.95
+      },
+      {
+        "time": 24,
+        "avgCpuUtil": 52.14,
+        "avgGpuUtil": 71.6,
+        "trayTotalPower": 3.24,
+        "coolingEff": 80.38
+      },
+      {
+        "time": 30,
+        "avgCpuUtil": 55.78,
+        "avgGpuUtil": 68.43,
+        "trayTotalPower": 3.28,
+        "coolingEff": 84.92
+      },
+      {
+        "time": 36,
+        "avgCpuUtil": 52.42,
+        "avgGpuUtil": 71.34,
+        "trayTotalPower": 3.13,
+        "coolingEff": 80.4
+      },
+      {
+        "time": 42,
+        "avgCpuUtil": 55.37,
+        "avgGpuUtil": 71.43,
+        "trayTotalPower": 3.17,
+        "coolingEff": 82.42
+      },
+      {
+        "time": 48,
+        "avgCpuUtil": 52.75,
+        "avgGpuUtil": 70.17,
+        "trayTotalPower": 3.33,
+        "coolingEff": 84.03
+      },
+      {
+        "time": 54,
+        "avgCpuUtil": 56.56,
+        "avgGpuUtil": 72.83,
+        "trayTotalPower": 3.14,
+        "coolingEff": 90.53
+      }
+    ],
+    "computing": [
+      {
+        "time": 0,
+        "avgCpuUtil": 57.16,
+        "avgGpuUtil": 69.165,
+        "avgHbmUtil": 53.77,
+        "avgCpuTemp": 62.1,
+        "avgGpuTemp": 65.73
+      },
+      {
+        "time": 6,
+        "avgCpuUtil": 54.87,
+        "avgGpuUtil": 70.514,
+        "avgHbmUtil": 52.62,
+        "avgCpuTemp": 62.3,
+        "avgGpuTemp": 65.7
+      },
+      {
+        "time": 12,
+        "avgCpuUtil": 58.48,
+        "avgGpuUtil": 69.76,
+        "avgHbmUtil": 55.4,
+        "avgCpuTemp": 62.5,
+        "avgGpuTemp": 65.84
+      },
+      {
+        "time": 18,
+        "avgCpuUtil": 58.73,
+        "avgGpuUtil": 68.919,
+        "avgHbmUtil": 56.76,
+        "avgCpuTemp": 61.8,
+        "avgGpuTemp": 65.35
+      },
+      {
+        "time": 24,
+        "avgCpuUtil": 52.14,
+        "avgGpuUtil": 71.601,
+        "avgHbmUtil": 55.75,
+        "avgCpuTemp": 61.9,
+        "avgGpuTemp": 65.52
+      },
+      {
+        "time": 30,
+        "avgCpuUtil": 55.78,
+        "avgGpuUtil": 68.426,
+        "avgHbmUtil": 57.8,
+        "avgCpuTemp": 62.0,
+        "avgGpuTemp": 65.61
+      },
+      {
+        "time": 36,
+        "avgCpuUtil": 52.42,
+        "avgGpuUtil": 71.34,
+        "avgHbmUtil": 51.82,
+        "avgCpuTemp": 62.4,
+        "avgGpuTemp": 65.89
+      },
+      {
+        "time": 42,
+        "avgCpuUtil": 55.37,
+        "avgGpuUtil": 71.427,
+        "avgHbmUtil": 53.29,
+        "avgCpuTemp": 61.0,
+        "avgGpuTemp": 64.49
+      },
+      {
+        "time": 48,
+        "avgCpuUtil": 52.75,
+        "avgGpuUtil": 70.166,
+        "avgHbmUtil": 52.25,
+        "avgCpuTemp": 61.4,
+        "avgGpuTemp": 65.1
+      },
+      {
+        "time": 54,
+        "avgCpuUtil": 56.56,
+        "avgGpuUtil": 72.834,
+        "avgHbmUtil": 51.15,
+        "avgCpuTemp": 61.6,
+        "avgGpuTemp": 65.06
+      }
+    ],
+    "power": [
+      {
+        "time": 0,
+        "cpuPower": 0.489,
+        "gpuPower": 2.773,
+        "trayTotalPower": 3.262,
+        "powerLimit": 12.3,
+        "powerThrottling": 0.0
+      },
+      {
+        "time": 6,
+        "cpuPower": 0.467,
+        "gpuPower": 2.648,
+        "trayTotalPower": 3.116,
+        "powerLimit": 12.3,
+        "powerThrottling": 0.0
+      },
+      {
+        "time": 12,
+        "cpuPower": 0.461,
+        "gpuPower": 2.612,
+        "trayTotalPower": 3.073,
+        "powerLimit": 12.3,
+        "powerThrottling": 0.0
+      },
+      {
+        "time": 18,
+        "cpuPower": 0.479,
+        "gpuPower": 2.714,
+        "trayTotalPower": 3.193,
+        "powerLimit": 12.3,
+        "powerThrottling": 0.0
+      },
+      {
+        "time": 24,
+        "cpuPower": 0.487,
+        "gpuPower": 2.758,
+        "trayTotalPower": 3.244,
+        "powerLimit": 12.3,
+        "powerThrottling": 0.0
+      },
+      {
+        "time": 30,
+        "cpuPower": 0.492,
+        "gpuPower": 2.785,
+        "trayTotalPower": 3.277,
+        "powerLimit": 12.3,
+        "powerThrottling": 0.0
+      },
+      {
+        "time": 36,
+        "cpuPower": 0.47,
+        "gpuPower": 2.664,
+        "trayTotalPower": 3.135,
+        "powerLimit": 12.3,
+        "powerThrottling": 0.0
+      },
+      {
+        "time": 42,
+        "cpuPower": 0.475,
+        "gpuPower": 2.691,
+        "trayTotalPower": 3.166,
+        "powerLimit": 12.3,
+        "powerThrottling": 0.0
+      },
+      {
+        "time": 48,
+        "cpuPower": 0.5,
+        "gpuPower": 2.831,
+        "trayTotalPower": 3.331,
+        "powerLimit": 12.3,
+        "powerThrottling": 0.0
+      },
+      {
+        "time": 54,
+        "cpuPower": 0.47,
+        "gpuPower": 2.666,
+        "trayTotalPower": 3.136,
+        "powerLimit": 12.3,
+        "powerThrottling": 0.0
+      }
+    ],
+    "cooling": [
+      {
+        "time": 0,
+        "avgCpuTemp": 62.14,
+        "avgGpuTemp": 65.7,
+        "avgHbmTemp": 70.82,
+        "avgCoolantInletTemp": 44.42,
+        "avgCoolantOutletTemp": 61.23,
+        "avgCoolantFlowRate": 4.21,
+        "leakDetection": "No Leak"
+      },
+      {
+        "time": 6,
+        "avgCpuTemp": 62.26,
+        "avgGpuTemp": 65.7,
+        "avgHbmTemp": 70.56,
+        "avgCoolantInletTemp": 44.46,
+        "avgCoolantOutletTemp": 61.39,
+        "avgCoolantFlowRate": 4.41,
+        "leakDetection": "No Leak"
+      },
+      {
+        "time": 12,
+        "avgCpuTemp": 62.46,
+        "avgGpuTemp": 65.8,
+        "avgHbmTemp": 70.64,
+        "avgCoolantInletTemp": 44.11,
+        "avgCoolantOutletTemp": 61.6,
+        "avgCoolantFlowRate": 4.16,
+        "leakDetection": "No Leak"
+      },
+      {
+        "time": 18,
+        "avgCpuTemp": 61.83,
+        "avgGpuTemp": 65.3,
+        "avgHbmTemp": 70.33,
+        "avgCoolantInletTemp": 44.18,
+        "avgCoolantOutletTemp": 60.94,
+        "avgCoolantFlowRate": 4.31,
+        "leakDetection": "No Leak"
+      },
+      {
+        "time": 24,
+        "avgCpuTemp": 61.95,
+        "avgGpuTemp": 65.5,
+        "avgHbmTemp": 70.59,
+        "avgCoolantInletTemp": 45.16,
+        "avgCoolantOutletTemp": 61.04,
+        "avgCoolantFlowRate": 4.3,
+        "leakDetection": "No Leak"
+      },
+      {
+        "time": 30,
+        "avgCpuTemp": 62.0,
+        "avgGpuTemp": 65.6,
+        "avgHbmTemp": 70.72,
+        "avgCoolantInletTemp": 44.88,
+        "avgCoolantOutletTemp": 61.08,
+        "avgCoolantFlowRate": 4.21,
+        "leakDetection": "No Leak"
+      },
+      {
+        "time": 36,
+        "avgCpuTemp": 62.43,
+        "avgGpuTemp": 65.9,
+        "avgHbmTemp": 70.78,
+        "avgCoolantInletTemp": 45.65,
+        "avgCoolantOutletTemp": 61.56,
+        "avgCoolantFlowRate": 4.35,
+        "leakDetection": "No Leak"
+      },
+      {
+        "time": 42,
+        "avgCpuTemp": 61.0,
+        "avgGpuTemp": 64.5,
+        "avgHbmTemp": 69.43,
+        "avgCoolantInletTemp": 45.32,
+        "avgCoolantOutletTemp": 60.11,
+        "avgCoolantFlowRate": 4.44,
+        "leakDetection": "No Leak"
+      },
+      {
+        "time": 48,
+        "avgCpuTemp": 61.43,
+        "avgGpuTemp": 65.1,
+        "avgHbmTemp": 70.3,
+        "avgCoolantInletTemp": 44.2,
+        "avgCoolantOutletTemp": 60.5,
+        "avgCoolantFlowRate": 4.27,
+        "leakDetection": "No Leak"
+      },
+      {
+        "time": 54,
+        "avgCpuTemp": 61.61,
+        "avgGpuTemp": 65.1,
+        "avgHbmTemp": 69.96,
+        "avgCoolantInletTemp": 44.64,
+        "avgCoolantOutletTemp": 60.73,
+        "avgCoolantFlowRate": 3.78,
+        "leakDetection": "No Leak"
+      }
+    ]
+  },
+  "High Load": {
+    "summary": [
+      {
+        "time": 0,
+        "avgCpuUtil": 76.31,
+        "avgGpuUtil": 87.82,
+        "trayTotalPower": 4.15,
+        "coolingEff": 83.72
+      },
+      {
+        "time": 6,
+        "avgCpuUtil": 68.48,
+        "avgGpuUtil": 88.06,
+        "trayTotalPower": 4.34,
+        "coolingEff": 86.32
+      },
+      {
+        "time": 12,
+        "avgCpuUtil": 73.88,
+        "avgGpuUtil": 93.2,
+        "trayTotalPower": 4.15,
+        "coolingEff": 82.17
+      },
+      {
+        "time": 18,
+        "avgCpuUtil": 75.48,
+        "avgGpuUtil": 93.3,
+        "trayTotalPower": 4.27,
+        "coolingEff": 90.24
+      },
+      {
+        "time": 24,
+        "avgCpuUtil": 77.59,
+        "avgGpuUtil": 90.46,
+        "trayTotalPower": 4.11,
+        "coolingEff": 83.29
+      },
+      {
+        "time": 30,
+        "avgCpuUtil": 67.54,
+        "avgGpuUtil": 88.32,
+        "trayTotalPower": 4.08,
+        "coolingEff": 83.3
+      },
+      {
+        "time": 36,
+        "avgCpuUtil": 67.37,
+        "avgGpuUtil": 90.5,
+        "trayTotalPower": 4.14,
+        "coolingEff": 89.08
+      },
+      {
+        "time": 42,
+        "avgCpuUtil": 76.34,
+        "avgGpuUtil": 96.91,
+        "trayTotalPower": 4.12,
+        "coolingEff": 88.43
+      },
+      {
+        "time": 48,
+        "avgCpuUtil": 68.57,
+        "avgGpuUtil": 93.95,
+        "trayTotalPower": 4.3,
+        "coolingEff": 80.91
+      },
+      {
+        "time": 54,
+        "avgCpuUtil": 74.5,
+        "avgGpuUtil": 90.22,
+        "trayTotalPower": 4.08,
+        "coolingEff": 81.78
+      }
+    ],
+    "computing": [
+      {
+        "time": 0,
+        "avgCpuUtil": 76.31,
+        "avgGpuUtil": 87.816,
+        "avgHbmUtil": 78.32,
+        "avgCpuTemp": 63.0,
+        "avgGpuTemp": 67.55
+      },
+      {
+        "time": 6,
+        "avgCpuUtil": 68.48,
+        "avgGpuUtil": 88.056,
+        "avgHbmUtil": 78.24,
+        "avgCpuTemp": 62.9,
+        "avgGpuTemp": 67.73
+      },
+      {
+        "time": 12,
+        "avgCpuUtil": 73.88,
+        "avgGpuUtil": 93.204,
+        "avgHbmUtil": 82.83,
+        "avgCpuTemp": 62.9,
+        "avgGpuTemp": 67.48
+      },
+      {
+        "time": 18,
+        "avgCpuUtil": 75.48,
+        "avgGpuUtil": 93.3,
+        "avgHbmUtil": 78.4,
+        "avgCpuTemp": 63.7,
+        "avgGpuTemp": 68.45
+      },
+      {
+        "time": 24,
+        "avgCpuUtil": 77.59,
+        "avgGpuUtil": 90.456,
+        "avgHbmUtil": 77.31,
+        "avgCpuTemp": 63.2,
+        "avgGpuTemp": 67.8
+      },
+      {
+        "time": 30,
+        "avgCpuUtil": 67.54,
+        "avgGpuUtil": 88.32,
+        "avgHbmUtil": 78.88,
+        "avgCpuTemp": 62.8,
+        "avgGpuTemp": 67.36
+      },
+      {
+        "time": 36,
+        "avgCpuUtil": 67.37,
+        "avgGpuUtil": 90.504,
+        "avgHbmUtil": 78.19,
+        "avgCpuTemp": 62.6,
+        "avgGpuTemp": 67.16
+      },
+      {
+        "time": 42,
+        "avgCpuUtil": 76.34,
+        "avgGpuUtil": 96.912,
+        "avgHbmUtil": 79.57,
+        "avgCpuTemp": 63.0,
+        "avgGpuTemp": 67.51
+      },
+      {
+        "time": 48,
+        "avgCpuUtil": 68.57,
+        "avgGpuUtil": 93.948,
+        "avgHbmUtil": 78.7,
+        "avgCpuTemp": 62.9,
+        "avgGpuTemp": 67.62
+      },
+      {
+        "time": 54,
+        "avgCpuUtil": 74.5,
+        "avgGpuUtil": 90.216,
+        "avgHbmUtil": 80.71,
+        "avgCpuTemp": 63.5,
+        "avgGpuTemp": 68.02
+      }
+    ],
+    "power": [
+      {
+        "time": 0,
+        "cpuPower": 0.622,
+        "gpuPower": 3.524,
+        "trayTotalPower": 4.146,
+        "powerLimit": 12.3,
+        "powerThrottling": 0.0
+      },
+      {
+        "time": 6,
+        "cpuPower": 0.651,
+        "gpuPower": 3.687,
+        "trayTotalPower": 4.338,
+        "powerLimit": 12.3,
+        "powerThrottling": 0.0
+      },
+      {
+        "time": 12,
+        "cpuPower": 0.623,
+        "gpuPower": 3.528,
+        "trayTotalPower": 4.151,
+        "powerLimit": 12.3,
+        "powerThrottling": 0.0
+      },
+      {
+        "time": 18,
+        "cpuPower": 0.641,
+        "gpuPower": 3.632,
+        "trayTotalPower": 4.273,
+        "powerLimit": 12.3,
+        "powerThrottling": 0.0
+      },
+      {
+        "time": 24,
+        "cpuPower": 0.617,
+        "gpuPower": 3.494,
+        "trayTotalPower": 4.111,
+        "powerLimit": 12.3,
+        "powerThrottling": 0.0
+      },
+      {
+        "time": 30,
+        "cpuPower": 0.611,
+        "gpuPower": 3.465,
+        "trayTotalPower": 4.076,
+        "powerLimit": 12.3,
+        "powerThrottling": 0.0
+      },
+      {
+        "time": 36,
+        "cpuPower": 0.621,
+        "gpuPower": 3.522,
+        "trayTotalPower": 4.143,
+        "powerLimit": 12.3,
+        "powerThrottling": 0.0
+      },
+      {
+        "time": 42,
+        "cpuPower": 0.618,
+        "gpuPower": 3.5,
+        "trayTotalPower": 4.118,
+        "powerLimit": 12.3,
+        "powerThrottling": 0.0
+      },
+      {
+        "time": 48,
+        "cpuPower": 0.645,
+        "gpuPower": 3.655,
+        "trayTotalPower": 4.299,
+        "powerLimit": 12.3,
+        "powerThrottling": 0.0
+      },
+      {
+        "time": 54,
+        "cpuPower": 0.612,
+        "gpuPower": 3.468,
+        "trayTotalPower": 4.08,
+        "powerLimit": 12.3,
+        "powerThrottling": 0.0
+      }
+    ],
+    "cooling": [
+      {
+        "time": 0,
+        "avgCpuTemp": 63.0,
+        "avgGpuTemp": 67.6,
+        "avgHbmTemp": 74.0,
+        "avgCoolantInletTemp": 44.34,
+        "avgCoolantOutletTemp": 61.81,
+        "avgCoolantFlowRate": 4.98,
+        "leakDetection": "Leak Minor"
+      },
+      {
+        "time": 6,
+        "avgCpuTemp": 62.9,
+        "avgGpuTemp": 67.7,
+        "avgHbmTemp": 74.4,
+        "avgCoolantInletTemp": 44.78,
+        "avgCoolantOutletTemp": 61.71,
+        "avgCoolantFlowRate": 4.94,
+        "leakDetection": "Leak Minor"
+      },
+      {
+        "time": 12,
+        "avgCpuTemp": 62.9,
+        "avgGpuTemp": 67.5,
+        "avgHbmTemp": 73.9,
+        "avgCoolantInletTemp": 44.55,
+        "avgCoolantOutletTemp": 61.73,
+        "avgCoolantFlowRate": 4.83,
+        "leakDetection": "Leak Minor"
+      },
+      {
+        "time": 18,
+        "avgCpuTemp": 63.7,
+        "avgGpuTemp": 68.5,
+        "avgHbmTemp": 75.0,
+        "avgCoolantInletTemp": 44.45,
+        "avgCoolantOutletTemp": 62.53,
+        "avgCoolantFlowRate": 4.72,
+        "leakDetection": "Leak Minor"
+      },
+      {
+        "time": 24,
+        "avgCpuTemp": 63.2,
+        "avgGpuTemp": 67.8,
+        "avgHbmTemp": 74.1,
+        "avgCoolantInletTemp": 44.65,
+        "avgCoolantOutletTemp": 62.1,
+        "avgCoolantFlowRate": 4.92,
+        "leakDetection": "Leak Minor"
+      },
+      {
+        "time": 30,
+        "avgCpuTemp": 62.8,
+        "avgGpuTemp": 67.4,
+        "avgHbmTemp": 73.7,
+        "avgCoolantInletTemp": 45.45,
+        "avgCoolantOutletTemp": 61.71,
+        "avgCoolantFlowRate": 4.91,
+        "leakDetection": "Leak Minor"
+      },
+      {
+        "time": 36,
+        "avgCpuTemp": 62.6,
+        "avgGpuTemp": 67.2,
+        "avgHbmTemp": 73.6,
+        "avgCoolantInletTemp": 45.82,
+        "avgCoolantOutletTemp": 61.42,
+        "avgCoolantFlowRate": 4.89,
+        "leakDetection": "Leak Minor"
+      },
+      {
+        "time": 42,
+        "avgCpuTemp": 63.0,
+        "avgGpuTemp": 67.5,
+        "avgHbmTemp": 73.9,
+        "avgCoolantInletTemp": 45.43,
+        "avgCoolantOutletTemp": 61.81,
+        "avgCoolantFlowRate": 4.81,
+        "leakDetection": "Leak Minor"
+      },
+      {
+        "time": 48,
+        "avgCpuTemp": 62.9,
+        "avgGpuTemp": 67.6,
+        "avgHbmTemp": 74.3,
+        "avgCoolantInletTemp": 45.74,
+        "avgCoolantOutletTemp": 61.66,
+        "avgCoolantFlowRate": 5.03,
+        "leakDetection": "Leak Minor"
+      },
+      {
+        "time": 54,
+        "avgCpuTemp": 63.5,
+        "avgGpuTemp": 68.0,
+        "avgHbmTemp": 74.3,
+        "avgCoolantInletTemp": 44.7,
+        "avgCoolantOutletTemp": 62.36,
+        "avgCoolantFlowRate": 3.78,
+        "leakDetection": "No Leak"
+      }
+    ]
+  }
+}

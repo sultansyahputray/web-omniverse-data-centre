@@ -1,0 +1,1112 @@
+{
+  "Low Load": {
+    "summary": [
+      {
+        "time": 0,
+        "avgCpuUtil": 35.1,
+        "avgGpuUtil": 36.71,
+        "superchipTotalPower": 2.0,
+        "coolingEff": 83.65
+      },
+      {
+        "time": 6,
+        "avgCpuUtil": 34.15,
+        "avgGpuUtil": 39.72,
+        "superchipTotalPower": 1.93,
+        "coolingEff": 83.28
+      },
+      {
+        "time": 12,
+        "avgCpuUtil": 31.73,
+        "avgGpuUtil": 38.31,
+        "superchipTotalPower": 2.04,
+        "coolingEff": 83.41
+      },
+      {
+        "time": 18,
+        "avgCpuUtil": 34.14,
+        "avgGpuUtil": 42.98,
+        "superchipTotalPower": 1.94,
+        "coolingEff": 82.1
+      },
+      {
+        "time": 24,
+        "avgCpuUtil": 30.35,
+        "avgGpuUtil": 36.67,
+        "superchipTotalPower": 1.91,
+        "coolingEff": 82.78
+      },
+      {
+        "time": 30,
+        "avgCpuUtil": 34.84,
+        "avgGpuUtil": 40.09,
+        "superchipTotalPower": 1.97,
+        "coolingEff": 82.51
+      },
+      {
+        "time": 36,
+        "avgCpuUtil": 35.87,
+        "avgGpuUtil": 39.98,
+        "superchipTotalPower": 1.99,
+        "coolingEff": 83.39
+      },
+      {
+        "time": 42,
+        "avgCpuUtil": 31.1,
+        "avgGpuUtil": 36.48,
+        "superchipTotalPower": 2.02,
+        "coolingEff": 83.45
+      },
+      {
+        "time": 48,
+        "avgCpuUtil": 31.3,
+        "avgGpuUtil": 38.98,
+        "superchipTotalPower": 1.94,
+        "coolingEff": 82.77
+      },
+      {
+        "time": 54,
+        "avgCpuUtil": 31.13,
+        "avgGpuUtil": 42.95,
+        "superchipTotalPower": 1.98,
+        "coolingEff": 82.43
+      }
+    ],
+    "computing": [
+      {
+        "time": 0,
+        "cpuUtil": 35.1,
+        "gpu1Util": 36.032,
+        "gpu2Util": 37.396,
+        "hbmUtil": 30.86,
+        "cpuTemp": 60.8,
+        "avgGpuTemp": 65.7
+      },
+      {
+        "time": 6,
+        "cpuUtil": 34.15,
+        "gpu1Util": 38.977,
+        "gpu2Util": 40.454,
+        "hbmUtil": 34.46,
+        "cpuTemp": 61.1,
+        "avgGpuTemp": 65.83
+      },
+      {
+        "time": 12,
+        "cpuUtil": 31.73,
+        "gpu1Util": 37.597,
+        "gpu2Util": 39.021,
+        "hbmUtil": 34.75,
+        "cpuTemp": 60.6,
+        "avgGpuTemp": 65.56
+      },
+      {
+        "time": 18,
+        "cpuUtil": 34.14,
+        "gpu1Util": 42.179,
+        "gpu2Util": 43.777,
+        "hbmUtil": 33.27,
+        "cpuTemp": 60.8,
+        "avgGpuTemp": 65.5
+      },
+      {
+        "time": 24,
+        "cpuUtil": 30.35,
+        "gpu1Util": 35.989,
+        "gpu2Util": 37.352,
+        "hbmUtil": 35.28,
+        "cpuTemp": 60.8,
+        "avgGpuTemp": 65.41
+      },
+      {
+        "time": 30,
+        "cpuUtil": 34.84,
+        "gpu1Util": 39.347,
+        "gpu2Util": 40.838,
+        "hbmUtil": 31.85,
+        "cpuTemp": 61.5,
+        "avgGpuTemp": 66.33
+      },
+      {
+        "time": 36,
+        "cpuUtil": 35.87,
+        "gpu1Util": 39.234,
+        "gpu2Util": 40.719,
+        "hbmUtil": 33.25,
+        "cpuTemp": 61.3,
+        "avgGpuTemp": 66.15
+      },
+      {
+        "time": 42,
+        "cpuUtil": 31.1,
+        "gpu1Util": 35.804,
+        "gpu2Util": 37.16,
+        "hbmUtil": 32.2,
+        "cpuTemp": 60.1,
+        "avgGpuTemp": 64.98
+      },
+      {
+        "time": 48,
+        "cpuUtil": 31.3,
+        "gpu1Util": 38.252,
+        "gpu2Util": 39.7,
+        "hbmUtil": 31.61,
+        "cpuTemp": 55.5,
+        "avgGpuTemp": 60.28
+      },
+      {
+        "time": 54,
+        "cpuUtil": 31.13,
+        "gpu1Util": 42.151,
+        "gpu2Util": 43.747,
+        "hbmUtil": 30.79,
+        "cpuTemp": 60.9,
+        "avgGpuTemp": 65.77
+      }
+    ],
+    "power": [
+      {
+        "time": 0,
+        "cpuPower": 0.15,
+        "gpu1Power": 0.417,
+        "gpu2Power": 0.433,
+        "superchipTotalPower": 1.0,
+        "powerLimit": 6.1,
+        "powerThrottling": 0.0
+      },
+      {
+        "time": 6,
+        "cpuPower": 0.145,
+        "gpu1Power": 0.403,
+        "gpu2Power": 0.418,
+        "superchipTotalPower": 0.966,
+        "powerLimit": 6.1,
+        "powerThrottling": 0.0
+      },
+      {
+        "time": 12,
+        "cpuPower": 0.153,
+        "gpu1Power": 0.425,
+        "gpu2Power": 0.441,
+        "superchipTotalPower": 1.019,
+        "powerLimit": 6.1,
+        "powerThrottling": 0.0
+      },
+      {
+        "time": 18,
+        "cpuPower": 0.145,
+        "gpu1Power": 0.404,
+        "gpu2Power": 0.419,
+        "superchipTotalPower": 0.969,
+        "powerLimit": 6.1,
+        "powerThrottling": 0.0
+      },
+      {
+        "time": 24,
+        "cpuPower": 0.143,
+        "gpu1Power": 0.399,
+        "gpu2Power": 0.414,
+        "superchipTotalPower": 0.957,
+        "powerLimit": 6.1,
+        "powerThrottling": 0.0
+      },
+      {
+        "time": 30,
+        "cpuPower": 0.148,
+        "gpu1Power": 0.411,
+        "gpu2Power": 0.427,
+        "superchipTotalPower": 0.986,
+        "powerLimit": 6.1,
+        "powerThrottling": 0.0
+      },
+      {
+        "time": 36,
+        "cpuPower": 0.149,
+        "gpu1Power": 0.414,
+        "gpu2Power": 0.43,
+        "superchipTotalPower": 0.993,
+        "powerLimit": 6.1,
+        "powerThrottling": 0.0
+      },
+      {
+        "time": 42,
+        "cpuPower": 0.151,
+        "gpu1Power": 0.421,
+        "gpu2Power": 0.437,
+        "superchipTotalPower": 1.008,
+        "powerLimit": 6.1,
+        "powerThrottling": 0.0
+      },
+      {
+        "time": 48,
+        "cpuPower": 0.146,
+        "gpu1Power": 0.406,
+        "gpu2Power": 0.421,
+        "superchipTotalPower": 0.972,
+        "powerLimit": 6.1,
+        "powerThrottling": 0.0
+      },
+      {
+        "time": 54,
+        "cpuPower": 0.148,
+        "gpu1Power": 0.413,
+        "gpu2Power": 0.429,
+        "superchipTotalPower": 0.99,
+        "powerLimit": 6.1,
+        "powerThrottling": 0.0
+      }
+    ],
+    "cooling": [
+      {
+        "time": 0,
+        "cpuTemp": 60.8,
+        "gpu1Temp": 65.2,
+        "gpu2Temp": 66.2,
+        "hbmTemp": 64.5,
+        "coolantInletTemp": 44.5,
+        "coolantOutletTemp": 60.3,
+        "coolantFlowRate": 3.45,
+        "leakDetection": "Leak Minor"
+      },
+      {
+        "time": 6,
+        "cpuTemp": 61.1,
+        "gpu1Temp": 65.4,
+        "gpu2Temp": 66.3,
+        "hbmTemp": 64.7,
+        "coolantInletTemp": 45.9,
+        "coolantOutletTemp": 60.6,
+        "coolantFlowRate": 3.42,
+        "leakDetection": "Leak Minor"
+      },
+      {
+        "time": 12,
+        "cpuTemp": 60.6,
+        "gpu1Temp": 65.1,
+        "gpu2Temp": 66.0,
+        "hbmTemp": 64.4,
+        "coolantInletTemp": 44.3,
+        "coolantOutletTemp": 60.0,
+        "coolantFlowRate": 3.75,
+        "leakDetection": "No Leak"
+      },
+      {
+        "time": 18,
+        "cpuTemp": 60.8,
+        "gpu1Temp": 65.0,
+        "gpu2Temp": 66.0,
+        "hbmTemp": 64.4,
+        "coolantInletTemp": 44.8,
+        "coolantOutletTemp": 60.2,
+        "coolantFlowRate": 3.53,
+        "leakDetection": "Leak Minor"
+      },
+      {
+        "time": 24,
+        "cpuTemp": 60.8,
+        "gpu1Temp": 64.9,
+        "gpu2Temp": 65.9,
+        "hbmTemp": 64.3,
+        "coolantInletTemp": 44.4,
+        "coolantOutletTemp": 60.2,
+        "coolantFlowRate": 3.62,
+        "leakDetection": "Leak Minor"
+      },
+      {
+        "time": 30,
+        "cpuTemp": 61.5,
+        "gpu1Temp": 65.9,
+        "gpu2Temp": 66.8,
+        "hbmTemp": 65.2,
+        "coolantInletTemp": 44.8,
+        "coolantOutletTemp": 61.0,
+        "coolantFlowRate": 3.58,
+        "leakDetection": "Leak Minor"
+      },
+      {
+        "time": 36,
+        "cpuTemp": 61.3,
+        "gpu1Temp": 65.7,
+        "gpu2Temp": 66.6,
+        "hbmTemp": 65.0,
+        "coolantInletTemp": 45.0,
+        "coolantOutletTemp": 60.8,
+        "coolantFlowRate": 3.78,
+        "leakDetection": "No Leak"
+      },
+      {
+        "time": 42,
+        "cpuTemp": 60.1,
+        "gpu1Temp": 64.5,
+        "gpu2Temp": 65.5,
+        "hbmTemp": 63.8,
+        "coolantInletTemp": 44.5,
+        "coolantOutletTemp": 59.5,
+        "coolantFlowRate": 3.56,
+        "leakDetection": "Leak Minor"
+      },
+      {
+        "time": 48,
+        "cpuTemp": 55.5,
+        "gpu1Temp": 59.8,
+        "gpu2Temp": 60.7,
+        "hbmTemp": 59.1,
+        "coolantInletTemp": 45.0,
+        "coolantOutletTemp": 55.0,
+        "coolantFlowRate": 3.75,
+        "leakDetection": "No Leak"
+      },
+      {
+        "time": 54,
+        "cpuTemp": 60.9,
+        "gpu1Temp": 65.3,
+        "gpu2Temp": 66.2,
+        "hbmTemp": 64.6,
+        "coolantInletTemp": 44.9,
+        "coolantOutletTemp": 60.4,
+        "coolantFlowRate": 3.76,
+        "leakDetection": "No Leak"
+      }
+    ]
+  },
+  "Medium Load": {
+    "summary": [
+      {
+        "time": 0,
+        "avgCpuUtil": 57.16,
+        "avgGpuUtil": 69.17,
+        "superchipTotalPower": 3.26,
+        "coolingEff": 90.65
+      },
+      {
+        "time": 6,
+        "avgCpuUtil": 54.87,
+        "avgGpuUtil": 70.51,
+        "superchipTotalPower": 3.12,
+        "coolingEff": 89.43
+      },
+      {
+        "time": 12,
+        "avgCpuUtil": 58.48,
+        "avgGpuUtil": 69.76,
+        "superchipTotalPower": 3.07,
+        "coolingEff": 86.9
+      },
+      {
+        "time": 18,
+        "avgCpuUtil": 58.73,
+        "avgGpuUtil": 68.92,
+        "superchipTotalPower": 3.19,
+        "coolingEff": 84.46
+      },
+      {
+        "time": 24,
+        "avgCpuUtil": 52.14,
+        "avgGpuUtil": 71.6,
+        "superchipTotalPower": 3.24,
+        "coolingEff": 89.29
+      },
+      {
+        "time": 30,
+        "avgCpuUtil": 55.78,
+        "avgGpuUtil": 68.43,
+        "superchipTotalPower": 3.28,
+        "coolingEff": 83.95
+      },
+      {
+        "time": 36,
+        "avgCpuUtil": 52.42,
+        "avgGpuUtil": 71.34,
+        "superchipTotalPower": 3.13,
+        "coolingEff": 81.68
+      },
+      {
+        "time": 42,
+        "avgCpuUtil": 55.37,
+        "avgGpuUtil": 71.43,
+        "superchipTotalPower": 3.17,
+        "coolingEff": 81.6
+      },
+      {
+        "time": 48,
+        "avgCpuUtil": 52.75,
+        "avgGpuUtil": 70.17,
+        "superchipTotalPower": 3.33,
+        "coolingEff": 89.39
+      },
+      {
+        "time": 54,
+        "avgCpuUtil": 56.56,
+        "avgGpuUtil": 72.83,
+        "superchipTotalPower": 3.14,
+        "coolingEff": 90.93
+      }
+    ],
+    "computing": [
+      {
+        "time": 0,
+        "cpuUtil": 57.16,
+        "gpu1Util": 68.213,
+        "gpu2Util": 70.117,
+        "hbmUtil": 53.77,
+        "cpuTemp": 62.1,
+        "avgGpuTemp": 70.08
+      },
+      {
+        "time": 6,
+        "cpuUtil": 54.87,
+        "gpu1Util": 69.543,
+        "gpu2Util": 71.484,
+        "hbmUtil": 52.62,
+        "cpuTemp": 62.3,
+        "avgGpuTemp": 69.84
+      },
+      {
+        "time": 12,
+        "cpuUtil": 58.48,
+        "gpu1Util": 68.799,
+        "gpu2Util": 70.72,
+        "hbmUtil": 55.4,
+        "cpuTemp": 62.5,
+        "avgGpuTemp": 69.93
+      },
+      {
+        "time": 18,
+        "cpuUtil": 58.73,
+        "gpu1Util": 67.97,
+        "gpu2Util": 69.867,
+        "hbmUtil": 56.78,
+        "cpuTemp": 61.8,
+        "avgGpuTemp": 69.6
+      },
+      {
+        "time": 24,
+        "cpuUtil": 52.14,
+        "gpu1Util": 70.615,
+        "gpu2Util": 72.587,
+        "hbmUtil": 55.75,
+        "cpuTemp": 61.9,
+        "avgGpuTemp": 69.84
+      },
+      {
+        "time": 30,
+        "cpuUtil": 55.78,
+        "gpu1Util": 67.484,
+        "gpu2Util": 69.367,
+        "hbmUtil": 57.8,
+        "cpuTemp": 62.0,
+        "avgGpuTemp": 69.97
+      },
+      {
+        "time": 36,
+        "cpuUtil": 52.42,
+        "gpu1Util": 70.358,
+        "gpu2Util": 72.322,
+        "hbmUtil": 51.82,
+        "cpuTemp": 62.4,
+        "avgGpuTemp": 70.06
+      },
+      {
+        "time": 42,
+        "cpuUtil": 55.37,
+        "gpu1Util": 70.444,
+        "gpu2Util": 72.41,
+        "hbmUtil": 53.29,
+        "cpuTemp": 61.0,
+        "avgGpuTemp": 68.7
+      },
+      {
+        "time": 48,
+        "cpuUtil": 52.75,
+        "gpu1Util": 69.2,
+        "gpu2Util": 71.131,
+        "hbmUtil": 52.25,
+        "cpuTemp": 61.4,
+        "avgGpuTemp": 69.54
+      },
+      {
+        "time": 54,
+        "cpuUtil": 56.56,
+        "gpu1Util": 71.831,
+        "gpu2Util": 73.836,
+        "hbmUtil": 51.15,
+        "cpuTemp": 61.6,
+        "avgGpuTemp": 69.24
+      }
+    ],
+    "power": [
+      {
+        "time": 0,
+        "cpuPower": 0.245,
+        "gpu1Power": 0.68,
+        "gpu2Power": 0.706,
+        "superchipTotalPower": 1.631,
+        "powerLimit": 6.1,
+        "powerThrottling": 0.0
+      },
+      {
+        "time": 6,
+        "cpuPower": 0.234,
+        "gpu1Power": 0.65,
+        "gpu2Power": 0.674,
+        "superchipTotalPower": 1.558,
+        "powerLimit": 6.1,
+        "powerThrottling": 0.0
+      },
+      {
+        "time": 12,
+        "cpuPower": 0.23,
+        "gpu1Power": 0.641,
+        "gpu2Power": 0.665,
+        "superchipTotalPower": 1.537,
+        "powerLimit": 6.1,
+        "powerThrottling": 0.0
+      },
+      {
+        "time": 18,
+        "cpuPower": 0.239,
+        "gpu1Power": 0.666,
+        "gpu2Power": 0.691,
+        "superchipTotalPower": 1.597,
+        "powerLimit": 6.1,
+        "powerThrottling": 0.0
+      },
+      {
+        "time": 24,
+        "cpuPower": 0.243,
+        "gpu1Power": 0.677,
+        "gpu2Power": 0.702,
+        "superchipTotalPower": 1.622,
+        "powerLimit": 6.1,
+        "powerThrottling": 0.0
+      },
+      {
+        "time": 30,
+        "cpuPower": 0.246,
+        "gpu1Power": 0.683,
+        "gpu2Power": 0.709,
+        "superchipTotalPower": 1.638,
+        "powerLimit": 6.1,
+        "powerThrottling": 0.0
+      },
+      {
+        "time": 36,
+        "cpuPower": 0.235,
+        "gpu1Power": 0.654,
+        "gpu2Power": 0.678,
+        "superchipTotalPower": 1.567,
+        "powerLimit": 6.1,
+        "powerThrottling": 0.0
+      },
+      {
+        "time": 42,
+        "cpuPower": 0.237,
+        "gpu1Power": 0.66,
+        "gpu2Power": 0.685,
+        "superchipTotalPower": 1.583,
+        "powerLimit": 6.1,
+        "powerThrottling": 0.0
+      },
+      {
+        "time": 48,
+        "cpuPower": 0.25,
+        "gpu1Power": 0.695,
+        "gpu2Power": 0.721,
+        "superchipTotalPower": 1.665,
+        "powerLimit": 6.1,
+        "powerThrottling": 0.0
+      },
+      {
+        "time": 54,
+        "cpuPower": 0.235,
+        "gpu1Power": 0.654,
+        "gpu2Power": 0.679,
+        "superchipTotalPower": 1.568,
+        "powerLimit": 6.1,
+        "powerThrottling": 0.0
+      }
+    ],
+    "cooling": [
+      {
+        "time": 0,
+        "cpuTemp": 62.1,
+        "gpu1Temp": 69.3,
+        "gpu2Temp": 70.8,
+        "hbmTemp": 68.2,
+        "coolantInletTemp": 44.4,
+        "coolantOutletTemp": 61.2,
+        "coolantFlowRate": 4.21,
+        "leakDetection": "No Leak"
+      },
+      {
+        "time": 6,
+        "cpuTemp": 62.3,
+        "gpu1Temp": 69.1,
+        "gpu2Temp": 70.6,
+        "hbmTemp": 68.0,
+        "coolantInletTemp": 44.5,
+        "coolantOutletTemp": 61.4,
+        "coolantFlowRate": 4.41,
+        "leakDetection": "No Leak"
+      },
+      {
+        "time": 12,
+        "cpuTemp": 62.5,
+        "gpu1Temp": 69.2,
+        "gpu2Temp": 70.6,
+        "hbmTemp": 68.2,
+        "coolantInletTemp": 44.1,
+        "coolantOutletTemp": 61.6,
+        "coolantFlowRate": 4.16,
+        "leakDetection": "No Leak"
+      },
+      {
+        "time": 18,
+        "cpuTemp": 61.8,
+        "gpu1Temp": 68.9,
+        "gpu2Temp": 70.3,
+        "hbmTemp": 67.8,
+        "coolantInletTemp": 44.2,
+        "coolantOutletTemp": 60.9,
+        "coolantFlowRate": 4.31,
+        "leakDetection": "No Leak"
+      },
+      {
+        "time": 24,
+        "cpuTemp": 61.9,
+        "gpu1Temp": 69.1,
+        "gpu2Temp": 70.6,
+        "hbmTemp": 68.0,
+        "coolantInletTemp": 45.2,
+        "coolantOutletTemp": 61.0,
+        "coolantFlowRate": 4.3,
+        "leakDetection": "No Leak"
+      },
+      {
+        "time": 30,
+        "cpuTemp": 62.0,
+        "gpu1Temp": 69.2,
+        "gpu2Temp": 70.7,
+        "hbmTemp": 68.1,
+        "coolantInletTemp": 44.9,
+        "coolantOutletTemp": 61.1,
+        "coolantFlowRate": 4.21,
+        "leakDetection": "No Leak"
+      },
+      {
+        "time": 36,
+        "cpuTemp": 62.4,
+        "gpu1Temp": 69.3,
+        "gpu2Temp": 70.8,
+        "hbmTemp": 68.2,
+        "coolantInletTemp": 45.6,
+        "coolantOutletTemp": 61.6,
+        "coolantFlowRate": 4.35,
+        "leakDetection": "No Leak"
+      },
+      {
+        "time": 42,
+        "cpuTemp": 61.0,
+        "gpu1Temp": 68.0,
+        "gpu2Temp": 69.4,
+        "hbmTemp": 66.9,
+        "coolantInletTemp": 45.3,
+        "coolantOutletTemp": 60.1,
+        "coolantFlowRate": 4.44,
+        "leakDetection": "No Leak"
+      },
+      {
+        "time": 48,
+        "cpuTemp": 61.4,
+        "gpu1Temp": 68.8,
+        "gpu2Temp": 70.3,
+        "hbmTemp": 67.6,
+        "coolantInletTemp": 44.2,
+        "coolantOutletTemp": 60.5,
+        "coolantFlowRate": 4.27,
+        "leakDetection": "No Leak"
+      },
+      {
+        "time": 54,
+        "cpuTemp": 61.6,
+        "gpu1Temp": 68.5,
+        "gpu2Temp": 70.0,
+        "hbmTemp": 67.4,
+        "coolantInletTemp": 44.6,
+        "coolantOutletTemp": 60.7,
+        "coolantFlowRate": 3.78,
+        "leakDetection": "No Leak"
+      }
+    ]
+  },
+  "High Load": {
+    "summary": [
+      {
+        "time": 0,
+        "avgCpuUtil": 76.31,
+        "avgGpuUtil": 87.82,
+        "superchipTotalPower": 4.15,
+        "coolingEff": 87.43
+      },
+      {
+        "time": 6,
+        "avgCpuUtil": 68.48,
+        "avgGpuUtil": 88.06,
+        "superchipTotalPower": 4.34,
+        "coolingEff": 82.52
+      },
+      {
+        "time": 12,
+        "avgCpuUtil": 73.88,
+        "avgGpuUtil": 93.2,
+        "superchipTotalPower": 4.15,
+        "coolingEff": 87.75
+      },
+      {
+        "time": 18,
+        "avgCpuUtil": 75.48,
+        "avgGpuUtil": 93.3,
+        "superchipTotalPower": 4.27,
+        "coolingEff": 83.14
+      },
+      {
+        "time": 24,
+        "avgCpuUtil": 77.59,
+        "avgGpuUtil": 90.46,
+        "superchipTotalPower": 4.11,
+        "coolingEff": 84.86
+      },
+      {
+        "time": 30,
+        "avgCpuUtil": 67.54,
+        "avgGpuUtil": 88.32,
+        "superchipTotalPower": 4.08,
+        "coolingEff": 87.6
+      },
+      {
+        "time": 36,
+        "avgCpuUtil": 67.37,
+        "avgGpuUtil": 90.5,
+        "superchipTotalPower": 4.14,
+        "coolingEff": 80.27
+      },
+      {
+        "time": 42,
+        "avgCpuUtil": 76.34,
+        "avgGpuUtil": 96.91,
+        "superchipTotalPower": 4.12,
+        "coolingEff": 88.54
+      },
+      {
+        "time": 48,
+        "avgCpuUtil": 68.57,
+        "avgGpuUtil": 93.95,
+        "superchipTotalPower": 4.3,
+        "coolingEff": 87.46
+      },
+      {
+        "time": 54,
+        "avgCpuUtil": 74.5,
+        "avgGpuUtil": 90.22,
+        "superchipTotalPower": 4.08,
+        "coolingEff": 88.5
+      }
+    ],
+    "computing": [
+      {
+        "time": 0,
+        "cpuUtil": 76.31,
+        "gpu1Util": 86.969,
+        "gpu2Util": 88.663,
+        "hbmUtil": 78.32,
+        "cpuTemp": 63.0,
+        "avgGpuTemp": 73.05
+      },
+      {
+        "time": 6,
+        "cpuUtil": 68.48,
+        "gpu1Util": 87.206,
+        "gpu2Util": 88.906,
+        "hbmUtil": 78.24,
+        "cpuTemp": 62.9,
+        "avgGpuTemp": 73.48
+      },
+      {
+        "time": 12,
+        "cpuUtil": 73.88,
+        "gpu1Util": 92.305,
+        "gpu2Util": 94.103,
+        "hbmUtil": 82.83,
+        "cpuTemp": 62.9,
+        "avgGpuTemp": 72.99
+      },
+      {
+        "time": 18,
+        "cpuUtil": 75.48,
+        "gpu1Util": 92.4,
+        "gpu2Util": 94.2,
+        "hbmUtil": 78.4,
+        "cpuTemp": 63.7,
+        "avgGpuTemp": 74.12
+      },
+      {
+        "time": 24,
+        "cpuUtil": 77.59,
+        "gpu1Util": 89.583,
+        "gpu2Util": 91.329,
+        "hbmUtil": 77.31,
+        "cpuTemp": 63.2,
+        "avgGpuTemp": 73.25
+      },
+      {
+        "time": 30,
+        "cpuUtil": 67.54,
+        "gpu1Util": 87.468,
+        "gpu2Util": 89.172,
+        "hbmUtil": 78.86,
+        "cpuTemp": 62.8,
+        "avgGpuTemp": 72.77
+      },
+      {
+        "time": 36,
+        "cpuUtil": 67.37,
+        "gpu1Util": 89.631,
+        "gpu2Util": 91.377,
+        "hbmUtil": 78.19,
+        "cpuTemp": 62.6,
+        "avgGpuTemp": 72.65
+      },
+      {
+        "time": 42,
+        "cpuUtil": 76.34,
+        "gpu1Util": 95.977,
+        "gpu2Util": 97.847,
+        "hbmUtil": 79.57,
+        "cpuTemp": 63.0,
+        "avgGpuTemp": 72.97
+      },
+      {
+        "time": 48,
+        "cpuUtil": 68.57,
+        "gpu1Util": 93.042,
+        "gpu2Util": 94.854,
+        "hbmUtil": 78.7,
+        "cpuTemp": 62.9,
+        "avgGpuTemp": 73.32
+      },
+      {
+        "time": 54,
+        "cpuUtil": 74.5,
+        "gpu1Util": 89.346,
+        "gpu2Util": 91.086,
+        "hbmUtil": 80.71,
+        "cpuTemp": 63.5,
+        "avgGpuTemp": 73.42
+      }
+    ],
+    "power": [
+      {
+        "time": 0,
+        "cpuPower": 0.311,
+        "gpu1Power": 0.865,
+        "gpu2Power": 0.897,
+        "superchipTotalPower": 2.073,
+        "powerLimit": 6.1,
+        "powerThrottling": 0.0
+      },
+      {
+        "time": 6,
+        "cpuPower": 0.325,
+        "gpu1Power": 0.905,
+        "gpu2Power": 0.939,
+        "superchipTotalPower": 2.169,
+        "powerLimit": 6.1,
+        "powerThrottling": 0.0
+      },
+      {
+        "time": 12,
+        "cpuPower": 0.311,
+        "gpu1Power": 0.866,
+        "gpu2Power": 0.898,
+        "superchipTotalPower": 2.075,
+        "powerLimit": 6.1,
+        "powerThrottling": 0.0
+      },
+      {
+        "time": 18,
+        "cpuPower": 0.32,
+        "gpu1Power": 0.891,
+        "gpu2Power": 0.925,
+        "superchipTotalPower": 2.137,
+        "powerLimit": 6.1,
+        "powerThrottling": 0.0
+      },
+      {
+        "time": 24,
+        "cpuPower": 0.308,
+        "gpu1Power": 0.857,
+        "gpu2Power": 0.89,
+        "superchipTotalPower": 2.055,
+        "powerLimit": 6.1,
+        "powerThrottling": 0.0
+      },
+      {
+        "time": 30,
+        "cpuPower": 0.306,
+        "gpu1Power": 0.85,
+        "gpu2Power": 0.882,
+        "superchipTotalPower": 2.038,
+        "powerLimit": 6.1,
+        "powerThrottling": 0.0
+      },
+      {
+        "time": 36,
+        "cpuPower": 0.311,
+        "gpu1Power": 0.864,
+        "gpu2Power": 0.897,
+        "superchipTotalPower": 2.072,
+        "powerLimit": 6.1,
+        "powerThrottling": 0.0
+      },
+      {
+        "time": 42,
+        "cpuPower": 0.309,
+        "gpu1Power": 0.859,
+        "gpu2Power": 0.891,
+        "superchipTotalPower": 2.059,
+        "powerLimit": 6.1,
+        "powerThrottling": 0.0
+      },
+      {
+        "time": 48,
+        "cpuPower": 0.322,
+        "gpu1Power": 0.897,
+        "gpu2Power": 0.931,
+        "superchipTotalPower": 2.15,
+        "powerLimit": 6.1,
+        "powerThrottling": 0.0
+      },
+      {
+        "time": 54,
+        "cpuPower": 0.306,
+        "gpu1Power": 0.851,
+        "gpu2Power": 0.883,
+        "superchipTotalPower": 2.04,
+        "powerLimit": 6.1,
+        "powerThrottling": 0.0
+      }
+    ],
+    "cooling": [
+      {
+        "time": 0,
+        "cpuTemp": 63.0,
+        "gpu1Temp": 72.1,
+        "gpu2Temp": 74.0,
+        "hbmTemp": 70.7,
+        "coolantInletTemp": 44.3,
+        "coolantOutletTemp": 61.8,
+        "coolantFlowRate": 4.98,
+        "leakDetection": "Leak Minor"
+      },
+      {
+        "time": 6,
+        "cpuTemp": 62.9,
+        "gpu1Temp": 72.5,
+        "gpu2Temp": 74.4,
+        "hbmTemp": 71.0,
+        "coolantInletTemp": 44.8,
+        "coolantOutletTemp": 61.7,
+        "coolantFlowRate": 4.94,
+        "leakDetection": "Leak Minor"
+      },
+      {
+        "time": 12,
+        "cpuTemp": 62.9,
+        "gpu1Temp": 72.1,
+        "gpu2Temp": 73.9,
+        "hbmTemp": 70.6,
+        "coolantInletTemp": 44.5,
+        "coolantOutletTemp": 61.7,
+        "coolantFlowRate": 4.83,
+        "leakDetection": "Leak Minor"
+      },
+      {
+        "time": 18,
+        "cpuTemp": 63.7,
+        "gpu1Temp": 73.2,
+        "gpu2Temp": 75.0,
+        "hbmTemp": 71.6,
+        "coolantInletTemp": 44.5,
+        "coolantOutletTemp": 62.5,
+        "coolantFlowRate": 4.72,
+        "leakDetection": "Leak Minor"
+      },
+      {
+        "time": 24,
+        "cpuTemp": 63.2,
+        "gpu1Temp": 72.4,
+        "gpu2Temp": 74.1,
+        "hbmTemp": 70.9,
+        "coolantInletTemp": 44.6,
+        "coolantOutletTemp": 62.1,
+        "coolantFlowRate": 4.92,
+        "leakDetection": "Leak Minor"
+      },
+      {
+        "time": 30,
+        "cpuTemp": 62.8,
+        "gpu1Temp": 71.9,
+        "gpu2Temp": 73.7,
+        "hbmTemp": 70.4,
+        "coolantInletTemp": 45.5,
+        "coolantOutletTemp": 61.7,
+        "coolantFlowRate": 4.91,
+        "leakDetection": "Leak Minor"
+      },
+      {
+        "time": 36,
+        "cpuTemp": 62.6,
+        "gpu1Temp": 71.7,
+        "gpu2Temp": 73.6,
+        "hbmTemp": 70.3,
+        "coolantInletTemp": 45.8,
+        "coolantOutletTemp": 61.4,
+        "coolantFlowRate": 4.89,
+        "leakDetection": "Leak Minor"
+      },
+      {
+        "time": 42,
+        "cpuTemp": 63.0,
+        "gpu1Temp": 72.1,
+        "gpu2Temp": 73.9,
+        "hbmTemp": 70.6,
+        "coolantInletTemp": 45.4,
+        "coolantOutletTemp": 61.8,
+        "coolantFlowRate": 4.81,
+        "leakDetection": "Leak Minor"
+      },
+      {
+        "time": 48,
+        "cpuTemp": 62.9,
+        "gpu1Temp": 72.4,
+        "gpu2Temp": 74.3,
+        "hbmTemp": 70.8,
+        "coolantInletTemp": 45.7,
+        "coolantOutletTemp": 61.7,
+        "coolantFlowRate": 5.03,
+        "leakDetection": "Leak Minor"
+      },
+      {
+        "time": 54,
+        "cpuTemp": 63.5,
+        "gpu1Temp": 72.5,
+        "gpu2Temp": 74.3,
+        "hbmTemp": 71.1,
+        "coolantInletTemp": 44.7,
+        "coolantOutletTemp": 62.4,
+        "coolantFlowRate": 3.78,
+        "leakDetection": "No Leak"
+      }
+    ]
+  }
+}

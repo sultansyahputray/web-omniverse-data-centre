@@ -2,9 +2,11 @@ import React, { useState, useMemo, useEffect } from 'react';
 import { NavigationButton, ButtonBarWithStatus, ButtonBarWithStatusItem, CloseButton } from '../../reusable/Button';
 import { Sort, SortItem } from '../../reusable/SortFilter';
 import { HistoricalDataModal } from '../../reusable/HistoricalDataModal';
+import { getStatus } from '../../thresholdUtils';
+import level5RackComparisonData from '../../data/level5RackComparison.json';
 import './Level5RackComparisonModal.css';
 
-// Dual Server Rack Icon matching the user's header screenshot
+// Dual Server Rack Icon matching the header design
 export const DualRackServerIcon: React.FC<{ size?: number; color?: string }> = ({
     size = 28,
     color = '#00E5FF'
@@ -38,19 +40,73 @@ export const DualRackServerIcon: React.FC<{ size?: number; color?: string }> = (
     </svg>
 );
 
-export interface RackTelemetryItem {
+export interface ComputingDetailsItem {
+    rackId: string;
+    rackName: string;
+    cpu: number;
+    gpu: number;
+    gpuMemory: number;
+    memory: number;
+    disk: number;
+    network: number;
+}
+
+export interface ComputingEfficiencyItem {
+    rackId: string;
+    rackName: string;
+    cpu: number;
+    power: number;
+    inletTemp: number;
+    outletTemp: number;
+    coolantFlow: number;
+    computingEff: number;
+}
+
+export interface LiquidCoolingItem {
+    rackId: string;
+    rackName: string;
+    coolantInlet: number;
+    coolantOutlet: number;
+    deltaT: number;
+    coolantFlow: number;
+    heatRemoval: number;
+    coolingEff: number;
+}
+
+export interface AirCoolingItem {
+    rackId: string;
+    rackName: string;
+    hallSupply: number;
+    hallReturn: number;
+    deltaT: number;
+    airflow: number;
+    heatRemoval: number;
+    coolingEff: number;
+}
+
+export interface PowerTelemetryItem {
     rackId: string;
     rackName: string;
     activeServer: number;
-    activePower: number; // in kW
-    avgPower: number;    // in kW
-    peakPower: number;   // in kW
-    capacity: number;   // in kW
-    utilization: number;// in %
+    activePower: number;
+    avgPower: number;
+    peakPower: number;
+    capacity: number;
+    utilization: number;
 }
 
-// 9 Rows matching the exact figures from the user's screenshot
-const INITIAL_RACK_DATA: RackTelemetryItem[] = [
+export interface FallbackRackItem {
+    rackId: string;
+    rackName: string;
+    activeServer: number;
+    activePower: number;
+    avgPower: number;
+    peakPower: number;
+    capacity: number;
+    utilization: number;
+}
+
+const FALLBACK_RACK_DATA: FallbackRackItem[] = [
     { rackId: 'rack_1', rackName: 'Rack 1', activeServer: 14, activePower: 12.8, avgPower: 11.9, peakPower: 15.1, capacity: 30, utilization: 42.7 },
     { rackId: 'rack_2', rackName: 'Rack 2', activeServer: 16, activePower: 21.6, avgPower: 20.4, peakPower: 25.8, capacity: 30, utilization: 72.0 },
     { rackId: 'rack_3', rackName: 'Rack 3', activeServer: 18, activePower: 29.8, avgPower: 28.1, peakPower: 34.2, capacity: 35, utilization: 85.1 },
@@ -62,13 +118,78 @@ const INITIAL_RACK_DATA: RackTelemetryItem[] = [
     { rackId: 'rack_9', rackName: 'Rack 9', activeServer: 18, activePower: 31.2, avgPower: 29.4, peakPower: 34.8, capacity: 35, utilization: 89.1 },
 ];
 
-const TAB_ITEMS: ButtonBarWithStatusItem[] = [
+const MAIN_TABS: ButtonBarWithStatusItem[] = [
     { label: 'Computing' },
     { label: 'Cooling' },
     { label: 'Power' }
 ];
 
-const SORT_OPTIONS: SortItem[] = [
+const COMPUTING_SUB_TABS: ButtonBarWithStatusItem[] = [
+    { label: 'Computing Details' },
+    { label: 'Computing Efficiency' }
+];
+
+const COOLING_SUB_TABS: ButtonBarWithStatusItem[] = [
+    { label: 'Liquid Cooling' },
+    { label: 'Air Cooling' }
+];
+
+const COMPUTING_DETAILS_SORT_OPTIONS: SortItem[] = [
+    { id: 'occurrences', label: 'Highest Occurrences' },
+    { id: 'rackName', label: 'Rack' },
+    { id: 'cpu', label: 'CPU Utilisation' },
+    { id: 'gpu', label: 'GPU Utilisation' },
+    { id: 'gpuMemory', label: 'GPU Memory' },
+    { id: 'memory', label: 'Memory Utilisation' },
+    { id: 'disk', label: 'Disk Utilisation' },
+    { id: 'network', label: 'Network' }
+];
+
+const COMPUTING_EFFICIENCY_SORT_OPTIONS: SortItem[] = [
+    { id: 'occurrences', label: 'Highest Occurrences' },
+    { id: 'rackName', label: 'Rack' },
+    { id: 'cpu', label: 'CPU' },
+    { id: 'power', label: 'Power' },
+    { id: 'inletTemp', label: 'Inlet Temp' },
+    { id: 'outletTemp', label: 'Outlet Temp' },
+    { id: 'coolantFlow', label: 'Coolant Flow' },
+    { id: 'computingEff', label: 'Computing Efficiency' }
+];
+
+const LIQUID_COOLING_SORT_OPTIONS: SortItem[] = [
+    { id: 'occurrences', label: 'Highest Occurrences' },
+    { id: 'rackName', label: 'Rack' },
+    { id: 'coolantInlet', label: 'Coolant Inlet' },
+    { id: 'coolantOutlet', label: 'Coolant Outlet' },
+    { id: 'deltaT', label: 'ΔT' },
+    { id: 'coolantFlow', label: 'Coolant Flow' },
+    { id: 'heatRemoval', label: 'Heat Removal' },
+    { id: 'coolingEff', label: 'Cooling Efficiency' }
+];
+
+const AIR_COOLING_SORT_OPTIONS: SortItem[] = [
+    { id: 'occurrences', label: 'Highest Occurrences' },
+    { id: 'rackName', label: 'Rack' },
+    { id: 'hallSupply', label: 'Hall Supply' },
+    { id: 'hallReturn', label: 'Hall Return' },
+    { id: 'deltaT', label: 'ΔT' },
+    { id: 'airflow', label: 'Airflow' },
+    { id: 'heatRemoval', label: 'Heat Removal' },
+    { id: 'coolingEff', label: 'Cooling Efficiency' }
+];
+
+const POWER_SORT_OPTIONS: SortItem[] = [
+    { id: 'occurrences', label: 'Highest Occurrences' },
+    { id: 'rackName', label: 'Rack' },
+    { id: 'activeServer', label: 'Active Servers' },
+    { id: 'activePower', label: 'Active Power' },
+    { id: 'avgPower', label: 'Avg Power' },
+    { id: 'peakPower', label: 'Peak Power' },
+    { id: 'capacity', label: 'Capacity' },
+    { id: 'utilization', label: 'Utilization' }
+];
+
+const FALLBACK_SORT_OPTIONS: SortItem[] = [
     { id: 'occurrences', label: 'Highest Occurrences' },
     { id: 'utilization', label: 'Utilization' },
     { id: 'activePower', label: 'Active Power' },
@@ -79,6 +200,8 @@ const SORT_OPTIONS: SortItem[] = [
 interface Level5RackComparisonModalProps {
     isOpen: boolean;
     rowLabel?: string;
+    currentScenario?: string;
+    timeStep?: number;
     onClose: () => void;
     onViewHistory?: () => void;
 }
@@ -86,10 +209,14 @@ interface Level5RackComparisonModalProps {
 export const Level5RackComparisonModal: React.FC<Level5RackComparisonModalProps> = ({
     isOpen,
     rowLabel = 'Row B',
+    currentScenario = 'Normal Load',
+    timeStep = 0,
     onClose,
     onViewHistory
 }) => {
     const [selectedTab, setSelectedTab] = useState(0);
+    const [computingSubTab, setComputingSubTab] = useState(0); // 0 = Computing Details, 1 = Computing Efficiency
+    const [coolingSubTab, setCoolingSubTab] = useState(0);     // 0 = Liquid Cooling, 1 = Air Cooling
     const [sortKey, setSortKey] = useState('occurrences');
     const [isAsc, setIsAsc] = useState(false);
     const [isHistoryOpen, setIsHistoryOpen] = useState(false);
@@ -108,37 +235,183 @@ export const Level5RackComparisonModal: React.FC<Level5RackComparisonModalProps>
         return () => window.removeEventListener('keydown', handleKeyDown);
     }, [isOpen, onClose]);
 
-    // Sorting logic
-    const sortedData = useMemo(() => {
-        const data = [...INITIAL_RACK_DATA];
+    // Retrieve active time slice from dataset
+    const activeStepData = useMemo(() => {
+        const scenarioKey = currentScenario === 'Normal Load' ? 'Normal Load' : currentScenario;
+        const sData = (level5RackComparisonData as any)[scenarioKey] || (level5RackComparisonData as any)['Low Load'];
+        if (!sData) return null;
+        const key = String(timeStep);
+        return sData[key] || sData['0'];
+    }, [currentScenario, timeStep]);
+
+    // Active sort options based on selected tab and sub-tab
+    const activeSortOptions = useMemo(() => {
+        if (selectedTab === 0) {
+            return computingSubTab === 0 ? COMPUTING_DETAILS_SORT_OPTIONS : COMPUTING_EFFICIENCY_SORT_OPTIONS;
+        }
+        if (selectedTab === 1) {
+            return coolingSubTab === 0 ? LIQUID_COOLING_SORT_OPTIONS : AIR_COOLING_SORT_OPTIONS;
+        }
+        if (selectedTab === 2) {
+            return POWER_SORT_OPTIONS;
+        }
+        return FALLBACK_SORT_OPTIONS;
+    }, [selectedTab, computingSubTab, coolingSubTab]);
+
+    // Reset sort when changing tabs
+    const handleSelectMainTab = (idx: number) => {
+        setSelectedTab(idx);
+        setSortKey('occurrences');
+    };
+
+    const handleSelectSubTab = (idx: number) => {
+        setComputingSubTab(idx);
+        setSortKey('occurrences');
+    };
+
+    const handleSelectCoolingSubTab = (idx: number) => {
+        setCoolingSubTab(idx);
+        setSortKey('occurrences');
+    };
+
+    // Helper: badge color determination for percentage parameters
+    const getBadgeClass = (param: string, val: number) => {
+        const status = getStatus(param, val);
+        if (status === 'default' || !status) return 'badge-green';
+        return `badge-${status}`;
+    };
+
+    // Helper: format percentage with intelligent decimals
+    const formatPercent = (val: number | undefined | null) => {
+        if (val === undefined || val === null) return '-';
+        return Number.isInteger(val) ? `${val}%` : `${val.toFixed(2)}%`;
+    };
+
+    // Sorted Computing Details Data
+    const sortedComputingDetails = useMemo(() => {
+        const rawList: ComputingDetailsItem[] = activeStepData?.computingDetails || [];
+        if (!rawList.length) return [];
+        const data = [...rawList];
 
         if (sortKey === 'occurrences') {
             return isAsc ? [...data].reverse() : data;
         }
 
         return data.sort((a, b) => {
-            let valA = a[sortKey as keyof RackTelemetryItem];
-            let valB = b[sortKey as keyof RackTelemetryItem];
+            const valA = (a as any)[sortKey];
+            const valB = (b as any)[sortKey];
 
             if (typeof valA === 'string') {
-                return isAsc
-                    ? (valA as string).localeCompare(valB as string)
-                    : (valB as string).localeCompare(valA as string);
+                return isAsc ? valA.localeCompare(valB) : valB.localeCompare(valA);
             }
+            return isAsc ? Number(valA) - Number(valB) : Number(valB) - Number(valA);
+        });
+    }, [activeStepData, sortKey, isAsc]);
 
-            return isAsc
-                ? (valA as number) - (valB as number)
-                : (valB as number) - (valA as number);
+    // Sorted Computing Efficiency Data
+    const sortedComputingEfficiency = useMemo(() => {
+        const rawList: ComputingEfficiencyItem[] = activeStepData?.computingEfficiency || [];
+        if (!rawList.length) return [];
+        const data = [...rawList];
+
+        if (sortKey === 'occurrences') {
+            return isAsc ? [...data].reverse() : data;
+        }
+
+        return data.sort((a, b) => {
+            const valA = (a as any)[sortKey];
+            const valB = (b as any)[sortKey];
+
+            if (typeof valA === 'string') {
+                return isAsc ? valA.localeCompare(valB) : valB.localeCompare(valA);
+            }
+            return isAsc ? Number(valA) - Number(valB) : Number(valB) - Number(valA);
+        });
+    }, [activeStepData, sortKey, isAsc]);
+
+    // Sorted Liquid Cooling Data
+    const sortedLiquidCooling = useMemo(() => {
+        const rawList: LiquidCoolingItem[] = activeStepData?.liquidCooling || [];
+        if (!rawList.length) return [];
+        const data = [...rawList];
+
+        if (sortKey === 'occurrences') {
+            return isAsc ? [...data].reverse() : data;
+        }
+
+        return data.sort((a, b) => {
+            const valA = (a as any)[sortKey];
+            const valB = (b as any)[sortKey];
+
+            if (typeof valA === 'string') {
+                return isAsc ? valA.localeCompare(valB) : valB.localeCompare(valA);
+            }
+            return isAsc ? Number(valA) - Number(valB) : Number(valB) - Number(valA);
+        });
+    }, [activeStepData, sortKey, isAsc]);
+
+    // Sorted Air Cooling Data
+    const sortedAirCooling = useMemo(() => {
+        const rawList: AirCoolingItem[] = activeStepData?.airCooling || [];
+        if (!rawList.length) return [];
+        const data = [...rawList];
+
+        if (sortKey === 'occurrences') {
+            return isAsc ? [...data].reverse() : data;
+        }
+
+        return data.sort((a, b) => {
+            const valA = (a as any)[sortKey];
+            const valB = (b as any)[sortKey];
+
+            if (typeof valA === 'string') {
+                return isAsc ? valA.localeCompare(valB) : valB.localeCompare(valA);
+            }
+            return isAsc ? Number(valA) - Number(valB) : Number(valB) - Number(valA);
+        });
+    }, [activeStepData, sortKey, isAsc]);
+
+    // Sorted Power Data
+    const sortedPowerData = useMemo(() => {
+        const rawList: PowerTelemetryItem[] = activeStepData?.power || [];
+        if (!rawList.length) return [];
+        const data = [...rawList];
+
+        if (sortKey === 'occurrences') {
+            return isAsc ? [...data].reverse() : data;
+        }
+
+        return data.sort((a, b) => {
+            const valA = (a as any)[sortKey];
+            const valB = (b as any)[sortKey];
+
+            if (typeof valA === 'string') {
+                return isAsc ? valA.localeCompare(valB) : valB.localeCompare(valA);
+            }
+            return isAsc ? Number(valA) - Number(valB) : Number(valB) - Number(valA);
+        });
+    }, [activeStepData, sortKey, isAsc]);
+
+    // Sorted Fallback Data (Cooling / Power)
+    const sortedFallbackData = useMemo(() => {
+        const data = [...FALLBACK_RACK_DATA];
+
+        if (sortKey === 'occurrences') {
+            return isAsc ? [...data].reverse() : data;
+        }
+
+        return data.sort((a, b) => {
+            const valA = (a as any)[sortKey];
+            const valB = (b as any)[sortKey];
+
+            if (typeof valA === 'string') {
+                return isAsc ? valA.localeCompare(valB) : valB.localeCompare(valA);
+            }
+            return isAsc ? Number(valA) - Number(valB) : Number(valB) - Number(valA);
         });
     }, [sortKey, isAsc]);
 
     if (!isOpen) return null;
-
-    const getUtilizationBadgeClass = (util: number) => {
-        if (util < 60) return 'badge-green';
-        if (util <= 80) return 'badge-yellow';
-        return 'badge-orange';
-    };
 
     return (
         <div
@@ -179,16 +452,16 @@ export const Level5RackComparisonModal: React.FC<Level5RackComparisonModalProps>
                 {/* HORIZONTAL DIVIDER */}
                 <div className="title-h-divider"></div>
 
-                {/* 2. Controls Row: Button Bar (Tabs) + Sort Filter */}
+                {/* 2. Primary Controls Row: Main Tabs + Sort Filter */}
                 <div className="rack-modal-controls">
                     <ButtonBarWithStatus
-                        items={TAB_ITEMS}
+                        items={MAIN_TABS}
                         selectedIndex={selectedTab}
-                        onSelect={(idx) => setSelectedTab(idx)}
+                        onSelect={handleSelectMainTab}
                     />
 
                     <Sort
-                        items={SORT_OPTIONS}
+                        items={activeSortOptions}
                         label="Sort By"
                         value={sortKey}
                         onChange={(val) => setSortKey(val)}
@@ -197,45 +470,233 @@ export const Level5RackComparisonModal: React.FC<Level5RackComparisonModalProps>
                     />
                 </div>
 
-                {/* 3. Telemetry Table */}
+                {/* 3. Secondary Sub-Controls Row for Computing or Cooling */}
+                {selectedTab === 0 && (
+                    <div className="rack-modal-subcontrols">
+                        <ButtonBarWithStatus
+                            items={COMPUTING_SUB_TABS}
+                            selectedIndex={computingSubTab}
+                            onSelect={handleSelectSubTab}
+                        />
+                    </div>
+                )}
+
+                {selectedTab === 1 && (
+                    <div className="rack-modal-subcontrols">
+                        <ButtonBarWithStatus
+                            items={COOLING_SUB_TABS}
+                            selectedIndex={coolingSubTab}
+                            onSelect={handleSelectCoolingSubTab}
+                        />
+                    </div>
+                )}
+
+                {/* 4. Telemetry Tables */}
                 <div className="rack-modal-table-container">
-                    <table className="rack-modal-table">
-                        <thead>
-                            <tr>
-                                <th>Rack</th>
-                                <th>Active Server</th>
-                                <th>Active Power</th>
-                                <th>Avg Power</th>
-                                <th>Peak Power</th>
-                                <th>Capacity</th>
-                                <th>Utilization</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {sortedData.map((item) => (
-                                <tr key={item.rackId} className="rack-table-row">
-                                    <td className="rack-table-cell-name">{item.rackName}</td>
-                                    <td className="rack-table-cell-center">{item.activeServer}</td>
-                                    <td className="rack-table-cell-center">{item.activePower.toFixed(1)} kW</td>
-                                    <td className="rack-table-cell-center">{item.avgPower.toFixed(1)} kW</td>
-                                    <td className="rack-table-cell-center">{item.peakPower.toFixed(1)} kW</td>
-                                    <td className="rack-table-cell-center">{item.capacity} kW</td>
-                                    <td className="rack-table-cell-center">
-                                        <span className={`utilization-badge ${getUtilizationBadgeClass(item.utilization)}`}>
-                                            {item.utilization.toFixed(1)}%
-                                        </span>
-                                    </td>
+                    {/* TAB 0, SUB-TAB 0: COMPUTING DETAILS */}
+                    {selectedTab === 0 && computingSubTab === 0 && (
+                        <table className="rack-modal-table">
+                            <thead>
+                                <tr>
+                                    <th>Rack</th>
+                                    <th>CPU Utilisation</th>
+                                    <th>GPU Utilisation</th>
+                                    <th>GPU Memory</th>
+                                    <th>Memory Utilisation</th>
+                                    <th>Disk Utilisation</th>
+                                    <th>Network</th>
                                 </tr>
-                            ))}
-                        </tbody>
-                    </table>
+                            </thead>
+                            <tbody>
+                                {sortedComputingDetails.map((item) => (
+                                    <tr key={item.rackId} className="rack-table-row">
+                                        <td className="rack-table-cell-name">{item.rackName}</td>
+                                        <td className="rack-table-cell-center">
+                                            <span className={`utilization-badge ${getBadgeClass('cpu', item.cpu)}`}>
+                                                {formatPercent(item.cpu)}
+                                            </span>
+                                        </td>
+                                        <td className="rack-table-cell-center">
+                                            <span className={`utilization-badge ${getBadgeClass('gpu', item.gpu)}`}>
+                                                {formatPercent(item.gpu)}
+                                            </span>
+                                        </td>
+                                        <td className="rack-table-cell-center">
+                                            <span className={`utilization-badge ${getBadgeClass('gpuMemory', item.gpuMemory)}`}>
+                                                {formatPercent(item.gpuMemory)}
+                                            </span>
+                                        </td>
+                                        <td className="rack-table-cell-center">
+                                            <span className={`utilization-badge ${getBadgeClass('memory', item.memory)}`}>
+                                                {formatPercent(item.memory)}
+                                            </span>
+                                        </td>
+                                        <td className="rack-table-cell-center">
+                                            <span className={`utilization-badge ${getBadgeClass('disk', item.disk)}`}>
+                                                {formatPercent(item.disk)}
+                                            </span>
+                                        </td>
+                                        <td className="rack-table-cell-center">
+                                            <span className={`utilization-badge ${getBadgeClass('network', item.network)}`}>
+                                                {formatPercent(item.network)}
+                                            </span>
+                                        </td>
+                                    </tr>
+                                ))}
+                            </tbody>
+                        </table>
+                    )}
+
+                    {/* TAB 0, SUB-TAB 1: COMPUTING EFFICIENCY */}
+                    {selectedTab === 0 && computingSubTab === 1 && (
+                        <table className="rack-modal-table">
+                            <thead>
+                                <tr>
+                                    <th>Rack</th>
+                                    <th>CPU</th>
+                                    <th>Power</th>
+                                    <th>Inlet Temp</th>
+                                    <th>Outlet Temp</th>
+                                    <th>Coolant Flow</th>
+                                    <th>Computing Eff.</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {sortedComputingEfficiency.map((item) => (
+                                    <tr key={item.rackId} className="rack-table-row">
+                                        <td className="rack-table-cell-name">{item.rackName}</td>
+                                        <td className="rack-table-cell-center">
+                                            <span className={`utilization-badge ${getBadgeClass('cpu', item.cpu)}`}>
+                                                {formatPercent(item.cpu)}
+                                            </span>
+                                        </td>
+                                        {/* Plain text for non-percentage values */}
+                                        <td className="rack-table-cell-center">{item.power.toFixed(2)} kW</td>
+                                        <td className="rack-table-cell-center">{item.inletTemp.toFixed(2)} °C</td>
+                                        <td className="rack-table-cell-center">{item.outletTemp.toFixed(2)} °C</td>
+                                        <td className="rack-table-cell-center">{item.coolantFlow.toFixed(2)} L/min</td>
+                                        <td className="rack-table-cell-center">
+                                            <span className={`utilization-badge ${getBadgeClass('computingEff', item.computingEff)}`}>
+                                                {formatPercent(item.computingEff)}
+                                            </span>
+                                        </td>
+                                    </tr>
+                                ))}
+                            </tbody>
+                        </table>
+                    )}
+
+                    {/* TAB 1, SUB-TAB 0: LIQUID COOLING */}
+                    {selectedTab === 1 && coolingSubTab === 0 && (
+                        <table className="rack-modal-table">
+                            <thead>
+                                <tr>
+                                    <th>Rack</th>
+                                    <th>Coolant Inlet</th>
+                                    <th>Coolant Outlet</th>
+                                    <th>ΔT</th>
+                                    <th>Coolant Flow</th>
+                                    <th>Heat Removal</th>
+                                    <th>Cooling Eff.</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {sortedLiquidCooling.map((item) => (
+                                    <tr key={item.rackId} className="rack-table-row">
+                                        <td className="rack-table-cell-name">{item.rackName}</td>
+                                        <td className="rack-table-cell-center">{item.coolantInlet.toFixed(2)} °C</td>
+                                        <td className="rack-table-cell-center">{item.coolantOutlet.toFixed(2)} °C</td>
+                                        <td className="rack-table-cell-center">{item.deltaT.toFixed(2)} °C</td>
+                                        <td className="rack-table-cell-center">{item.coolantFlow.toFixed(2)} L/min</td>
+                                        <td className="rack-table-cell-center">{item.heatRemoval} kW</td>
+                                        <td className="rack-table-cell-center">
+                                            <span className={`utilization-badge ${getBadgeClass('coolingEff', item.coolingEff)}`}>
+                                                {formatPercent(item.coolingEff)}
+                                            </span>
+                                        </td>
+                                    </tr>
+                                ))}
+                            </tbody>
+                        </table>
+                    )}
+
+                    {/* TAB 1, SUB-TAB 1: AIR COOLING */}
+                    {selectedTab === 1 && coolingSubTab === 1 && (
+                        <table className="rack-modal-table">
+                            <thead>
+                                <tr>
+                                    <th>Rack</th>
+                                    <th>Hall Supply</th>
+                                    <th>Hall Return</th>
+                                    <th>ΔT</th>
+                                    <th>Airflow</th>
+                                    <th>Heat Removal</th>
+                                    <th>Cooling Eff.</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {sortedAirCooling.map((item) => (
+                                    <tr key={item.rackId} className="rack-table-row">
+                                        <td className="rack-table-cell-name">{item.rackName}</td>
+                                        <td className="rack-table-cell-center">{item.hallSupply.toFixed(2)} °C</td>
+                                        <td className="rack-table-cell-center">{item.hallReturn.toFixed(2)} °C</td>
+                                        <td className="rack-table-cell-center">{item.deltaT.toFixed(2)} °C</td>
+                                        <td className="rack-table-cell-center">{item.airflow.toFixed(2)} CFM</td>
+                                        <td className="rack-table-cell-center">{item.heatRemoval.toFixed(2)} kW</td>
+                                        <td className="rack-table-cell-center">
+                                            <span className={`utilization-badge ${getBadgeClass('coolingEff', item.coolingEff)}`}>
+                                                {formatPercent(item.coolingEff)}
+                                            </span>
+                                        </td>
+                                    </tr>
+                                ))}
+                            </tbody>
+                        </table>
+                    )}
+
+                    {/* TAB 2: POWER TELEMETRY */}
+                    {selectedTab === 2 && (
+                        <table className="rack-modal-table">
+                            <thead>
+                                <tr>
+                                    <th>Rack</th>
+                                    <th>Active Servers</th>
+                                    <th>Active Power</th>
+                                    <th>Avg Power</th>
+                                    <th>Peak Power</th>
+                                    <th>Capacity</th>
+                                    <th>Utilization</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {sortedPowerData.map((item) => (
+                                    <tr key={item.rackId} className="rack-table-row">
+                                        <td className="rack-table-cell-name">{item.rackName}</td>
+                                        <td className="rack-table-cell-center">{item.activeServer}</td>
+                                        <td className="rack-table-cell-center">{item.activePower.toFixed(2)} kW</td>
+                                        <td className="rack-table-cell-center">{item.avgPower.toFixed(2)} kW</td>
+                                        <td className="rack-table-cell-center">{item.peakPower.toFixed(2)} kW</td>
+                                        <td className="rack-table-cell-center">{item.capacity} kW</td>
+                                        <td className="rack-table-cell-center">
+                                            <span className={`utilization-badge ${getBadgeClass('utilization', item.utilization)}`}>
+                                                {formatPercent(item.utilization)}
+                                            </span>
+                                        </td>
+                                    </tr>
+                                ))}
+                            </tbody>
+                        </table>
+                    )}
                 </div>
             </div>
 
-            {/* Reusable Historical Data Modal with Fullscreen Backdrop Blur */}
+            {/* Reusable Historical Data Modal */}
             <HistoricalDataModal
                 isOpen={isHistoryOpen}
                 title={`NVL72 ${rowLabel} - Historical Data`}
+                level="row"
+                rowLabel={rowLabel}
+                currentScenario={currentScenario}
                 onClose={() => setIsHistoryOpen(false)}
             />
         </div>

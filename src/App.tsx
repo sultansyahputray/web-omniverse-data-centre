@@ -95,6 +95,13 @@ export const App: React.FC = () => {
     });
     const [timeOfDay, setTimeOfDay] = useState<TimeOfDay>('pagi');
     const [cameraView, setCameraView] = useState<CameraView>('iso');
+    const [loadScenario, setLoadScenario] = useState<string>(() => {
+        if (typeof window !== 'undefined') {
+            const params = new URLSearchParams(window.location.search);
+            return params.get('scenario') || 'Normal Load';
+        }
+        return 'Normal Load';
+    });
     const [screenPositions, setScreenPositions] = useState<Record<string, ScreenPosition>>({});
 
     const activePortRef = useRef<number>(8089);
@@ -240,6 +247,12 @@ export const App: React.FC = () => {
         lastUserCamRef.current = Date.now();
         setCameraView(view);
         await postBackend('set-camera-view', { view });
+    };
+
+    // Change Load Scenario (Normal Load / Medium Load / High Load) for Hall to Superchip levels
+    const handleSelectScenario = async (scenario: string) => {
+        setLoadScenario(scenario);
+        await postBackend('set-scenario', { scenario });
     };
 
     // Transition from Level 2 -> Level 3 (Building Interior)
@@ -731,11 +744,13 @@ export const App: React.FC = () => {
                         activeHallId={activeHall}
                         regionMetric={currentRegionMetric}
                         cameraView={cameraView}
+                        currentScenario={loadScenario}
                         screenPositions={screenPositions}
                         onBackToBuilding={handleBackToBuilding}
                         onSelectHall={handleEnterHall}
                         onSelectRow={handleSelectRow}
                         onSelectCameraView={handleSelectCameraView}
+                        onSelectScenario={handleSelectScenario}
                     />
                 )}
                 {currentLevel === 'row' && activeRow && (
@@ -745,8 +760,10 @@ export const App: React.FC = () => {
                         activeRow={activeRow}
                         regionMetric={currentRegionMetric}
                         cameraView={cameraView}
+                        currentScenario={loadScenario}
                         onBackToHall={handleBackToHall}
                         onSelectCameraView={handleSelectCameraView}
+                        onSelectScenario={handleSelectScenario}
                     />
                 )}
                 {currentLevel === 'rack' && activeRow && (
@@ -758,10 +775,12 @@ export const App: React.FC = () => {
                         activeRackNum={activeRackNum}
                         regionMetric={currentRegionMetric}
                         cameraView={cameraView}
+                        currentScenario={loadScenario}
                         screenPositions={screenPositions}
                         onBackToRow={handleBackToRowFromRack}
                         onBackToHall={handleBackToHallFromRack}
                         onSelectCameraView={handleSelectCameraView}
+                        onSelectScenario={handleSelectScenario}
                         onSelectServer={handleSelectServer}
                     />
                 )}
@@ -776,11 +795,13 @@ export const App: React.FC = () => {
                         activeServerNum={activeServerNum}
                         regionMetric={currentRegionMetric}
                         cameraView={cameraView}
+                        currentScenario={loadScenario}
                         screenPositions={screenPositions}
                         onBackToRack={handleBackToRackFromServer}
                         onBackToRow={handleBackToRowFromServer}
                         onBackToHall={handleBackToHallFromServer}
                         onSelectCameraView={handleSelectCameraView}
+                        onSelectScenario={handleSelectScenario}
                         onSelectServer={handleSelectServer}
                         onSelectSuperChip={handleSelectSuperChip}
                         onSelectPrim={handleSelectPrim}
@@ -798,12 +819,14 @@ export const App: React.FC = () => {
                         activeSuperchipNum={activeSuperchipNum}
                         regionMetric={currentRegionMetric}
                         cameraView={cameraView}
+                        currentScenario={loadScenario}
                         screenPositions={screenPositions}
                         onBackToServer={handleBackToServerFromSuperchip}
                         onBackToRack={handleBackToRackFromServer}
                         onBackToRow={handleBackToRowFromServer}
                         onBackToHall={handleBackToHallFromServer}
                         onSelectCameraView={handleSelectCameraView}
+                        onSelectScenario={handleSelectScenario}
                         onSelectServer={handleSelectServer}
                         onSelectSuperChip={handleSelectSuperChip}
                         onSelectPrim={handleSelectPrim}

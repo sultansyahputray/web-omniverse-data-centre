@@ -1,109 +1,127 @@
 import React, { useState, useMemo } from 'react';
 import { NavigationButton, ButtonBarWithStatus, ButtonBarWithStatusItem, CloseButton } from '../../reusable/Button';
 import { MicrochipIcon } from '../../Icons';
+import { getStatus } from '../../thresholdUtils';
+import level7Data from '../../data/level7ComputeTray.json';
 
 interface Level7ServerDetailCardProps {
     serverNum: number;
     rackNum: number;
     rowLabel?: string;
+    scenario?: string;
+    timeSlot?: number;
     onClose: () => void;
     onViewHistory: () => void;
 }
 
-const SERVER_TABS: ButtonBarWithStatusItem[] = [
-    { label: 'Computing', status: [{ label: 'alert', color: '#ef4444', count: 1 }] },
-    { label: 'Cooling' },
-    { label: 'Power' }
-];
-
 export const Level7ServerDetailCard: React.FC<Level7ServerDetailCardProps> = ({
     serverNum,
     rackNum,
+    scenario = 'Low Load',
+    timeSlot = 0,
     onClose,
     onViewHistory
 }) => {
-    // Default active tab to Cooling (index 1) exactly as shown in reference Image 2
-    const [activeTabIdx, setActiveTabIdx] = useState(1);
+    // Default active tab to Computing (index 0)
+    const [activeTabIdx, setActiveTabIdx] = useState(0);
 
     const formattedServerNum = String(serverNum).padStart(2, '0');
 
-    // Dynamic metrics based on server number, matching stage structure:
-    // 2 Super Chips -> 2 Vera CPUs, 4 Rubin GPUs per Compute Tray
-    const metrics = useMemo(() => {
-        if (serverNum === 4 || serverNum === 8) {
-            return {
-                coolantInlet: '21.2',
-                coolantOutlet: '26.8',
-                veraCpu1: '56',
-                veraCpu2: '58',
-                rubinGpu1: '52',
-                rubinGpu2: '50',
-                rubinGpu3: '54',
-                rubinGpu4: '49',
-                cpuUtil: '54',
-                gpuUtil: '58',
-                activeSuperChips: '2 / 2',
-                activeCpus: '2 / 2',
-                activeGpus: '4 / 4',
-                gpuMemUtil: '29%',
-                memUtil: '36%',
-                diskUtil: '31%',
-                readThroughput: '2.8',
-                writeThroughput: '1.9',
-                nvlink: '890',
-                runningJobs: '4',
-                dcVoltage: '48.2',
-                trayCurrent: '16.6',
-                activePower: '2.40',
-                powerUtil: '38.3%',
-                dailyConsumption: '57.6',
-                vrmEff: '95.4%',
-                powerFactor: '0.98'
-            };
-        }
+    // Normalize scenario key
+    const normalizedScenario = useMemo(() => {
+        if (!scenario) return 'Low Load';
+        const s = scenario.toLowerCase();
+        if (s.includes('high')) return 'High Load';
+        if (s.includes('med')) return 'Medium Load';
+        return 'Low Load';
+    }, [scenario]);
 
-        // Realistic variations for other server numbers
-        const delta = (serverNum % 5) * 1.2;
+    const activeDataset = useMemo(() => {
+        const d = (level7Data as any)[normalizedScenario] || (level7Data as any)['Low Load'];
+        const safeSlot = Math.min(Math.max(timeSlot, 0), 9);
         return {
-            coolantInlet: (20.5 + delta * 0.3).toFixed(1),
-            coolantOutlet: (25.5 + delta * 0.4).toFixed(1),
-            veraCpu1: String(Math.round(52 + delta * 2)),
-            veraCpu2: String(Math.round(54 + delta * 2)),
-            rubinGpu1: String(Math.round(48 + delta * 2)),
-            rubinGpu2: String(Math.round(46 + delta)),
-            rubinGpu3: String(Math.round(50 + delta * 2)),
-            rubinGpu4: String(Math.round(47 + delta)),
-            cpuUtil: String(Math.round(50 + delta * 3)),
-            gpuUtil: String(Math.round(52 + delta * 3)),
-            activeSuperChips: '2 / 2',
-            activeCpus: '2 / 2',
-            activeGpus: '4 / 4',
-            gpuMemUtil: `${Math.round(25 + delta * 2)}%`,
-            memUtil: `${Math.round(32 + delta * 2)}%`,
-            diskUtil: '31%',
-            readThroughput: (2.5 + delta * 0.1).toFixed(1),
-            writeThroughput: (1.8 + delta * 0.1).toFixed(1),
-            nvlink: '890',
-            runningJobs: String(3 + (serverNum % 3)),
-            dcVoltage: '48.2',
-            trayCurrent: (15.5 + delta * 0.5).toFixed(1),
-            activePower: (2.2 + delta * 0.1).toFixed(2),
-            powerUtil: `${(35 + delta * 2).toFixed(1)}%`,
-            dailyConsumption: (52.0 + delta * 2).toFixed(1),
-            vrmEff: '95.4%',
-            powerFactor: '0.98',
-            powerState: 'P0 (Max Perf)'
+            summary: d.summary[safeSlot] || d.summary[0],
+            computing: d.computing[safeSlot] || d.computing[0],
+            power: d.power[safeSlot] || d.power[0],
+            cooling: d.cooling[safeSlot] || d.cooling[0]
         };
-    }, [serverNum]);
+    }, [normalizedScenario, timeSlot]);
+
+    const { computing, cooling, power } = activeDataset;
+
+    // Computing alert count from metrics exceeding normal threshold
+    const computingAlerts = useMemo(() => {
+        let count = 0;
+        const cpuStat = getStatus('trayCpuUtil', computing.avgCpuUtil);
+        if (cpuStat === 'yellow' || cpuStat === 'orange' || cpuStat === 'red') count++;
+        const gpuStat = getStatus('trayGpuUtil', computing.avgGpuUtil);
+        if (gpuStat === 'yellow' || gpuStat === 'orange' || gpuStat === 'red') count++;
+        const hbmStat = getStatus('trayHbmUtil', computing.avgHbmUtil);
+        if (hbmStat === 'yellow' || hbmStat === 'orange' || hbmStat === 'red') count++;
+        const cpuTempStat = getStatus('trayCpuTemp', computing.avgCpuTemp);
+        if (cpuTempStat === 'yellow' || cpuTempStat === 'orange' || cpuTempStat === 'red') count++;
+        const gpuTempStat = getStatus('trayGpuTemp', computing.avgGpuTemp);
+        if (gpuTempStat === 'yellow' || gpuTempStat === 'orange' || gpuTempStat === 'red') count++;
+        return count;
+    }, [computing]);
+
+    // Cooling alert count
+    const coolingAlerts = useMemo(() => {
+        let count = 0;
+        const cpuTempStat = getStatus('trayCoolingCpuTemp', cooling.avgCpuTemp);
+        if (cpuTempStat === 'yellow' || cpuTempStat === 'orange' || cpuTempStat === 'red') count++;
+        const gpuTempStat = getStatus('trayGpuTemp', cooling.avgGpuTemp);
+        if (gpuTempStat === 'yellow' || gpuTempStat === 'orange' || gpuTempStat === 'red') count++;
+        const hbmTempStat = getStatus('trayHbmTemp', cooling.avgHbmTemp);
+        if (hbmTempStat === 'yellow' || hbmTempStat === 'orange' || hbmTempStat === 'red') count++;
+        const inletStat = getStatus('trayCoolantInletTemp', cooling.avgCoolantInletTemp);
+        if (inletStat === 'yellow' || inletStat === 'orange' || inletStat === 'red') count++;
+        const outletStat = getStatus('trayCoolantOutletTemp', cooling.avgCoolantOutletTemp);
+        if (outletStat === 'yellow' || outletStat === 'orange' || outletStat === 'red') count++;
+        const flowStat = getStatus('trayCoolantFlowRate', cooling.avgCoolantFlowRate);
+        if (flowStat === 'yellow' || flowStat === 'orange' || flowStat === 'red') count++;
+        const leakStat = getStatus('trayLeakDetection', cooling.leakDetection);
+        if (leakStat === 'yellow' || leakStat === 'orange' || leakStat === 'red') count++;
+        return count;
+    }, [cooling]);
+
+    // Power alert count
+    const powerAlerts = useMemo(() => {
+        let count = 0;
+        const cpuPwrStat = getStatus('trayCpuPower', power.cpuPower);
+        if (cpuPwrStat === 'yellow' || cpuPwrStat === 'orange' || cpuPwrStat === 'red') count++;
+        const gpuPwrStat = getStatus('trayGpuPower', power.gpuPower);
+        if (gpuPwrStat === 'yellow' || gpuPwrStat === 'orange' || gpuPwrStat === 'red') count++;
+        const totalPwrStat = getStatus('trayTotalPower', power.trayTotalPower);
+        if (totalPwrStat === 'yellow' || totalPwrStat === 'orange' || totalPwrStat === 'red') count++;
+        const throttleStat = getStatus('trayPowerThrottling', power.powerThrottling);
+        if (throttleStat === 'yellow' || throttleStat === 'orange' || throttleStat === 'red') count++;
+        return count;
+    }, [power]);
+
+    const serverTabs: ButtonBarWithStatusItem[] = useMemo(() => [
+        {
+            label: 'Computing',
+            status: computingAlerts > 0 ? [{ label: 'alert', color: '#ef4444', count: computingAlerts }] : undefined
+        },
+        {
+            label: 'Cooling',
+            status: coolingAlerts > 0 ? [{ label: 'alert', color: '#ef4444', count: coolingAlerts }] : undefined
+        },
+        {
+            label: 'Power',
+            status: powerAlerts > 0 ? [{ label: 'alert', color: '#ef4444', count: powerAlerts }] : undefined
+        }
+    ], [computingAlerts, coolingAlerts, powerAlerts]);
 
     const renderParamRow = (
         label: string,
         value: string | number,
-        unit: string = '°C',
-        badgeColor: 'green' | 'yellow' | 'orange' | 'red' = 'green'
+        unit: string = '',
+        badgeColor: 'green' | 'yellow' | 'orange' | 'red' | 'default' = 'default'
     ) => (
         <div className="server-detail-row">
-            <span className="server-detail-label">{label}</span>
+            <span className="server-detail-label" title={label}>{label}</span>
             <div className="server-detail-val-group">
                 <span className={`server-detail-badge badge-${badgeColor}`}>{value}</span>
                 {unit ? (
@@ -144,59 +162,134 @@ export const Level7ServerDetailCard: React.FC<Level7ServerDetailCardProps> = ({
             {/* HORIZONTAL DIVIDER */}
             <div className="title-h-divider"></div>
 
-            {/* Capsule Tabs: Computing [1] | Cooling | Power */}
+            {/* Capsule Tabs: Computing [alert] | Cooling [alert] | Power [alert] */}
             <div className="server-card-tabs-container">
                 <ButtonBarWithStatus
-                    items={SERVER_TABS}
+                    items={serverTabs}
                     selectedIndex={activeTabIdx}
                     onSelect={(idx) => setActiveTabIdx(idx)}
                 />
             </div>
 
-            {/* Tab Contents: Single column list */}
+            {/* Tab Contents: Strictly ONLY the parameters in the user's spreadsheet */}
             <div className="server-card-content">
-                {activeTabIdx === 1 && (
-                    // COOLING TAB: 2 Vera CPUs, 4 Rubin GPUs
+                {activeTabIdx === 0 && (
+                    // COMPUTING TAB (Strictly 5 parameters)
                     <div className="server-card-list">
-                        {renderParamRow('Coolant Inlet Temperature', metrics.coolantInlet, '°C')}
-                        {renderParamRow('Coolant Outlet Temperature', metrics.coolantOutlet, '°C')}
-                        {renderParamRow('Vera CPU 1 Temperature', metrics.veraCpu1, '°C')}
-                        {renderParamRow('Vera CPU 2 Temperature', metrics.veraCpu2, '°C')}
-                        {renderParamRow('Rubin GPU 1 Temperature', metrics.rubinGpu1, '°C')}
-                        {renderParamRow('Rubin GPU 2 Temperature', metrics.rubinGpu2, '°C')}
-                        {renderParamRow('Rubin GPU 3 Temperature', metrics.rubinGpu3, '°C')}
-                        {renderParamRow('Rubin GPU 4 Temperature', metrics.rubinGpu4, '°C')}
+                        {renderParamRow(
+                            'Avg. CPU Utilisation',
+                            computing.avgCpuUtil.toFixed(2),
+                            '%',
+                            getStatus('trayCpuUtil', computing.avgCpuUtil)
+                        )}
+                        {renderParamRow(
+                            'Avg. GPU Utilisation',
+                            computing.avgGpuUtil.toFixed(3),
+                            '%',
+                            getStatus('trayGpuUtil', computing.avgGpuUtil)
+                        )}
+                        {renderParamRow(
+                            'Avg. HBM Utilisation',
+                            computing.avgHbmUtil.toFixed(2),
+                            '%',
+                            getStatus('trayHbmUtil', computing.avgHbmUtil)
+                        )}
+                        {renderParamRow(
+                            'Avg. CPU Temperature',
+                            computing.avgCpuTemp.toFixed(1),
+                            '°C',
+                            getStatus('trayCpuTemp', computing.avgCpuTemp)
+                        )}
+                        {renderParamRow(
+                            'Avg. GPU Temperature',
+                            computing.avgGpuTemp.toFixed(2),
+                            '°C',
+                            getStatus('trayGpuTemp', computing.avgGpuTemp)
+                        )}
                     </div>
                 )}
 
-                {activeTabIdx === 0 && (
-                    // COMPUTING TAB
+                {activeTabIdx === 1 && (
+                    // COOLING TAB (Strictly 7 parameters)
                     <div className="server-card-list">
-                        {renderParamRow('CPU Utilization', `${metrics.cpuUtil}%`, '')}
-                        {renderParamRow('GPU Utilization', `${metrics.gpuUtil}%`, '')}
-                        {renderParamRow('Active Super Chips', metrics.activeSuperChips, '')}
-                        {renderParamRow('Active Vera CPUs', metrics.activeCpus, '')}
-                        {renderParamRow('Active Rubin GPUs', metrics.activeGpus, '')}
-                        {renderParamRow('GPU Memory Utilization', metrics.gpuMemUtil, '')}
-                        {renderParamRow('Memory Utilization', metrics.memUtil, '')}
-                        {renderParamRow('Disk Utilization', metrics.diskUtil, '')}
-                        {renderParamRow('Read Throughput', metrics.readThroughput, 'GB/s')}
-                        {renderParamRow('Write Throughput', metrics.writeThroughput, 'GB/s')}
-                        {renderParamRow('NVLink Throughput', metrics.nvlink, 'GB/s')}
-                        {renderParamRow('Running Jobs', metrics.runningJobs, '')}
+                        {renderParamRow(
+                            'Avg. CPU Temperature',
+                            cooling.avgCpuTemp.toFixed(2),
+                            '°C',
+                            getStatus('trayCoolingCpuTemp', cooling.avgCpuTemp)
+                        )}
+                        {renderParamRow(
+                            'Avg. GPU Temperature',
+                            cooling.avgGpuTemp.toFixed(1),
+                            '°C',
+                            getStatus('trayGpuTemp', cooling.avgGpuTemp)
+                        )}
+                        {renderParamRow(
+                            'Avg. HBM Temperature',
+                            cooling.avgHbmTemp.toFixed(2),
+                            '°C',
+                            getStatus('trayHbmTemp', cooling.avgHbmTemp)
+                        )}
+                        {renderParamRow(
+                            'Avg. Coolant Inlet Temperature',
+                            cooling.avgCoolantInletTemp.toFixed(2),
+                            '°C',
+                            getStatus('trayCoolantInletTemp', cooling.avgCoolantInletTemp)
+                        )}
+                        {renderParamRow(
+                            'Avg. Coolant Outlet Temperature',
+                            cooling.avgCoolantOutletTemp.toFixed(2),
+                            '°C',
+                            getStatus('trayCoolantOutletTemp', cooling.avgCoolantOutletTemp)
+                        )}
+                        {renderParamRow(
+                            'Avg. Coolant Flow Rate',
+                            cooling.avgCoolantFlowRate.toFixed(2),
+                            'L/min',
+                            getStatus('trayCoolantFlowRate', cooling.avgCoolantFlowRate)
+                        )}
+                        {renderParamRow(
+                            'Leak Detection',
+                            cooling.leakDetection,
+                            '',
+                            getStatus('trayLeakDetection', cooling.leakDetection)
+                        )}
                     </div>
                 )}
 
                 {activeTabIdx === 2 && (
-                    // POWER TAB
+                    // POWER TAB (Strictly 5 parameters)
                     <div className="server-card-list">
-                        {renderParamRow('DC Bus Voltage', metrics.dcVoltage, 'V')}
-                        {renderParamRow('Tray Current', metrics.trayCurrent, 'A')}
-                        {renderParamRow('Active Power', metrics.activePower, 'kW')}
-                        {renderParamRow('Power Utilization', metrics.powerUtil, '')}
-                        {renderParamRow('Daily Consumption', metrics.dailyConsumption, 'kWh')}
-                        {renderParamRow('VRM Efficiency', metrics.vrmEff, '')}
-                        {renderParamRow('Power Factor', metrics.powerFactor, '')}
+                        {renderParamRow(
+                            'CPU Power',
+                            power.cpuPower.toFixed(3),
+                            'kW',
+                            getStatus('trayCpuPower', power.cpuPower)
+                        )}
+                        {renderParamRow(
+                            'GPU Power',
+                            power.gpuPower.toFixed(3),
+                            'kW',
+                            getStatus('trayGpuPower', power.gpuPower)
+                        )}
+                        {renderParamRow(
+                            'Tray Total Power',
+                            power.trayTotalPower.toFixed(3),
+                            'kW',
+                            getStatus('trayTotalPower', power.trayTotalPower)
+                        )}
+                        {renderParamRow(
+                            'Power Limit / Power Capacity',
+                            power.powerLimit.toFixed(1),
+                            'kW',
+                            'default'
+                        )}
+                        {renderParamRow(
+                            'Avg. Power Throttling',
+                            power.powerThrottling.toFixed(2),
+                            '%',
+                            getStatus('trayPowerThrottling', power.powerThrottling)
+                        )}
                     </div>
                 )}
             </div>
