@@ -156,8 +156,14 @@ export const Level3BuildingView: React.FC<Level3BuildingViewProps> = ({
             {/* 3D Floating Utility / Exterior Zone Tags (hidden in Power & Cooling Details modes) */}
             {!isDetailView &&
                 REGION_ZONES.filter((z) => !z.isMain).map((zone) => {
-                    const screenPos = screenPositions ? screenPositions[zone.id] : undefined;
-                    const isVisible = hasBuildingTracking ? Boolean(screenPos && screenPos.visible) : true;
+                    const screenPos = screenPositions
+                        ? (screenPositions[zone.id]
+                            || (zone.id === 'electrical_substation' ? screenPositions['power_station'] : undefined)
+                            || (zone.id === 'heat_rejection' ? screenPositions['cooling_station'] : undefined))
+                        : undefined;
+                    const isVisible = screenPos !== undefined
+                        ? Boolean(screenPos.visible && screenPos.x >= 0 && screenPos.x <= 100 && screenPos.y >= 0 && screenPos.y <= 100)
+                        : true;
 
                     return (
                         <FloatingZoneTag

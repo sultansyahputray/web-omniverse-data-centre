@@ -14,56 +14,56 @@ export const REGION_ZONES: RegionZoneItem[] = [
         id: 'example_building',
         label: 'Main Building',
         primPath: '/World/region/example_building',
-        defaultPos: { x: 54, y: 38 },
+        defaultPos: { x: 50.3, y: 48.6 },
         isMain: true
     },
     {
         id: 'chiller_yard',
         label: 'Chiller Yard',
         primPath: '/World/region/chiller_yard',
-        defaultPos: { x: 64, y: 62 }
+        defaultPos: { x: 66, y: 51 }
     },
     {
         id: 'electrical_substation',
         label: 'Electrical Substation',
         primPath: '/World/region/electrical_substation',
-        defaultPos: { x: 30, y: 56 }
+        defaultPos: { x: 24, y: 65 }
     },
     {
         id: 'fire_water_unit',
         label: 'Fire Water Unit',
         primPath: '/World/region/fire_water_unit',
-        defaultPos: { x: 82, y: 65 }
+        defaultPos: { x: 65, y: 62 }
     },
     {
         id: 'fuel_compound',
         label: 'Fuel Compound',
         primPath: '/World/region/fuel_compound',
-        defaultPos: { x: 50, y: 70 }
+        defaultPos: { x: 35, y: 39 }
     },
     {
         id: 'generator_yard',
         label: 'Generator Yard',
         primPath: '/World/region/generator_yard',
-        defaultPos: { x: 42, y: 64 }
+        defaultPos: { x: 29, y: 50 }
     },
     {
         id: 'hall_trafo_building',
         label: 'Hall Trafo Building',
         primPath: '/World/region/hall_trafo_building',
-        defaultPos: { x: 36, y: 46 }
+        defaultPos: { x: 35, y: 67 }
     },
     {
         id: 'heat_rejection',
         label: 'Heat Rejection',
         primPath: '/World/region/heat_rejection',
-        defaultPos: { x: 75, y: 55 }
+        defaultPos: { x: 65, y: 44 }
     },
     {
         id: 'operation_office',
         label: 'Operation Office',
         primPath: '/World/region/operation_office',
-        defaultPos: { x: 66, y: 74 }
+        defaultPos: { x: 58, y: 72 }
     }
 ];
 
@@ -105,12 +105,6 @@ export const Level2RegionView: React.FC<Level2RegionViewProps> = ({
 
     const currentTelemetry = level2BuildingData.values[telemetryIndex];
 
-    // Only consider live tracking active if screenPositions actually contains Region zone keys.
-    // If it only contains Level 1 Earth keys (SG, AUS, JPN), fallback to showing default positions.
-    const hasRegionTracking = Boolean(
-        screenPositions && REGION_ZONES.some((zone) => zone.id in screenPositions)
-    );
-
     return (
         <div className="level2-region-overlay">
             {/* Top-Left: Back Button + Region Title */}
@@ -128,11 +122,18 @@ export const Level2RegionView: React.FC<Level2RegionViewProps> = ({
 
             {/* 8 Floating 3D Zone Tags across Region with occlusion awareness */}
             {REGION_ZONES.map((zone) => {
-                const screenPos = screenPositions ? screenPositions[zone.id] : undefined;
-                // If live 3D tracking data is arriving for this region from Omniverse Kit:
-                // Strictly respect screenPos.visible (occluded by building / behind camera = hidden).
-                // If region coordinates have not arrived yet, keep buttons visible at default positions.
-                const isVisible = hasRegionTracking ? Boolean(screenPos && screenPos.visible) : true;
+                // Support both current IDs and legacy alias IDs for seamless live tracking
+                const screenPos = screenPositions
+                    ? (screenPositions[zone.id]
+                        || (zone.id === 'electrical_substation' ? screenPositions['power_station'] : undefined)
+                        || (zone.id === 'heat_rejection' ? screenPositions['cooling_station'] : undefined))
+                    : undefined;
+
+                // If live 3D tracking is arriving for this zone:
+                // Hide only if off-screen or behind camera. If not tracked yet, keep visible at default position!
+                const isVisible = screenPos !== undefined
+                    ? Boolean(screenPos.visible && screenPos.x >= 0 && screenPos.x <= 100 && screenPos.y >= 0 && screenPos.y <= 100)
+                    : true;
 
                 return (
                     <FloatingZoneTag
