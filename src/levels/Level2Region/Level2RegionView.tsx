@@ -15,61 +15,81 @@ export const REGION_ZONES: RegionZoneItem[] = [
         label: 'Main Building',
         primPath: '/World/region/example_building',
         defaultPos: { x: 50.3, y: 48.6 },
+        offsetX: 0,
+        offsetY: 0,
         isMain: true
     },
     {
         id: 'chiller_yard',
         label: 'Chiller Yard',
         primPath: '/World/region/chiller_yard',
-        defaultPos: { x: 66, y: 51 }
+        defaultPos: { x: 45, y: 37.5 },
+        offsetX: 0,
+        offsetY: 0
     },
     {
         id: 'electrical_substation',
         label: 'Electrical Substation',
         primPath: '/World/region/electrical_substation',
-        defaultPos: { x: 24, y: 65 }
-    },
-    {
-        id: 'fire_water_unit',
-        label: 'Fire Water Unit',
-        primPath: '/World/region/fire_water_unit',
-        defaultPos: { x: 65, y: 62 }
-    },
-    {
-        id: 'water_treatment_unit',
-        label: 'Water Treatment Unit',
-        primPath: '/World/region/water_treatment_unit',
-        defaultPos: { x: 65, y: 54 }
+        defaultPos: { x: 31, y: 62 },
+        offsetX: 0,
+        offsetY: 0
     },
     {
         id: 'fuel_compound',
         label: 'Fuel Compound',
         primPath: '/World/region/fuel_compound',
-        defaultPos: { x: 35, y: 39 }
+        defaultPos: { x: 33.5, y: 37.5 },
+        offsetX: 0,
+        offsetY: 0
     },
     {
         id: 'generator_yard',
         label: 'Generator Yard',
         primPath: '/World/region/generator_yard',
-        defaultPos: { x: 29, y: 50 }
+        defaultPos: { x: 33.5, y: 49 },
+        offsetX: 0,
+        offsetY: 0
     },
     {
         id: 'hall_trafo_building',
         label: 'Hall Trafo Building',
         primPath: '/World/region/hall_trafo_building',
-        defaultPos: { x: 35, y: 67 }
+        defaultPos: { x: 43.5, y: 64.5 },
+        offsetX: 0,
+        offsetY: 0
+    },
+    {
+        id: 'water_treatment_unit',
+        label: 'Water Treatment Unit',
+        primPath: '/World/region/water_treatment_unit',
+        defaultPos: { x: 65, y: 54 },
+        offsetX: 0,
+        offsetY: 0
+    },
+    {
+        id: 'fire_water_unit',
+        label: 'Fire Water Unit',
+        primPath: '/World/region/fire_water_unit',
+        defaultPos: { x: 65, y: 62 },
+        offsetX: 0,
+        offsetY: 0
     },
     {
         id: 'heat_rejection',
         label: 'Heat Rejection',
         primPath: '/World/region/heat_rejection',
-        defaultPos: { x: 65, y: 44 }
+        defaultPos: { x: 58.5, y: 36.5 },
+        offsetX: 0,
+        offsetY: 0
     },
     {
         id: 'operation_office',
         label: 'Operation Office',
         primPath: '/World/region/operation_office',
-        defaultPos: { x: 58, y: 72 }
+        defaultPos: { x: 61, y: 62 },
+        offsetX: 0,
+        offsetY: 0
     }
 ];
 
