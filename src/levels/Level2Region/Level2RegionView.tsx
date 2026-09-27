@@ -18,16 +18,22 @@ export const REGION_ZONES: RegionZoneItem[] = [
         isMain: true
     },
     {
-        id: 'power_station',
-        label: 'Power Service Zone',
-        primPath: '/World/region/power_station',
+        id: 'chiller_yard',
+        label: 'Chiller Yard',
+        primPath: '/World/region/chiller_yard',
+        defaultPos: { x: 64, y: 62 }
+    },
+    {
+        id: 'electrical_substation',
+        label: 'Electrical Substation',
+        primPath: '/World/region/electrical_substation',
         defaultPos: { x: 30, y: 56 }
     },
     {
-        id: 'generator_yard',
-        label: 'Generator Yard',
-        primPath: '/World/region/generator_yard',
-        defaultPos: { x: 42, y: 64 }
+        id: 'fire_water_unit',
+        label: 'Fire Water Unit',
+        primPath: '/World/region/fire_water_unit',
+        defaultPos: { x: 82, y: 65 }
     },
     {
         id: 'fuel_compound',
@@ -36,22 +42,22 @@ export const REGION_ZONES: RegionZoneItem[] = [
         defaultPos: { x: 50, y: 70 }
     },
     {
-        id: 'chiller_yard',
-        label: 'Chiller Yard',
-        primPath: '/World/region/chiller_yard',
-        defaultPos: { x: 64, y: 62 }
+        id: 'generator_yard',
+        label: 'Generator Yard',
+        primPath: '/World/region/generator_yard',
+        defaultPos: { x: 42, y: 64 }
     },
     {
-        id: 'cooling_station',
-        label: 'Cooling Service Zone',
-        primPath: '/World/region/cooling_station',
+        id: 'hall_trafo_building',
+        label: 'Hall Trafo Building',
+        primPath: '/World/region/hall_trafo_building',
+        defaultPos: { x: 36, y: 46 }
+    },
+    {
+        id: 'heat_rejection',
+        label: 'Heat Rejection',
+        primPath: '/World/region/heat_rejection',
         defaultPos: { x: 75, y: 55 }
-    },
-    {
-        id: 'fire_water_unit',
-        label: 'Fire Brigade',
-        primPath: '/World/region/fire_water_unit',
-        defaultPos: { x: 82, y: 65 }
     },
     {
         id: 'operation_office',
