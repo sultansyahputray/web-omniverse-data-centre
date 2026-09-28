@@ -434,7 +434,8 @@
 }
 
 .level6-rack-heatmap-card .rack-card-alert-badge {
-    background: #dc2626;
+    background: var(--status-red-bg);
+    border: 1.5px solid var(--status-red-border);
     color: #ffffff;
     font-family: 'Inter', system-ui, -apple-system, sans-serif;
     font-size: 12.5px;
@@ -445,7 +446,7 @@
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    box-shadow: 0 0 10px rgba(220, 38, 38, 0.45);
+    box-shadow: 0 0 10px rgba(255, 56, 60, 0.45);
 }
 
 .level6-rack-heatmap-card .rack-card-history-btn {
@@ -499,21 +500,28 @@
 }
 
 .rack-metric-badge.badge-green {
-    background: #16a34a !important;
-    border: none !important;
-    box-shadow: 0 0 8px rgba(22, 163, 74, 0.4);
+    background-color: var(--status-green-bg) !important;
+    border: 1.5px solid var(--status-green-border) !important;
+    box-shadow: 0 0 8px rgba(52, 199, 89, 0.35);
+}
+
+.rack-metric-badge.badge-yellow,
+.rack-metric-badge.badge-gold {
+    background-color: var(--status-yellow-bg) !important;
+    border: 1.5px solid var(--status-yellow-border) !important;
+    box-shadow: 0 0 8px rgba(255, 204, 0, 0.35);
+}
+
+.rack-metric-badge.badge-orange {
+    background-color: var(--status-orange-bg) !important;
+    border: 1.5px solid var(--status-orange-border) !important;
+    box-shadow: 0 0 8px rgba(255, 141, 40, 0.35);
 }
 
 .rack-metric-badge.badge-red {
-    background: #dc2626 !important;
-    border: none !important;
-    box-shadow: 0 0 8px rgba(220, 38, 38, 0.45);
-}
-
-.rack-metric-badge.badge-yellow {
-    background: #ca8a04 !important;
-    border: none !important;
-    box-shadow: 0 0 8px rgba(202, 138, 4, 0.4);
+    background-color: var(--status-red-bg) !important;
+    border: 1.5px solid var(--status-red-border) !important;
+    box-shadow: 0 0 8px rgba(255, 56, 60, 0.4);
 }
 
 .rack-metric-unit {
@@ -671,16 +679,22 @@
 }
 
 .tray-badge.badge-green {
-    background: #16a34a !important;
-    border: none !important;
+    background-color: var(--status-green-bg) !important;
+    border: 1.5px solid var(--status-green-border) !important;
+}
+
+.tray-badge.badge-yellow,
+.tray-badge.badge-gold {
+    background-color: var(--status-yellow-bg) !important;
+    border: 1.5px solid var(--status-yellow-border) !important;
+}
+
+.tray-badge.badge-orange {
+    background-color: var(--status-orange-bg) !important;
+    border: 1.5px solid var(--status-orange-border) !important;
 }
 
 .tray-badge.badge-red {
-    background: #dc2626 !important;
-    border: none !important;
-}
-
-.tray-badge.badge-yellow {
-    background: #ca8a04 !important;
-    border: none !important;
+    background-color: var(--status-red-bg) !important;
+    border: 1.5px solid var(--status-red-border) !important;
 }
