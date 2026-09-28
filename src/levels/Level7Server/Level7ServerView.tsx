@@ -14,6 +14,7 @@ import { Level7ColdPlateHeatmapCard } from './Level7ColdPlateHeatmapCard';
 import { Level7BottomGaugesCard } from './Level7BottomGaugesCard';
 import { Level7ComputeTrayListCard } from './Level7ComputeTrayListCard';
 import { Level7FloatingChips } from './Level7FloatingChips';
+import { Level7SuperchipHeatmapLabels } from './Level7SuperchipHeatmapLabels';
 import level7Data from '../../data/level7ComputeTray.json';
 import './Level7Server.css';
 
@@ -179,15 +180,24 @@ export const Level7ServerView: React.FC<Level7ServerViewProps> = ({
                 onSelectPrim={onSelectPrim}
             />
 
-            {/* Floating Navigation Buttons or Heatmap 3-Value Labels for Super Chip 1 & Super Chip 2 */}
-            <Level7FloatingChips
-                activeServerNum={activeServerNum}
-                screenPositions={screenPositions}
-                isHeatmap={activeHeatmap}
-                currentScenario={normalizedScenario}
-                timeSlot={timeSlot}
-                onSelectSuperChip={onSelectSuperChip}
-            />
+            {/* Floating Super Chip Displays:
+                - Heatmap = false: Clickable Navigation Buttons (Super Chip 1, Super Chip 2)
+                - Heatmap = true: Unclickable Telemetry Labels tracking 3D coordinates
+            */}
+            {activeHeatmap ? (
+                <Level7SuperchipHeatmapLabels
+                    activeServerNum={activeServerNum}
+                    screenPositions={screenPositions}
+                    currentScenario={normalizedScenario}
+                    timeSlot={timeSlot}
+                />
+            ) : (
+                <Level7FloatingChips
+                    activeServerNum={activeServerNum}
+                    screenPositions={screenPositions}
+                    onSelectSuperChip={onSelectSuperChip}
+                />
+            )}
 
             {/* Top-Right Actions: Breadcrumb */}
             <div className="level7-top-right-actions">
