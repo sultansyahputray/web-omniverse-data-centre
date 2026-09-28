@@ -520,7 +520,9 @@
    ========================================================================= */
 
 .level7-cold-plate-card {
-    max-height: calc(100vh - 175px);
+    max-height: calc(100vh - 490px);
+    display: flex;
+    flex-direction: column;
 }
 
 .cold-plate-card-title {
@@ -549,10 +551,12 @@
 }
 
 .cold-plate-card-scroll {
+    flex: 1;
+    min-height: 0;
     overflow-y: auto;
     overflow-x: hidden;
-    max-height: calc(100vh - 250px);
-    padding-right: 4px;
+    padding-right: 6px;
+    margin-top: 6px;
 }
 
 .cold-plate-card-scroll::-webkit-scrollbar {
@@ -560,11 +564,12 @@
 }
 
 .cold-plate-card-scroll::-webkit-scrollbar-track {
-    background: transparent;
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 4px;
 }
 
 .cold-plate-card-scroll::-webkit-scrollbar-thumb {
-    background: rgba(255, 255, 255, 0.5);
+    background: rgba(0, 229, 255, 0.4);
     border-radius: 4px;
 }
 

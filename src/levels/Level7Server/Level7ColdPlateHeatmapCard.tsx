@@ -1,7 +1,7 @@
 import React, { useMemo } from 'react';
-import { CloseButton } from '../../reusable/Button';
-import { MicrochipIcon, ChevronRightIcon } from '../../Icons';
-import { getStatus, ThresholdStatus } from '../../thresholdUtils';
+import { NavigationButton, CloseButton } from '../../reusable/Button';
+import { MicrochipIcon } from '../../Icons';
+import { getStatus } from '../../thresholdUtils';
 import level7ComputeTrayData from '../../data/level7ComputeTray.json';
 import level8SuperchipData from '../../data/level8Superchip.json';
 import './Level7Server.css';
@@ -220,11 +220,12 @@ export const Level7ColdPlateHeatmapCard: React.FC<Level7ColdPlateHeatmapCardProp
     const cardStyle: React.CSSProperties = {
         top: `${155 + offsetY}px`,
         right: `${44 - offsetX}px`,
+        maxHeight: `calc(100vh - ${490 + offsetY}px)`,
     };
 
     return (
         <div className="level7-server-detail-card level7-cold-plate-card" style={cardStyle}>
-            {/* Header: Microchip Icon + Title "Cold Plate" + Alert Badge + View History + Close */}
+            {/* Header: Microchip Icon + Title "Cold Plate" + Alert Badge + NavigationButton View History + Close */}
             <div className="server-card-header">
                 <div className="server-card-header-left">
                     <MicrochipIcon size={26} color="rgba(113, 246, 255, 1)" />
@@ -233,15 +234,18 @@ export const Level7ColdPlateHeatmapCard: React.FC<Level7ColdPlateHeatmapCardProp
                 </div>
 
                 <div className="server-card-header-right">
-                    <button
-                        className="level7-history-btn server-card-history-btn"
+                    <NavigationButton
+                        label="View history"
                         onClick={onViewHistory}
-                        title="View Historical Cold Plate Data"
-                    >
-                        <span>View history</span>
-                        <ChevronRightIcon size={12} color="#00C3D0" />
-                    </button>
-                    <CloseButton size={14} color="#94a3b8" onClick={onClose} />
+                        className="server-card-history-btn"
+                    />
+                    <CloseButton
+                        size={14}
+                        color="#94a3b8"
+                        onClick={onClose}
+                        title="Close heatmap card"
+                        ariaLabel="Close"
+                    />
                 </div>
             </div>
 
