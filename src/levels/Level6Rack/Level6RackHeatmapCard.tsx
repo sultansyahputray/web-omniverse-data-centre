@@ -191,7 +191,7 @@ export const Level6RackHeatmapCard: React.FC<Level6RackHeatmapCardProps> = ({
     const isDynamic = screenPosition !== undefined && screenPosition.x !== undefined && screenPosition.y !== undefined;
     const isVisible = isDynamic ? (screenPosition.visible ?? true) : true;
 
-    const CARD_WIDTH = 380;
+    const CARD_WIDTH = 450;
     const CARD_ESTIMATED_HEIGHT = 650;
 
     const rackPxX = isDynamic ? (screenPosition.x / 100) * windowSize.w : 0;
@@ -327,7 +327,6 @@ export const Level6RackHeatmapCard: React.FC<Level6RackHeatmapCardProps> = ({
                 <div className="rack-card-header-left">
                     <MicrochipIcon size={24} color="#00E5FF" />
                     <span className="rack-card-title">{rackTitle}</span>
-                    <span className="rack-card-alert-badge">{alertCount}</span>
                 </div>
 
                 <div className="rack-card-header-right">
@@ -366,9 +365,6 @@ export const Level6RackHeatmapCard: React.FC<Level6RackHeatmapCardProps> = ({
             <div className="rack-trays-section">
                 <div className="rack-trays-header-row">
                     <span className="rack-trays-title">Tray Temperature (Sensors)</span>
-                    <div className="rack-trays-indicator-btn" title="Sensor Telemetry Status">
-                        E
-                    </div>
                 </div>
 
                 <div className="rack-trays-table">
