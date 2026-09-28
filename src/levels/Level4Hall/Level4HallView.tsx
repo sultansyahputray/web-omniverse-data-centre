@@ -13,40 +13,39 @@ import level4HallData from '../../data/level4Hall.json';
 import './Level4Hall.css';
 
 /**
- * Row Button Placement Offsets & Anchors (matching Level Country pattern):
- * - offsetX: geser posisi horizontal (+ ke kanan, - ke kiri dalam %)
- * - offsetY: geser posisi vertikal (+ ke bawah, - ke atas dalam %)
- * - anchor: 'rack1' (depan lorong), 'rack10' (belakang lorong), atau 'auto'
+ * Row Button Placement Offsets & Anchors (Tombol Floating Row A - Row F di Level 4 Data Hall):
+ * Anda dapat menyesuaikan posisi tombol di layar secara bebas di sini:
+ * - offsetX: geser posisi horizontal (+ geser ke kanan, - geser ke kiri dalam % layar)
+ * - offsetY: geser posisi vertikal (+ geser ke bawah, - geser ke atas dalam % layar)
+ * - anchor: 'rack1' (anchor di rack depan), 'rack10' (anchor di rack belakang), atau 'auto'
  */
 export const HALL_ROW_PLACEMENTS: Record<string, RowPlacement> = {
-    row_01: {
+    row_01: { // Row A
         offsetX: 0,
         offsetY: 0,
         anchor: 'rack1'
     },
-    row_02: {
+    row_02: { // Row B
         offsetX: 0,
         offsetY: 0,
         anchor: 'rack1'
     },
-    // Row C & Row D berada di titik pod yang sama di 3D, dipisahkan dengan offset horizontal/vertikal
-    row_03: {
+    row_03: { // Row C
         offsetX: -4,
         offsetY: 0,
         anchor: 'rack1'
     },
-    row_04: {
+    row_04: { // Row D
         offsetX: 4,
         offsetY: 0,
         anchor: 'rack1'
     },
-    // Row E & Row F berada di titik pod yang sama di 3D, dipisahkan dengan offset horizontal/vertikal
-    row_05: {
+    row_05: { // Row E
         offsetX: -4,
         offsetY: 0,
         anchor: 'rack1'
     },
-    row_06: {
+    row_06: { // Row F
         offsetX: 4,
         offsetY: 0,
         anchor: 'rack1'
