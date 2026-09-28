@@ -5,7 +5,7 @@ import { BreadcrumbItem } from '../../reusable/Breadcrumb';
 import { Level4ComputingCard } from './Level4ComputingCard';
 import { Level4PowerSummaryCard } from './Level4PowerSummaryCard';
 import { Level4CoolingSummaryCard } from './Level4CoolingSummaryCard';
-import { HallRowItem, Level4FloatingRows, RowPlacement } from './Level4FloatingRows';
+import { HallRowItem, Level4FloatingRows, RowPlacement, DEFAULT_HALL_ROW_PLACEMENTS } from './Level4FloatingRows';
 import { AdaptiveViewCube } from '../Level2Region/AdaptiveViewCube';
 import { LoadScenarioSelector } from '../../reusable/LoadScenarioSelector';
 import { GLOBAL_TIMERS, getTimerMs } from '../../config';
@@ -13,44 +13,10 @@ import level4HallData from '../../data/level4Hall.json';
 import './Level4Hall.css';
 
 /**
- * Row Button Placement Offsets & Anchors (Tombol Floating Row A - Row F di Level 4 Data Hall):
- * Anda dapat menyesuaikan posisi tombol di layar secara bebas di sini:
- * - offsetX: geser posisi horizontal (+ geser ke kanan, - geser ke kiri dalam % layar)
- * - offsetY: geser posisi vertikal (+ geser ke bawah, - geser ke atas dalam % layar)
- * - anchor: 'rack1' (anchor di rack depan), 'rack10' (anchor di rack belakang), atau 'auto'
+ * Row Button Placement Offsets & Anchors:
+ * Mengacu langsung ke DEFAULT_HALL_ROW_PLACEMENTS di Level4FloatingRows.tsx
  */
-export const HALL_ROW_PLACEMENTS: Record<string, RowPlacement> = {
-    row_01: { // Row A
-        offsetX: 0,
-        offsetY: 0,
-        anchor: 'rack1'
-    },
-    row_02: { // Row B
-        offsetX: 0,
-        offsetY: 0,
-        anchor: 'rack1'
-    },
-    row_03: { // Row C
-        offsetX: -4,
-        offsetY: 0,
-        anchor: 'rack1'
-    },
-    row_04: { // Row D
-        offsetX: 4,
-        offsetY: 0,
-        anchor: 'rack1'
-    },
-    row_05: { // Row E
-        offsetX: -4,
-        offsetY: 0,
-        anchor: 'rack1'
-    },
-    row_06: { // Row F
-        offsetX: 4,
-        offsetY: 0,
-        anchor: 'rack1'
-    }
-};
+export const HALL_ROW_PLACEMENTS: Record<string, RowPlacement> = DEFAULT_HALL_ROW_PLACEMENTS;
 
 interface Level4HallViewProps {
     activeRegion: RegionKey;

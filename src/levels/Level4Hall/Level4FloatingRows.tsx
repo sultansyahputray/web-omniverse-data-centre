@@ -22,13 +22,33 @@ export interface RowPlacement {
     visible?: boolean;
 }
 
+/**
+ * =========================================================================
+ * KONFIGURASI POSISI FLOATING BUTTON ROW (ROW A s/d ROW F) DI LEVEL 4 DATA HALL
+ * =========================================================================
+ * Anda dapat menggeser masing-masing tombol row di layar secara bebas di sini:
+ * 
+ * - offsetX: Geser horizontal dalam satuan PERSEN (%) lebar layar:
+ *            Nilai POSITIF (+) = geser ke KANAN (contoh: 2, 4, 8)
+ *            Nilai NEGATIF (-) = geser ke KIRI (contoh: -2, -4, -8)
+ * 
+ * - offsetY: Geser vertikal dalam satuan PERSEN (%) tinggi layar:
+ *            Nilai POSITIF (+) = geser ke BAWAH (contoh: 2, 5)
+ *            Nilai NEGATIF (-) = geser ke ATAS (contoh: -2, -5)
+ * 
+ * - anchor:  'rack1'  -> Mengikuti posisi rack depan (Rack 01)
+ *            'rack10' -> Mengikuti posisi rack belakang (Rack 10)
+ *            'auto'   -> Otomatis pindah jika tertutup card Computing
+ * 
+ * Perubahan di sini langsung terupdate otomatis di browser (Vite Hot Reload)!
+ */
 export const DEFAULT_HALL_ROW_PLACEMENTS: Record<string, RowPlacement> = {
-    row_01: { offsetX: 0, offsetY: 0, anchor: 'rack1' },
-    row_02: { offsetX: 0, offsetY: 0, anchor: 'rack1' },
-    row_03: { offsetX: -4, offsetY: 0, anchor: 'rack1' }, // Row C dipisah ke kiri
-    row_04: { offsetX: 4, offsetY: 0, anchor: 'rack1' },  // Row D dipisah ke kanan
-    row_05: { offsetX: -4, offsetY: 0, anchor: 'rack1' }, // Row E dipisah ke kiri
-    row_06: { offsetX: 4, offsetY: 0, anchor: 'rack1' },  // Row F dipisah ke kanan
+    row_01: { offsetX: 0, offsetY: 0, anchor: 'rack1' },  // Row A
+    row_02: { offsetX: 0, offsetY: 0, anchor: 'rack1' },  // Row B
+    row_03: { offsetX: -4, offsetY: 0, anchor: 'rack1' }, // Row C (dipisah ke kiri)
+    row_04: { offsetX: 4, offsetY: 0, anchor: 'rack1' },  // Row D (dipisah ke kanan)
+    row_05: { offsetX: -4, offsetY: 0, anchor: 'rack1' }, // Row E (dipisah ke kiri)
+    row_06: { offsetX: 4, offsetY: 0, anchor: 'rack1' },  // Row F (dipisah ke kanan)
 };
 
 export const HALL_ROW_ITEMS: HallRowItem[] = [
