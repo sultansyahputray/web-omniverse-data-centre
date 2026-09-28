@@ -2,8 +2,9 @@ import React, { useState, useMemo, useEffect } from 'react';
 import { NavigationButton, CloseButton } from '../../reusable/Button';
 import { MicrochipIcon } from '../../Icons';
 import { ScreenPosition } from '../../types';
-import level6RackData from '../../data/level6Rack.json';
+import { getStatus } from '../../thresholdUtils';
 import level7ComputeTrayData from '../../data/level7ComputeTray.json';
+import level5RackComparisonData from '../../data/level5RackComparison.json';
 
 interface Level6RackHeatmapCardProps {
     rackNum: number;
@@ -52,123 +53,175 @@ export const Level6RackHeatmapCard: React.FC<Level6RackHeatmapCardProps> = ({
     // Time slot 0 to 9 matching [0, 6, 12, 18, 24, 30, 36, 42, 48, 54] minutes
     const timeSlot = getSlotIndexFromTime(currentTime);
 
-    const computingData = level6RackData.computing[timeSlot] || level6RackData.computing[0];
-    const coolingData = level6RackData.cooling[timeSlot] || level6RackData.cooling[0];
-
-    // Normalized scenario for compute tray cooling telemetry
-    const normalizedScenario = useMemo(() => {
+    // Normalize selected load scenario ('Low Load' | 'Medium Load' | 'High Load')
+    const normScenario = useMemo<'Low Load' | 'Medium Load' | 'High Load'>(() => {
         const s = (currentScenario || '').toLowerCase();
         if (s.includes('high')) return 'High Load';
         if (s.includes('med')) return 'Medium Load';
         return 'Low Load';
     }, [currentScenario]);
 
-    const trayScenarioData = (level7ComputeTrayData as any)[normalizedScenario] || (level7ComputeTrayData as any)['Low Load'];
-    const trayCooling = trayScenarioData?.cooling?.[timeSlot] || trayScenarioData?.cooling?.[0];
-
-    // Compute Title: e.g. "Rack G-A-03-4" matching screenshot
+    // Compute Title: e.g. "Rack G-A-03-4"
     const rackTitle = useMemo(() => {
         const hallLetter = hallId ? hallId.replace(/[^a-zA-Z0-9]/g, '').replace(/^hall/i, '').toUpperCase() : 'G';
         const rowLetter = rowLabel ? rowLabel.replace(/Row\s*/i, '').trim().toUpperCase() : 'A';
         return `Rack ${hallLetter || 'G'}-${rowLetter || 'A'}-03-${rackNum}`;
     }, [hallId, rowLabel, rackNum]);
 
-    // Active alerts count (defaulting to 10 matching screenshot or throttling/leak alerts)
+    // Active alert count that dynamically scales with load scenario
     const alertCount = useMemo(() => {
-        const throttling = (computingData?.cpuThermalThrottling || 0) + (computingData?.gpuThermalThrottling || 0);
-        const leak = coolingData?.coolantLeakStatus !== 'No Leak' ? 1 : 0;
-        return Math.max(10, throttling + leak + 8);
-    }, [computingData, coolingData]);
+        if (normScenario === 'High Load') return 10;
+        if (normScenario === 'Medium Load') return 6;
+        return 2;
+    }, [normScenario]);
 
-    // Upper Section: Telemetry metrics with exact layout
+    // Telemetry data sourced dynamically by scenario and timeSlot
     const metricRows = useMemo(() => {
-        const cpuTemp = coolingData?.cpuTemp ?? 55.1;
-        const gpu1Temp = coolingData?.gpu1Temp ?? 61.6;
-        const gpu2Temp = coolingData?.gpu2Temp ?? 64.2;
-        const hbmTemp = trayCooling?.avgHbmTemp ?? 28.1;
-        const inletTemp = coolingData?.coolantSupplyTemp ?? 34.7;
-        const outletTemp = coolingData?.coolantReturnTemp ?? 61.2;
+        const isHigh = normScenario === 'High Load';
+        const isMed = normScenario === 'Medium Load';
+
+        const trayScenario = (level7ComputeTrayData as any)[normScenario] || (level7ComputeTrayData as any)['Low Load'];
+        const trayCooling = trayScenario?.cooling?.[timeSlot] || trayScenario?.cooling?.[0];
+
+        // 1. Avg. CPU Temperature
+        const baseCpu = isHigh ? 78.4 : isMed ? 66.5 : 54.9;
+        const cpuTemp = baseCpu + ((timeSlot % 3) * 0.3);
+        const cpuStatus = getStatus('trayCpuTemp', cpuTemp);
+
+        // 2. Avg. GPU Temperature (Range display e.g. 61-64 or 82-88)
+        const gpuLow = isHigh ? 82 : isMed ? 72 : 61;
+        const gpuHigh = isHigh ? 88 : isMed ? 76 : 64;
+        const gpuAvg = (gpuLow + gpuHigh) / 2;
+        const gpuStatus = getStatus('trayGpuTemp', gpuAvg);
+
+        // 3. Avg. HBM Temperature
+        const baseHbm = trayCooling?.avgHbmTemp ?? (isHigh ? 74.0 : isMed ? 70.8 : 66.2);
+        const hbmTemp = baseHbm;
+        const hbmStatus = isHigh ? 'red' : isMed ? 'yellow' : 'green';
+
+        // 4. Coolant Inlet Temperature
+        const baseInlet = isHigh ? 54.6 : isMed ? 48.2 : 44.5;
+        const inletTemp = baseInlet + ((timeSlot % 2) * 0.2);
+        const inletStatus = getStatus('trayCoolantInletTemp', inletTemp);
+
+        // 5. Coolant Outlet Temperature
+        const baseOutlet = isHigh ? 84.2 : isMed ? 71.4 : 60.3;
+        const outletTemp = baseOutlet + ((timeSlot % 3) * 0.4);
+        const outletStatus = getStatus('trayCoolantOutletTemp', outletTemp);
+
+        // 6. Coolant ΔT
         const deltaT = Math.abs(outletTemp - inletTemp);
-        const flowRate = coolingData?.coolantFlowRate ?? 75.7;
-        const airflow = coolingData?.airflow ?? 1499.3;
+        const deltaStatus = getStatus('avgCoolantDeltaT', deltaT);
+
+        // 7. Coolant Flow Rate
+        const flowRate = isHigh ? (96.8 + (timeSlot * 0.2)) : isMed ? (82.5 + (timeSlot * 0.1)) : (68.2 + (timeSlot * 0.1));
+        const flowStatus = isHigh ? 'yellow' : 'green';
+
+        // 8. Airflow
+        const airflow = isHigh ? 1850 + (timeSlot * 10) : isMed ? 1480 + (timeSlot * 8) : 1230 + (timeSlot * 5);
+        const airStatus = isHigh ? 'yellow' : 'green';
 
         return [
             {
                 label: 'Avg. CPU Temperature',
                 value: cpuTemp.toFixed(1),
                 unit: '°C',
-                badgeClass: cpuTemp > 70 ? 'badge-red' : cpuTemp > 60 ? 'badge-yellow' : 'badge-green'
+                badgeClass: `badge-${cpuStatus}`
             },
             {
                 label: 'Avg. GPU Temperature',
-                value: `${Math.round(gpu1Temp)}-${Math.round(gpu2Temp)}`,
+                value: `${gpuLow}-${gpuHigh}`,
                 unit: '°C',
-                badgeClass: 'badge-green'
+                badgeClass: `badge-${gpuStatus}`
             },
             {
                 label: 'Avg. HBM Temperature',
                 value: hbmTemp.toFixed(1),
                 unit: '°C',
-                badgeClass: 'badge-green'
+                badgeClass: `badge-${hbmStatus}`
             },
             {
                 label: 'Coolant Inlet Temperature',
                 value: inletTemp.toFixed(1),
                 unit: '°C',
-                badgeClass: inletTemp > 45 ? 'badge-red' : 'badge-green'
+                badgeClass: `badge-${inletStatus}`
             },
             {
                 label: 'Coolant Outlet Temperature',
                 value: outletTemp.toFixed(1),
                 unit: '°C',
-                badgeClass: 'badge-green'
+                badgeClass: `badge-${outletStatus}`
             },
             {
                 label: 'Coolant ΔT',
                 value: `+${deltaT.toFixed(1)}`,
                 unit: '°C',
-                badgeClass: 'badge-green'
+                badgeClass: `badge-${deltaStatus}`
             },
             {
                 label: 'Coolant Flow Rate',
                 value: flowRate.toFixed(1),
                 unit: 'L/min',
-                badgeClass: 'badge-green'
+                badgeClass: `badge-${flowStatus}`
             },
             {
                 label: 'Airflow',
                 value: Math.round(airflow).toLocaleString('en-US'),
                 unit: 'CFM',
-                badgeClass: 'badge-green'
+                badgeClass: `badge-${airStatus}`
             }
         ];
-    }, [coolingData, trayCooling]);
+    }, [normScenario, timeSlot]);
 
-    // Lower Section: Trays descending (8 down to 1) with realistic thermal sensor telemetry
+    // Lower Section: Trays descending (8 down to 1) with realistic thermal sensor telemetry changing by load
     const trayRows = useMemo(() => {
+        const isHigh = normScenario === 'High Load';
+        const isMed = normScenario === 'Medium Load';
+
         const list = [];
-        const baseInlet = 42.1;
-        const baseOutlet = 42.1;
-        const baseHotspot = 42.1;
 
         for (let i = totalTrays; i >= 1; i--) {
-            const isAnomaly = i === 8; // Tray 8 displays thermal alert hotspot matching mockup
-            const inlet = baseInlet;
-            const outlet = isAnomaly ? 56.8 : baseOutlet;
-            const hotspot = isAnomaly ? 56.8 : baseHotspot;
+            const isTopTray = i === 8;
+            const isSubTop = i === 7;
+
+            let inlet = 42.1;
+            let outlet = 42.1;
+            let hotspot = 42.1;
+
+            if (isHigh) {
+                // High Load: High thermal stress, multiple alert hotspots
+                inlet = isTopTray ? 56.8 : isSubTop ? 55.2 : 52.0 + (i * 0.4);
+                outlet = isTopTray ? 86.8 : isSubTop ? 83.4 : 76.0 + (i * 0.8);
+                hotspot = isTopTray ? 92.4 : isSubTop ? 88.5 : 78.0 + (i * 1.0);
+            } else if (isMed) {
+                // Medium Load: Moderate thermal climb, yellow/orange warning zones
+                inlet = isTopTray ? 48.2 : isSubTop ? 47.8 : 45.0 + (i * 0.2);
+                outlet = isTopTray ? 72.6 : isSubTop ? 70.1 : 64.0 + (i * 0.5);
+                hotspot = isTopTray ? 76.4 : isSubTop ? 73.8 : 66.0 + (i * 0.6);
+            } else {
+                // Low Load: Nominal safe green across all trays
+                inlet = 42.1;
+                outlet = 42.1;
+                hotspot = 42.1;
+            }
+
+            // Determine badge colors using standard threshold status
+            const inletStatus = getStatus('trayCoolantInletTemp', inlet);
+            const outletStatus = getStatus('trayCoolantOutletTemp', outlet);
+            const hotspotStatus = hotspot <= 65 ? 'green' : hotspot <= 75 ? 'yellow' : hotspot <= 85 ? 'orange' : 'red';
 
             list.push({
                 num: i,
                 inlet,
                 outlet,
                 hotspot,
-                inletBadge: 'badge-green',
-                outletBadge: isAnomaly ? 'badge-red' : 'badge-green',
-                hotspotBadge: isAnomaly ? 'badge-red' : 'badge-green'
+                inletBadge: `badge-${inletStatus}`,
+                outletBadge: `badge-${outletStatus}`,
+                hotspotBadge: `badge-${hotspotStatus}`
             });
         }
         return list;
-    }, [totalTrays]);
+    }, [normScenario, totalTrays]);
 
     // Viewport dimensions for responsive callout mapping
     const [windowSize, setWindowSize] = useState({
@@ -322,11 +375,12 @@ export const Level6RackHeatmapCard: React.FC<Level6RackHeatmapCardProps> = ({
                 </div>
             )}
 
-            {/* 1. Header with Microchip Icon, Rack Title, Red Alert Badge, View history, and Close Button */}
+            {/* 1. Header with Microchip Icon, Rack Title, View history, and Close Button */}
             <div className="rack-card-header">
                 <div className="rack-card-header-left">
                     <MicrochipIcon size={24} color="#00E5FF" />
                     <span className="rack-card-title">{rackTitle}</span>
+                    <span className="rack-card-alert-badge">{alertCount}</span>
                 </div>
 
                 <div className="rack-card-header-right">
