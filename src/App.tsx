@@ -268,6 +268,7 @@ export const App: React.FC = () => {
         lastUserNavRef.current = Date.now();
         setScreenPositions({});
         setCurrentLevel('region');
+        postBackend('set-building-subview', { subview: 'cutaway' });
         await postBackend('navigate', { level: 'region', region: activeRegion });
     };
 
@@ -277,6 +278,7 @@ export const App: React.FC = () => {
         setScreenPositions({});
         setActiveHall(hallId);
         setCurrentLevel('hall');
+        postBackend('set-building-subview', { subview: 'cutaway' });
         await postBackend('navigate', { level: 'hall', hall_id: hallId, region: activeRegion });
     };
 
@@ -711,6 +713,12 @@ export const App: React.FC = () => {
                         cameraView={cameraView}
                         screenPositions={screenPositions}
                         onBackToRegion={handleBackToRegion}
+                        onSubViewChange={(subView, coolingMode) => {
+                            postBackend('set-building-subview', {
+                                subview: subView,
+                                cooling_mode: coolingMode || 'liquid'
+                            });
+                        }}
                         onSelectTimeOfDay={handleSelectTimeOfDay}
                         onSelectCameraView={handleSelectCameraView}
                         onSelectZone={(zone) => {

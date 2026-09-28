@@ -24,7 +24,7 @@ interface Level3BuildingViewProps {
     subView?: BuildingSubView;
     screenPositions?: Record<string, ScreenPosition>;
     onBackToRegion: () => void;
-    onSubViewChange?: (view: BuildingSubView) => void;
+    onSubViewChange?: (view: BuildingSubView, coolingMode?: CoolingMode) => void;
     onSelectTimeOfDay: (time: TimeOfDay) => void;
     onSelectCameraView?: (view: CameraView) => void;
     onSelectZone?: (zone: RegionZoneItem) => void;
@@ -77,7 +77,7 @@ export const Level3BuildingView: React.FC<Level3BuildingViewProps> = ({
         const nextView = currentSubView === 'power_details' ? 'cutaway' : 'power_details';
         setCurrentSubView(nextView);
         if (onSubViewChange) {
-            onSubViewChange(nextView);
+            onSubViewChange(nextView, coolingMode);
         }
         if (onPowerDetails) {
             onPowerDetails();
@@ -88,7 +88,7 @@ export const Level3BuildingView: React.FC<Level3BuildingViewProps> = ({
         const nextView = currentSubView === 'cooling_details' ? 'cutaway' : 'cooling_details';
         setCurrentSubView(nextView);
         if (onSubViewChange) {
-            onSubViewChange(nextView);
+            onSubViewChange(nextView, coolingMode);
         }
         if (onCoolingDetails) {
             onCoolingDetails();
@@ -98,7 +98,14 @@ export const Level3BuildingView: React.FC<Level3BuildingViewProps> = ({
     const handleBackToCutaway = () => {
         setCurrentSubView('cutaway');
         if (onSubViewChange) {
-            onSubViewChange('cutaway');
+            onSubViewChange('cutaway', coolingMode);
+        }
+    };
+
+    const handleCoolingModeChange = (mode: CoolingMode) => {
+        setCoolingMode(mode);
+        if (currentSubView === 'cooling_details' && onSubViewChange) {
+            onSubViewChange('cooling_details', mode);
         }
     };
 
@@ -120,7 +127,7 @@ export const Level3BuildingView: React.FC<Level3BuildingViewProps> = ({
                 regionMetric={regionMetric}
                 subView={currentSubView}
                 coolingMode={coolingMode}
-                onCoolingModeChange={setCoolingMode}
+                onCoolingModeChange={handleCoolingModeChange}
                 onBack={onBackToRegion}
                 onBackToCutaway={handleBackToCutaway}
                 onPowerDetails={handlePowerDetailsClick}
