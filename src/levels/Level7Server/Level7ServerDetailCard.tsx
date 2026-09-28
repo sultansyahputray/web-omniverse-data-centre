@@ -140,6 +140,7 @@ export const Level7ServerDetailCard: React.FC<Level7ServerDetailCardProps> = ({
     const cardStyle: React.CSSProperties = {
         top: `${155 + offsetY}px`,
         right: `${44 - offsetX}px`,
+        zIndex: 25,
     };
 
     return (

@@ -221,6 +221,7 @@ export const Level7ColdPlateHeatmapCard: React.FC<Level7ColdPlateHeatmapCardProp
         top: `${155 + offsetY}px`,
         right: `${44 - offsetX}px`,
         maxHeight: `calc(100vh - ${490 + offsetY}px)`,
+        zIndex: 25,
     };
 
     return (
