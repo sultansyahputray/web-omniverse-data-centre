@@ -15,8 +15,8 @@ export const REGION_ZONES: RegionZoneItem[] = [
         label: 'Main Building',
         primPath: '/World/region/example_building',
         defaultPos: { x: 50.3, y: 48.6 },
-        offsetX: 0,
-        offsetY: 0,
+        offsetX: -3,
+        offsetY: -3,
         isMain: true
     },
     {
@@ -24,15 +24,15 @@ export const REGION_ZONES: RegionZoneItem[] = [
         label: 'Chiller Yard',
         primPath: '/World/region/chiller_yard',
         defaultPos: { x: 45, y: 37.5 },
-        offsetX: 0,
-        offsetY: 0
+        offsetX: 2,
+        offsetY: -4
     },
     {
         id: 'electrical_substation',
         label: 'Electrical Substation',
         primPath: '/World/region/electrical_substation',
         defaultPos: { x: 31, y: 62 },
-        offsetX: 0,
+        offsetX: -8,
         offsetY: 0
     },
     {
@@ -40,23 +40,23 @@ export const REGION_ZONES: RegionZoneItem[] = [
         label: 'Fuel Compound',
         primPath: '/World/region/fuel_compound',
         defaultPos: { x: 33.5, y: 37.5 },
-        offsetX: 0,
-        offsetY: 0
+        offsetX: -3,
+        offsetY: -5
     },
     {
         id: 'generator_yard',
         label: 'Generator Yard',
         primPath: '/World/region/generator_yard',
         defaultPos: { x: 33.5, y: 49 },
-        offsetX: 0,
-        offsetY: 0
+        offsetX: -6,
+        offsetY: -6
     },
     {
         id: 'hall_trafo_building',
         label: 'Hall Trafo Building',
         primPath: '/World/region/hall_trafo_building',
         defaultPos: { x: 43.5, y: 64.5 },
-        offsetX: 0,
+        offsetX: -5,
         offsetY: 0
     },
     {
@@ -72,16 +72,16 @@ export const REGION_ZONES: RegionZoneItem[] = [
         label: 'Fire Water Unit',
         primPath: '/World/region/fire_water_unit',
         defaultPos: { x: 65, y: 62 },
-        offsetX: 0,
-        offsetY: 0
+        offsetX: 5,
+        offsetY: -4
     },
     {
         id: 'heat_rejection',
         label: 'Heat Rejection',
         primPath: '/World/region/heat_rejection',
         defaultPos: { x: 58.5, y: 36.5 },
-        offsetX: 0,
-        offsetY: 0
+        offsetX: 4,
+        offsetY: -4
     },
     {
         id: 'operation_office',
