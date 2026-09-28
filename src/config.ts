@@ -168,15 +168,15 @@ export const LEVEL7_SERVER_CARD_OFFSET = {
 export const LEVEL7_HEATMAP_FLOATING_CARDS_OFFSET = {
     sp1: {
         /** Geser horizontal SP 1: + ke kanan, - ke kiri (pixel) */
-        offsetX: 0,
+        offsetX: -250,
         /** Geser vertikal SP 1: + ke bawah, - ke atas (pixel) */
-        offsetY: 0,
+        offsetY: -200,
     },
     sp2: {
         /** Geser horizontal SP 2: + ke kanan, - ke kiri (pixel) */
-        offsetX: 0,
+        offsetX: 150,
         /** Geser vertikal SP 2: + ke bawah, - ke atas (pixel) */
-        offsetY: 0,
+        offsetY: 200,
     },
 };
 

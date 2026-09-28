@@ -62,7 +62,7 @@ export const REGION_ZONES: RegionZoneItem[] = [
     {
         id: 'water_treatment_unit',
         label: 'Water Treatment Unit',
-        primPath: '/World/region/water_treatment_unit',
+        primPath: '/World/region/water_treatment',
         defaultPos: { x: 65, y: 54 },
         offsetX: 0,
         offsetY: 0

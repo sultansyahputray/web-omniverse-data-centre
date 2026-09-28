@@ -106,8 +106,8 @@ export const Level5RowView: React.FC<Level5RowViewProps> = ({
     const scenarioKey = (currentScenario === 'Low Load' || currentScenario === 'Normal Load')
         ? 'Normal Load'
         : currentScenario === 'High Load'
-        ? 'High Load'
-        : 'Medium Load';
+            ? 'High Load'
+            : 'Medium Load';
 
     const currentTimeStep = TIME_STEPS[timeIndex] ?? 0;
     const scenarioData = (level5RowData as any)[scenarioKey] || (level5RowData as any)['Normal Load'];
@@ -166,10 +166,10 @@ export const Level5RowView: React.FC<Level5RowViewProps> = ({
                 <Level5PowerCard data={powerMetrics} />
                 <Level5CoolingCard data={coolingMetrics} />
                 <div className="level5-bottom-right-stack">
-                    <HeatmapCheckbox
+                    {/* <HeatmapCheckbox
                         checked={activeHeatmap}
                         onChange={handleToggleHeatmap}
-                    />
+                    /> */}
                     <LoadScenarioSelector
                         currentScenario={currentScenario}
                         onSelectScenario={onSelectScenario}

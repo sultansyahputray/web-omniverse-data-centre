@@ -109,8 +109,8 @@ export const Level4HallView: React.FC<Level4HallViewProps> = ({
     const scenarioKey = (currentScenario === 'Low Load' || currentScenario === 'Normal Load')
         ? 'Normal Load'
         : currentScenario === 'High Load'
-        ? 'High Load'
-        : 'Medium Load';
+            ? 'High Load'
+            : 'Medium Load';
 
     const currentTimeStep = TIME_STEPS[timeIndex] ?? 0;
     const scenarioData = (level4HallData as any)[scenarioKey] || (level4HallData as any)['Normal Load'];
@@ -196,10 +196,10 @@ export const Level4HallView: React.FC<Level4HallViewProps> = ({
 
                 {/* Bottom-Right Stack: Heatmap Toggle + (Load Scenario Dropdown if not Heatmap) + Dice Rotation */}
                 <div className="level4-bottom-right-stack">
-                    <HeatmapCheckbox
+                    {/* <HeatmapCheckbox
                         checked={activeHeatmap}
                         onChange={handleToggleHeatmap}
-                    />
+                    /> */}
                     {!activeHeatmap && (
                         <LoadScenarioSelector
                             currentScenario={currentScenario}
