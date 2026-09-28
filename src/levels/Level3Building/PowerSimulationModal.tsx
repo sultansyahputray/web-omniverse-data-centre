@@ -65,13 +65,14 @@ export const PowerSimulationModal: React.FC<PowerSimulationModalProps> = ({
         return () => window.removeEventListener('keydown', handleKeyDown);
     }, [isOpen, onClose]);
 
-    // Reset video error state whenever active flow mode changes
+    // Reset video error state whenever active flow mode changes and auto-play cleanly
     useEffect(() => {
         setVideoError(false);
         if (videoRef.current) {
             videoRef.current.load();
+            videoRef.current.play().catch(() => {});
         }
-    }, [activeMode]);
+    }, [activeMode, isOpen]);
 
     if (!isOpen) return null;
 
@@ -141,22 +142,28 @@ export const PowerSimulationModal: React.FC<PowerSimulationModalProps> = ({
                    ========================================================= */}
                 <div className="power-sim-body">
                     <div className="power-sim-video-wrapper">
-                        {/* Video Element */}
+                        {/* Video Element - Restricted Simulation View (No Pause / No Controls) */}
                         {!videoError && (
                             <video
                                 ref={videoRef}
                                 key={currentVideoPath}
                                 className="power-sim-video-player"
                                 src={currentVideoPath}
-                                controls
                                 autoPlay
                                 loop
                                 muted
                                 playsInline
+                                disablePictureInPicture
+                                disableRemotePlayback
+                                controlsList="nodownload nofullscreen noremoteplayback"
+                                onContextMenu={(e) => e.preventDefault()}
+                                onLoadedData={() => {
+                                    if (videoRef.current) {
+                                        videoRef.current.play().catch(() => {});
+                                    }
+                                }}
                                 onError={() => setVideoError(true)}
-                            >
-                                Video Error
-                            </video>
+                            />
                         )}
 
                         {/* Fallback Placeholder (shown when dummy video is not placed yet) */}
