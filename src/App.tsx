@@ -102,6 +102,13 @@ export const App: React.FC = () => {
         }
         return 'Normal Load';
     });
+    const [isHeatmap, setIsHeatmap] = useState<boolean>(() => {
+        if (typeof window !== 'undefined') {
+            const params = new URLSearchParams(window.location.search);
+            return params.get('heatmap') === 'true';
+        }
+        return false;
+    });
     const [screenPositions, setScreenPositions] = useState<Record<string, ScreenPosition>>({});
 
     const activePortRef = useRef<number>(8089);
@@ -753,12 +760,14 @@ export const App: React.FC = () => {
                         regionMetric={currentRegionMetric}
                         cameraView={cameraView}
                         currentScenario={loadScenario}
+                        isHeatmap={isHeatmap}
                         screenPositions={screenPositions}
                         onBackToBuilding={handleBackToBuilding}
                         onSelectHall={handleEnterHall}
                         onSelectRow={handleSelectRow}
                         onSelectCameraView={handleSelectCameraView}
                         onSelectScenario={handleSelectScenario}
+                        onToggleHeatmap={setIsHeatmap}
                     />
                 )}
                 {currentLevel === 'row' && activeRow && (
@@ -769,9 +778,11 @@ export const App: React.FC = () => {
                         regionMetric={currentRegionMetric}
                         cameraView={cameraView}
                         currentScenario={loadScenario}
+                        isHeatmap={isHeatmap}
                         onBackToHall={handleBackToHall}
                         onSelectCameraView={handleSelectCameraView}
                         onSelectScenario={handleSelectScenario}
+                        onToggleHeatmap={setIsHeatmap}
                     />
                 )}
                 {currentLevel === 'rack' && activeRow && (
@@ -784,12 +795,14 @@ export const App: React.FC = () => {
                         regionMetric={currentRegionMetric}
                         cameraView={cameraView}
                         currentScenario={loadScenario}
+                        isHeatmap={isHeatmap}
                         screenPositions={screenPositions}
                         onBackToRow={handleBackToRowFromRack}
                         onBackToHall={handleBackToHallFromRack}
                         onSelectCameraView={handleSelectCameraView}
                         onSelectScenario={handleSelectScenario}
                         onSelectServer={handleSelectServer}
+                        onToggleHeatmap={setIsHeatmap}
                     />
                 )}
                 {currentLevel === 'server' && activeRow && (
@@ -804,6 +817,7 @@ export const App: React.FC = () => {
                         regionMetric={currentRegionMetric}
                         cameraView={cameraView}
                         currentScenario={loadScenario}
+                        isHeatmap={isHeatmap}
                         screenPositions={screenPositions}
                         onBackToRack={handleBackToRackFromServer}
                         onBackToRow={handleBackToRowFromServer}
@@ -813,6 +827,7 @@ export const App: React.FC = () => {
                         onSelectServer={handleSelectServer}
                         onSelectSuperChip={handleSelectSuperChip}
                         onSelectPrim={handleSelectPrim}
+                        onToggleHeatmap={setIsHeatmap}
                     />
                 )}
                 {currentLevel === 'superchip' && activeRow && (
@@ -828,6 +843,7 @@ export const App: React.FC = () => {
                         regionMetric={currentRegionMetric}
                         cameraView={cameraView}
                         currentScenario={loadScenario}
+                        isHeatmap={isHeatmap}
                         screenPositions={screenPositions}
                         onBackToServer={handleBackToServerFromSuperchip}
                         onBackToRack={handleBackToRackFromServer}
@@ -838,6 +854,7 @@ export const App: React.FC = () => {
                         onSelectServer={handleSelectServer}
                         onSelectSuperChip={handleSelectSuperChip}
                         onSelectPrim={handleSelectPrim}
+                        onToggleHeatmap={setIsHeatmap}
                     />
                 )}
             </div>

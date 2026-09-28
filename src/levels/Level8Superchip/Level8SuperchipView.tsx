@@ -6,6 +6,7 @@ import { HistoricalDataModal } from '../../reusable/HistoricalDataModal';
 import { ChevronLeftIcon } from '../../Icons';
 import { AdaptiveViewCube } from '../Level2Region/AdaptiveViewCube';
 import { LoadScenarioSelector } from '../../reusable/LoadScenarioSelector';
+import { HeatmapCheckbox } from '../../reusable/HeatmapCheckbox';
 import { HALL_OPTIONS } from '../Level4Hall/Level4Header';
 import { LEVEL8_SUPERCHIP_CARD_OFFSET } from '../../config';
 import { Level8SuperchipDetailCard } from './Level8SuperchipDetailCard';
@@ -29,6 +30,7 @@ interface Level8SuperchipViewProps {
     regionMetric?: SiteMetric;
     cameraView?: CameraView;
     currentScenario?: string;
+    isHeatmap?: boolean;
     screenPositions?: Record<string, ScreenPosition>;
     onBackToServer: () => void;
     onBackToRack: () => void;
@@ -39,6 +41,7 @@ interface Level8SuperchipViewProps {
     onSelectServer?: (serverId: string, serverNum: number) => void;
     onSelectSuperChip?: (chipNum: number, trayNum?: number) => void;
     onSelectPrim?: (primPath: string) => void;
+    onToggleHeatmap?: (active: boolean) => void;
 }
 
 export const Level8SuperchipView: React.FC<Level8SuperchipViewProps> = ({
@@ -50,6 +53,7 @@ export const Level8SuperchipView: React.FC<Level8SuperchipViewProps> = ({
     regionMetric,
     cameraView = 'iso',
     currentScenario = 'Low Load',
+    isHeatmap,
     screenPositions,
     onBackToServer,
     onBackToRack,
@@ -59,9 +63,19 @@ export const Level8SuperchipView: React.FC<Level8SuperchipViewProps> = ({
     onSelectScenario,
     onSelectServer,
     onSelectSuperChip,
-    onSelectPrim
+    onSelectPrim,
+    onToggleHeatmap
 }) => {
     const [isHistoryOpen, setIsHistoryOpen] = useState(false);
+    const [internalHeatmap, setInternalHeatmap] = useState<boolean>(false);
+    const activeHeatmap = isHeatmap !== undefined ? isHeatmap : internalHeatmap;
+
+    const handleToggleHeatmap = (checked: boolean) => {
+        setInternalHeatmap(checked);
+        if (onToggleHeatmap) {
+            onToggleHeatmap(checked);
+        }
+    };
     const [currentTime, setCurrentTime] = useState<Date>(() => new Date());
 
     useEffect(() => {
@@ -215,6 +229,10 @@ export const Level8SuperchipView: React.FC<Level8SuperchipViewProps> = ({
                     coolingEff={activeSuperchipData.summary.coolingEff}
                 />
                 <div className="level7-bottom-right-stack">
+                    <HeatmapCheckbox
+                        checked={activeHeatmap}
+                        onChange={handleToggleHeatmap}
+                    />
                     <LoadScenarioSelector
                         currentScenario={currentScenario}
                         onSelectScenario={onSelectScenario}

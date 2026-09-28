@@ -8,6 +8,7 @@ import { Level4CoolingSummaryCard } from './Level4CoolingSummaryCard';
 import { HallRowItem, Level4FloatingRows, RowPlacement, DEFAULT_HALL_ROW_PLACEMENTS } from './Level4FloatingRows';
 import { AdaptiveViewCube } from '../Level2Region/AdaptiveViewCube';
 import { LoadScenarioSelector } from '../../reusable/LoadScenarioSelector';
+import { HeatmapCheckbox } from '../../reusable/HeatmapCheckbox';
 import { GLOBAL_TIMERS, getTimerMs } from '../../config';
 import level4HallData from '../../data/level4Hall.json';
 import './Level4Hall.css';
@@ -24,6 +25,7 @@ interface Level4HallViewProps {
     regionMetric?: SiteMetric;
     cameraView?: CameraView;
     currentScenario?: string;
+    isHeatmap?: boolean;
     breadcrumbItems?: BreadcrumbItem[];
     screenPositions?: Record<string, ScreenPosition>;
     rowPlacements?: Record<string, RowPlacement>;
@@ -32,6 +34,7 @@ interface Level4HallViewProps {
     onSelectRow?: (row: HallRowItem) => void;
     onSelectCameraView?: (view: CameraView) => void;
     onSelectScenario?: (scenario: string) => void;
+    onToggleHeatmap?: (active: boolean) => void;
     onBreadcrumbClick?: (item: BreadcrumbItem, index: number) => void;
 }
 
@@ -42,6 +45,7 @@ export const Level4HallView: React.FC<Level4HallViewProps> = ({
     regionMetric,
     cameraView = 'iso',
     currentScenario = 'Normal Load',
+    isHeatmap,
     breadcrumbItems,
     screenPositions,
     rowPlacements = HALL_ROW_PLACEMENTS,
@@ -50,9 +54,19 @@ export const Level4HallView: React.FC<Level4HallViewProps> = ({
     onSelectRow,
     onSelectCameraView,
     onSelectScenario,
+    onToggleHeatmap,
     onBreadcrumbClick
 }) => {
     const [selectedRow, setSelectedRow] = useState<HallRowItem | null>(null);
+    const [internalHeatmap, setInternalHeatmap] = useState<boolean>(false);
+    const activeHeatmap = isHeatmap !== undefined ? isHeatmap : internalHeatmap;
+
+    const handleToggleHeatmap = (checked: boolean) => {
+        setInternalHeatmap(checked);
+        if (onToggleHeatmap) {
+            onToggleHeatmap(checked);
+        }
+    };
 
     // Initial time step index calculated from current wall clock minute
     const getInitialTimeIndex = () => {
@@ -165,8 +179,12 @@ export const Level4HallView: React.FC<Level4HallViewProps> = ({
                 {/* 3. Component 3: Cooling Summary Card (Liquid vs Air toggle + metrics) */}
                 <Level4CoolingSummaryCard data={coolingMetrics} />
 
-                {/* Bottom-Right Stack: Load Scenario Dropdown above Dice Rotation */}
+                {/* Bottom-Right Stack: Heatmap Toggle + Load Scenario Dropdown above Dice Rotation */}
                 <div className="level4-bottom-right-stack">
+                    <HeatmapCheckbox
+                        checked={activeHeatmap}
+                        onChange={handleToggleHeatmap}
+                    />
                     <LoadScenarioSelector
                         currentScenario={currentScenario}
                         onSelectScenario={onSelectScenario}

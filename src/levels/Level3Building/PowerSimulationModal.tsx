@@ -24,20 +24,20 @@ interface FlowConfig {
 const FLOW_CONFIGS: FlowConfig[] = [
     {
         key: 'normal',
-        label: 'Normal Flow',
-        description: 'Menampilkan distribusi daya nominal dari Gardu Induk (Substation), melalui Transformator dan PDU menuju barisan rak server di Data Hall.',
+        label: 'Single Line Diagram (SLD)',
+        description: '',
         defaultPath: '/videos/power_normal_flow.mp4'
     },
     {
         key: 'simulated',
-        label: 'Simulated Flow',
-        description: 'Simulasi kontingensi jalur kelistrikan redundan N+1 dan pengalihan beban otomatis ke sistem UPS sekunder/Genset darurat.',
+        label: 'Power Load Flow',
+        description: '',
         defaultPath: '/videos/power_simulated_flow.mp4'
     },
     {
         key: 'load',
-        label: 'Load Flow',
-        description: 'Visualisasi dinamika aliran beban daya aktif (MW) dan arus tegangan tinggi saat klaster komputasi AI/GPU beroperasi pada beban puncak.',
+        label: 'Power Heat Map',
+        description: '',
         defaultPath: '/videos/power_load_flow.mp4'
     }
 ];
@@ -98,18 +98,6 @@ export const PowerSimulationModal: React.FC<PowerSimulationModalProps> = ({
                    ========================================================= */}
                 <div className="power-sim-top-section">
                     <div className="power-sim-header-left">
-                        <div className="power-sim-icon-wrapper">
-                            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <path
-                                    d="M13 2L3 14H12L11 22L21 10H12L13 2Z"
-                                    fill="#00E5FF"
-                                    stroke="#00E5FF"
-                                    strokeWidth="1.5"
-                                    strokeLinecap="round"
-                                    strokeLinejoin="round"
-                                />
-                            </svg>
-                        </div>
                         <div className="power-sim-title-group">
                             <h2 className="power-sim-title">Power Simulation</h2>
                             <span className="power-sim-subtitle">Electrical Flow Telemetry & Pathway Simulation</span>
@@ -129,7 +117,6 @@ export const PowerSimulationModal: React.FC<PowerSimulationModalProps> = ({
                                         className={`power-sim-tab-btn ${isActive ? 'active' : ''}`}
                                         onClick={() => setActiveMode(cfg.key)}
                                     >
-                                        <span className="power-sim-tab-dot" />
                                         <span>{cfg.label}</span>
                                     </button>
                                 );
@@ -146,26 +133,14 @@ export const PowerSimulationModal: React.FC<PowerSimulationModalProps> = ({
                     </div>
                 </div>
 
-                <div className="power-sim-divider" />
+                {/* HORIZONTAL DIVIDER */}
+                <div className="title-h-divider"></div>
 
                 {/* =========================================================
                    SECTION 2: BOTTOM SECTION (Video Player Container)
                    ========================================================= */}
                 <div className="power-sim-body">
                     <div className="power-sim-video-wrapper">
-                        {/* Status chip over video */}
-                        <div className="power-sim-video-overlay-bar">
-                            <div className="power-sim-status-chip">
-                                <span className="power-sim-pulse-indicator" />
-                                <span className="power-sim-status-text">
-                                    {currentConfig.label.toUpperCase()} • 480V / 50Hz DISTRIBUTION
-                                </span>
-                            </div>
-                            <span className="power-sim-path-badge">
-                                {currentVideoPath}
-                            </span>
-                        </div>
-
                         {/* Video Element */}
                         {!videoError && (
                             <video
@@ -180,7 +155,7 @@ export const PowerSimulationModal: React.FC<PowerSimulationModalProps> = ({
                                 playsInline
                                 onError={() => setVideoError(true)}
                             >
-                                Browser Anda tidak mendukung pemutaran video.
+                                Video Error
                             </video>
                         )}
 
@@ -192,20 +167,6 @@ export const PowerSimulationModal: React.FC<PowerSimulationModalProps> = ({
                                         <polygon points="5 3 19 12 5 21 5 3" fill="#00E5FF" opacity="0.85" />
                                     </svg>
                                 </div>
-                                <h3 className="power-sim-placeholder-title">
-                                    {currentConfig.label} Video Source
-                                </h3>
-                                <p className="power-sim-placeholder-desc">
-                                    {currentConfig.description}
-                                </p>
-                                <div className="power-sim-path-info-box">
-                                    <span className="power-sim-path-label">Target Video File Path:</span>
-                                    <span className="power-sim-path-code">{currentVideoPath}</span>
-                                </div>
-                                <p className="power-sim-placeholder-hint">
-                                    File video belum ditemukan. Simpan file video lokal Anda di folder{' '}
-                                    <code style={{ color: '#00E5FF' }}>public{currentVideoPath}</code> untuk memulai pemutaran otomatis.
-                                </p>
                             </div>
                         )}
                     </div>

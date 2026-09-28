@@ -6,6 +6,7 @@ import { HistoricalDataModal } from '../../reusable/HistoricalDataModal';
 import { ChevronLeftIcon } from '../../Icons';
 import { AdaptiveViewCube } from '../Level2Region/AdaptiveViewCube';
 import { LoadScenarioSelector } from '../../reusable/LoadScenarioSelector';
+import { HeatmapCheckbox } from '../../reusable/HeatmapCheckbox';
 import { HALL_OPTIONS } from '../Level4Hall/Level4Header';
 import { LEVEL7_SERVER_CARD_OFFSET } from '../../config';
 import { Level7ServerDetailCard } from './Level7ServerDetailCard';
@@ -28,6 +29,7 @@ interface Level7ServerViewProps {
     regionMetric?: SiteMetric;
     cameraView?: CameraView;
     currentScenario?: string;
+    isHeatmap?: boolean;
     screenPositions?: Record<string, ScreenPosition>;
     onBackToRack: () => void;
     onBackToRow: () => void;
@@ -37,6 +39,7 @@ interface Level7ServerViewProps {
     onSelectServer?: (serverId: string, serverNum: number) => void;
     onSelectSuperChip?: (chipNum: number, trayNum?: number) => void;
     onSelectPrim?: (primPath: string) => void;
+    onToggleHeatmap?: (active: boolean) => void;
 }
 
 export const Level7ServerView: React.FC<Level7ServerViewProps> = ({
@@ -47,6 +50,7 @@ export const Level7ServerView: React.FC<Level7ServerViewProps> = ({
     regionMetric,
     cameraView = 'iso',
     currentScenario = 'Low Load',
+    isHeatmap,
     screenPositions,
     onBackToRack,
     onBackToRow,
@@ -55,9 +59,19 @@ export const Level7ServerView: React.FC<Level7ServerViewProps> = ({
     onSelectScenario,
     onSelectServer,
     onSelectSuperChip,
-    onSelectPrim
+    onSelectPrim,
+    onToggleHeatmap
 }) => {
     const [isHistoryOpen, setIsHistoryOpen] = useState(false);
+    const [internalHeatmap, setInternalHeatmap] = useState<boolean>(false);
+    const activeHeatmap = isHeatmap !== undefined ? isHeatmap : internalHeatmap;
+
+    const handleToggleHeatmap = (checked: boolean) => {
+        setInternalHeatmap(checked);
+        if (onToggleHeatmap) {
+            onToggleHeatmap(checked);
+        }
+    };
     const [currentTime, setCurrentTime] = useState<Date>(() => new Date());
 
     useEffect(() => {
@@ -200,6 +214,10 @@ export const Level7ServerView: React.FC<Level7ServerViewProps> = ({
                     coolingEff={activeTrayData.summary.coolingEff}
                 />
                 <div className="level7-bottom-right-stack">
+                    <HeatmapCheckbox
+                        checked={activeHeatmap}
+                        onChange={handleToggleHeatmap}
+                    />
                     <LoadScenarioSelector
                         currentScenario={currentScenario}
                         onSelectScenario={onSelectScenario}

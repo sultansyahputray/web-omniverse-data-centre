@@ -6,6 +6,7 @@ import { HistoricalDataModal } from '../../reusable/HistoricalDataModal';
 import { ChevronLeftIcon } from '../../Icons';
 import { AdaptiveViewCube } from '../Level2Region/AdaptiveViewCube';
 import { LoadScenarioSelector } from '../../reusable/LoadScenarioSelector';
+import { HeatmapCheckbox } from '../../reusable/HeatmapCheckbox';
 import { HALL_OPTIONS } from '../Level4Hall/Level4Header';
 import { LEVEL6_RACK_CARD_OFFSET } from '../../config';
 import { Level6RackDetailCard } from './Level6RackDetailCard';
@@ -23,12 +24,14 @@ interface Level6RackViewProps {
     regionMetric?: SiteMetric;
     cameraView?: CameraView;
     currentScenario?: string;
+    isHeatmap?: boolean;
     screenPositions?: Record<string, ScreenPosition>;
     onBackToRow: () => void;
     onBackToHall: () => void;
     onSelectCameraView?: (view: CameraView) => void;
     onSelectScenario?: (scenario: string) => void;
     onSelectServer?: (serverId: string, serverNum: number) => void;
+    onToggleHeatmap?: (active: boolean) => void;
 }
 
 export const Level6RackView: React.FC<Level6RackViewProps> = ({
@@ -39,15 +42,26 @@ export const Level6RackView: React.FC<Level6RackViewProps> = ({
     regionMetric,
     cameraView = 'iso',
     currentScenario = 'Normal Load',
+    isHeatmap,
     screenPositions,
     onBackToRow,
     onBackToHall,
     onSelectCameraView,
     onSelectScenario,
-    onSelectServer
+    onSelectServer,
+    onToggleHeatmap
 }) => {
     // Historical Data Modal state
     const [isHistoryOpen, setIsHistoryOpen] = useState(false);
+    const [internalHeatmap, setInternalHeatmap] = useState<boolean>(false);
+    const activeHeatmap = isHeatmap !== undefined ? isHeatmap : internalHeatmap;
+
+    const handleToggleHeatmap = (checked: boolean) => {
+        setInternalHeatmap(checked);
+        if (onToggleHeatmap) {
+            onToggleHeatmap(checked);
+        }
+    };
 
     const title = regionMetric?.title || 'SOUTHEAST ASIA';
     const hubSubtitle = regionMetric?.subtitle || 'BATAM HUB';
@@ -142,8 +156,12 @@ export const Level6RackView: React.FC<Level6RackViewProps> = ({
                 );
             })()}
 
-            {/* Bottom-Right Controls: Load Scenario Dropdown & ViewCube (Dice Rotation) */}
+            {/* Bottom-Right Controls: Heatmap Toggle, Load Scenario Dropdown & ViewCube (Dice Rotation) */}
             <div className="level6-bottom-controls">
+                <HeatmapCheckbox
+                    checked={activeHeatmap}
+                    onChange={handleToggleHeatmap}
+                />
                 <LoadScenarioSelector
                     currentScenario={currentScenario}
                     onSelectScenario={onSelectScenario}

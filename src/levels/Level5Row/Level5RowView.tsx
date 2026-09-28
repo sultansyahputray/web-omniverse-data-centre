@@ -6,6 +6,7 @@ import { NavigationButton } from '../../reusable/Button';
 import { ChevronLeftIcon } from '../../Icons';
 import { AdaptiveViewCube } from '../Level2Region/AdaptiveViewCube';
 import { LoadScenarioSelector } from '../../reusable/LoadScenarioSelector';
+import { HeatmapCheckbox } from '../../reusable/HeatmapCheckbox';
 import { HALL_OPTIONS } from '../Level4Hall/Level4Header';
 import { Level5VerticalComputingCard } from './Level5VerticalComputingCard';
 import { Level5PowerCard } from './Level5PowerCard';
@@ -22,9 +23,11 @@ interface Level5RowViewProps {
     regionMetric?: SiteMetric;
     cameraView?: CameraView;
     currentScenario?: string;
+    isHeatmap?: boolean;
     onBackToHall: () => void;
     onSelectCameraView?: (view: CameraView) => void;
     onSelectScenario?: (scenario: string) => void;
+    onToggleHeatmap?: (active: boolean) => void;
 }
 
 const TIME_STEPS = [0, 6, 12, 18, 24, 30, 36, 42, 48, 54];
@@ -35,10 +38,21 @@ export const Level5RowView: React.FC<Level5RowViewProps> = ({
     regionMetric,
     cameraView = 'iso',
     currentScenario = 'Normal Load',
+    isHeatmap,
     onBackToHall,
     onSelectCameraView,
-    onSelectScenario
+    onSelectScenario,
+    onToggleHeatmap
 }) => {
+    const [internalHeatmap, setInternalHeatmap] = useState<boolean>(false);
+    const activeHeatmap = isHeatmap !== undefined ? isHeatmap : internalHeatmap;
+
+    const handleToggleHeatmap = (checked: boolean) => {
+        setInternalHeatmap(checked);
+        if (onToggleHeatmap) {
+            onToggleHeatmap(checked);
+        }
+    };
     const title = regionMetric?.title || 'SOUTHEAST ASIA';
     const hubSubtitle = regionMetric?.subtitle || 'BATAM HUB';
 
@@ -152,6 +166,10 @@ export const Level5RowView: React.FC<Level5RowViewProps> = ({
                 <Level5PowerCard data={powerMetrics} />
                 <Level5CoolingCard data={coolingMetrics} />
                 <div className="level5-bottom-right-stack">
+                    <HeatmapCheckbox
+                        checked={activeHeatmap}
+                        onChange={handleToggleHeatmap}
+                    />
                     <LoadScenarioSelector
                         currentScenario={currentScenario}
                         onSelectScenario={onSelectScenario}
