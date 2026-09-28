@@ -1,0 +1,383 @@
+/* =========================================================================
+   POWER SIMULATION MODAL STYLES (Level 3 Building - Power Details)
+   Matches styling of HistoricalDataModal & Level5RackComparisonModal
+   ========================================================================= */
+
+.power-sim-backdrop {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.65);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 2000;
+    pointer-events: auto;
+    animation: powerSimFadeIn 0.25s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes powerSimFadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+.power-sim-card {
+    width: 92vw;
+    max-width: 1060px;
+    background: linear-gradient(180deg, #1d3969 0%, #0c1833 100%);
+    border: 2px solid #00C0E8;
+    border-radius: 18px;
+    box-shadow:
+        0 24px 60px rgba(0, 0, 0, 0.8),
+        0 0 35px rgba(0, 192, 232, 0.25),
+        inset 0 1px 0 rgba(255, 255, 255, 0.15);
+    padding: 22px 26px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    box-sizing: border-box;
+    animation: powerSimScaleUp 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    pointer-events: auto;
+}
+
+@keyframes powerSimScaleUp {
+    from {
+        opacity: 0;
+        transform: scale(0.96) translateY(12px);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+    }
+}
+
+/* =========================================================================
+   SECTION 1: TOP SECTION (Title, Button Bar, Close Button)
+   ========================================================================= */
+
+.power-sim-top-section {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    gap: 18px;
+    flex-wrap: wrap;
+}
+
+.power-sim-header-left {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+}
+
+.power-sim-icon-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    border-radius: 10px;
+    background: rgba(0, 229, 255, 0.12);
+    border: 1px solid rgba(0, 229, 255, 0.35);
+    color: #00E5FF;
+    box-shadow: 0 0 16px rgba(0, 229, 255, 0.35);
+}
+
+.power-sim-title-group {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.power-sim-title {
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    font-size: 20px;
+    font-weight: 800;
+    color: #ffffff;
+    letter-spacing: 0.8px;
+    text-transform: uppercase;
+    margin: 0;
+    text-shadow: 0 0 16px rgba(0, 229, 255, 0.4);
+}
+
+.power-sim-subtitle {
+    font-family: 'Inter', system-ui, sans-serif;
+    font-size: 11px;
+    font-weight: 600;
+    color: #7dd3fc;
+    letter-spacing: 1.2px;
+    text-transform: uppercase;
+}
+
+/* Button Bar */
+.power-sim-button-bar-group {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.power-sim-button-bar {
+    display: inline-flex;
+    align-items: center;
+    background: rgba(10, 25, 48, 0.65);
+    border: 2px solid #00C3D0;
+    border-radius: 9999px;
+    padding: 3px;
+    gap: 3px;
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4), 0 0 14px rgba(0, 195, 208, 0.2);
+}
+
+.power-sim-tab-btn {
+    background: transparent;
+    color: #cbd5e1;
+    border: none;
+    border-radius: 9999px;
+    padding: 6px 18px;
+    font-family: 'Inter', system-ui, sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.3px;
+    cursor: pointer;
+    transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+    outline: none;
+    user-select: none;
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    white-space: nowrap;
+}
+
+.power-sim-tab-btn:hover {
+    color: #ffffff;
+    background: rgba(0, 229, 255, 0.12);
+}
+
+.power-sim-tab-btn.active {
+    background: linear-gradient(180deg, #00C3D0 0%, #0093A8 100%);
+    color: #ffffff;
+    font-weight: 700;
+    box-shadow: 0 0 16px rgba(0, 195, 208, 0.5), 0 2px 8px rgba(0, 0, 0, 0.4);
+    transform: translateY(-0.5px);
+}
+
+.power-sim-tab-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: #00E5FF;
+    box-shadow: 0 0 6px #00E5FF;
+}
+
+.power-sim-tab-btn:not(.active) .power-sim-tab-dot {
+    opacity: 0.35;
+    background: #94a3b8;
+    box-shadow: none;
+}
+
+.power-sim-header-right {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+/* Horizontal Divider */
+.power-sim-divider {
+    width: 100%;
+    height: 1px;
+    background: linear-gradient(90deg, rgba(0, 229, 255, 0.45) 0%, rgba(0, 229, 255, 0.15) 50%, rgba(0, 229, 255, 0.02) 100%);
+    margin: 0;
+}
+
+/* =========================================================================
+   SECTION 2: BOTTOM SECTION (Video Player Container)
+   ========================================================================= */
+
+.power-sim-body {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+.power-sim-video-wrapper {
+    position: relative;
+    width: 100%;
+    height: 540px;
+    max-height: calc(100vh - 250px);
+    background: radial-gradient(circle at center, #0B1C33 0%, #050B16 100%);
+    border: 1.5px solid rgba(0, 192, 232, 0.4);
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow:
+        inset 0 0 40px rgba(0, 0, 0, 0.8),
+        0 12px 30px rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Active Video Element */
+.power-sim-video-player {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    outline: none;
+    background: #000000;
+}
+
+/* Top Telemetry / Status Overlay on Video */
+.power-sim-video-overlay-bar {
+    position: absolute;
+    top: 14px;
+    left: 16px;
+    right: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    pointer-events: none;
+    z-index: 5;
+}
+
+.power-sim-status-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(8, 22, 42, 0.85);
+    border: 1px solid rgba(0, 229, 255, 0.45);
+    border-radius: 20px;
+    padding: 5px 14px;
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+}
+
+.power-sim-pulse-indicator {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: #00E5FF;
+    box-shadow: 0 0 10px #00E5FF;
+    animation: simPulse 1.8s infinite ease-in-out;
+}
+
+@keyframes simPulse {
+    0%, 100% {
+        transform: scale(1);
+        opacity: 1;
+        box-shadow: 0 0 10px #00E5FF;
+    }
+    50% {
+        transform: scale(1.3);
+        opacity: 0.65;
+        box-shadow: 0 0 18px #00E5FF;
+    }
+}
+
+.power-sim-status-text {
+    font-family: 'Inter', system-ui, sans-serif;
+    font-size: 11.5px;
+    font-weight: 700;
+    color: #ffffff;
+    letter-spacing: 0.6px;
+}
+
+.power-sim-path-badge {
+    background: rgba(8, 22, 42, 0.85);
+    border: 1px solid rgba(0, 229, 255, 0.3);
+    border-radius: 6px;
+    padding: 4px 10px;
+    font-family: 'JetBrains Mono', 'Courier New', monospace;
+    font-size: 11px;
+    font-weight: 600;
+    color: #7dd3fc;
+    letter-spacing: 0.3px;
+    backdrop-filter: blur(8px);
+}
+
+/* Fallback / Placeholder when video file isn't uploaded yet */
+.power-sim-placeholder-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 32px;
+    max-width: 620px;
+    gap: 16px;
+    z-index: 2;
+}
+
+.power-sim-placeholder-icon-wrap {
+    width: 72px;
+    height: 72px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, rgba(0, 229, 255, 0.15) 0%, rgba(0, 100, 160, 0.25) 100%);
+    border: 2px solid rgba(0, 229, 255, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #00E5FF;
+    box-shadow: 0 0 30px rgba(0, 229, 255, 0.3);
+}
+
+.power-sim-placeholder-title {
+    font-family: 'Inter', system-ui, sans-serif;
+    font-size: 18px;
+    font-weight: 800;
+    color: #ffffff;
+    letter-spacing: 0.5px;
+    margin: 0;
+    text-shadow: 0 0 12px rgba(0, 229, 255, 0.3);
+}
+
+.power-sim-placeholder-desc {
+    font-family: 'Inter', system-ui, sans-serif;
+    font-size: 13.5px;
+    font-weight: 500;
+    color: #94a3b8;
+    line-height: 1.55;
+    margin: 0;
+}
+
+.power-sim-path-info-box {
+    background: rgba(14, 30, 56, 0.9);
+    border: 1px dashed rgba(0, 229, 255, 0.5);
+    border-radius: 8px;
+    padding: 10px 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    width: 100%;
+}
+
+.power-sim-path-label {
+    font-family: 'Inter', system-ui, sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    color: #38bdf8;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+}
+
+.power-sim-path-code {
+    font-family: 'JetBrains Mono', 'Courier New', monospace;
+    font-size: 12.5px;
+    color: #ffffff;
+    background: rgba(0, 0, 0, 0.35);
+    padding: 4px 8px;
+    border-radius: 4px;
+    word-break: break-all;
+}
+
+.power-sim-placeholder-hint {
+    font-family: 'Inter', system-ui, sans-serif;
+    font-size: 11.5px;
+    color: #64748b;
+    margin: 0;
+}

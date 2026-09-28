@@ -1,6 +1,7 @@
 import { BuildingSubView, SiteMetric } from '../../types';
 import { ChevronLeftIcon, ChevronRightIcon } from '../../Icons';
 import { CoolingModeToggleBar, CoolingMode } from './CoolingModeToggleBar';
+import { NavigationButton } from '../../reusable/Button';
 
 interface Level3HeaderProps {
     regionMetric?: SiteMetric;
@@ -11,6 +12,7 @@ interface Level3HeaderProps {
     onBackToCutaway?: () => void;
     onPowerDetails?: () => void;
     onCoolingDetails?: () => void;
+    onPowerSimulation?: () => void;
 }
 
 export const Level3Header: React.FC<Level3HeaderProps> = ({
@@ -21,7 +23,8 @@ export const Level3Header: React.FC<Level3HeaderProps> = ({
     onBack,
     onBackToCutaway,
     onPowerDetails,
-    onCoolingDetails
+    onCoolingDetails,
+    onPowerSimulation
 }) => {
     const title = regionMetric?.title || 'SOUTHEAST ASIA';
     const subtitle = regionMetric?.subtitle || 'BATAM HUB';
@@ -112,6 +115,16 @@ export const Level3Header: React.FC<Level3HeaderProps> = ({
                     <CoolingModeToggleBar
                         mode={coolingMode}
                         onChange={onCoolingModeChange}
+                    />
+                </div>
+            )}
+
+            {/* In Power Details mode: Top-Right Power Simulation navigation button */}
+            {isPowerPath && (
+                <div className="level3-top-actions">
+                    <NavigationButton
+                        label="Power Simulation"
+                        onClick={onPowerSimulation}
                     />
                 </div>
             )}

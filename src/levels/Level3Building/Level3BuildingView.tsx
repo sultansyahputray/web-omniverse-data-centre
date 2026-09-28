@@ -14,6 +14,7 @@ import level3BuildingData from '../../data/level3Building.json';
 import level3PowerDetailsData from '../../data/level3PowerDetails.json';
 import level3CoolingDetailsData from '../../data/level3CoolingDetails.json';
 import { GLOBAL_TIMERS, getTimerMs } from '../../config';
+import { PowerSimulationModal } from './PowerSimulationModal';
 import './Level3Building.css';
 
 interface Level3BuildingViewProps {
@@ -31,6 +32,7 @@ interface Level3BuildingViewProps {
     onSelectHall?: (hall: HallItem) => void;
     onPowerDetails?: () => void;
     onCoolingDetails?: () => void;
+    onPowerSimulation?: () => void;
 }
 
 export const Level3BuildingView: React.FC<Level3BuildingViewProps> = ({
@@ -52,6 +54,7 @@ export const Level3BuildingView: React.FC<Level3BuildingViewProps> = ({
     const [currentSubView, setCurrentSubView] = useState<BuildingSubView>(subView);
     const [coolingMode, setCoolingMode] = useState<CoolingMode>('liquid');
     const [valueIndex, setValueIndex] = useState<number>(0);
+    const [isPowerSimulationOpen, setIsPowerSimulationOpen] = useState<boolean>(false);
 
     // Interval rotasi data: Value 1 -> Value 2 -> Value 3 (mengacu ke GLOBAL_TIMERS.region_building_time di config.ts)
     useEffect(() => {
@@ -95,6 +98,13 @@ export const Level3BuildingView: React.FC<Level3BuildingViewProps> = ({
         }
     };
 
+    const handlePowerSimulationClick = () => {
+        setIsPowerSimulationOpen(true);
+        if (onPowerSimulation) {
+            onPowerSimulation();
+        }
+    };
+
     const handleBackToCutaway = () => {
         setCurrentSubView('cutaway');
         if (onSubViewChange) {
@@ -132,6 +142,7 @@ export const Level3BuildingView: React.FC<Level3BuildingViewProps> = ({
                 onBackToCutaway={handleBackToCutaway}
                 onPowerDetails={handlePowerDetailsClick}
                 onCoolingDetails={handleCoolingDetailsClick}
+                onPowerSimulation={handlePowerSimulationClick}
             />
 
             {/* Left Sidebar: Normal Cutaway Telemetry OR Power Path OR Cooling Telemetry */}
@@ -196,6 +207,12 @@ export const Level3BuildingView: React.FC<Level3BuildingViewProps> = ({
                     onSelectView={onSelectCameraView || (() => { })}
                 />
             </div>
+
+            {/* Power Simulation Modal */}
+            <PowerSimulationModal
+                isOpen={isPowerSimulationOpen}
+                onClose={() => setIsPowerSimulationOpen(false)}
+            />
         </div>
     );
 };
