@@ -217,69 +217,17 @@ export const Level7ColdPlateHeatmapCard: React.FC<Level7ColdPlateHeatmapCardProp
         return count;
     }, [parameters]);
 
-    // Local drag state initialized from config offset
-    const [dragOffset, setDragOffset] = React.useState({ x: offsetX, y: offsetY });
-    const [isDragging, setIsDragging] = React.useState(false);
-
-    React.useEffect(() => {
-        setDragOffset({ x: offsetX, y: offsetY });
-    }, [offsetX, offsetY]);
-
-    const handleHeaderMouseDown = (e: React.MouseEvent) => {
-        if (e.button !== 0) return;
-        const target = e.target as HTMLElement;
-        if (target.closest('button')) return;
-        e.preventDefault();
-        setIsDragging(true);
-
-        const startMouseX = e.clientX;
-        const startMouseY = e.clientY;
-        const startOffsetX = dragOffset.x;
-        const startOffsetY = dragOffset.y;
-
-        const onMouseMove = (moveEvent: MouseEvent) => {
-            const dx = moveEvent.clientX - startMouseX;
-            const dy = moveEvent.clientY - startMouseY;
-            setDragOffset({
-                x: Math.round(startOffsetX + dx),
-                y: Math.round(startOffsetY + dy),
-            });
-        };
-
-        const onMouseUp = (upEvent: MouseEvent) => {
-            setIsDragging(false);
-            window.removeEventListener('mousemove', onMouseMove);
-            window.removeEventListener('mouseup', onMouseUp);
-
-            const finalX = Math.round(startOffsetX + (upEvent.clientX - startMouseX));
-            const finalY = Math.round(startOffsetY + (upEvent.clientY - startMouseY));
-            console.log(
-                `%c📍 [Cold Plate Card Offset] offsetX: ${finalX}, offsetY: ${finalY}`,
-                'color: #00E5FF; font-weight: bold; background: #0c253e; padding: 2px 6px; border-radius: 4px;'
-            );
-        };
-
-        window.addEventListener('mousemove', onMouseMove);
-        window.addEventListener('mouseup', onMouseUp);
-    };
-
     const cardStyle: React.CSSProperties = {
-        top: `${155 + dragOffset.y}px`,
-        right: `${44 - dragOffset.x}px`,
-        maxHeight: `calc(100vh - ${490 + dragOffset.y}px)`,
-        zIndex: isDragging ? 35 : 25,
-        userSelect: isDragging ? 'none' : 'auto',
+        top: `${155 + offsetY}px`,
+        right: `${44 - offsetX}px`,
+        maxHeight: `calc(100vh - ${490 + offsetY}px)`,
+        zIndex: 25,
     };
 
     return (
         <div className="level7-server-detail-card level7-cold-plate-card" style={cardStyle}>
             {/* Header: Microchip Icon + Title "Cold Plate" + Alert Badge + NavigationButton View History + Close */}
-            <div
-                className="server-card-header"
-                onMouseDown={handleHeaderMouseDown}
-                style={{ cursor: isDragging ? 'grabbing' : 'grab' }}
-                title="Drag header untuk memindahkan posisi card"
-            >
+            <div className="server-card-header">
                 <div className="server-card-header-left">
                     <MicrochipIcon size={26} color="rgba(113, 246, 255, 1)" />
                     <h2 className="cold-plate-card-title">Cold Plate</h2>

@@ -129,6 +129,7 @@ if (typeof document !== 'undefined') {
  * Atur posisi offset floating card detail popup (kanan, kiri, atas, bawah):
  * - Level 6: Selected Rack Detail Card ("NVL72 Rack 1")
  * - Level 7: Selected Server Detail Card ("Compute Tray")
+ * - Level 7 Heatmap: Floating cards telemetry (SP 1 & SP 2) & Cold Plate detail card
  * - Level 8: Selected Superchip Detail Card
  * 
  * Nilai dalam satuan PIXEL (px):
@@ -157,11 +158,12 @@ export const LEVEL7_SERVER_CARD_OFFSET = {
 
 /**
  * Konfigurasi posisi offset floating telemetry cards di Level 7 (Mode Heatmap):
- * - sp1: Card 3 parameter untuk Super Chip 1
- * - sp2: Card 3 parameter untuk Super Chip 2
+ * - sp1: Floating card 3 parameter Super Chip 1
+ * - sp2: Floating card 3 parameter Super Chip 2
  * 
- * Anda bisa mengubah angka offset di sini, ATAU langsung klik & drag card tersebut
- * di layar browser menggunakan kursor mouse!
+ * Anda bisa mengubah angka offset di bawah ini secara bebas:
+ * - offsetX: geser horizontal (+ ke kanan, - ke kiri dalam pixel)
+ * - offsetY: geser vertikal (+ ke bawah, - ke atas dalam pixel)
  */
 export const LEVEL7_HEATMAP_FLOATING_CARDS_OFFSET = {
     sp1: {
@@ -172,7 +174,7 @@ export const LEVEL7_HEATMAP_FLOATING_CARDS_OFFSET = {
     },
     sp2: {
         /** Geser horizontal SP 2: + ke kanan, - ke kiri (pixel) */
-        offsetX: 60,
+        offsetX: 0,
         /** Geser vertikal SP 2: + ke bawah, - ke atas (pixel) */
         offsetY: 0,
     },
@@ -194,4 +196,3 @@ export const LEVEL8_SUPERCHIP_CARD_OFFSET = {
     /** Geser vertikal: + ke bawah, - ke atas (dalam pixel) */
     offsetY: 0,
 };
-
