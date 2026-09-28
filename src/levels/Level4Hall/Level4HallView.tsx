@@ -9,6 +9,7 @@ import { HallRowItem, Level4FloatingRows, RowPlacement, DEFAULT_HALL_ROW_PLACEME
 import { AdaptiveViewCube } from '../Level2Region/AdaptiveViewCube';
 import { LoadScenarioSelector } from '../../reusable/LoadScenarioSelector';
 import { HeatmapCheckbox } from '../../reusable/HeatmapCheckbox';
+import { HeatmapLegend } from '../../reusable/HeatmapLegend';
 import { GLOBAL_TIMERS, getTimerMs } from '../../config';
 import level4HallData from '../../data/level4Hall.json';
 import './Level4Hall.css';
@@ -26,6 +27,9 @@ interface Level4HallViewProps {
     cameraView?: CameraView;
     currentScenario?: string;
     isHeatmap?: boolean;
+    minHeatmapTemp?: number;
+    maxHeatmapTemp?: number;
+    stepHeatmapTemp?: number;
     breadcrumbItems?: BreadcrumbItem[];
     screenPositions?: Record<string, ScreenPosition>;
     rowPlacements?: Record<string, RowPlacement>;
@@ -46,6 +50,9 @@ export const Level4HallView: React.FC<Level4HallViewProps> = ({
     cameraView = 'iso',
     currentScenario = 'Normal Load',
     isHeatmap,
+    minHeatmapTemp = 22,
+    maxHeatmapTemp = 36,
+    stepHeatmapTemp = 2,
     breadcrumbItems,
     screenPositions,
     rowPlacements = HALL_ROW_PLACEMENTS,
@@ -161,8 +168,16 @@ export const Level4HallView: React.FC<Level4HallViewProps> = ({
                 onSelectHall={onSelectHall}
             />
 
-            {/* 1. Component 1: Computing Summary Card (Top-Left, below header) */}
-            <Level4ComputingCard data={computingMetrics} />
+            {/* 1. Component 1: Computing Summary Card (when Heatmap is OFF) OR Heatmap Legend (when Heatmap is ON) */}
+            {!activeHeatmap ? (
+                <Level4ComputingCard data={computingMetrics} />
+            ) : (
+                <HeatmapLegend
+                    minTemp={minHeatmapTemp}
+                    maxTemp={maxHeatmapTemp}
+                    step={stepHeatmapTemp}
+                />
+            )}
 
             {/* 4. Component 4: Floating Row Buttons (Row A - Row F above racks) */}
             <Level4FloatingRows
@@ -173,22 +188,24 @@ export const Level4HallView: React.FC<Level4HallViewProps> = ({
 
             {/* Bottom Row Container: Power Summary + Cooling Summary + (Load Scenario & ViewCube) */}
             <div className="level4-bottom-row-controls">
-                {/* 2. Component 2: Power Summary Card (4 columns) */}
-                <Level4PowerSummaryCard data={powerMetrics} />
+                {/* 2. Component 2: Power Summary Card (4 columns) - Hidden in Heatmap mode */}
+                {!activeHeatmap && <Level4PowerSummaryCard data={powerMetrics} />}
 
-                {/* 3. Component 3: Cooling Summary Card (Liquid vs Air toggle + metrics) */}
-                <Level4CoolingSummaryCard data={coolingMetrics} />
+                {/* 3. Component 3: Cooling Summary Card (Liquid vs Air toggle + metrics) - Hidden in Heatmap mode */}
+                {!activeHeatmap && <Level4CoolingSummaryCard data={coolingMetrics} />}
 
-                {/* Bottom-Right Stack: Heatmap Toggle + Load Scenario Dropdown above Dice Rotation */}
+                {/* Bottom-Right Stack: Heatmap Toggle + (Load Scenario Dropdown if not Heatmap) + Dice Rotation */}
                 <div className="level4-bottom-right-stack">
                     <HeatmapCheckbox
                         checked={activeHeatmap}
                         onChange={handleToggleHeatmap}
                     />
-                    <LoadScenarioSelector
-                        currentScenario={currentScenario}
-                        onSelectScenario={onSelectScenario}
-                    />
+                    {!activeHeatmap && (
+                        <LoadScenarioSelector
+                            currentScenario={currentScenario}
+                            onSelectScenario={onSelectScenario}
+                        />
+                    )}
                     <div className="level4-viewcube-anchor">
                         <AdaptiveViewCube
                             focusLabel="DATA HALL"

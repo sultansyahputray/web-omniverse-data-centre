@@ -1,0 +1,96 @@
+/* =========================================================================
+   HEATMAP LEGEND CARD
+   Matches CFD / Thermal Heatmap gradient with configurable min/max range
+   ========================================================================= */
+
+.heatmap-legend-card {
+    position: absolute;
+    top: 155px;
+    left: 44px;
+    background: linear-gradient(180deg, #182A4DF0 0%, #0E1935F8 100%);
+    border: 1.5px solid #00C0E8;
+    border-radius: 12px;
+    padding: 12px 14px 14px 14px;
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    box-shadow: 0 10px 32px rgba(0, 0, 0, 0.65), 0 0 18px rgba(0, 192, 232, 0.25);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+    width: fit-content;
+    min-width: 108px;
+    box-sizing: border-box;
+    pointer-events: auto;
+    z-index: 25;
+    animation: heatmapLegendSlideIn 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes heatmapLegendSlideIn {
+    from {
+        opacity: 0;
+        transform: translateY(-10px) scale(0.97);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+.heatmap-legend-title {
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    color: #ffffff;
+    letter-spacing: 0.2px;
+    text-align: center;
+    white-space: nowrap;
+}
+
+.heatmap-legend-body {
+    display: flex;
+    flex-direction: row;
+    align-items: stretch;
+    justify-content: center;
+    gap: 12px;
+    height: 220px;
+    width: 100%;
+}
+
+.heatmap-legend-gradient-bar {
+    width: 22px;
+    height: 100%;
+    border-radius: 2px;
+    background: linear-gradient(
+        to bottom,
+        #d50000 0%,
+        #ff1a00 14%,
+        #ff6600 28%,
+        #ffcc00 42%,
+        #ffee00 48%,
+        #00dd00 56%,
+        #00ccee 70%,
+        #0066ff 84%,
+        #0022cc 100%
+    );
+    box-shadow: 0 0 8px rgba(0, 0, 0, 0.4);
+    flex-shrink: 0;
+}
+
+.heatmap-legend-ticks {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 100%;
+    align-items: flex-start;
+    padding: 1px 0;
+}
+
+.heatmap-legend-tick-label {
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    color: #ffffff;
+    line-height: 1;
+    letter-spacing: 0.2px;
+}
