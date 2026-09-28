@@ -835,6 +835,85 @@ export const getStatus = (param: string, value: number | string): ThresholdStatu
             return 'green';
         }
 
+        // --- LEVEL 7 COLD PLATE SPECIFIC THRESHOLDS ---
+        case 'coldPlateTemp':
+        case 'cold_plate_temp':
+        case 'coldPlateTemperature': {
+            const v = Number(value);
+            if (v <= 58) return 'green';
+            if (v <= 68) return 'yellow';
+            if (v <= 76) return 'orange';
+            return 'red';
+        }
+
+        case 'coldPlateInletTemp':
+        case 'cold_plate_inlet_temp':
+        case 'coldPlateInletTemperature': {
+            const v = Number(value);
+            if (v >= 36 && v <= 46) return 'green';
+            if ((v >= 33 && v < 36) || (v > 46 && v <= 52)) return 'yellow';
+            if ((v >= 30 && v < 33) || (v > 52 && v <= 58)) return 'orange';
+            return 'red';
+        }
+
+        case 'coldPlateOutletTemp':
+        case 'cold_plate_outlet_temp':
+        case 'coldPlateOutletTemperature': {
+            const v = Number(value);
+            if (v <= 55) return 'green';
+            if (v <= 68) return 'yellow';
+            if (v <= 78) return 'orange';
+            return 'red';
+        }
+
+        case 'coolantDeltaT':
+        case 'coolant_delta_t':
+        case 'coolantDeltaTemp': {
+            const v = Number(value);
+            if (v <= 25) return 'green';
+            if (v <= 35) return 'yellow';
+            if (v <= 42) return 'orange';
+            return 'red';
+        }
+
+        case 'coldPlateFlowRate':
+        case 'cold_plate_flow_rate': {
+            const v = Number(value);
+            if (v >= 38 && v <= 48) return 'green';
+            if ((v >= 32 && v < 38) || (v > 48 && v <= 54)) return 'yellow';
+            if ((v >= 26 && v < 32) || (v > 54 && v <= 60)) return 'orange';
+            return 'red';
+        }
+
+        case 'coldPlateDeltaPressure':
+        case 'cold_plate_delta_pressure':
+        case 'deltaPressure': {
+            const v = Number(value);
+            if (v <= 54) return 'green';
+            if (v <= 62) return 'yellow';
+            if (v <= 70) return 'orange';
+            return 'red';
+        }
+
+        case 'valvePct':
+        case 'valve_pct':
+        case 'valvePercentage': {
+            const v = Number(value);
+            if (v <= 50) return 'green';
+            if (v <= 70) return 'yellow';
+            if (v <= 85) return 'orange';
+            return 'red';
+        }
+
+        case 'totalHeatOutput':
+        case 'total_heat_output': {
+            const v = Number(value);
+            if (v <= 24) return 'green';
+            if (v <= 30) return 'yellow';
+            if (v <= 36) return 'orange';
+            return 'red';
+        }
+
 
         default:
             return 'default';

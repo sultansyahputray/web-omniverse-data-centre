@@ -10,6 +10,7 @@ import { HeatmapCheckbox } from '../../reusable/HeatmapCheckbox';
 import { HALL_OPTIONS } from '../Level4Hall/Level4Header';
 import { LEVEL7_SERVER_CARD_OFFSET } from '../../config';
 import { Level7ServerDetailCard } from './Level7ServerDetailCard';
+import { Level7ColdPlateHeatmapCard } from './Level7ColdPlateHeatmapCard';
 import { Level7BottomGaugesCard } from './Level7BottomGaugesCard';
 import { Level7ComputeTrayListCard } from './Level7ComputeTrayListCard';
 import { Level7FloatingChips } from './Level7FloatingChips';
@@ -178,10 +179,13 @@ export const Level7ServerView: React.FC<Level7ServerViewProps> = ({
                 onSelectPrim={onSelectPrim}
             />
 
-            {/* Floating Navigation Buttons for Super Chip 1 & Super Chip 2 */}
+            {/* Floating Navigation Buttons or Heatmap 3-Value Labels for Super Chip 1 & Super Chip 2 */}
             <Level7FloatingChips
                 activeServerNum={activeServerNum}
                 screenPositions={screenPositions}
+                isHeatmap={activeHeatmap}
+                currentScenario={normalizedScenario}
+                timeSlot={timeSlot}
                 onSelectSuperChip={onSelectSuperChip}
             />
 
@@ -190,29 +194,48 @@ export const Level7ServerView: React.FC<Level7ServerViewProps> = ({
                 <Breadcrumb items={breadcrumbItems} onItemClick={handleBreadcrumbClick} />
             </div>
 
-            {/* Selected Compute Tray Detail Floating Card */}
-            <Level7ServerDetailCard
-                serverNum={activeServerNum}
-                rackNum={activeRackNum}
-                rowLabel={rowLabel}
-                scenario={normalizedScenario}
-                timeSlot={timeSlot}
-                offsetX={LEVEL7_SERVER_CARD_OFFSET.offsetX}
-                offsetY={LEVEL7_SERVER_CARD_OFFSET.offsetY}
-                onClose={onBackToRack}
-                onViewHistory={() => setIsHistoryOpen(true)}
-            />
-
-            {/* Bottom-Right Controls: Gauges Card (Image 3) + (Load Scenario & ViewCube) */}
-            <div className="level7-bottom-controls">
-                <Level7BottomGaugesCard
+            {/* Selected Compute Tray Detail Floating Card:
+                - Heatmap = false: Standard Compute Tray Detail Card (Computing, Cooling, Power tabs)
+                - Heatmap = true: Cold Plate Heatmap Card (16 Telemetry Parameters matching Image 2)
+            */}
+            {activeHeatmap ? (
+                <Level7ColdPlateHeatmapCard
                     serverNum={activeServerNum}
-                    cpuUtil={activeTrayData.summary.avgCpuUtil}
-                    gpuUtil={activeTrayData.summary.avgGpuUtil}
-                    powerKW={activeTrayData.summary.trayTotalPower}
-                    powerLimit={activeTrayData.power.powerLimit}
-                    coolingEff={activeTrayData.summary.coolingEff}
+                    rackNum={activeRackNum}
+                    rowLabel={rowLabel}
+                    scenario={normalizedScenario}
+                    timeSlot={timeSlot}
+                    offsetX={LEVEL7_SERVER_CARD_OFFSET.offsetX}
+                    offsetY={LEVEL7_SERVER_CARD_OFFSET.offsetY}
+                    onClose={() => handleToggleHeatmap(false)}
+                    onViewHistory={() => setIsHistoryOpen(true)}
                 />
+            ) : (
+                <Level7ServerDetailCard
+                    serverNum={activeServerNum}
+                    rackNum={activeRackNum}
+                    rowLabel={rowLabel}
+                    scenario={normalizedScenario}
+                    timeSlot={timeSlot}
+                    offsetX={LEVEL7_SERVER_CARD_OFFSET.offsetX}
+                    offsetY={LEVEL7_SERVER_CARD_OFFSET.offsetY}
+                    onClose={onBackToRack}
+                    onViewHistory={() => setIsHistoryOpen(true)}
+                />
+            )}
+
+            {/* Bottom-Right Controls: Gauges Card (Hidden when Heatmap is active) + (Load Scenario & ViewCube) */}
+            <div className="level7-bottom-controls">
+                {!activeHeatmap && (
+                    <Level7BottomGaugesCard
+                        serverNum={activeServerNum}
+                        cpuUtil={activeTrayData.summary.avgCpuUtil}
+                        gpuUtil={activeTrayData.summary.avgGpuUtil}
+                        powerKW={activeTrayData.summary.trayTotalPower}
+                        powerLimit={activeTrayData.power.powerLimit}
+                        coolingEff={activeTrayData.summary.coolingEff}
+                    />
+                )}
                 <div className="level7-bottom-right-stack">
                     <HeatmapCheckbox
                         checked={activeHeatmap}
