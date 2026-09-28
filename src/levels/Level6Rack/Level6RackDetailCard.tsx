@@ -10,6 +10,10 @@ interface Level6RackDetailCardProps {
     rackNum: number;
     rowLabel?: string;
     screenPosition?: ScreenPosition;
+    offsetX?: number;
+    offsetY?: number;
+    gapX?: number;
+    side?: 'auto' | 'left' | 'right';
     onClose: () => void;
     onViewHistory: () => void;
     onSelectServer?: (serverId: string, serverNum: number) => void;
@@ -25,6 +29,10 @@ export const Level6RackDetailCard: React.FC<Level6RackDetailCardProps> = ({
     rackNum,
     rowLabel = 'Row A',
     screenPosition,
+    offsetX = 0,
+    offsetY = 0,
+    gapX = 80,
+    side = 'auto',
     onClose,
     onViewHistory,
     onSelectServer
@@ -96,42 +104,46 @@ export const Level6RackDetailCard: React.FC<Level6RackDetailCardProps> = ({
     const rackPxX = isDynamic ? (screenPosition.x / 100) * windowSize.w : 0;
     const rackPxY = isDynamic ? (screenPosition.y / 100) * windowSize.h : 0;
 
-    // If rack is near the right edge of the viewport (> 68%), flip card to the left side
-    const isLeftOfRack = isDynamic && screenPosition.x > 68;
+    // Determine if card sits on the left side of rack (forced via prop or automatic based on screen width > 68%)
+    const isLeftOfRack = side === 'left' ? true : (side === 'right' ? false : (isDynamic && screenPosition.x > 68));
 
     let targetLeft = 0;
     let targetTop = 0;
 
     if (isDynamic) {
         if (isLeftOfRack) {
-            targetLeft = rackPxX - CARD_WIDTH - 80;
+            targetLeft = rackPxX - CARD_WIDTH - gapX + offsetX;
         } else {
-            targetLeft = rackPxX + 80;
+            targetLeft = rackPxX + gapX + offsetX;
         }
-        // Center the card vertically relative to the rack object center
-        targetTop = rackPxY - (CARD_ESTIMATED_HEIGHT / 2);
+        // Center the card vertically relative to the rack object center + offsetY
+        targetTop = rackPxY - (CARD_ESTIMATED_HEIGHT / 2) + offsetY;
 
         // Viewport boundaries safety clamping
-        const minLeft = 24;
-        const maxLeft = Math.max(minLeft, windowSize.w - CARD_WIDTH - 24);
-        const minTop = 110; // Keep below top navigation header
-        const maxTop = Math.max(minTop, windowSize.h - CARD_ESTIMATED_HEIGHT - 30); // Keep above bottom controls
+        const minLeft = 16;
+        const maxLeft = Math.max(minLeft, windowSize.w - CARD_WIDTH - 16);
+        const minTop = 80; // Keep below top navigation header
+        const maxTop = Math.max(minTop, windowSize.h - CARD_ESTIMATED_HEIGHT - 20); // Keep above bottom controls
 
         targetLeft = Math.max(minLeft, Math.min(maxLeft, targetLeft));
         targetTop = Math.max(minTop, Math.min(maxTop, targetTop));
     }
 
     // Relative coordinates of the rack center dot in the card's local space
-    const localDotX = isDynamic ? rackPxX - targetLeft : -80;
+    const localDotX = isDynamic ? rackPxX - targetLeft : -gapX;
     const localDotY = isDynamic ? rackPxY - targetTop : (CARD_ESTIMATED_HEIGHT / 2);
 
-    // Single straight horizontal line connecting the rack center directly to the card (no bends)
+    // Dynamic connector line from rack center dot to the card edge
     let pathD = '';
-    if (isDynamic) {
-        if (!isLeftOfRack) {
-            pathD = `M ${localDotX} ${localDotY} L 0 ${localDotY}`;
+    const shouldDrawLine = isDynamic && ((!isLeftOfRack && localDotX < 0) || (isLeftOfRack && localDotX > CARD_WIDTH));
+    if (shouldDrawLine) {
+        const cardEdgeX = !isLeftOfRack ? 0 : CARD_WIDTH;
+        const cardEdgeY = Math.max(30, Math.min(CARD_ESTIMATED_HEIGHT - 30, localDotY));
+        if (Math.abs(cardEdgeY - localDotY) < 3) {
+            pathD = `M ${localDotX} ${localDotY} L ${cardEdgeX} ${localDotY}`;
         } else {
-            pathD = `M ${localDotX} ${localDotY} L ${CARD_WIDTH} ${localDotY}`;
+            const midX = (localDotX + cardEdgeX) / 2;
+            pathD = `M ${localDotX} ${localDotY} L ${midX} ${localDotY} L ${midX} ${cardEdgeY} L ${cardEdgeX} ${cardEdgeY}`;
         }
     }
 
@@ -149,8 +161,8 @@ export const Level6RackDetailCard: React.FC<Level6RackDetailCardProps> = ({
         }
         : {
             position: 'absolute',
-            top: '155px',
-            right: '44px',
+            top: `${155 + offsetY}px`,
+            right: `${44 - offsetX}px`,
             left: 'auto'
         };
 

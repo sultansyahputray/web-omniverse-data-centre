@@ -122,3 +122,42 @@ if (typeof document !== 'undefined') {
     applyStatusPaletteCssVariables();
 }
 
+/**
+ * =========================================================================
+ * FLOATING DETAIL CARDS OFFSET CONFIGURATION
+ * =========================================================================
+ * Atur posisi offset floating card detail popup (kanan, kiri, atas, bawah):
+ * - Level 6: Selected Rack Detail Card ("NVL72 Rack 1")
+ * - Level 7: Selected Server Detail Card ("Compute Tray")
+ * - Level 8: Selected Superchip Detail Card
+ * 
+ * Nilai dalam satuan PIXEL (px):
+ * - offsetX: geser horizontal (+ ke kanan, - ke kiri)
+ * - offsetY: geser vertikal (+ ke bawah, - ke atas)
+ * 
+ * Perubahan di file ini otomatis langsung aktif via Vite Hot Reload!
+ */
+export const LEVEL6_RACK_CARD_OFFSET = {
+    /** Geser horizontal: + ke kanan, - ke kiri (dalam pixel, contoh: 40 atau -50) */
+    offsetX: 0,
+    /** Geser vertikal: + ke bawah, - ke atas (dalam pixel, contoh: 30 atau -40) */
+    offsetY: 0,
+    /** Jarak horizontal default antara rak dan card (default: 80 px) */
+    gapX: 80,
+    /** Penempatan posisi card: 'auto' (otomatis deteksi posisi rak), 'right' (paksa kanan rak), atau 'left' (paksa kiri rak) */
+    side: 'auto' as 'auto' | 'left' | 'right',
+};
+
+export const LEVEL7_SERVER_CARD_OFFSET = {
+    /** Geser horizontal: + ke kanan, - ke kiri (dalam pixel) */
+    offsetX: 0,
+    /** Geser vertikal: + ke bawah, - ke atas (dalam pixel) */
+    offsetY: 0,
+};
+
+export const LEVEL8_SUPERCHIP_CARD_OFFSET = {
+    /** Geser horizontal: + ke kanan, - ke kiri (dalam pixel) */
+    offsetX: 0,
+    /** Geser vertikal: + ke bawah, - ke atas (dalam pixel) */
+    offsetY: 0,
+};

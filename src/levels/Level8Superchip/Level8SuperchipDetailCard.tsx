@@ -12,6 +12,8 @@ interface Level8SuperchipDetailCardProps {
     rowLabel?: string;
     scenario?: string;
     timeSlot?: number;
+    offsetX?: number;
+    offsetY?: number;
     onClose: () => void;
     onViewHistory: () => void;
 }
@@ -22,6 +24,8 @@ export const Level8SuperchipDetailCard: React.FC<Level8SuperchipDetailCardProps>
     rackNum = 1,
     scenario = 'Low Load',
     timeSlot = 0,
+    offsetX = 0,
+    offsetY = 0,
     onClose,
     onViewHistory
 }) => {
@@ -137,8 +141,13 @@ export const Level8SuperchipDetailCard: React.FC<Level8SuperchipDetailCardProps>
         </div>
     );
 
+    const cardStyle: React.CSSProperties = {
+        top: `${155 + offsetY}px`,
+        right: `${44 - offsetX}px`,
+    };
+
     return (
-        <div className="level8-server-detail-card">
+        <div className="level8-server-detail-card" style={cardStyle}>
             {/* Header: Microchip Icon + Title */}
             <div className="server-card-header">
                 <div className="server-card-header-left">

@@ -10,6 +10,8 @@ interface Level7ServerDetailCardProps {
     rowLabel?: string;
     scenario?: string;
     timeSlot?: number;
+    offsetX?: number;
+    offsetY?: number;
     onClose: () => void;
     onViewHistory: () => void;
 }
@@ -19,6 +21,8 @@ export const Level7ServerDetailCard: React.FC<Level7ServerDetailCardProps> = ({
     rackNum,
     scenario = 'Low Load',
     timeSlot = 0,
+    offsetX = 0,
+    offsetY = 0,
     onClose,
     onViewHistory
 }) => {
@@ -133,8 +137,13 @@ export const Level7ServerDetailCard: React.FC<Level7ServerDetailCardProps> = ({
         </div>
     );
 
+    const cardStyle: React.CSSProperties = {
+        top: `${155 + offsetY}px`,
+        right: `${44 - offsetX}px`,
+    };
+
     return (
-        <div className="level7-server-detail-card">
+        <div className="level7-server-detail-card" style={cardStyle}>
             {/* Header: Microchip Icon + 2-line Title */}
             <div className="server-card-header">
                 <div className="server-card-header-left">

@@ -7,12 +7,15 @@ import { ChevronLeftIcon } from '../../Icons';
 import { AdaptiveViewCube } from '../Level2Region/AdaptiveViewCube';
 import { LoadScenarioSelector } from '../../reusable/LoadScenarioSelector';
 import { HALL_OPTIONS } from '../Level4Hall/Level4Header';
+import { LEVEL8_SUPERCHIP_CARD_OFFSET } from '../../config';
 import { Level8SuperchipDetailCard } from './Level8SuperchipDetailCard';
 import { Level7BottomGaugesCard } from '../Level7Server/Level7BottomGaugesCard';
 import { Level7ComputeTrayListCard } from '../Level7Server/Level7ComputeTrayListCard';
 import { Level8FloatingLabels } from './Level8FloatingLabels';
 import level8Data from '../../data/level8Superchip.json';
 import './Level8Superchip.css';
+
+export { LEVEL8_SUPERCHIP_CARD_OFFSET };
 
 interface Level8SuperchipViewProps {
     activeRegion: RegionKey;
@@ -195,6 +198,8 @@ export const Level8SuperchipView: React.FC<Level8SuperchipViewProps> = ({
                 rowLabel={rowLabel}
                 scenario={normalizedScenario}
                 timeSlot={timeSlot}
+                offsetX={LEVEL8_SUPERCHIP_CARD_OFFSET.offsetX}
+                offsetY={LEVEL8_SUPERCHIP_CARD_OFFSET.offsetY}
                 onClose={onBackToServer}
                 onViewHistory={() => setIsHistoryOpen(true)}
             />

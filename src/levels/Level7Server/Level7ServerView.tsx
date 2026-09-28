@@ -7,12 +7,15 @@ import { ChevronLeftIcon } from '../../Icons';
 import { AdaptiveViewCube } from '../Level2Region/AdaptiveViewCube';
 import { LoadScenarioSelector } from '../../reusable/LoadScenarioSelector';
 import { HALL_OPTIONS } from '../Level4Hall/Level4Header';
+import { LEVEL7_SERVER_CARD_OFFSET } from '../../config';
 import { Level7ServerDetailCard } from './Level7ServerDetailCard';
 import { Level7BottomGaugesCard } from './Level7BottomGaugesCard';
 import { Level7ComputeTrayListCard } from './Level7ComputeTrayListCard';
 import { Level7FloatingChips } from './Level7FloatingChips';
 import level7Data from '../../data/level7ComputeTray.json';
 import './Level7Server.css';
+
+export { LEVEL7_SERVER_CARD_OFFSET };
 
 interface Level7ServerViewProps {
     activeRegion: RegionKey;
@@ -180,6 +183,8 @@ export const Level7ServerView: React.FC<Level7ServerViewProps> = ({
                 rowLabel={rowLabel}
                 scenario={normalizedScenario}
                 timeSlot={timeSlot}
+                offsetX={LEVEL7_SERVER_CARD_OFFSET.offsetX}
+                offsetY={LEVEL7_SERVER_CARD_OFFSET.offsetY}
                 onClose={onBackToRack}
                 onViewHistory={() => setIsHistoryOpen(true)}
             />

@@ -7,8 +7,12 @@ import { ChevronLeftIcon } from '../../Icons';
 import { AdaptiveViewCube } from '../Level2Region/AdaptiveViewCube';
 import { LoadScenarioSelector } from '../../reusable/LoadScenarioSelector';
 import { HALL_OPTIONS } from '../Level4Hall/Level4Header';
+import { LEVEL6_RACK_CARD_OFFSET } from '../../config';
 import { Level6RackDetailCard } from './Level6RackDetailCard';
 import './Level6Rack.css';
+
+// Re-export agar bisa di-import atau dilihat langsung di sini
+export { LEVEL6_RACK_CARD_OFFSET };
 
 interface Level6RackViewProps {
     activeRegion: RegionKey;
@@ -127,6 +131,10 @@ export const Level6RackView: React.FC<Level6RackViewProps> = ({
                         rackNum={activeRackNum}
                         rowLabel={activeRow.label}
                         screenPosition={activeRackPos}
+                        offsetX={LEVEL6_RACK_CARD_OFFSET.offsetX}
+                        offsetY={LEVEL6_RACK_CARD_OFFSET.offsetY}
+                        gapX={LEVEL6_RACK_CARD_OFFSET.gapX}
+                        side={LEVEL6_RACK_CARD_OFFSET.side}
                         onClose={onBackToHall}
                         onViewHistory={() => setIsHistoryOpen(true)}
                         onSelectServer={onSelectServer}
