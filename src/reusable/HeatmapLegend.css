@@ -5,10 +5,10 @@
 
 .heatmap-legend-card {
     position: absolute;
-    top: 155px;
+    bottom: 30px;
     left: 44px;
-    background: linear-gradient(180deg, #182A4DF0 0%, #0E1935F8 100%);
-    border: 1.5px solid #00C0E8;
+    background: linear-gradient(180deg, rgba(36, 65, 120, 1) 0%, rgba(14, 25, 53, 0.9) 100%);
+    border: 2px solid #00C0E8;
     border-radius: 12px;
     padding: 12px 14px 14px 14px;
     backdrop-filter: blur(14px);
@@ -31,6 +31,7 @@
         opacity: 0;
         transform: translateY(-10px) scale(0.97);
     }
+
     to {
         opacity: 1;
         transform: translateY(0) scale(1);
@@ -61,18 +62,16 @@
     width: 22px;
     height: 100%;
     border-radius: 2px;
-    background: linear-gradient(
-        to bottom,
-        #d50000 0%,
-        #ff1a00 14%,
-        #ff6600 28%,
-        #ffcc00 42%,
-        #ffee00 48%,
-        #00dd00 56%,
-        #00ccee 70%,
-        #0066ff 84%,
-        #0022cc 100%
-    );
+    background: linear-gradient(to bottom,
+            #d50000 0%,
+            #ff1a00 14%,
+            #ff6600 28%,
+            #ffcc00 42%,
+            #ffee00 48%,
+            #00dd00 56%,
+            #00ccee 70%,
+            #0066ff 84%,
+            #0022cc 100%);
     box-shadow: 0 0 8px rgba(0, 0, 0, 0.4);
     flex-shrink: 0;
 }

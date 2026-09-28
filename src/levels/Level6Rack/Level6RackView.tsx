@@ -7,6 +7,7 @@ import { ChevronLeftIcon } from '../../Icons';
 import { AdaptiveViewCube } from '../Level2Region/AdaptiveViewCube';
 import { LoadScenarioSelector } from '../../reusable/LoadScenarioSelector';
 import { HeatmapCheckbox } from '../../reusable/HeatmapCheckbox';
+import { HeatmapLegend } from '../../reusable/HeatmapLegend';
 import { HALL_OPTIONS } from '../Level4Hall/Level4Header';
 import { LEVEL6_RACK_CARD_OFFSET } from '../../config';
 import { Level6RackDetailCard } from './Level6RackDetailCard';
@@ -26,6 +27,9 @@ interface Level6RackViewProps {
     currentScenario?: string;
     isHeatmap?: boolean;
     screenPositions?: Record<string, ScreenPosition>;
+    minHeatmapTemp?: number;
+    maxHeatmapTemp?: number;
+    stepHeatmapTemp?: number;
     onBackToRow: () => void;
     onBackToHall: () => void;
     onSelectCameraView?: (view: CameraView) => void;
@@ -44,6 +48,9 @@ export const Level6RackView: React.FC<Level6RackViewProps> = ({
     currentScenario = 'Normal Load',
     isHeatmap,
     screenPositions,
+    minHeatmapTemp = 22,
+    maxHeatmapTemp = 36,
+    stepHeatmapTemp = 2,
     onBackToRow,
     onBackToHall,
     onSelectCameraView,
@@ -144,6 +151,8 @@ export const Level6RackView: React.FC<Level6RackViewProps> = ({
                     <Level6RackDetailCard
                         rackNum={activeRackNum}
                         rowLabel={activeRow.label}
+                        hallId={activeHallId}
+                        currentScenario={currentScenario}
                         screenPosition={activeRackPos}
                         offsetX={LEVEL6_RACK_CARD_OFFSET.offsetX}
                         offsetY={LEVEL6_RACK_CARD_OFFSET.offsetY}
@@ -155,6 +164,15 @@ export const Level6RackView: React.FC<Level6RackViewProps> = ({
                     />
                 );
             })()}
+
+            {/* Bottom-Left Heatmap Legend: Configurable min/max CFD temperature gradient */}
+            {activeHeatmap && (
+                <HeatmapLegend
+                    minTemp={minHeatmapTemp}
+                    maxTemp={maxHeatmapTemp}
+                    step={stepHeatmapTemp}
+                />
+            )}
 
             {/* Bottom-Right Controls: Heatmap Toggle, Load Scenario Dropdown & ViewCube (Dice Rotation) */}
             <div className="level6-bottom-controls">

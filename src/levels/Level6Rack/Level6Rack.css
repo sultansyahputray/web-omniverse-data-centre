@@ -161,19 +161,20 @@
 
 .level6-rack-detail-card {
     position: absolute;
-    top: 155px;
+    top: 145px;
     right: 44px;
-    width: 570px;
-    background: linear-gradient(180deg, rgba(36, 65, 120, 1) 0%, rgba(14, 25, 53, 0.9) 100%);
+    width: 380px;
+    background: linear-gradient(180deg, rgba(20, 48, 92, 0.95) 0%, rgba(10, 22, 48, 0.96) 100%);
     border: 2px solid #00C0E8;
     border-radius: 16px;
     backdrop-filter: blur(16px);
     -webkit-backdrop-filter: blur(16px);
-    padding: 18px 22px 22px 22px;
+    padding: 16px 18px 18px 18px;
     pointer-events: auto;
     z-index: 35;
     display: flex;
     flex-direction: column;
+    box-shadow: 0 10px 32px rgba(0, 0, 0, 0.65), 0 0 20px rgba(0, 192, 232, 0.25);
     animation: rackCardFadeIn 0.25s cubic-bezier(0.16, 1, 0.3, 1) forwards;
     box-sizing: border-box;
     will-change: left, top;
@@ -203,141 +204,84 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    margin-bottom: 5px;
+    margin-bottom: 2px;
 }
 
 .rack-card-header-left {
     display: flex;
     align-items: center;
-    gap: 10px;
+    gap: 8px;
 }
 
 .rack-card-title {
     font-family: 'Inter', system-ui, -apple-system, sans-serif;
-    font-size: 19px;
+    font-size: 16px;
     font-weight: 700;
     color: #71F6FF;
-    letter-spacing: 0.5px;
+    letter-spacing: 0.3px;
+    white-space: nowrap;
+}
+
+.rack-card-alert-badge {
+    background: #dc2626;
+    color: #ffffff;
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    font-size: 12.5px;
+    font-weight: 700;
+    padding: 2px 7px;
+    border-radius: 6px;
+    line-height: 1.2;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 0 10px rgba(220, 38, 38, 0.45);
 }
 
 .rack-card-header-right {
     display: flex;
     align-items: center;
-    gap: 12px;
-}
-
-
-/* 4 Circular Gauges Row */
-.rack-card-gauges-row {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-    margin-bottom: 22px;
     gap: 8px;
 }
 
-.rack-gauge-item {
+.rack-card-history-btn {
+    font-size: 12px !important;
+    padding: 4px 10px !important;
+}
+
+/* Upper Section: Telemetry Metrics List */
+.rack-metrics-list {
     display: flex;
     flex-direction: column;
-    align-items: center;
-    text-align: center;
-    flex: 1;
-    min-width: 0;
+    gap: 4px;
+    margin-top: 6px;
 }
 
-.rack-gauge-title {
-    font-family: 'Inter', system-ui, -apple-system, sans-serif;
-    font-size: 11.5px;
-    font-weight: 600;
-    color: #FFFFFF;
-    line-height: 1.25;
-    height: 32px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    margin-bottom: 8px;
-    word-break: break-word;
-}
-
-.rack-gauge-power-display {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    line-height: 1.05;
-}
-
-.rack-gauge-power-display .power-num {
-    font-family: 'Inter', system-ui, -apple-system, sans-serif;
-    font-size: 15px;
-    font-weight: 700;
-    color: #ffffff;
-    letter-spacing: 0.5px;
-}
-
-.rack-gauge-power-display .power-unit {
-    font-family: 'Inter', system-ui, -apple-system, sans-serif;
-    font-size: 10px;
-    font-weight: 600;
-    color: #C5D5E5;
-    margin-top: 1px;
-}
-
-/* Capsule Tabs Row */
-.rack-card-tabs-container {
-    margin-bottom: 18px;
-}
-
-/* Tab Content: 2-Column Parameter Grid */
-.rack-card-content {
-    width: 100%;
-}
-
-.rack-card-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    column-gap: 24px;
-    row-gap: 10px;
-}
-
-.rack-card-col {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-}
-
-.rack-card-param-row {
+.rack-metric-row {
     display: flex;
     align-items: center;
     justify-content: space-between;
     height: 28px;
 }
 
-.rack-card-param-label {
+.rack-metric-label {
     font-family: 'Inter', system-ui, -apple-system, sans-serif;
-    font-size: 13.5px;
+    font-size: 13px;
     font-weight: 500;
     color: #FFFFFF;
     white-space: nowrap;
-    text-overflow: ellipsis;
-    overflow: hidden;
 }
 
-.rack-card-param-val-group {
+.rack-metric-right {
     display: flex;
     align-items: center;
-    justify-content: flex-end;
-    margin-left: 10px;
+    gap: 8px;
 }
 
-
-.rack-card-badge {
+.rack-metric-badge {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    min-width: 65px;
-    width: auto;
+    min-width: 60px;
     padding: 3px 8px;
     border-radius: 6px;
     font-family: 'Inter', system-ui, -apple-system, sans-serif;
@@ -346,50 +290,180 @@
     color: #ffffff;
     text-align: center;
     box-sizing: border-box;
+    line-height: 1.1;
 }
 
-.badge-green {
-    background-color: var(--status-green-bg);
-    border: 2px solid var(--status-green-border);
+.rack-metric-badge.badge-green {
+    background: #16a34a;
+    box-shadow: 0 0 8px rgba(22, 163, 74, 0.4);
 }
 
-.badge-yellow,
-.badge-gold {
-    background-color: var(--status-yellow-bg);
-    border: 2px solid var(--status-yellow-border);
+.rack-metric-badge.badge-red {
+    background: #dc2626;
+    box-shadow: 0 0 8px rgba(220, 38, 38, 0.45);
 }
 
-.badge-orange {
-    background-color: var(--status-orange-bg);
-    border: 2px solid var(--status-orange-border);
+.rack-metric-badge.badge-yellow {
+    background: #ca8a04;
+    box-shadow: 0 0 8px rgba(202, 138, 4, 0.4);
 }
 
-.badge-red {
-    background-color: var(--status-red-bg);
-    border: 2px solid var(--status-red-border);
-}
-
-.badge-blue {
-    background-color: #2E637A80;
-    border: 2px solid #4C8590;
-}
-
-.rack-card-param-unit {
+.rack-metric-unit {
     display: inline-block;
     width: 38px;
     min-width: 38px;
-    margin-left: 6px;
     font-family: 'Inter', system-ui, -apple-system, sans-serif;
     font-size: 13px;
     font-weight: 500;
-    color: #FFFFFF;
+    color: #cbd5e1;
     text-align: left;
 }
 
-.rack-card-param-unit.empty {
-    width: 38px;
-    min-width: 38px;
-    margin-left: 6px;
+/* Lower Section: Tray Temperature (Sensors) Table */
+.rack-trays-section {
+    margin-top: 14px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.rack-trays-header-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.rack-trays-title {
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    font-size: 13.5px;
+    font-weight: 700;
+    color: #ffffff;
+    letter-spacing: 0.2px;
+}
+
+.rack-trays-indicator-btn {
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.12);
+    border: 1px solid rgba(255, 255, 255, 0.22);
+    color: #cbd5e1;
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: default;
+    user-select: none;
+}
+
+.rack-trays-table {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+.rack-trays-table-header {
+    display: grid;
+    grid-template-columns: 44px 1fr 1fr 1fr;
+    align-items: center;
+    padding: 6px 4px;
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    font-size: 12px;
+    font-weight: 700;
+    color: #cbd5e1;
+    text-align: center;
+}
+
+.rack-trays-table-header .tray-col-tray {
+    text-align: left;
+    padding-left: 8px;
+}
+
+.rack-trays-table-body {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    max-height: 185px;
+    overflow-y: auto;
+    padding-right: 4px;
+}
+
+/* Custom sleek scrollbar matching Image 1 */
+.rack-trays-table-body::-webkit-scrollbar {
+    width: 4px;
+}
+
+.rack-trays-table-body::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 2px;
+}
+
+.rack-trays-table-body::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.4);
+    border-radius: 2px;
+}
+
+.rack-trays-table-body::-webkit-scrollbar-thumb:hover {
+    background: rgba(255, 255, 255, 0.7);
+}
+
+.rack-tray-row {
+    display: grid;
+    grid-template-columns: 44px 1fr 1fr 1fr;
+    align-items: center;
+    padding: 4px 4px;
+    border-radius: 6px;
+    background: rgba(0, 195, 208, 0.05);
+    transition: background 0.15s ease, transform 0.1s ease;
+    cursor: pointer;
+    text-align: center;
+}
+
+.rack-tray-row:hover {
+    background: rgba(0, 195, 208, 0.18);
+    transform: translateX(1px);
+}
+
+.tray-num {
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    font-size: 12.5px;
+    font-weight: 700;
+    color: #ffffff;
+    text-align: left;
+    padding-left: 8px;
+}
+
+.tray-col-metric {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.tray-badge {
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    font-size: 12px;
+    font-weight: 700;
+    color: #ffffff;
+    padding: 2px 7px;
+    border-radius: 4px;
+    min-width: 48px;
+    display: inline-block;
+    text-align: center;
+    line-height: 1.15;
+}
+
+.tray-badge.badge-green {
+    background: #16a34a;
+}
+
+.tray-badge.badge-red {
+    background: #dc2626;
+}
+
+.tray-badge.badge-yellow {
+    background: #ca8a04;
 }
 
 @keyframes rackCardFadeIn {
