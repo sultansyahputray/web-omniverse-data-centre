@@ -800,6 +800,11 @@ export const App: React.FC = () => {
                         onCoolingDetails={() => {
                             console.log('[Level3] Cooling Details clicked');
                         }}
+                        onResetBuildingFocus={async () => {
+                            setCameraView('iso');
+                            lastUserCamRef.current = Date.now();
+                            await postBackend('reset-building-focus', {});
+                        }}
                     />
                 )}
                 {currentLevel === 'hall' && (

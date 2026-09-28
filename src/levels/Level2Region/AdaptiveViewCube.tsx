@@ -67,7 +67,7 @@ export const AdaptiveViewCube: React.FC<AdaptiveViewCubeProps> = ({
                             onClick={onResetFocus}
                             title="Reset focus to Main Building"
                         >
-                            ↺ MAIN
+                            ↺
                         </button>
                     )}
                 </div>

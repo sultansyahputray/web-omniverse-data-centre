@@ -33,6 +33,7 @@ interface Level3BuildingViewProps {
     onPowerDetails?: () => void;
     onCoolingDetails?: () => void;
     onPowerSimulation?: () => void;
+    onResetBuildingFocus?: () => void;
 }
 
 export const Level3BuildingView: React.FC<Level3BuildingViewProps> = ({
@@ -48,13 +49,27 @@ export const Level3BuildingView: React.FC<Level3BuildingViewProps> = ({
     onSelectZone,
     onSelectHall,
     onPowerDetails,
-    onCoolingDetails
+    onCoolingDetails,
+    onResetBuildingFocus
 }) => {
     // Manage internal subView state, synchronized with prop if controlled
     const [currentSubView, setCurrentSubView] = useState<BuildingSubView>(subView);
     const [coolingMode, setCoolingMode] = useState<CoolingMode>('liquid');
     const [valueIndex, setValueIndex] = useState<number>(0);
     const [isPowerSimulationOpen, setIsPowerSimulationOpen] = useState<boolean>(false);
+    const [selectedZone, setSelectedZone] = useState<RegionZoneItem | null>(null);
+
+    const handleResetFocus = () => {
+        setSelectedZone(null);
+        if (onResetBuildingFocus) {
+            onResetBuildingFocus();
+        }
+    };
+
+    const handleZoneClick = (zone: RegionZoneItem) => {
+        setSelectedZone(zone);
+        if (onSelectZone) onSelectZone(zone);
+    };
 
     // Interval rotasi data: Value 1 -> Value 2 -> Value 3 (mengacu ke GLOBAL_TIMERS.region_building_time di config.ts)
     useEffect(() => {
@@ -125,6 +140,7 @@ export const Level3BuildingView: React.FC<Level3BuildingViewProps> = ({
     );
 
     const getViewCubeFocusLabel = () => {
+        if (selectedZone) return selectedZone.label.toUpperCase();
         if (currentSubView === 'power_details') return 'POWER PATH';
         if (currentSubView === 'cooling_details') return coolingMode === 'air' ? 'AIR COOLING' : 'LIQUID COOLING';
         return 'MAIN BUILDING';
@@ -139,9 +155,18 @@ export const Level3BuildingView: React.FC<Level3BuildingViewProps> = ({
                 coolingMode={coolingMode}
                 onCoolingModeChange={handleCoolingModeChange}
                 onBack={onBackToRegion}
-                onBackToCutaway={handleBackToCutaway}
-                onPowerDetails={handlePowerDetailsClick}
-                onCoolingDetails={handleCoolingDetailsClick}
+                onBackToCutaway={() => {
+                    setSelectedZone(null);
+                    handleBackToCutaway();
+                }}
+                onPowerDetails={() => {
+                    setSelectedZone(null);
+                    handlePowerDetailsClick();
+                }}
+                onCoolingDetails={() => {
+                    setSelectedZone(null);
+                    handleCoolingDetailsClick();
+                }}
                 onPowerSimulation={handlePowerSimulationClick}
             />
 
@@ -167,7 +192,10 @@ export const Level3BuildingView: React.FC<Level3BuildingViewProps> = ({
             {/* 3D Floating Hall Tags: In detail modes (power/cooling), NOC is hidden, only halls are shown */}
             <Level3HallsOverlay
                 screenPositions={screenPositions}
-                onSelectHall={onSelectHall}
+                onSelectHall={(hall) => {
+                    setSelectedZone(null);
+                    if (onSelectHall) onSelectHall(hall);
+                }}
                 hideNoc={isDetailView}
             />
 
@@ -193,18 +221,31 @@ export const Level3BuildingView: React.FC<Level3BuildingViewProps> = ({
                             offsetY={zone.offsetY ?? 0}
                             isVisible={isVisible}
                             isMain={false}
-                            onClick={() => (onSelectZone ? onSelectZone(zone) : undefined)}
+                            onClick={() => handleZoneClick(zone)}
                         />
                     );
                 })}
 
-            {/* Bottom-Right: Time of Day + ViewCube */}
+            {/* Bottom-Right: Time of Day + Reset Button + ViewCube */}
             <div className="level3-bottom-right-controls">
                 <TimeOfDaySelector currentTime={timeOfDay} onSelectTime={onSelectTimeOfDay} />
+
+                {selectedZone && (
+                    <button
+                        className="level3-reset-focus-btn"
+                        onClick={handleResetFocus}
+                        title="Reset camera focus back to Main Building"
+                    >
+                        <span className="reset-focus-icon">↺</span>
+                        <span className="reset-focus-text">Reset to Main Building</span>
+                    </button>
+                )}
+
                 <AdaptiveViewCube
                     focusLabel={getViewCubeFocusLabel()}
                     currentView={cameraView}
                     onSelectView={onSelectCameraView || (() => { })}
+                    onResetFocus={selectedZone ? handleResetFocus : undefined}
                 />
             </div>
 
