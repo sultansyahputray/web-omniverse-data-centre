@@ -171,6 +171,8 @@ export const Level3BuildingView: React.FC<Level3BuildingViewProps> = ({
                             label={zone.label}
                             screenPosition={screenPos}
                             defaultPosition={zone.defaultPos}
+                            offsetX={zone.offsetX ?? 0}
+                            offsetY={zone.offsetY ?? 0}
                             isVisible={isVisible}
                             isMain={false}
                             onClick={() => (onSelectZone ? onSelectZone(zone) : undefined)}
