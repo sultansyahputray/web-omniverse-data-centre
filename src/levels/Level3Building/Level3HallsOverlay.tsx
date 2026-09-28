@@ -72,7 +72,7 @@ export const LEVEL3_HALLS: HallItem[] = [
     {
         id: 'noc_a',
         title: 'NOC A',
-        subtitle: 'Control Room',
+        subtitle: '',
         defaultPos: { x: 28, y: 44 },
         offsetX: -3.5,
         offsetY: 0,
@@ -84,7 +84,7 @@ export const LEVEL3_HALLS: HallItem[] = [
     {
         id: 'power_block_a',
         title: 'Power Block A',
-        subtitle: 'Power Distribution',
+        subtitle: '',
         defaultPos: { x: 23, y: 34 },
         offsetX: -2.0,
         offsetY: 2.5,
@@ -96,7 +96,7 @@ export const LEVEL3_HALLS: HallItem[] = [
     {
         id: 'battery_room_a',
         title: 'Battery Room A',
-        subtitle: 'UPS Storage',
+        subtitle: '',
         defaultPos: { x: 25, y: 40 },
         offsetX: -2.0,
         offsetY: -5.5,
@@ -108,7 +108,7 @@ export const LEVEL3_HALLS: HallItem[] = [
     {
         id: 'noc_b',
         title: 'NOC B',
-        subtitle: 'Control Room',
+        subtitle: '',
         defaultPos: { x: 72, y: 44 },
         offsetX: 3.5,
         offsetY: 0,
@@ -120,7 +120,7 @@ export const LEVEL3_HALLS: HallItem[] = [
     {
         id: 'power_block_b',
         title: 'Power Block B',
-        subtitle: 'Power Distribution',
+        subtitle: '',
         defaultPos: { x: 77, y: 34 },
         offsetX: 2.0,
         offsetY: 2.5,
@@ -132,7 +132,7 @@ export const LEVEL3_HALLS: HallItem[] = [
     {
         id: 'battery_room_b',
         title: 'Battery Room B',
-        subtitle: 'UPS Storage',
+        subtitle: '',
         defaultPos: { x: 75, y: 40 },
         offsetX: 2.0,
         offsetY: -5.5,
@@ -202,7 +202,6 @@ export const Level3HallsOverlay: React.FC<Level3HallsOverlayProps> = ({
                             /* Label Only (non-clickable badge, style PureLabel from Level 8) */
                             <div className="pure-label-container floating-room-pure-label">
                                 <div className="room-label-title-row">
-                                    <span className="room-indicator-dot" />
                                     <span className="room-label-title">{hall.title}</span>
                                 </div>
                                 {hall.subtitle && (
