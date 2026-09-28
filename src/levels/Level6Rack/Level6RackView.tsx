@@ -11,6 +11,7 @@ import { HeatmapLegend } from '../../reusable/HeatmapLegend';
 import { HALL_OPTIONS } from '../Level4Hall/Level4Header';
 import { LEVEL6_RACK_CARD_OFFSET } from '../../config';
 import { Level6RackDetailCard } from './Level6RackDetailCard';
+import { Level6RackHeatmapCard } from './Level6RackHeatmapCard';
 import './Level6Rack.css';
 
 // Re-export agar bisa di-import atau dilihat langsung di sini
@@ -147,12 +148,25 @@ export const Level6RackView: React.FC<Level6RackViewProps> = ({
                     visible: true
                 };
 
-                return (
-                    <Level6RackDetailCard
+                return activeHeatmap ? (
+                    <Level6RackHeatmapCard
                         rackNum={activeRackNum}
                         rowLabel={activeRow.label}
                         hallId={activeHallId}
                         currentScenario={currentScenario}
+                        screenPosition={activeRackPos}
+                        offsetX={LEVEL6_RACK_CARD_OFFSET.offsetX}
+                        offsetY={LEVEL6_RACK_CARD_OFFSET.offsetY}
+                        gapX={LEVEL6_RACK_CARD_OFFSET.gapX}
+                        side={LEVEL6_RACK_CARD_OFFSET.side}
+                        onClose={onBackToHall}
+                        onViewHistory={() => setIsHistoryOpen(true)}
+                        onSelectServer={onSelectServer}
+                    />
+                ) : (
+                    <Level6RackDetailCard
+                        rackNum={activeRackNum}
+                        rowLabel={activeRow.label}
                         screenPosition={activeRackPos}
                         offsetX={LEVEL6_RACK_CARD_OFFSET.offsetX}
                         offsetY={LEVEL6_RACK_CARD_OFFSET.offsetY}

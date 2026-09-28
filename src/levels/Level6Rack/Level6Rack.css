@@ -161,20 +161,19 @@
 
 .level6-rack-detail-card {
     position: absolute;
-    top: 145px;
+    top: 155px;
     right: 44px;
-    width: 380px;
-    background: linear-gradient(180deg, rgba(20, 48, 92, 0.95) 0%, rgba(10, 22, 48, 0.96) 100%);
+    width: 570px;
+    background: linear-gradient(180deg, rgba(36, 65, 120, 1) 0%, rgba(14, 25, 53, 0.9) 100%);
     border: 2px solid #00C0E8;
     border-radius: 16px;
     backdrop-filter: blur(16px);
     -webkit-backdrop-filter: blur(16px);
-    padding: 16px 18px 18px 18px;
+    padding: 18px 22px 22px 22px;
     pointer-events: auto;
     z-index: 35;
     display: flex;
     flex-direction: column;
-    box-shadow: 0 10px 32px rgba(0, 0, 0, 0.65), 0 0 20px rgba(0, 192, 232, 0.25);
     animation: rackCardFadeIn 0.25s cubic-bezier(0.16, 1, 0.3, 1) forwards;
     box-sizing: border-box;
     will-change: left, top;
@@ -204,25 +203,237 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    margin-bottom: 2px;
+    margin-bottom: 5px;
 }
 
 .rack-card-header-left {
     display: flex;
     align-items: center;
-    gap: 8px;
+    gap: 10px;
 }
 
 .rack-card-title {
     font-family: 'Inter', system-ui, -apple-system, sans-serif;
-    font-size: 16px;
+    font-size: 19px;
     font-weight: 700;
     color: #71F6FF;
+    letter-spacing: 0.5px;
+}
+
+.rack-card-header-right {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+
+/* 4 Circular Gauges Row */
+.rack-card-gauges-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 22px;
+    gap: 8px;
+}
+
+.rack-gauge-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    flex: 1;
+    min-width: 0;
+}
+
+.rack-gauge-title {
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    font-size: 11.5px;
+    font-weight: 600;
+    color: #FFFFFF;
+    line-height: 1.25;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    margin-bottom: 8px;
+    word-break: break-word;
+}
+
+.rack-gauge-power-display {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    line-height: 1.05;
+}
+
+.rack-gauge-power-display .power-num {
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    font-size: 15px;
+    font-weight: 700;
+    color: #ffffff;
+    letter-spacing: 0.5px;
+}
+
+.rack-gauge-power-display .power-unit {
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    font-size: 10px;
+    font-weight: 600;
+    color: #C5D5E5;
+    margin-top: 1px;
+}
+
+/* Capsule Tabs Row */
+.rack-card-tabs-container {
+    margin-bottom: 18px;
+}
+
+/* Tab Content: 2-Column Parameter Grid */
+.rack-card-content {
+    width: 100%;
+}
+
+.rack-card-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    column-gap: 24px;
+    row-gap: 10px;
+}
+
+.rack-card-col {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.rack-card-param-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 28px;
+}
+
+.rack-card-param-label {
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    font-size: 13.5px;
+    font-weight: 500;
+    color: #FFFFFF;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+}
+
+.rack-card-param-val-group {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    margin-left: 10px;
+}
+
+
+.rack-card-badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 65px;
+    width: auto;
+    padding: 3px 8px;
+    border-radius: 6px;
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    color: #ffffff;
+    text-align: center;
+    box-sizing: border-box;
+}
+
+.badge-green {
+    background-color: var(--status-green-bg);
+    border: 2px solid var(--status-green-border);
+}
+
+.badge-yellow,
+.badge-gold {
+    background-color: var(--status-yellow-bg);
+    border: 2px solid var(--status-yellow-border);
+}
+
+.badge-orange {
+    background-color: var(--status-orange-bg);
+    border: 2px solid var(--status-orange-border);
+}
+
+.badge-red {
+    background-color: var(--status-red-bg);
+    border: 2px solid var(--status-red-border);
+}
+
+.badge-blue {
+    background-color: #2E637A80;
+    border: 2px solid #4C8590;
+}
+
+.rack-card-param-unit {
+    display: inline-block;
+    width: 38px;
+    min-width: 38px;
+    margin-left: 6px;
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    font-size: 13px;
+    font-weight: 500;
+    color: #FFFFFF;
+    text-align: left;
+}
+
+.rack-card-param-unit.empty {
+    width: 38px;
+    min-width: 38px;
+    margin-left: 6px;
+}
+
+@keyframes rackCardFadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-8px) scale(0.98);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+/* =========================================================================
+   LEVEL 6 HEATMAP FLOATING CARD (ACTIVE WHEN HEATMAP IS TRUE)
+   ========================================================================= */
+
+.level6-rack-heatmap-card {
+    width: 380px !important;
+    top: 145px;
+    background: linear-gradient(180deg, rgba(20, 48, 92, 0.95) 0%, rgba(10, 22, 48, 0.96) 100%) !important;
+    padding: 16px 18px 18px 18px !important;
+}
+
+.level6-rack-heatmap-card .rack-card-header {
+    margin-bottom: 2px;
+}
+
+.level6-rack-heatmap-card .rack-card-header-left {
+    gap: 8px;
+}
+
+.level6-rack-heatmap-card .rack-card-title {
+    font-size: 16px;
     letter-spacing: 0.3px;
     white-space: nowrap;
 }
 
-.rack-card-alert-badge {
+.level6-rack-heatmap-card .rack-card-header-right {
+    gap: 8px;
+}
+
+.level6-rack-heatmap-card .rack-card-alert-badge {
     background: #dc2626;
     color: #ffffff;
     font-family: 'Inter', system-ui, -apple-system, sans-serif;
@@ -237,13 +448,7 @@
     box-shadow: 0 0 10px rgba(220, 38, 38, 0.45);
 }
 
-.rack-card-header-right {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-}
-
-.rack-card-history-btn {
+.level6-rack-heatmap-card .rack-card-history-btn {
     font-size: 12px !important;
     padding: 4px 10px !important;
 }
@@ -294,17 +499,20 @@
 }
 
 .rack-metric-badge.badge-green {
-    background: #16a34a;
+    background: #16a34a !important;
+    border: none !important;
     box-shadow: 0 0 8px rgba(22, 163, 74, 0.4);
 }
 
 .rack-metric-badge.badge-red {
-    background: #dc2626;
+    background: #dc2626 !important;
+    border: none !important;
     box-shadow: 0 0 8px rgba(220, 38, 38, 0.45);
 }
 
 .rack-metric-badge.badge-yellow {
-    background: #ca8a04;
+    background: #ca8a04 !important;
+    border: none !important;
     box-shadow: 0 0 8px rgba(202, 138, 4, 0.4);
 }
 
@@ -455,25 +663,16 @@
 }
 
 .tray-badge.badge-green {
-    background: #16a34a;
+    background: #16a34a !important;
+    border: none !important;
 }
 
 .tray-badge.badge-red {
-    background: #dc2626;
+    background: #dc2626 !important;
+    border: none !important;
 }
 
 .tray-badge.badge-yellow {
-    background: #ca8a04;
-}
-
-@keyframes rackCardFadeIn {
-    from {
-        opacity: 0;
-        transform: translateY(-8px) scale(0.98);
-    }
-
-    to {
-        opacity: 1;
-        transform: translateY(0) scale(1);
-    }
+    background: #ca8a04 !important;
+    border: none !important;
 }
