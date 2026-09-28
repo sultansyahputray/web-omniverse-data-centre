@@ -33,6 +33,7 @@
     display: flex;
     flex-direction: column;
     gap: 16px;
+    z-index: 40;
 }
 
 /* Back to Global Button */
@@ -639,7 +640,7 @@
     border-radius: 12px;
     box-shadow: 0 8px 32px rgba(0, 0, 0, 0.6), 0 0 15px rgba(0, 192, 232, 0.15);
     pointer-events: auto;
-    z-index: 25;
+    z-index: 35;
     gap: 14px;
 }
 
@@ -715,7 +716,7 @@
     position: absolute;
     transform: translate(-50%, -100%);
     pointer-events: auto;
-    z-index: 30;
+    z-index: 15;
     transition: left 0.08s linear, top 0.08s linear, opacity 0.25s ease;
     will-change: left, top;
 }
@@ -791,4 +792,59 @@
 
 .floating-zone-tag.tag-main:hover .floating-zone-arrow {
     transform: translateX(3px);
+}
+
+/* --- LEVEL 2 RESET BUILDING FOCUS BUTTON --- */
+.level2-reset-focus-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    background: rgba(15, 23, 42, 0.85);
+    border: 1px solid rgba(148, 163, 184, 0.3);
+    border-radius: 6px;
+    padding: 6px 12px;
+    color: #94a3b8;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.6px;
+    cursor: pointer;
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+    align-self: flex-end;
+}
+
+.level2-reset-focus-btn:hover {
+    background: rgba(15, 23, 42, 0.95);
+    border-color: rgba(56, 189, 248, 0.6);
+    color: #38bdf8;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.6), 0 0 10px rgba(56, 189, 248, 0.25);
+    transform: translateY(-1px);
+}
+
+.level2-reset-focus-btn .reset-focus-icon {
+    font-size: 13px;
+    line-height: 1;
+    color: #38bdf8;
+}
+
+.viewcube-reset-focus-btn {
+    background: rgba(56, 189, 248, 0.12);
+    border: 1px solid rgba(56, 189, 248, 0.35);
+    color: #38bdf8;
+    border-radius: 4px;
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 0.8px;
+    padding: 3px 6px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.viewcube-reset-focus-btn:hover {
+    background: rgba(56, 189, 248, 0.25);
+    border-color: #38bdf8;
+    color: #ffffff;
+    box-shadow: 0 0 8px rgba(56, 189, 248, 0.4);
 }

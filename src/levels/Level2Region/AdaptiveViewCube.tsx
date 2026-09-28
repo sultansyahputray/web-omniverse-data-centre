@@ -5,12 +5,14 @@ interface AdaptiveViewCubeProps {
     focusLabel?: string;
     currentView?: CameraView;
     onSelectView: (view: CameraView) => void;
+    onResetFocus?: () => void;
 }
 
 export const AdaptiveViewCube: React.FC<AdaptiveViewCubeProps> = ({
     focusLabel = 'SINGAPORE DC',
     currentView = 'iso',
-    onSelectView
+    onSelectView,
+    onResetFocus
 }) => {
     const [activeView, setActiveView] = useState<CameraView>(currentView);
     const [rotation, setRotation] = useState<{ x: number; y: number }>({ x: -25, y: 45 });
@@ -58,6 +60,16 @@ export const AdaptiveViewCube: React.FC<AdaptiveViewCubeProps> = ({
                     >
                         INIT
                     </button>
+
+                    {onResetFocus && (
+                        <button
+                            className="viewcube-reset-focus-btn"
+                            onClick={onResetFocus}
+                            title="Reset focus to Main Building"
+                        >
+                            ↺ MAIN
+                        </button>
+                    )}
                 </div>
 
                 {/* 3D Interactive View Cube Canvas */}

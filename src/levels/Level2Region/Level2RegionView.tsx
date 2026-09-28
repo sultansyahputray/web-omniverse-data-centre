@@ -73,7 +73,7 @@ export const REGION_ZONES: RegionZoneItem[] = [
         primPath: '/World/region/fire_water_unit',
         defaultPos: { x: 65, y: 62 },
         offsetX: 5,
-        offsetY: -4
+        offsetY: 6
     },
     {
         id: 'heat_rejection',
@@ -103,6 +103,7 @@ interface Level2RegionViewProps {
     onSelectTimeOfDay: (time: TimeOfDay) => void;
     onSelectCameraView?: (view: CameraView) => void;
     onSelectZone?: (zone: RegionZoneItem) => void;
+    onResetBuildingFocus?: () => void;
 }
 
 export const Level2RegionView: React.FC<Level2RegionViewProps> = ({
@@ -114,9 +115,11 @@ export const Level2RegionView: React.FC<Level2RegionViewProps> = ({
     onBackToGlobal,
     onSelectTimeOfDay,
     onSelectCameraView,
-    onSelectZone
+    onSelectZone,
+    onResetBuildingFocus
 }) => {
     const focusTitle = regionMetric?.title ? `${regionMetric.title}` : `${activeRegion} DATA CENTRE`;
+    const [selectedZone, setSelectedZone] = useState<RegionZoneItem | null>(null);
 
     // Rotation across Value 1, Value 2, Value 3 from level2Building.json using global timer
     const [telemetryIndex, setTelemetryIndex] = useState<number>(0);
@@ -130,6 +133,26 @@ export const Level2RegionView: React.FC<Level2RegionViewProps> = ({
     }, []);
 
     const currentTelemetry = level2BuildingData.values[telemetryIndex];
+
+    const handleResetFocus = () => {
+        setSelectedZone(null);
+        if (onResetBuildingFocus) {
+            onResetBuildingFocus();
+        }
+    };
+
+    const handleZoneClick = (zone: RegionZoneItem) => {
+        if (zone.isMain || zone.id === 'example_building') {
+            if (selectedZone) {
+                handleResetFocus();
+                return;
+            }
+            if (onSelectZone) onSelectZone(zone);
+            return;
+        }
+        setSelectedZone(zone);
+        if (onSelectZone) onSelectZone(zone);
+    };
 
     return (
         <div className="level2-region-overlay">
@@ -171,18 +194,31 @@ export const Level2RegionView: React.FC<Level2RegionViewProps> = ({
                         offsetY={zone.offsetY ?? 0}
                         isVisible={isVisible}
                         isMain={Boolean(zone.isMain || zone.id === 'example_building')}
-                        onClick={() => (onSelectZone ? onSelectZone(zone) : undefined)}
+                        onClick={() => handleZoneClick(zone)}
                     />
                 );
             })}
 
-            {/* Bottom-Right Controls: Time-of-Day Dropdown (Top) + 3D Dice ViewCube (Bottom) */}
+            {/* Bottom-Right Controls: Time-of-Day Dropdown (Top) + Reset Button + 3D Dice ViewCube (Bottom) */}
             <div className="level2-bottom-right-controls">
                 <TimeOfDaySelector currentTime={timeOfDay} onSelectTime={onSelectTimeOfDay} />
+                
+                {selectedZone && !selectedZone.isMain && (
+                    <button
+                        className="level2-reset-focus-btn"
+                        onClick={handleResetFocus}
+                        title="Reset camera focus back to Main Building"
+                    >
+                        <span className="reset-focus-icon">↺</span>
+                        <span className="reset-focus-text">Reset to Main Building</span>
+                    </button>
+                )}
+
                 <AdaptiveViewCube
-                    focusLabel={focusTitle}
+                    focusLabel={selectedZone ? selectedZone.label.toUpperCase() : focusTitle}
                     currentView={cameraView}
                     onSelectView={onSelectCameraView || (() => { })}
+                    onResetFocus={selectedZone ? handleResetFocus : undefined}
                 />
             </div>
         </div>

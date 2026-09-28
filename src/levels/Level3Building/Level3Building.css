@@ -33,6 +33,7 @@
     display: flex;
     flex-direction: column;
     gap: 12px;
+    z-index: 40;
 }
 
 .back-to-region-btn {
@@ -116,7 +117,7 @@
     top: 160px;
     left: 44px;
     pointer-events: auto;
-    z-index: 25;
+    z-index: 35;
 }
 
 .level3-telemetry-card {
@@ -487,7 +488,7 @@
     position: absolute;
     transform: translate(-50%, -50%);
     pointer-events: auto;
-    z-index: 30;
+    z-index: 15;
     transition: left 0.08s linear, top 0.08s linear, opacity 0.25s ease;
     will-change: left, top;
 }

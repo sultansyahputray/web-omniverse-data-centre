@@ -198,9 +198,23 @@ export const App: React.FC = () => {
         return false;
     };
 
+    // Automatically reset ViewCube dice rotation to 'iso' whenever user switches screen / level
+    const currentScreenKey = `${currentLevel}_${activeRegion}_${activeHall}_${activeRow?.id || ''}_${activeRack}_${activeRackNum}_${activeServer}_${activeServerNum}_${activeSuperchip}_${activeSuperchipNum}`;
+    const prevScreenRef = useRef<string>(currentScreenKey);
+
+    useEffect(() => {
+        if (prevScreenRef.current !== currentScreenKey) {
+            prevScreenRef.current = currentScreenKey;
+            setCameraView('iso');
+            lastUserCamRef.current = Date.now();
+            postBackend('set-camera-view', { view: 'iso' });
+        }
+    }, [currentScreenKey]);
+
     // Transition from Level 1 -> Level Country (if Southeast Asia / SG) or Level 2 (if AUS / JPN)
     const handleSelectRegionFromEarth = async (key: RegionKey) => {
         lastUserNavRef.current = Date.now();
+        setCameraView('iso');
         setScreenPositions({});
         if (key === 'SG') {
             setCurrentLevel('country');
@@ -215,6 +229,7 @@ export const App: React.FC = () => {
     // Transition from Level Country -> Level 2 (Campus / Building Site)
     const handleSelectCountry = async (key: RegionKey) => {
         lastUserNavRef.current = Date.now();
+        setCameraView('iso');
         setScreenPositions({});
         setCurrentLevel('region');
         setActiveRegion(key);
@@ -224,6 +239,7 @@ export const App: React.FC = () => {
     // Transition back to Level 1 (Global Earth)
     const handleBackToGlobal = async () => {
         lastUserNavRef.current = Date.now();
+        setCameraView('iso');
         setScreenPositions({});
         setCurrentLevel('earth');
         await postBackend('navigate', { level: 'earth' });
@@ -232,6 +248,7 @@ export const App: React.FC = () => {
     // Transition back from Level 2 -> Level Country (if SE Asia) or Level 1 Earth (if AUS / JPN)
     const handleBackFromRegion = async () => {
         lastUserNavRef.current = Date.now();
+        setCameraView('iso');
         setScreenPositions({});
         if (['SG', 'BTM', 'MY', 'TH'].includes(activeRegion)) {
             setCurrentLevel('country');
@@ -271,6 +288,7 @@ export const App: React.FC = () => {
     // Transition from Level 2 -> Level 3 (Building Interior)
     const handleSelectBuilding = async () => {
         lastUserNavRef.current = Date.now();
+        setCameraView('iso');
         setScreenPositions({});
         setCurrentLevel('building');
         await postBackend('navigate', { level: 'building', region: activeRegion });
@@ -279,6 +297,7 @@ export const App: React.FC = () => {
     // Transition back from Level 3 -> Level 2 (Region Detail)
     const handleBackToRegion = async () => {
         lastUserNavRef.current = Date.now();
+        setCameraView('iso');
         setScreenPositions({});
         setCurrentLevel('region');
         postBackend('set-building-subview', { subview: 'cutaway' });
@@ -288,6 +307,7 @@ export const App: React.FC = () => {
     // Transition from Level 3 -> Level 4 (Data Hall)
     const handleEnterHall = async (hallId: string) => {
         lastUserNavRef.current = Date.now();
+        setCameraView('iso');
         setScreenPositions({});
         setActiveHall(hallId);
         setCurrentLevel('hall');
@@ -298,6 +318,7 @@ export const App: React.FC = () => {
     // Transition back from Level 4 -> Level 3 (Building Cutaway)
     const handleBackToBuilding = async () => {
         lastUserNavRef.current = Date.now();
+        setCameraView('iso');
         setScreenPositions({});
         setCurrentLevel('building');
         await postBackend('navigate', { level: 'building', region: activeRegion });
@@ -306,6 +327,7 @@ export const App: React.FC = () => {
     // Transition from Level 4 -> Level 5 (Row Level)
     const handleSelectRow = async (row: HallRowItem) => {
         lastUserNavRef.current = Date.now();
+        setCameraView('iso');
         setScreenPositions({});
         setActiveRow(row);
         setCurrentLevel('row');
@@ -321,6 +343,7 @@ export const App: React.FC = () => {
     // Transition back from Level 5 -> Level 4 (Data Hall)
     const handleBackToHall = async () => {
         lastUserNavRef.current = Date.now();
+        setCameraView('iso');
         setScreenPositions({});
         setCurrentLevel('hall');
         await postBackend('navigate', { level: 'hall', hall_id: activeHall, region: activeRegion });
@@ -330,6 +353,7 @@ export const App: React.FC = () => {
     // Transition from Level 5/4 -> Level 6 (Selected Rack)
     const handleSelectRack = async (rackId: string, rackNum: number, row?: HallRowItem) => {
         lastUserNavRef.current = Date.now();
+        setCameraView('iso');
         setScreenPositions({});
         const targetRow = row || activeRow;
         setActiveRack(rackId);
@@ -350,6 +374,7 @@ export const App: React.FC = () => {
     // Transition back from Level 6 -> Level 5 (Row)
     const handleBackToRowFromRack = async () => {
         lastUserNavRef.current = Date.now();
+        setCameraView('iso');
         setScreenPositions({});
         setActiveRack('');
         setActiveRackNum(1);
@@ -367,6 +392,7 @@ export const App: React.FC = () => {
     // Transition back from Level 6 -> Level 4 (Data Hall)
     const handleBackToHallFromRack = async () => {
         lastUserNavRef.current = Date.now();
+        setCameraView('iso');
         setScreenPositions({});
         setActiveRack('');
         setActiveRackNum(1);
@@ -378,6 +404,7 @@ export const App: React.FC = () => {
     // Transition from Level 6/5 -> Level 7 (Server / Compute Tray Level)
     const handleSelectServer = async (serverId: string, serverNum: number) => {
         lastUserNavRef.current = Date.now();
+        setCameraView('iso');
         setScreenPositions({});
         setActiveServer(serverId);
         setActiveServerNum(serverNum);
@@ -400,6 +427,7 @@ export const App: React.FC = () => {
     // Transition back from Level 7 -> Level 6 (Rack)
     const handleBackToRackFromServer = async () => {
         lastUserNavRef.current = Date.now();
+        setCameraView('iso');
         setScreenPositions({});
         setCurrentLevel('rack');
         await postBackend('navigate', {
@@ -417,6 +445,7 @@ export const App: React.FC = () => {
     // Transition back from Level 7 -> Level 5 (Row)
     const handleBackToRowFromServer = async () => {
         lastUserNavRef.current = Date.now();
+        setCameraView('iso');
         setScreenPositions({});
         setActiveRack('');
         setActiveRackNum(1);
@@ -434,6 +463,7 @@ export const App: React.FC = () => {
     // Transition back from Level 7 -> Level 4 (Hall)
     const handleBackToHallFromServer = async () => {
         lastUserNavRef.current = Date.now();
+        setCameraView('iso');
         setScreenPositions({});
         setActiveRack('');
         setActiveRackNum(1);
@@ -445,6 +475,7 @@ export const App: React.FC = () => {
     // Level 7 -> Level 8 (Superchip Level): Frame clicked superchip, hide SP cover, expose Vera & Rubin GPUs
     const handleSelectSuperChip = async (chipNum: number, trayNum?: number) => {
         lastUserNavRef.current = Date.now();
+        setCameraView('iso');
         setScreenPositions({});
         const targetServerNum = trayNum || activeServerNum;
         if (trayNum && trayNum !== activeServerNum) {
@@ -476,6 +507,7 @@ export const App: React.FC = () => {
     // Transition back from Level 8 (Superchip) -> Level 7 (Compute Tray)
     const handleBackToServerFromSuperchip = async () => {
         lastUserNavRef.current = Date.now();
+        setCameraView('iso');
         setScreenPositions({});
         setActiveSuperchipNum(1);
         setActiveSuperchip('');
@@ -721,6 +753,11 @@ export const App: React.FC = () => {
                                     prim_path: zone.primPath
                                 });
                             }
+                        }}
+                        onResetBuildingFocus={async () => {
+                            setCameraView('iso');
+                            lastUserCamRef.current = Date.now();
+                            await postBackend('reset-building-focus', {});
                         }}
                     />
                 )}
