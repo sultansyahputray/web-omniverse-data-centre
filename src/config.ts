@@ -139,7 +139,7 @@ if (typeof document !== 'undefined') {
  */
 export const LEVEL6_RACK_CARD_OFFSET = {
     /** Geser horizontal: + ke kanan, - ke kiri (dalam pixel, contoh: 40 atau -50) */
-    offsetX: 0,
+    offsetX: 70,
     /** Geser vertikal: + ke bawah, - ke atas (dalam pixel, contoh: 30 atau -40) */
     offsetY: 0,
     /** Jarak horizontal default antara rak dan card (default: 80 px) */
