@@ -155,9 +155,43 @@ export const LEVEL7_SERVER_CARD_OFFSET = {
     offsetY: 0,
 };
 
+/**
+ * Konfigurasi posisi offset floating telemetry cards di Level 7 (Mode Heatmap):
+ * - sp1: Card 3 parameter untuk Super Chip 1
+ * - sp2: Card 3 parameter untuk Super Chip 2
+ * 
+ * Anda bisa mengubah angka offset di sini, ATAU langsung klik & drag card tersebut
+ * di layar browser menggunakan kursor mouse!
+ */
+export const LEVEL7_HEATMAP_FLOATING_CARDS_OFFSET = {
+    sp1: {
+        /** Geser horizontal SP 1: + ke kanan, - ke kiri (pixel) */
+        offsetX: 0,
+        /** Geser vertikal SP 1: + ke bawah, - ke atas (pixel) */
+        offsetY: 0,
+    },
+    sp2: {
+        /** Geser horizontal SP 2: + ke kanan, - ke kiri (pixel) */
+        offsetX: 60,
+        /** Geser vertikal SP 2: + ke bawah, - ke atas (pixel) */
+        offsetY: 0,
+    },
+};
+
+/**
+ * Konfigurasi posisi offset detail card Cold Plate (16 parameter di kanan) saat mode Heatmap aktif
+ */
+export const LEVEL7_COLD_PLATE_CARD_OFFSET = {
+    /** Geser horizontal: + ke kanan, - ke kiri (pixel) */
+    offsetX: 0,
+    /** Geser vertikal: + ke bawah, - ke atas (pixel) */
+    offsetY: 0,
+};
+
 export const LEVEL8_SUPERCHIP_CARD_OFFSET = {
     /** Geser horizontal: + ke kanan, - ke kiri (dalam pixel) */
     offsetX: 0,
     /** Geser vertikal: + ke bawah, - ke atas (dalam pixel) */
     offsetY: 0,
 };
+

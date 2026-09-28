@@ -1,8 +1,8 @@
-import React, { useMemo } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { ScreenPosition } from '../../types';
 import { VerticalValueLabel } from '../../reusable/Label';
 import { getStatus } from '../../thresholdUtils';
-import { STATUS_PALETTE } from '../../config';
+import { STATUS_PALETTE, LEVEL7_HEATMAP_FLOATING_CARDS_OFFSET } from '../../config';
 import './Level7Server.css';
 
 interface Level7SuperchipHeatmapLabelsProps {
@@ -20,17 +20,113 @@ export const Level7SuperchipHeatmapLabels: React.FC<Level7SuperchipHeatmapLabels
 }) => {
     const formattedServerNum = String(activeServerNum).padStart(2, '0');
 
-    // Clamp coordinates so floating labels never hide behind the 380px right-side card
+    // Drag / offset state for SP 1 card (initialized from config.ts)
+    const [drag1, setDrag1] = useState({
+        x: LEVEL7_HEATMAP_FLOATING_CARDS_OFFSET.sp1.offsetX,
+        y: LEVEL7_HEATMAP_FLOATING_CARDS_OFFSET.sp1.offsetY,
+    });
+    const [isDragging1, setIsDragging1] = useState(false);
+
+    // Drag / offset state for SP 2 card (initialized from config.ts)
+    const [drag2, setDrag2] = useState({
+        x: LEVEL7_HEATMAP_FLOATING_CARDS_OFFSET.sp2.offsetX,
+        y: LEVEL7_HEATMAP_FLOATING_CARDS_OFFSET.sp2.offsetY,
+    });
+    const [isDragging2, setIsDragging2] = useState(false);
+
+    // Sync when config.ts values change (Vite hot reload)
+    useEffect(() => {
+        setDrag1({
+            x: LEVEL7_HEATMAP_FLOATING_CARDS_OFFSET.sp1.offsetX,
+            y: LEVEL7_HEATMAP_FLOATING_CARDS_OFFSET.sp1.offsetY,
+        });
+    }, [LEVEL7_HEATMAP_FLOATING_CARDS_OFFSET.sp1.offsetX, LEVEL7_HEATMAP_FLOATING_CARDS_OFFSET.sp1.offsetY]);
+
+    useEffect(() => {
+        setDrag2({
+            x: LEVEL7_HEATMAP_FLOATING_CARDS_OFFSET.sp2.offsetX,
+            y: LEVEL7_HEATMAP_FLOATING_CARDS_OFFSET.sp2.offsetY,
+        });
+    }, [LEVEL7_HEATMAP_FLOATING_CARDS_OFFSET.sp2.offsetX, LEVEL7_HEATMAP_FLOATING_CARDS_OFFSET.sp2.offsetY]);
+
+    // Drag handler for SP 1
+    const handleMouseDown1 = (e: React.MouseEvent) => {
+        if (e.button !== 0) return;
+        e.preventDefault();
+        setIsDragging1(true);
+
+        const startMouseX = e.clientX;
+        const startMouseY = e.clientY;
+        const startOffsetX = drag1.x;
+        const startOffsetY = drag1.y;
+
+        const handleMouseMove = (moveEvent: MouseEvent) => {
+            const dx = moveEvent.clientX - startMouseX;
+            const dy = moveEvent.clientY - startMouseY;
+            setDrag1({
+                x: Math.round(startOffsetX + dx),
+                y: Math.round(startOffsetY + dy),
+            });
+        };
+
+        const handleMouseUp = (upEvent: MouseEvent) => {
+            setIsDragging1(false);
+            window.removeEventListener('mousemove', handleMouseMove);
+            window.removeEventListener('mouseup', handleMouseUp);
+
+            const finalX = Math.round(startOffsetX + (upEvent.clientX - startMouseX));
+            const finalY = Math.round(startOffsetY + (upEvent.clientY - startMouseY));
+            console.log(
+                `%c📍 [SP 1 Card Offset] offsetX: ${finalX}, offsetY: ${finalY}`,
+                'color: #00E5FF; font-weight: bold; background: #0c253e; padding: 2px 6px; border-radius: 4px;'
+            );
+        };
+
+        window.addEventListener('mousemove', handleMouseMove);
+        window.addEventListener('mouseup', handleMouseUp);
+    };
+
+    // Drag handler for SP 2
+    const handleMouseDown2 = (e: React.MouseEvent) => {
+        if (e.button !== 0) return;
+        e.preventDefault();
+        setIsDragging2(true);
+
+        const startMouseX = e.clientX;
+        const startMouseY = e.clientY;
+        const startOffsetX = drag2.x;
+        const startOffsetY = drag2.y;
+
+        const handleMouseMove = (moveEvent: MouseEvent) => {
+            const dx = moveEvent.clientX - startMouseX;
+            const dy = moveEvent.clientY - startMouseY;
+            setDrag2({
+                x: Math.round(startOffsetX + dx),
+                y: Math.round(startOffsetY + dy),
+            });
+        };
+
+        const handleMouseUp = (upEvent: MouseEvent) => {
+            setIsDragging2(false);
+            window.removeEventListener('mousemove', handleMouseMove);
+            window.removeEventListener('mouseup', handleMouseUp);
+
+            const finalX = Math.round(startOffsetX + (upEvent.clientX - startMouseX));
+            const finalY = Math.round(startOffsetY + (upEvent.clientY - startMouseY));
+            console.log(
+                `%c📍 [SP 2 Card Offset] offsetX: ${finalX}, offsetY: ${finalY}`,
+                'color: #00E5FF; font-weight: bold; background: #0c253e; padding: 2px 6px; border-radius: 4px;'
+            );
+        };
+
+        window.addEventListener('mousemove', handleMouseMove);
+        window.addEventListener('mouseup', handleMouseUp);
+    };
+
     const sanitizePos = (rawPos: { x: number; y: number; visible?: boolean }, defaultX: number, defaultY: number) => {
-        let x = rawPos?.x ?? defaultX;
-        let y = rawPos?.y ?? defaultY;
+        const x = rawPos?.x ?? defaultX;
+        const y = rawPos?.y ?? defaultY;
         const visible = rawPos?.visible !== false;
-
-        // Keep clear of the 380px right detail card
-        if (x >= 64 && y <= 66) {
-            x = 64;
-        }
-
         return { x, y, visible };
     };
 
@@ -141,17 +237,26 @@ export const Level7SuperchipHeatmapLabels: React.FC<Level7SuperchipHeatmapLabels
 
     return (
         <div className="superchip-heatmap-layer">
-            {/* Super Chip 1 Unclickable Telemetry Label Container */}
+            {/* Super Chip 1 Configurable & Draggable Telemetry Card */}
             <div
-                className="superchip-heatmap-telemetry-wrapper"
+                className={`superchip-heatmap-telemetry-wrapper ${isDragging1 ? 'is-dragging' : ''}`}
                 style={{
-                    left: `${pos1.x}%`,
-                    top: `${pos1.y}%`,
+                    left: `calc(${pos1.x}% + ${drag1.x}px)`,
+                    top: `calc(${pos1.y}% + ${drag1.y}px)`,
                     opacity: pos1.visible ? 1 : 0,
                     pointerEvents: pos1.visible ? 'auto' : 'none',
+                    transition: isDragging1 ? 'none' : 'left 0.15s ease-out, top 0.15s ease-out, opacity 0.2s ease',
                 }}
             >
-                <div className="superchip-heatmap-telemetry-card">
+                <div
+                    className="superchip-heatmap-telemetry-card"
+                    onMouseDown={handleMouseDown1}
+                    title="Klik & geser untuk memindahkan card Super Chip 1"
+                >
+                    <div className="superchip-heatmap-drag-pill">
+                        <span className="drag-handle-dots">⋮⋮</span>
+                        <span className="drag-handle-text">DRAG TO MOVE</span>
+                    </div>
                     <VerticalValueLabel
                         label="Cold Plate Inlet Temperature - SP 1"
                         value={`${sp1Data.inlet.toFixed(1)}°C`}
@@ -173,17 +278,26 @@ export const Level7SuperchipHeatmapLabels: React.FC<Level7SuperchipHeatmapLabels
                 </div>
             </div>
 
-            {/* Super Chip 2 Unclickable Telemetry Label Container */}
+            {/* Super Chip 2 Configurable & Draggable Telemetry Card */}
             <div
-                className="superchip-heatmap-telemetry-wrapper"
+                className={`superchip-heatmap-telemetry-wrapper ${isDragging2 ? 'is-dragging' : ''}`}
                 style={{
-                    left: `${pos2.x}%`,
-                    top: `${pos2.y}%`,
+                    left: `calc(${pos2.x}% + ${drag2.x}px)`,
+                    top: `calc(${pos2.y}% + ${drag2.y}px)`,
                     opacity: pos2.visible ? 1 : 0,
                     pointerEvents: pos2.visible ? 'auto' : 'none',
+                    transition: isDragging2 ? 'none' : 'left 0.15s ease-out, top 0.15s ease-out, opacity 0.2s ease',
                 }}
             >
-                <div className="superchip-heatmap-telemetry-card">
+                <div
+                    className="superchip-heatmap-telemetry-card"
+                    onMouseDown={handleMouseDown2}
+                    title="Klik & geser untuk memindahkan card Super Chip 2"
+                >
+                    <div className="superchip-heatmap-drag-pill">
+                        <span className="drag-handle-dots">⋮⋮</span>
+                        <span className="drag-handle-text">DRAG TO MOVE</span>
+                    </div>
                     <VerticalValueLabel
                         label="Cold Plate Inlet Temperature - SP 2"
                         value={`${sp2Data.inlet.toFixed(1)}°C`}

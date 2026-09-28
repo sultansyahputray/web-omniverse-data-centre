@@ -99,8 +99,8 @@ export const PowerSimulationModal: React.FC<PowerSimulationModalProps> = ({
                 <div className="power-sim-top-section">
                     <div className="power-sim-header-left">
                         <div className="power-sim-title-group">
-                            <h2 className="power-sim-title">Power Simulation</h2>
-                            <span className="power-sim-subtitle">Electrical Flow Telemetry & Pathway Simulation</span>
+                            <h2 className="power-sim-title">ETAP</h2>
+                            <span className="power-sim-subtitle">Electrical Transient Analyzer Program</span>
                         </div>
                     </div>
 
