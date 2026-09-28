@@ -140,8 +140,15 @@ export const Level6RackView: React.FC<Level6RackViewProps> = ({
 
             {/* Selected Rack Detail Floating Card (Closing navigates back to Hall and resets selection) */}
             {(() => {
-                const activeRackPos = (screenPositions && (screenPositions['active_rack'] || (activeRackId ? screenPositions[activeRackId] : undefined)))
-                    || {
+                const activeRackPos = (screenPositions && (
+                    screenPositions['active_rack'] ||
+                    (activeRackId ? (
+                        screenPositions[activeRackId] ||
+                        screenPositions[`medium_${activeRackId}`] ||
+                        screenPositions[`low_${activeRackId}`] ||
+                        screenPositions[`high_${activeRackId}`]
+                    ) : undefined)
+                )) || {
                     // Simulated default rack center in viewport when backend is not streaming 3D positions
                     x: 40 + ((activeRackNum - 1) * 1.2),
                     y: 52,

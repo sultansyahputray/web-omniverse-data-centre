@@ -262,6 +262,12 @@ export const App: React.FC = () => {
         await postBackend('set-scenario', { scenario });
     };
 
+    // Toggle Heatmap mode (True / False) for Hall to Superchip levels
+    const handleToggleHeatmap = async (checked: boolean) => {
+        setIsHeatmap(checked);
+        await postBackend('set-heatmap', { heatmap: checked });
+    };
+
     // Transition from Level 2 -> Level 3 (Building Interior)
     const handleSelectBuilding = async () => {
         lastUserNavRef.current = Date.now();
@@ -385,7 +391,9 @@ export const App: React.FC = () => {
             row_id: activeRow.id,
             row_num: activeRow.rowNum,
             hall_id: activeHall,
-            region: activeRegion
+            region: activeRegion,
+            scenario: loadScenario,
+            heatmap: isHeatmap
         });
     };
 
@@ -459,7 +467,9 @@ export const App: React.FC = () => {
             row_id: activeRow?.id,
             row_num: activeRow?.rowNum,
             hall_id: activeHall,
-            region: activeRegion
+            region: activeRegion,
+            scenario: loadScenario,
+            heatmap: isHeatmap
         });
     };
 
@@ -479,7 +489,9 @@ export const App: React.FC = () => {
             row_id: activeRow.id,
             row_num: activeRow.rowNum,
             hall_id: activeHall,
-            region: activeRegion
+            region: activeRegion,
+            scenario: loadScenario,
+            heatmap: isHeatmap
         });
         await postBackend('clear-selection', {});
     };
@@ -767,7 +779,7 @@ export const App: React.FC = () => {
                         onSelectRow={handleSelectRow}
                         onSelectCameraView={handleSelectCameraView}
                         onSelectScenario={handleSelectScenario}
-                        onToggleHeatmap={setIsHeatmap}
+                        onToggleHeatmap={handleToggleHeatmap}
                     />
                 )}
                 {currentLevel === 'row' && activeRow && (
@@ -782,7 +794,7 @@ export const App: React.FC = () => {
                         onBackToHall={handleBackToHall}
                         onSelectCameraView={handleSelectCameraView}
                         onSelectScenario={handleSelectScenario}
-                        onToggleHeatmap={setIsHeatmap}
+                        onToggleHeatmap={handleToggleHeatmap}
                     />
                 )}
                 {currentLevel === 'rack' && activeRow && (
@@ -802,7 +814,7 @@ export const App: React.FC = () => {
                         onSelectCameraView={handleSelectCameraView}
                         onSelectScenario={handleSelectScenario}
                         onSelectServer={handleSelectServer}
-                        onToggleHeatmap={setIsHeatmap}
+                        onToggleHeatmap={handleToggleHeatmap}
                     />
                 )}
                 {currentLevel === 'server' && activeRow && (
@@ -827,7 +839,7 @@ export const App: React.FC = () => {
                         onSelectServer={handleSelectServer}
                         onSelectSuperChip={handleSelectSuperChip}
                         onSelectPrim={handleSelectPrim}
-                        onToggleHeatmap={setIsHeatmap}
+                        onToggleHeatmap={handleToggleHeatmap}
                     />
                 )}
                 {currentLevel === 'superchip' && activeRow && (
@@ -854,7 +866,7 @@ export const App: React.FC = () => {
                         onSelectServer={handleSelectServer}
                         onSelectSuperChip={handleSelectSuperChip}
                         onSelectPrim={handleSelectPrim}
-                        onToggleHeatmap={setIsHeatmap}
+                        onToggleHeatmap={handleToggleHeatmap}
                     />
                 )}
             </div>

@@ -134,7 +134,12 @@ export const Level4FloatingRows: React.FC<Level4FloatingRowsProps> = ({
                         anchor: row.anchor ?? 'rack1'
                     };
 
-                const pos1 = screenPositions ? screenPositions[row.rack1Key] : undefined;
+                const pos1 = screenPositions
+                    ? (screenPositions[row.rack1Key] ||
+                       screenPositions[`medium_${row.rack1Key}`] ||
+                       screenPositions[`low_${row.rack1Key}`] ||
+                       screenPositions[`high_${row.rack1Key}`])
+                    : undefined;
                 const pos10 = screenPositions ? screenPositions[row.rack10Key] : undefined;
                 const anchor = placement.anchor || row.anchor || 'rack1';
 
