@@ -38,23 +38,24 @@ export const Level7ComputeTrayListCard: React.FC<Level7ComputeTrayListCardProps>
         for (let i = 1; i <= 18; i++) {
             const formattedTray = String(i).padStart(2, '0');
             const isActiveTray = i === activeServerNum;
-            const trayPrimPath = `/World/compute_tray/CT_${formattedTray}`;
+            // All trays map to the single 3D compute tray object CT_01 in USD stage
+            const trayPrimPath = `/World/compute_tray/CT_01`;
 
             const superChips: TreeHierarchyNode[] = [1, 2].map((scNum) => {
-                const scPrimName = `super_chip_${formattedTray}_${scNum}`;
+                const scPrimName = `super_chip_01_${scNum}`;
                 const scPrimPath = `${trayPrimPath}/${scPrimName}`;
 
-                const veraPrimName = `vera_${formattedTray}_${scNum}_1`;
+                const veraPrimName = `vera_01_${scNum}_1`;
                 const veraPrimPath = `${scPrimPath}/${veraPrimName}`;
 
-                const rubin1PrimName = `rubin_${formattedTray}_${scNum}_1`;
+                const rubin1PrimName = `rubin_01_${scNum}_1`;
                 const rubin1PrimPath = `${scPrimPath}/${rubin1PrimName}`;
 
-                const rubin2PrimName = `rubin_${formattedTray}_${scNum}_2`;
+                const rubin2PrimName = `rubin_01_${scNum}_2`;
                 const rubin2PrimPath = `${scPrimPath}/${rubin2PrimName}`;
 
                 return {
-                    id: scPrimPath,
+                    id: `${formattedTray}_${scPrimPath}`,
                     label: `Super Chip ${scNum}`,
                     defaultExpand: isActiveTray && (activeSuperchipNum === scNum),
                     click_callback: () => {

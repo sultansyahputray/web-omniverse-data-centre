@@ -43,12 +43,12 @@ export interface RowPlacement {
  * Perubahan di sini langsung terupdate otomatis di browser (Vite Hot Reload)!
  */
 export const DEFAULT_HALL_ROW_PLACEMENTS: Record<string, RowPlacement> = {
-    row_01: { offsetX: 0, offsetY: 0, anchor: 'rack1' },  // Row A
-    row_02: { offsetX: 0, offsetY: 0, anchor: 'rack1' },  // Row B
-    row_03: { offsetX: -4, offsetY: 0, anchor: 'rack1' }, // Row C (dipisah ke kiri)
-    row_04: { offsetX: 4, offsetY: 0, anchor: 'rack1' },  // Row D (dipisah ke kanan)
-    row_05: { offsetX: -4, offsetY: 0, anchor: 'rack1' }, // Row E (dipisah ke kiri)
-    row_06: { offsetX: 4, offsetY: 0, anchor: 'rack1' },  // Row F (dipisah ke kanan)
+    row_01: { offsetX: -5, offsetY: 0, anchor: 'rack1' },  // Row A
+    row_02: { offsetX: -8, offsetY: -10, anchor: 'rack1' },  // Row B
+    row_03: { offsetX: -10, offsetY: -9, anchor: 'rack1' }, // Row C (dipisah ke kiri)
+    row_04: { offsetX: -3, offsetY: -15, anchor: 'rack1' },  // Row D (dipisah ke kanan)
+    row_05: { offsetX: -5, offsetY: -11, anchor: 'rack1' }, // Row E (dipisah ke kiri)
+    row_06: { offsetX: 2, offsetY: -15, anchor: 'rack1' },  // Row F (dipisah ke kanan)
 };
 
 export const HALL_ROW_ITEMS: HallRowItem[] = [

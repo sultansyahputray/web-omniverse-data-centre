@@ -32,6 +32,7 @@ export const Level7FloatingChips: React.FC<Level7FloatingChipsProps> = ({
 
     // 1. Resolve Super Chip 1 position
     const rawPos1 =
+        screenPositions?.['super_chip_01_1'] ||
         screenPositions?.[`super_chip_${formattedServerNum}_1`] ||
         screenPositions?.[`SP_${formattedServerNum}_1`] ||
         screenPositions?.[`SP_${activeServerNum}_1`] ||
@@ -41,6 +42,7 @@ export const Level7FloatingChips: React.FC<Level7FloatingChipsProps> = ({
 
     // 2. Resolve Super Chip 2 position (placed in the open 3D area, well clear of the right card)
     const rawPos2 =
+        screenPositions?.['super_chip_01_2'] ||
         screenPositions?.[`super_chip_${formattedServerNum}_2`] ||
         screenPositions?.[`SP_${formattedServerNum}_2`] ||
         screenPositions?.[`SP_${activeServerNum}_2`] ||
