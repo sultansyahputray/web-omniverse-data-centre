@@ -1,0 +1,139 @@
+/* =========================================================================
+   AUTO TOUR EXHIBITION CONTROLS
+   Style matched strictly to the Back Button (.back-to-rack-btn) for harmony
+   ========================================================================= */
+
+.auto-tour-container {
+    position: fixed;
+    top: 22px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 1200;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    pointer-events: auto;
+    user-select: none;
+    -webkit-user-select: none;
+}
+
+/* Master Tour Toggle Button - Matched strictly to .back-to-rack-btn */
+.auto-tour-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    background: rgba(6, 18, 36, 0.85);
+    border: 1px solid rgba(0, 210, 255, 0.4);
+    border-radius: 6px;
+    padding: 8px 16px;
+    color: #ffffff;
+    font-family: var(--font-heading, 'Inter', system-ui, sans-serif);
+    font-size: 11.5px;
+    font-weight: 700;
+    letter-spacing: 1.6px;
+    text-transform: uppercase;
+    cursor: pointer;
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.5), 0 0 10px rgba(0, 210, 255, 0.15);
+    transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+    outline: none;
+    white-space: nowrap;
+}
+
+.auto-tour-btn:hover {
+    background: rgba(0, 210, 255, 0.15);
+    border-color: #00e5ff;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.6), 0 0 18px rgba(0, 229, 255, 0.4);
+    transform: translateY(-1px);
+}
+
+.auto-tour-btn:active {
+    transform: scale(0.97);
+}
+
+.auto-tour-btn-text {
+    color: #d8f5ff;
+    text-transform: uppercase;
+}
+
+/* Active / Playing state (turns into Stop button) */
+.auto-tour-btn.is-active {
+    background: rgba(36, 6, 14, 0.88);
+    border-color: rgba(255, 59, 92, 0.65);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.5), 0 0 14px rgba(255, 59, 92, 0.35);
+}
+
+.auto-tour-btn.is-active:hover {
+    background: rgba(255, 59, 92, 0.25);
+    border-color: #ff3b5c;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.6), 0 0 20px rgba(255, 59, 92, 0.5);
+}
+
+.auto-tour-btn-text.stop-text {
+    color: #ffdce2;
+}
+
+/* Step Status Indicator Pill - Also matched to glassmorphic header pill style */
+.auto-tour-status-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(6, 18, 36, 0.85);
+    border: 1px solid rgba(0, 210, 255, 0.3);
+    border-radius: 6px;
+    padding: 8px 14px;
+    font-family: var(--font-heading, 'Inter', system-ui, sans-serif);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 1.2px;
+    color: #00e5ff;
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.5), 0 0 10px rgba(0, 210, 255, 0.12);
+    white-space: nowrap;
+    animation: tourPillFadeIn 0.25s ease-out forwards;
+}
+
+@keyframes tourPillFadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-4px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.auto-tour-pulse-dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: #00e5ff;
+    box-shadow: 0 0 8px #00e5ff;
+    animation: tourPulse 1.4s infinite ease-in-out;
+}
+
+@keyframes tourPulse {
+    0%, 100% {
+        opacity: 1;
+        transform: scale(1);
+        box-shadow: 0 0 8px #00e5ff;
+    }
+    50% {
+        opacity: 0.4;
+        transform: scale(1.35);
+        box-shadow: 0 0 14px #00e5ff;
+    }
+}
+
+.auto-tour-step-counter {
+    color: #ffffff;
+    opacity: 0.85;
+}
+
+.auto-tour-step-label {
+    color: #7dd3fc;
+    font-weight: 600;
+}

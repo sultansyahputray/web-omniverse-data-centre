@@ -23,6 +23,7 @@ interface Level3BuildingViewProps {
     timeOfDay: TimeOfDay;
     cameraView?: CameraView;
     subView?: BuildingSubView;
+    coolingMode?: CoolingMode;
     screenPositions?: Record<string, ScreenPosition>;
     onBackToRegion: () => void;
     onSubViewChange?: (view: BuildingSubView, coolingMode?: CoolingMode) => void;
@@ -41,6 +42,7 @@ export const Level3BuildingView: React.FC<Level3BuildingViewProps> = ({
     timeOfDay,
     cameraView = 'iso',
     subView = 'cutaway',
+    coolingMode: propCoolingMode = 'liquid',
     screenPositions,
     onBackToRegion,
     onSubViewChange,
@@ -54,7 +56,7 @@ export const Level3BuildingView: React.FC<Level3BuildingViewProps> = ({
 }) => {
     // Manage internal subView state, synchronized with prop if controlled
     const [currentSubView, setCurrentSubView] = useState<BuildingSubView>(subView);
-    const [coolingMode, setCoolingMode] = useState<CoolingMode>('liquid');
+    const [coolingMode, setCoolingMode] = useState<CoolingMode>(propCoolingMode);
     const [valueIndex, setValueIndex] = useState<number>(0);
     const [isPowerSimulationOpen, setIsPowerSimulationOpen] = useState<boolean>(false);
     const [selectedZone, setSelectedZone] = useState<RegionZoneItem | null>(null);
@@ -88,6 +90,12 @@ export const Level3BuildingView: React.FC<Level3BuildingViewProps> = ({
     useEffect(() => {
         setCurrentSubView(subView);
     }, [subView]);
+
+    useEffect(() => {
+        if (propCoolingMode) {
+            setCoolingMode(propCoolingMode);
+        }
+    }, [propCoolingMode]);
 
     const isDetailView = currentSubView === 'power_details' || currentSubView === 'cooling_details';
 

@@ -23,6 +23,8 @@ import { HALL_ROW_ITEMS, HallRowItem } from './levels/Level4Hall/Level4FloatingR
 import level1GlobeData from './data/level1Globe.json';
 import levelCountryData from './data/levelCountry.json';
 import { GLOBAL_TIMERS, getTimerMs } from './config';
+import { AUTO_TOUR_STEPS } from './tour/tourConfig';
+import { AutoTourControls } from './tour/AutoTourControls';
 import './GlobalDashboard.css';
 
 const GLOBE_METRICS_DATA: SiteMetric[] = level1GlobeData as SiteMetric[];
@@ -111,6 +113,12 @@ export const App: React.FC = () => {
     });
     const [screenPositions, setScreenPositions] = useState<Record<string, ScreenPosition>>({});
 
+    // Exhibition Auto Tour state
+    const [isAutoPlaying, setIsAutoPlaying] = useState<boolean>(false);
+    const [currentTourStep, setCurrentTourStep] = useState<number>(0);
+    const [buildingSubView, setBuildingSubView] = useState<'cutaway' | 'power_details' | 'cooling_details'>('cutaway');
+    const [buildingCoolingMode, setBuildingCoolingMode] = useState<'liquid' | 'air'>('liquid');
+
     const activePortRef = useRef<number>(8089);
     const lastUserTimeRef = useRef<number>(0);
     const lastUserNavRef = useRef<number>(
@@ -119,6 +127,9 @@ export const App: React.FC = () => {
             : 0
     );
     const lastUserCamRef = useRef<number>(0);
+    const autoTourTimerRef = useRef<NodeJS.Timeout | null>(null);
+    const isAutoPlayingRef = useRef<boolean>(false);
+    const currentTourStepRef = useRef<number>(0);
 
     // Initial mount sync: if URL contains ?level=..., notify Omniverse backend immediately
     useEffect(() => {
@@ -300,6 +311,7 @@ export const App: React.FC = () => {
         setCameraView('iso');
         setScreenPositions({});
         setCurrentLevel('region');
+        setBuildingSubView('cutaway');
         postBackend('set-building-subview', { subview: 'cutaway' });
         await postBackend('navigate', { level: 'region', region: activeRegion });
     };
@@ -311,6 +323,7 @@ export const App: React.FC = () => {
         setScreenPositions({});
         setActiveHall(hallId);
         setCurrentLevel('hall');
+        setBuildingSubView('cutaway');
         postBackend('set-building-subview', { subview: 'cutaway' });
         await postBackend('navigate', { level: 'hall', hall_id: hallId, region: activeRegion });
     };
@@ -321,6 +334,8 @@ export const App: React.FC = () => {
         setCameraView('iso');
         setScreenPositions({});
         setCurrentLevel('building');
+        setBuildingSubView('cutaway');
+        postBackend('set-building-subview', { subview: 'cutaway' });
         await postBackend('navigate', { level: 'building', region: activeRegion });
     };
 
@@ -535,6 +550,114 @@ export const App: React.FC = () => {
         });
     };
 
+    // =========================================================================
+    // EXHIBITION AUTO TOUR ORCHESTRATION
+    // Cycles through 32 predefined steps across all 8 levels automatically.
+    // Stops cleanly at the current scene when toggled to manual.
+    // =========================================================================
+
+    // Cleanup tour timers on unmount
+    useEffect(() => {
+        return () => {
+            if (autoTourTimerRef.current) {
+                clearTimeout(autoTourTimerRef.current);
+                autoTourTimerRef.current = null;
+            }
+        };
+    }, []);
+
+    // Stop Auto Tour execution cleanly
+    const stopTour = () => {
+        isAutoPlayingRef.current = false;
+        setIsAutoPlaying(false);
+        if (autoTourTimerRef.current) {
+            clearTimeout(autoTourTimerRef.current);
+            autoTourTimerRef.current = null;
+        }
+        console.log('[Tour] Stopped at step', currentTourStepRef.current);
+    };
+
+    // Execute single tour step and schedule next step
+    const executeTourStep = async (stepIndex: number) => {
+        if (!isAutoPlayingRef.current) return;
+
+        const safeIndex = stepIndex % AUTO_TOUR_STEPS.length;
+        currentTourStepRef.current = safeIndex;
+        setCurrentTourStep(safeIndex);
+
+        const currentStep = AUTO_TOUR_STEPS[safeIndex];
+        console.log(`[Tour] Executing step ${safeIndex + 1}/${AUTO_TOUR_STEPS.length}: ${currentStep.label}`);
+
+        try {
+            await currentStep.action({
+                selectRegionFromEarth: handleSelectRegionFromEarth,
+                selectCountry: handleSelectCountry,
+                backToGlobal: handleBackToGlobal,
+                backFromRegion: handleBackFromRegion,
+                selectBuilding: handleSelectBuilding,
+                backToRegion: handleBackToRegion,
+                setBuildingSubView: (subView, coolingMode) => {
+                    setBuildingSubView(subView);
+                    if (coolingMode) setBuildingCoolingMode(coolingMode);
+                    postBackend('set-building-subview', {
+                        subview: subView,
+                        cooling_mode: coolingMode || 'liquid'
+                    });
+                },
+                selectCameraView: handleSelectCameraView,
+                enterHall: handleEnterHall,
+                backToBuilding: handleBackToBuilding,
+                selectRow: async (rowNum) => {
+                    const row = HALL_ROW_ITEMS[rowNum - 1] || HALL_ROW_ITEMS[0];
+                    await handleSelectRow(row);
+                },
+                backToHall: handleBackToHall,
+                selectRack: async (rackId, rackNum) => {
+                    await handleSelectRack(rackId, rackNum, HALL_ROW_ITEMS[0]);
+                },
+                backToRowFromRack: handleBackToRowFromRack,
+                selectServer: handleSelectServer,
+                backToRackFromServer: handleBackToRackFromServer,
+                selectSuperChip: async (chipNum) => {
+                    await handleSelectSuperChip(chipNum, 1);
+                },
+                backToServerFromSuperchip: handleBackToServerFromSuperchip,
+                toggleHeatmap: handleToggleHeatmap
+            });
+        } catch (err) {
+            console.error('[Tour] Error executing step:', err);
+        }
+
+        // Verify if still in autoplay mode after async action completes
+        if (!isAutoPlayingRef.current) return;
+
+        autoTourTimerRef.current = setTimeout(() => {
+            if (isAutoPlayingRef.current) {
+                executeTourStep(safeIndex + 1);
+            }
+        }, currentStep.durationMs);
+    };
+
+    // Start Auto Tour from step 0
+    const startTour = () => {
+        if (autoTourTimerRef.current) {
+            clearTimeout(autoTourTimerRef.current);
+            autoTourTimerRef.current = null;
+        }
+        isAutoPlayingRef.current = true;
+        setIsAutoPlaying(true);
+        executeTourStep(0);
+    };
+
+    // Master toggle handler for Auto Tour button
+    const handleToggleTour = () => {
+        if (isAutoPlayingRef.current) {
+            stopTour();
+        } else {
+            startTour();
+        }
+    };
+
     // Poll backend status to dynamically track 3D coordinates & sync level/selection
     useEffect(() => {
         let isMounted = true;
@@ -697,6 +820,15 @@ export const App: React.FC = () => {
 
     return (
         <div className="dashboard-viewport">
+            {/* Auto Tour Exhibition Controls (Fixed top center, styled harmoniously with Back Button) */}
+            <AutoTourControls
+                isAutoPlaying={isAutoPlaying}
+                currentStepIndex={currentTourStep}
+                totalSteps={AUTO_TOUR_STEPS.length}
+                currentStepLabel={AUTO_TOUR_STEPS[currentTourStep]?.label || ''}
+                onToggleTour={handleToggleTour}
+            />
+
             {/* 1. Fullscreen Omniverse WebRTC Stream Background */}
             <WebRTCViewerContainer
                 server="127.0.0.1"
@@ -767,9 +899,13 @@ export const App: React.FC = () => {
                         regionMetric={currentRegionMetric}
                         timeOfDay={timeOfDay}
                         cameraView={cameraView}
+                        subView={buildingSubView}
+                        coolingMode={buildingCoolingMode}
                         screenPositions={screenPositions}
                         onBackToRegion={handleBackToRegion}
                         onSubViewChange={(subView, coolingMode) => {
+                            setBuildingSubView(subView);
+                            if (coolingMode) setBuildingCoolingMode(coolingMode);
                             postBackend('set-building-subview', {
                                 subview: subView,
                                 cooling_mode: coolingMode || 'liquid'
