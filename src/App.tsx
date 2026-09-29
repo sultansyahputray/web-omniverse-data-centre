@@ -23,7 +23,7 @@ import { HALL_ROW_ITEMS, HallRowItem } from './levels/Level4Hall/Level4FloatingR
 import level1GlobeData from './data/level1Globe.json';
 import levelCountryData from './data/levelCountry.json';
 import { GLOBAL_TIMERS, getTimerMs } from './config';
-import { AUTO_TOUR_STEPS } from './tour/tourConfig';
+import { AUTO_TOUR_STEPS, TOUR_LOOP_START_INDEX } from './tour/tourConfig';
 import { AutoTourControls } from './tour/AutoTourControls';
 import './GlobalDashboard.css';
 
@@ -622,7 +622,8 @@ export const App: React.FC = () => {
                     await handleSelectSuperChip(chipNum, 1);
                 },
                 backToServerFromSuperchip: handleBackToServerFromSuperchip,
-                toggleHeatmap: handleToggleHeatmap
+                toggleHeatmap: handleToggleHeatmap,
+                selectScenario: handleSelectScenario
             });
         } catch (err) {
             console.error('[Tour] Error executing step:', err);
@@ -633,7 +634,10 @@ export const App: React.FC = () => {
 
         autoTourTimerRef.current = setTimeout(() => {
             if (isAutoPlayingRef.current) {
-                executeTourStep(safeIndex + 1);
+                const nextIndex = (safeIndex + 1 >= AUTO_TOUR_STEPS.length)
+                    ? (TOUR_LOOP_START_INDEX !== -1 ? TOUR_LOOP_START_INDEX : 0)
+                    : safeIndex + 1;
+                executeTourStep(nextIndex);
             }
         }, currentStep.durationMs);
     };
