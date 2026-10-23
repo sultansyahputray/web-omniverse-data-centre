@@ -177,6 +177,35 @@ export const AUTO_TOUR_STEPS: TourStep[] = [
             await ctx.enterHall('hall_l1_a');
         }
     },
+    // 14b. Hall Heatmap ON (Low / Normal Load for 3s)
+    {
+        id: 'step_14_hall_heatmap_on',
+        label: 'Data Hall: Heatmap ON (Low Load)',
+        durationMs: 3000,
+        action: async (ctx) => {
+            await ctx.selectScenario('Normal Load');
+            await ctx.toggleHeatmap(true);
+        }
+    },
+    // 14c. Hall Heatmap -> High Load (Wait 5s)
+    {
+        id: 'step_14_hall_heatmap_high',
+        label: 'Data Hall: High Load Simulation',
+        durationMs: 5000,
+        action: async (ctx) => {
+            await ctx.selectScenario('High Load');
+        }
+    },
+    // 14d. Hall Heatmap OFF
+    {
+        id: 'step_14_hall_heatmap_off',
+        label: 'Data Hall: Heatmap OFF',
+        durationMs: 2000,
+        action: async (ctx) => {
+            await ctx.toggleHeatmap(false);
+            await ctx.selectScenario('Normal Load');
+        }
+    },
     // 15. Click Row A
     {
         id: 'step_15_row_a',
