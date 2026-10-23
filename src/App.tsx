@@ -209,7 +209,7 @@ export const App: React.FC = () => {
         return false;
     };
 
-    // Automatically reset ViewCube dice rotation to 'iso' whenever user switches screen / level
+    // Automatically reset ViewCube dice rotation to 'iso' and Heatmap to false whenever user switches screen / level
     const currentScreenKey = `${currentLevel}_${activeRegion}_${activeHall}_${activeRow?.id || ''}_${activeRack}_${activeRackNum}_${activeServer}_${activeServerNum}_${activeSuperchip}_${activeSuperchipNum}`;
     const prevScreenRef = useRef<string>(currentScreenKey);
 
@@ -217,8 +217,10 @@ export const App: React.FC = () => {
         if (prevScreenRef.current !== currentScreenKey) {
             prevScreenRef.current = currentScreenKey;
             setCameraView('iso');
+            setIsHeatmap(false);
             lastUserCamRef.current = Date.now();
             postBackend('set-camera-view', { view: 'iso' });
+            postBackend('set-heatmap', { heatmap: false });
         }
     }, [currentScreenKey]);
 
@@ -341,6 +343,10 @@ export const App: React.FC = () => {
 
     // Transition from Level 4 -> Level 5 (Row Level)
     const handleSelectRow = async (row: HallRowItem) => {
+        if (currentLevel === 'hall' && isHeatmap) {
+            console.warn('[Dashboard] Navigation to Row locked: Hall heatmap is active.');
+            return;
+        }
         lastUserNavRef.current = Date.now();
         setCameraView('iso');
         setScreenPositions({});
@@ -367,6 +373,10 @@ export const App: React.FC = () => {
 
     // Transition from Level 5/4 -> Level 6 (Selected Rack)
     const handleSelectRack = async (rackId: string, rackNum: number, row?: HallRowItem) => {
+        if (currentLevel === 'hall' && isHeatmap) {
+            console.warn('[Dashboard] Navigation to Rack locked: Hall heatmap is active.');
+            return;
+        }
         lastUserNavRef.current = Date.now();
         setCameraView('iso');
         setScreenPositions({});
@@ -435,7 +445,7 @@ export const App: React.FC = () => {
             hall_id: activeHall,
             region: activeRegion,
             scenario: loadScenario,
-            heatmap: isHeatmap
+            heatmap: false
         });
     };
 
@@ -515,7 +525,7 @@ export const App: React.FC = () => {
             hall_id: activeHall,
             region: activeRegion,
             scenario: loadScenario,
-            heatmap: isHeatmap
+            heatmap: false
         });
     };
 
@@ -538,7 +548,7 @@ export const App: React.FC = () => {
             hall_id: activeHall,
             region: activeRegion,
             scenario: loadScenario,
-            heatmap: isHeatmap
+            heatmap: false
         });
         await postBackend('clear-selection', {});
     };

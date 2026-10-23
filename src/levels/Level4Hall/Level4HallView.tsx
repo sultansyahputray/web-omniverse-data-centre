@@ -141,6 +141,7 @@ export const Level4HallView: React.FC<Level4HallViewProps> = ({
     ];
 
     const handleRowSelect = (row: HallRowItem) => {
+        if (activeHeatmap) return;
         setSelectedRow(row);
         if (onSelectRow) {
             onSelectRow(row);
@@ -179,12 +180,14 @@ export const Level4HallView: React.FC<Level4HallViewProps> = ({
                 />
             )}
 
-            {/* 4. Component 4: Floating Row Buttons (Row A - Row F above racks) */}
-            <Level4FloatingRows
-                screenPositions={screenPositions}
-                rowPlacements={rowPlacements}
-                onSelectRow={handleRowSelect}
-            />
+            {/* 4. Component 4: Floating Row Buttons (Row A - Row F above racks) - Hidden in Heatmap mode */}
+            {!activeHeatmap && (
+                <Level4FloatingRows
+                    screenPositions={screenPositions}
+                    rowPlacements={rowPlacements}
+                    onSelectRow={handleRowSelect}
+                />
+            )}
 
             {/* Bottom Row Container: Power Summary + Cooling Summary + (Load Scenario & ViewCube) */}
             <div className="level4-bottom-row-controls">
@@ -194,18 +197,16 @@ export const Level4HallView: React.FC<Level4HallViewProps> = ({
                 {/* 3. Component 3: Cooling Summary Card (Liquid vs Air toggle + metrics) - Hidden in Heatmap mode */}
                 {!activeHeatmap && <Level4CoolingSummaryCard data={coolingMetrics} />}
 
-                {/* Bottom-Right Stack: Heatmap Toggle + (Load Scenario Dropdown if not Heatmap) + Dice Rotation */}
+                {/* Bottom-Right Stack: Heatmap Toggle + Load Scenario Dropdown + Dice Rotation */}
                 <div className="level4-bottom-right-stack">
-                    {/* <HeatmapCheckbox
+                    <HeatmapCheckbox
                         checked={activeHeatmap}
                         onChange={handleToggleHeatmap}
-                    /> */}
-                    {!activeHeatmap && (
-                        <LoadScenarioSelector
-                            currentScenario={currentScenario}
-                            onSelectScenario={onSelectScenario}
-                        />
-                    )}
+                    />
+                    <LoadScenarioSelector
+                        currentScenario={currentScenario}
+                        onSelectScenario={onSelectScenario}
+                    />
                     <div className="level4-viewcube-anchor">
                         <AdaptiveViewCube
                             focusLabel="DATA HALL"
