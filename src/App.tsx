@@ -112,6 +112,8 @@ export const App: React.FC = () => {
         return false;
     });
     const [screenPositions, setScreenPositions] = useState<Record<string, ScreenPosition>>({});
+    const [isAirflowLayer, setIsAirflowLayer] = useState<boolean>(true);
+    const [isAmbienceLayer, setIsAmbienceLayer] = useState<boolean>(true);
 
     // Exhibition Auto Tour state
     const [isAutoPlaying, setIsAutoPlaying] = useState<boolean>(false);
@@ -296,6 +298,16 @@ export const App: React.FC = () => {
     const handleToggleHeatmap = async (checked: boolean) => {
         setIsHeatmap(checked);
         await postBackend('set-heatmap', { heatmap: checked });
+        if (checked) {
+            await postBackend('set-heatmap-layers', { airflow: isAirflowLayer, ambience: isAmbienceLayer });
+        }
+    };
+
+    // Toggle Heatmap sub-layers (Airflow / Ambience) for Level 4 Hall
+    const handleToggleHeatmapLayers = async (airflow: boolean, ambience: boolean) => {
+        setIsAirflowLayer(airflow);
+        setIsAmbienceLayer(ambience);
+        await postBackend('set-heatmap-layers', { airflow, ambience });
     };
 
     // Transition from Level 2 -> Level 3 (Building Interior)
@@ -965,6 +977,8 @@ export const App: React.FC = () => {
                         cameraView={cameraView}
                         currentScenario={loadScenario}
                         isHeatmap={isHeatmap}
+                        isAirflowLayer={isAirflowLayer}
+                        isAmbienceLayer={isAmbienceLayer}
                         screenPositions={screenPositions}
                         onBackToBuilding={handleBackToBuilding}
                         onSelectHall={handleEnterHall}
@@ -972,6 +986,7 @@ export const App: React.FC = () => {
                         onSelectCameraView={handleSelectCameraView}
                         onSelectScenario={handleSelectScenario}
                         onToggleHeatmap={handleToggleHeatmap}
+                        onToggleHeatmapLayers={handleToggleHeatmapLayers}
                     />
                 )}
                 {currentLevel === 'row' && activeRow && (

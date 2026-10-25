@@ -10,6 +10,7 @@ import { AdaptiveViewCube } from '../Level2Region/AdaptiveViewCube';
 import { LoadScenarioSelector } from '../../reusable/LoadScenarioSelector';
 import { HeatmapCheckbox } from '../../reusable/HeatmapCheckbox';
 import { HeatmapLegend } from '../../reusable/HeatmapLegend';
+import { HeatmapLayerControls } from '../../reusable/HeatmapLayerControls';
 import { GLOBAL_TIMERS, getTimerMs } from '../../config';
 import level4HallData from '../../data/level4Hall.json';
 import './Level4Hall.css';
@@ -27,6 +28,8 @@ interface Level4HallViewProps {
     cameraView?: CameraView;
     currentScenario?: string;
     isHeatmap?: boolean;
+    isAirflowLayer?: boolean;
+    isAmbienceLayer?: boolean;
     minHeatmapTemp?: number;
     maxHeatmapTemp?: number;
     stepHeatmapTemp?: number;
@@ -39,6 +42,7 @@ interface Level4HallViewProps {
     onSelectCameraView?: (view: CameraView) => void;
     onSelectScenario?: (scenario: string) => void;
     onToggleHeatmap?: (active: boolean) => void;
+    onToggleHeatmapLayers?: (airflow: boolean, ambience: boolean) => void;
     onBreadcrumbClick?: (item: BreadcrumbItem, index: number) => void;
 }
 
@@ -50,6 +54,8 @@ export const Level4HallView: React.FC<Level4HallViewProps> = ({
     cameraView = 'iso',
     currentScenario = 'Normal Load',
     isHeatmap,
+    isAirflowLayer,
+    isAmbienceLayer,
     minHeatmapTemp = 22,
     maxHeatmapTemp = 36,
     stepHeatmapTemp = 2,
@@ -62,16 +68,36 @@ export const Level4HallView: React.FC<Level4HallViewProps> = ({
     onSelectCameraView,
     onSelectScenario,
     onToggleHeatmap,
+    onToggleHeatmapLayers,
     onBreadcrumbClick
 }) => {
     const [selectedRow, setSelectedRow] = useState<HallRowItem | null>(null);
     const [internalHeatmap, setInternalHeatmap] = useState<boolean>(false);
     const activeHeatmap = isHeatmap !== undefined ? isHeatmap : internalHeatmap;
 
+    const [internalAirflow, setInternalAirflow] = useState<boolean>(true);
+    const [internalAmbience, setInternalAmbience] = useState<boolean>(true);
+    const activeAirflow = isAirflowLayer !== undefined ? isAirflowLayer : internalAirflow;
+    const activeAmbience = isAmbienceLayer !== undefined ? isAmbienceLayer : internalAmbience;
+
     const handleToggleHeatmap = (checked: boolean) => {
         setInternalHeatmap(checked);
         if (onToggleHeatmap) {
             onToggleHeatmap(checked);
+        }
+    };
+
+    const handleToggleAirflow = (checked: boolean) => {
+        setInternalAirflow(checked);
+        if (onToggleHeatmapLayers) {
+            onToggleHeatmapLayers(checked, activeAmbience);
+        }
+    };
+
+    const handleToggleAmbience = (checked: boolean) => {
+        setInternalAmbience(checked);
+        if (onToggleHeatmapLayers) {
+            onToggleHeatmapLayers(activeAirflow, checked);
         }
     };
 
@@ -169,15 +195,23 @@ export const Level4HallView: React.FC<Level4HallViewProps> = ({
                 onSelectHall={onSelectHall}
             />
 
-            {/* 1. Component 1: Computing Summary Card (when Heatmap is OFF) OR Heatmap Legend (when Heatmap is ON) */}
+            {/* 1. Component 1: Computing Summary Card (when Heatmap is OFF) OR Heatmap Legend + Layer Controls (when Heatmap is ON) */}
             {!activeHeatmap ? (
                 <Level4ComputingCard data={computingMetrics} />
             ) : (
-                <HeatmapLegend
-                    minTemp={minHeatmapTemp}
-                    maxTemp={maxHeatmapTemp}
-                    step={stepHeatmapTemp}
-                />
+                <div className="level4-heatmap-left-panel">
+                    <HeatmapLegend
+                        minTemp={minHeatmapTemp}
+                        maxTemp={maxHeatmapTemp}
+                        step={stepHeatmapTemp}
+                    />
+                    <HeatmapLayerControls
+                        airflowChecked={activeAirflow}
+                        ambienceChecked={activeAmbience}
+                        onToggleAirflow={handleToggleAirflow}
+                        onToggleAmbience={handleToggleAmbience}
+                    />
+                </div>
             )}
 
             {/* 4. Component 4: Floating Row Buttons (Row A - Row F above racks) - Hidden in Heatmap mode */}

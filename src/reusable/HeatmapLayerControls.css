@@ -1,0 +1,94 @@
+/* =========================================================================
+   HEATMAP LAYER CONTROLS (Airflow & Ambience Checkboxes)
+   Matches HeatmapLegend visual aesthetics (glassmorphic navy-blue gradient,
+   2px cyan border, 12px rounded corners, and glowing check boxes)
+   ========================================================================= */
+
+.heatmap-layer-controls-card {
+    background: linear-gradient(180deg, rgba(36, 65, 120, 1) 0%, rgba(14, 25, 53, 0.9) 100%);
+    border: 2px solid #00C0E8;
+    border-radius: 12px;
+    padding: 10px 14px;
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    box-shadow: 0 10px 32px rgba(0, 0, 0, 0.65), 0 0 18px rgba(0, 192, 232, 0.25);
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+    width: fit-content;
+    box-sizing: border-box;
+    pointer-events: auto;
+    z-index: 25;
+    animation: heatmapLayerSlideIn 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes heatmapLayerSlideIn {
+    from {
+        opacity: 0;
+        transform: translateY(-8px) scale(0.97);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+.heatmap-layer-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+    user-select: none;
+    outline: none;
+    transition: transform 0.15s ease;
+}
+
+.heatmap-layer-item:hover {
+    transform: translateY(-1px);
+}
+
+.heatmap-layer-item:active {
+    transform: translateY(0);
+}
+
+.heatmap-layer-checkbox {
+    width: 18px;
+    height: 18px;
+    border-radius: 4px;
+    border: 1.5px solid #00C0E8;
+    background: rgba(14, 25, 53, 0.6);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.18s cubic-bezier(0.16, 1, 0.3, 1);
+    flex-shrink: 0;
+    box-sizing: border-box;
+}
+
+.heatmap-layer-item:hover .heatmap-layer-checkbox {
+    border-color: #5ce1e6;
+    box-shadow: 0 0 8px rgba(0, 192, 232, 0.4);
+}
+
+.heatmap-layer-checkbox.checked {
+    background: #00C0E8;
+    border-color: #00C0E8;
+    box-shadow: 0 0 10px rgba(0, 192, 232, 0.6);
+}
+
+.heatmap-layer-label {
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    font-size: 13.5px;
+    font-weight: 700;
+    color: #ffffff;
+    letter-spacing: 0.3px;
+    line-height: 1;
+    white-space: nowrap;
+    transition: color 0.18s ease;
+}
+
+.heatmap-layer-item:hover .heatmap-layer-label {
+    color: #e0f7fa;
+}
