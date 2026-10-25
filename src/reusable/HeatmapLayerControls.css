@@ -8,7 +8,7 @@
     background: linear-gradient(180deg, rgba(36, 65, 120, 1) 0%, rgba(14, 25, 53, 0.9) 100%);
     border: 2px solid #00C0E8;
     border-radius: 12px;
-    padding: 10px 14px;
+    padding: 9px 14px;
     backdrop-filter: blur(14px);
     -webkit-backdrop-filter: blur(14px);
     box-shadow: 0 10px 32px rgba(0, 0, 0, 0.65), 0 0 18px rgba(0, 192, 232, 0.25);
@@ -16,7 +16,7 @@
     flex-direction: row;
     align-items: center;
     justify-content: center;
-    gap: 16px;
+    gap: 14px;
     width: fit-content;
     box-sizing: border-box;
     pointer-events: auto;

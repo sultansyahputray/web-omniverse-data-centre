@@ -29,6 +29,7 @@ interface Level4HallViewProps {
     currentScenario?: string;
     isHeatmap?: boolean;
     isAirflowLayer?: boolean;
+    isFloorLayer?: boolean;
     isAmbienceLayer?: boolean;
     minHeatmapTemp?: number;
     maxHeatmapTemp?: number;
@@ -42,7 +43,7 @@ interface Level4HallViewProps {
     onSelectCameraView?: (view: CameraView) => void;
     onSelectScenario?: (scenario: string) => void;
     onToggleHeatmap?: (active: boolean) => void;
-    onToggleHeatmapLayers?: (airflow: boolean, ambience: boolean) => void;
+    onToggleHeatmapLayers?: (airflow: boolean, floor: boolean, ambience: boolean) => void;
     onBreadcrumbClick?: (item: BreadcrumbItem, index: number) => void;
 }
 
@@ -55,6 +56,7 @@ export const Level4HallView: React.FC<Level4HallViewProps> = ({
     currentScenario = 'Normal Load',
     isHeatmap,
     isAirflowLayer,
+    isFloorLayer,
     isAmbienceLayer,
     minHeatmapTemp = 22,
     maxHeatmapTemp = 36,
@@ -76,8 +78,10 @@ export const Level4HallView: React.FC<Level4HallViewProps> = ({
     const activeHeatmap = isHeatmap !== undefined ? isHeatmap : internalHeatmap;
 
     const [internalAirflow, setInternalAirflow] = useState<boolean>(true);
+    const [internalFloor, setInternalFloor] = useState<boolean>(true);
     const [internalAmbience, setInternalAmbience] = useState<boolean>(true);
     const activeAirflow = isAirflowLayer !== undefined ? isAirflowLayer : internalAirflow;
+    const activeFloor = isFloorLayer !== undefined ? isFloorLayer : internalFloor;
     const activeAmbience = isAmbienceLayer !== undefined ? isAmbienceLayer : internalAmbience;
 
     const handleToggleHeatmap = (checked: boolean) => {
@@ -90,14 +94,21 @@ export const Level4HallView: React.FC<Level4HallViewProps> = ({
     const handleToggleAirflow = (checked: boolean) => {
         setInternalAirflow(checked);
         if (onToggleHeatmapLayers) {
-            onToggleHeatmapLayers(checked, activeAmbience);
+            onToggleHeatmapLayers(checked, activeFloor, activeAmbience);
+        }
+    };
+
+    const handleToggleFloor = (checked: boolean) => {
+        setInternalFloor(checked);
+        if (onToggleHeatmapLayers) {
+            onToggleHeatmapLayers(activeAirflow, checked, activeAmbience);
         }
     };
 
     const handleToggleAmbience = (checked: boolean) => {
         setInternalAmbience(checked);
         if (onToggleHeatmapLayers) {
-            onToggleHeatmapLayers(activeAirflow, checked);
+            onToggleHeatmapLayers(activeAirflow, activeFloor, checked);
         }
     };
 
@@ -207,8 +218,10 @@ export const Level4HallView: React.FC<Level4HallViewProps> = ({
                     />
                     <HeatmapLayerControls
                         airflowChecked={activeAirflow}
+                        floorChecked={activeFloor}
                         ambienceChecked={activeAmbience}
                         onToggleAirflow={handleToggleAirflow}
+                        onToggleFloor={handleToggleFloor}
                         onToggleAmbience={handleToggleAmbience}
                     />
                 </div>

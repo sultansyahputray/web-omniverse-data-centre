@@ -113,6 +113,7 @@ export const App: React.FC = () => {
     });
     const [screenPositions, setScreenPositions] = useState<Record<string, ScreenPosition>>({});
     const [isAirflowLayer, setIsAirflowLayer] = useState<boolean>(true);
+    const [isFloorLayer, setIsFloorLayer] = useState<boolean>(true);
     const [isAmbienceLayer, setIsAmbienceLayer] = useState<boolean>(true);
 
     // Exhibition Auto Tour state
@@ -299,15 +300,16 @@ export const App: React.FC = () => {
         setIsHeatmap(checked);
         await postBackend('set-heatmap', { heatmap: checked });
         if (checked) {
-            await postBackend('set-heatmap-layers', { airflow: isAirflowLayer, ambience: isAmbienceLayer });
+            await postBackend('set-heatmap-layers', { airflow: isAirflowLayer, floor: isFloorLayer, ambience: isAmbienceLayer });
         }
     };
 
-    // Toggle Heatmap sub-layers (Airflow / Ambience) for Level 4 Hall
-    const handleToggleHeatmapLayers = async (airflow: boolean, ambience: boolean) => {
+    // Toggle Heatmap sub-layers (Airflow / Floor / Ambience) for Level 4 Hall
+    const handleToggleHeatmapLayers = async (airflow: boolean, floor: boolean, ambience: boolean) => {
         setIsAirflowLayer(airflow);
+        setIsFloorLayer(floor);
         setIsAmbienceLayer(ambience);
-        await postBackend('set-heatmap-layers', { airflow, ambience });
+        await postBackend('set-heatmap-layers', { airflow, floor, ambience });
     };
 
     // Transition from Level 2 -> Level 3 (Building Interior)
@@ -978,6 +980,7 @@ export const App: React.FC = () => {
                         currentScenario={loadScenario}
                         isHeatmap={isHeatmap}
                         isAirflowLayer={isAirflowLayer}
+                        isFloorLayer={isFloorLayer}
                         isAmbienceLayer={isAmbienceLayer}
                         screenPositions={screenPositions}
                         onBackToBuilding={handleBackToBuilding}
