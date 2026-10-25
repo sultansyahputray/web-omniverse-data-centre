@@ -137,7 +137,7 @@ export const HeatmapLayerControls: React.FC<HeatmapLayerControlsProps> = ({
                         </svg>
                     )}
                 </div>
-                <span className="heatmap-layer-label">Floor</span>
+                <span className="heatmap-layer-label">Room</span>
             </div>
 
             {/* 3. Ambience Toggle */}
