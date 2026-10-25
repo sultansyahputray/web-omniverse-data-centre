@@ -1,8 +1,10 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { CloseButton } from '../../reusable/Button';
+import { Dropdown, DropdownItem } from '../../reusable/Dropdown';
 import './PowerSimulationModal.css';
 
 export type PowerSimulationMode = 'normal' | 'simulated' | 'load';
+export type SldLoadType = 'it' | 'non-it';
 
 export interface PowerSimulationModalProps {
     isOpen: boolean;
@@ -11,34 +13,23 @@ export interface PowerSimulationModalProps {
         normal?: string;
         simulated?: string;
         load?: string;
+        sldItLoad?: string;
+        sldNonItLoad?: string;
     };
 }
 
-interface FlowConfig {
-    key: PowerSimulationMode;
-    label: string;
-    description: string;
-    defaultPath: string;
-}
-
-const FLOW_CONFIGS: FlowConfig[] = [
+const DROPDOWN_ITEMS: DropdownItem[] = [
     {
-        key: 'normal',
-        label: 'Single Line Diagram (SLD)',
-        description: '',
-        defaultPath: '/videos/power_normal_flow.mp4'
+        id: 'normal',
+        label: 'Single Line Diagram (SLD)'
     },
     {
-        key: 'simulated',
-        label: 'Power Load Flow',
-        description: '',
-        defaultPath: '/videos/power_simulated_flow.mp4'
+        id: 'simulated',
+        label: 'Power Load Flow'
     },
     {
-        key: 'load',
-        label: 'Power Heat Map',
-        description: '',
-        defaultPath: '/videos/power_load_flow.mp4'
+        id: 'load',
+        label: 'Power Heat Map'
     }
 ];
 
@@ -48,6 +39,7 @@ export const PowerSimulationModal: React.FC<PowerSimulationModalProps> = ({
     videoPaths
 }) => {
     const [activeMode, setActiveMode] = useState<PowerSimulationMode>('normal');
+    const [sldLoadType, setSldLoadType] = useState<SldLoadType>('it');
     const [videoError, setVideoError] = useState<boolean>(false);
     const videoRef = useRef<HTMLVideoElement>(null);
 
@@ -65,19 +57,30 @@ export const PowerSimulationModal: React.FC<PowerSimulationModalProps> = ({
         return () => window.removeEventListener('keydown', handleKeyDown);
     }, [isOpen, onClose]);
 
-    // Reset video error state whenever active flow mode changes and auto-play cleanly
+    // Reset video error state whenever active flow mode or SLD load type changes and auto-play cleanly
     useEffect(() => {
         setVideoError(false);
         if (videoRef.current) {
             videoRef.current.load();
-            videoRef.current.play().catch(() => {});
+            videoRef.current.play().catch(() => { });
         }
-    }, [activeMode, isOpen]);
+    }, [activeMode, sldLoadType, isOpen]);
 
     if (!isOpen) return null;
 
-    const currentConfig = FLOW_CONFIGS.find((cfg) => cfg.key === activeMode) || FLOW_CONFIGS[0];
-    const currentVideoPath = (videoPaths && videoPaths[activeMode]) || currentConfig.defaultPath;
+    // Resolve the active video path
+    let currentVideoPath = '';
+    if (activeMode === 'normal') {
+        if (sldLoadType === 'it') {
+            currentVideoPath = (videoPaths && (videoPaths.sldItLoad || videoPaths.normal)) || '/videos/power_normal_flow.mp4';
+        } else {
+            currentVideoPath = (videoPaths && videoPaths.sldNonItLoad) || '/videos/NonIT%20Load.mp4';
+        }
+    } else if (activeMode === 'simulated') {
+        currentVideoPath = (videoPaths && videoPaths.simulated) || '/videos/power_simulated_flow.mp4';
+    } else if (activeMode === 'load') {
+        currentVideoPath = (videoPaths && videoPaths.load) || '/videos/power_load_flow.mp4';
+    }
 
     const handleBackdropClick = (e: React.MouseEvent<HTMLDivElement>) => {
         if (e.target === e.currentTarget) {
@@ -95,7 +98,7 @@ export const PowerSimulationModal: React.FC<PowerSimulationModalProps> = ({
         >
             <div className="power-sim-card">
                 {/* =========================================================
-                   SECTION 1: TOP SECTION (Button Bar & Close Button)
+                   SECTION 1: TOP SECTION (Dropdown, Sub-tabs & Close Button)
                    ========================================================= */}
                 <div className="power-sim-top-section">
                     <div className="power-sim-header-left">
@@ -106,23 +109,37 @@ export const PowerSimulationModal: React.FC<PowerSimulationModalProps> = ({
                     </div>
 
                     <div className="power-sim-button-bar-group">
-                        <div className="power-sim-button-bar" role="tablist" aria-label="Simulation Flow Selection">
-                            {FLOW_CONFIGS.map((cfg) => {
-                                const isActive = activeMode === cfg.key;
-                                return (
-                                    <button
-                                        key={cfg.key}
-                                        type="button"
-                                        role="tab"
-                                        aria-selected={isActive}
-                                        className={`power-sim-tab-btn ${isActive ? 'active' : ''}`}
-                                        onClick={() => setActiveMode(cfg.key)}
-                                    >
-                                        <span>{cfg.label}</span>
-                                    </button>
-                                );
-                            })}
-                        </div>
+                        {/* Dropdown using reusable component */}
+                        <Dropdown
+                            className="power-sim-dropdown"
+                            items={DROPDOWN_ITEMS}
+                            value={activeMode}
+                            onChange={(val) => setActiveMode(val as PowerSimulationMode)}
+                        />
+
+                        {/* SLD Sub-tabs: Visible only when Single Line Diagram is selected */}
+                        {activeMode === 'normal' && (
+                            <div className="power-sim-button-bar" role="tablist" aria-label="SLD Load Type Selection">
+                                <button
+                                    type="button"
+                                    role="tab"
+                                    aria-selected={sldLoadType === 'it'}
+                                    className={`power-sim-tab-btn ${sldLoadType === 'it' ? 'active' : ''}`}
+                                    onClick={() => setSldLoadType('it')}
+                                >
+                                    <span>IT Load</span>
+                                </button>
+                                <button
+                                    type="button"
+                                    role="tab"
+                                    aria-selected={sldLoadType === 'non-it'}
+                                    className={`power-sim-tab-btn ${sldLoadType === 'non-it' ? 'active' : ''}`}
+                                    onClick={() => setSldLoadType('non-it')}
+                                >
+                                    <span>Non-IT Load</span>
+                                </button>
+                            </div>
+                        )}
 
                         <div className="power-sim-header-right">
                             <CloseButton
@@ -143,7 +160,7 @@ export const PowerSimulationModal: React.FC<PowerSimulationModalProps> = ({
                 <div className="power-sim-body">
                     <div className="power-sim-video-wrapper">
                         {/* Video Element - Restricted Simulation View (No Pause / No Controls) */}
-                        {!videoError && (
+                        {!videoError && currentVideoPath && (
                             <video
                                 ref={videoRef}
                                 key={currentVideoPath}
@@ -159,14 +176,14 @@ export const PowerSimulationModal: React.FC<PowerSimulationModalProps> = ({
                                 onContextMenu={(e) => e.preventDefault()}
                                 onLoadedData={() => {
                                     if (videoRef.current) {
-                                        videoRef.current.play().catch(() => {});
+                                        videoRef.current.play().catch(() => { });
                                     }
                                 }}
                                 onError={() => setVideoError(true)}
                             />
                         )}
 
-                        {/* Fallback Placeholder (shown when dummy video is not placed yet) */}
+                        {/* Fallback Placeholder (shown when dummy video is not placed yet or load error) */}
                         {videoError && (
                             <div className="power-sim-placeholder-container">
                                 <div className="power-sim-placeholder-icon-wrap">
@@ -174,6 +191,22 @@ export const PowerSimulationModal: React.FC<PowerSimulationModalProps> = ({
                                         <polygon points="5 3 19 12 5 21 5 3" fill="#00E5FF" opacity="0.85" />
                                     </svg>
                                 </div>
+                                <h3 className="power-sim-placeholder-title">
+                                    {activeMode === 'normal' && sldLoadType === 'non-it'
+                                        ? 'Non-IT Load Simulation'
+                                        : 'Simulation Video Unavailable'}
+                                </h3>
+                                <p className="power-sim-placeholder-desc">
+                                    {activeMode === 'normal' && sldLoadType === 'non-it'
+                                        ? 'Video simulation for Non-IT Load is not yet available.'
+                                        : 'The requested simulation video could not be loaded.'}
+                                </p>
+                                {activeMode === 'normal' && sldLoadType === 'non-it' && (
+                                    <div className="power-sim-path-info-box">
+                                        <span className="power-sim-path-label">Expected Video Path:</span>
+                                        <code className="power-sim-path-code">/videos/NonIT Load.mp4</code>
+                                    </div>
+                                )}
                             </div>
                         )}
                     </div>
@@ -184,3 +217,4 @@ export const PowerSimulationModal: React.FC<PowerSimulationModalProps> = ({
 };
 
 export default PowerSimulationModal;
+
